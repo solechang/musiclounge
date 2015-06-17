@@ -2,7 +2,18 @@
 # platform :ios, '6.0'
 
 target 'MusicBar' do
-
+    pod 'CocoaSoundCloudAPI', :inhibit_warnings => true
+    pod 'CocoaSoundCloudUI', :inhibit_warnings => true
+    pod 'SDWebImage', '~>3.6'
+    pod 'Parse'
+    pod 'SVProgressHUD'
+    pod 'DZNEmptyDataSet'
+    pod 'DZNSegmentedControl', '~> 1.2'
+    pod 'SWTableViewCell', '~> 0.3.7'
+    pod "AFNetworking"
+    pod 'MagicalRecord'
+    pod 'libPhoneNumber-iOS'
+    pod 'RHAddressBook'
 end
 
 target 'MusicBarTests' do
