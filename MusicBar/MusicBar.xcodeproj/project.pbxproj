@@ -120,26 +120,12 @@
 		B93D8FCA1B32410700A2947C /* Core data */ = {
 			isa = PBXGroup;
 			children = (
-				B93D90091B3242FD00A2947C /* PlaylistFriend.h */,
-				B93D900A1B3242FD00A2947C /* PlaylistFriend.m */,
 				B93D90061B3242FD00A2947C /* Song.h */,
 				B93D90071B3242FD00A2947C /* Song.m */,
-				B93D90031B3242FD00A2947C /* FriendPhonenumber.h */,
-				B93D90041B3242FD00A2947C /* FriendPhonenumber.m */,
-				B93D90001B3242FD00A2947C /* NowPlayingSong.h */,
-				B93D90011B3242FD00A2947C /* NowPlayingSong.m */,
 				B93D8FFD1B3242FC00A2947C /* CurrentUser.h */,
 				B93D8FFE1B3242FC00A2947C /* CurrentUser.m */,
-				B93D8FFA1B3242FC00A2947C /* NowPlaying.h */,
-				B93D8FFB1B3242FC00A2947C /* NowPlaying.m */,
-				B93D8FF71B3242FC00A2947C /* UserFriendList.h */,
-				B93D8FF81B3242FC00A2947C /* UserFriendList.m */,
 				B93D8FF41B3242FC00A2947C /* Playlist.h */,
 				B93D8FF51B3242FC00A2947C /* Playlist.m */,
-				B93D8FF11B3242FC00A2947C /* Friend.h */,
-				B93D8FF21B3242FC00A2947C /* Friend.m */,
-				B93D8FEE1B3242FB00A2947C /* SongFriend.h */,
-				B93D8FEF1B3242FB00A2947C /* SongFriend.m */,
 				B93D8FCF1B32414300A2947C /* Friend */,
 				B93D8FCE1B32413800A2947C /* NowPlaying */,
 				B93D8FCB1B32411600A2947C /* MusicBarModel.xcdatamodeld */,
@@ -150,6 +136,10 @@
 		B93D8FCE1B32413800A2947C /* NowPlaying */ = {
 			isa = PBXGroup;
 			children = (
+				B93D8FFA1B3242FC00A2947C /* NowPlaying.h */,
+				B93D8FFB1B3242FC00A2947C /* NowPlaying.m */,
+				B93D90001B3242FD00A2947C /* NowPlayingSong.h */,
+				B93D90011B3242FD00A2947C /* NowPlayingSong.m */,
 			);
 			name = NowPlaying;
 			sourceTree = "<group>";
@@ -157,6 +147,16 @@
 		B93D8FCF1B32414300A2947C /* Friend */ = {
 			isa = PBXGroup;
 			children = (
+				B93D8FF11B3242FC00A2947C /* Friend.h */,
+				B93D8FF21B3242FC00A2947C /* Friend.m */,
+				B93D8FEE1B3242FB00A2947C /* SongFriend.h */,
+				B93D8FEF1B3242FB00A2947C /* SongFriend.m */,
+				B93D8FF71B3242FC00A2947C /* UserFriendList.h */,
+				B93D8FF81B3242FC00A2947C /* UserFriendList.m */,
+				B93D90031B3242FD00A2947C /* FriendPhonenumber.h */,
+				B93D90041B3242FD00A2947C /* FriendPhonenumber.m */,
+				B93D90091B3242FD00A2947C /* PlaylistFriend.h */,
+				B93D900A1B3242FD00A2947C /* PlaylistFriend.m */,
 			);
 			name = Friend;
 			sourceTree = "<group>";

@@ -23,11 +23,13 @@
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    // Override point for customization after application launch.
+    // Override point for customization after application launch.    
+
     //localdataCHANG
     [MagicalRecord setupAutoMigratingCoreDataStack];
     [Parse setApplicationId:@"OdGicS3F5uc5opaLcCcIyymbvFusjdOpvPct5Y9P"
                   clientKey:@"HpJy0IqALLKvu02pSzlBW3JQvfPdN0HtMRx0lt4W"];
+    
     return YES;
 }
 
