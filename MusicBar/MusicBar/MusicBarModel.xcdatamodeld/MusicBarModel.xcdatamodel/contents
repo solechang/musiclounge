@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="7549" systemVersion="14D136" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+    <entity name="CurrentUser" representedClassName="CurrentUser" syncable="YES">
+        <attribute name="email" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="profilePicture" optional="YES" attributeType="Binary" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="userFriendList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFriendList" inverseName="currentUser" inverseEntity="UserFriendList" syncable="YES"/>
+    </entity>
+    <entity name="Friend" representedClassName="Friend" syncable="YES">
+        <attribute name="friend_exists" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="hostId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="friendPhonenumber" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="FriendPhonenumber" inverseName="friend" inverseEntity="FriendPhonenumber" syncable="YES"/>
+        <relationship name="userFriendList" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="UserFriendList" inverseName="friend" inverseEntity="UserFriendList" syncable="YES"/>
+    </entity>
+    <entity name="FriendPhonenumber" representedClassName="FriendPhonenumber" syncable="YES">
+        <attribute name="phonenumber" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="friend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Friend" inverseName="friendPhonenumber" inverseEntity="Friend" syncable="YES"/>
+    </entity>
+    <entity name="NowPlaying" representedClassName="NowPlaying" syncable="YES">
+        <attribute name="currentlyPlayingSongId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playlistId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playlistName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="songIndex" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="nowPlayingSong" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="NowPlayingSong" inverseName="nowPlaying" inverseEntity="NowPlayingSong" syncable="YES"/>
+    </entity>
+    <entity name="NowPlayingSong" representedClassName="NowPlayingSong" syncable="YES">
+        <attribute name="artwork" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="hostId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hostName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playlistId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stream_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uploadingUser" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="nowPlaying" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="NowPlaying" inverseName="nowPlayingSong" inverseEntity="NowPlaying" syncable="YES"/>
+    </entity>
+    <entity name="Playlist" representedClassName="Playlist" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="songCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="song" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Song" inverseName="playlist" inverseEntity="Song" syncable="YES"/>
+    </entity>
+    <entity name="PlaylistFriend" representedClassName="PlaylistFriend" syncable="YES">
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="songCount" optional="YES" attributeType="Integer 16" defaultValueString="0" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="userId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="songFriend" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="SongFriend" inverseName="playlistFriend" inverseEntity="SongFriend" syncable="YES"/>
+    </entity>
+    <entity name="Song" representedClassName="Song" syncable="YES">
+        <attribute name="artwork" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="hostId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hostName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playlistId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stream_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uploadingUser" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="playlist" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Playlist" inverseName="song" inverseEntity="Playlist" syncable="YES"/>
+    </entity>
+    <entity name="SongFriend" representedClassName="SongFriend" syncable="YES">
+        <attribute name="artwork" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="createdAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <attribute name="hostId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="hostName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="playlistId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="stream_url" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="time" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="uploadingUser" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="playlistFriend" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PlaylistFriend" inverseName="songFriend" inverseEntity="PlaylistFriend" syncable="YES"/>
+    </entity>
+    <entity name="UserFriendList" representedClassName="UserFriendList" syncable="YES">
+        <attribute name="hostId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="objectId" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="updatedAt" optional="YES" attributeType="Date" syncable="YES"/>
+        <relationship name="currentUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CurrentUser" inverseName="userFriendList" inverseEntity="CurrentUser" syncable="YES"/>
+        <relationship name="friend" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Friend" inverseName="userFriendList" inverseEntity="Friend" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="Friend" positionX="-54" positionY="27" width="128" height="150"/>
+        <element name="NowPlaying" positionX="-36" positionY="36" width="128" height="135"/>
+        <element name="PlaylistFriend" positionX="-18" positionY="45" width="128" height="165"/>
+        <element name="SongFriend" positionX="0" positionY="54" width="128" height="210"/>
+        <element name="NowPlayingSong" positionX="18" positionY="63" width="128" height="210"/>
+        <element name="FriendPhonenumber" positionX="36" positionY="81" width="128" height="75"/>
+        <element name="Playlist" positionX="-9" positionY="36" width="128" height="165"/>
+        <element name="Song" positionX="0" positionY="45" width="128" height="210"/>
+        <element name="UserFriendList" positionX="9" positionY="54" width="128" height="120"/>
+        <element name="CurrentUser" positionX="18" positionY="162" width="128" height="120"/>
+    </elements>
+</model>

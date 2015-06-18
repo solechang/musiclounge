@@ -13,7 +13,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 // Core Data
-#import <MagicalRecord/CoreData+MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord.h>
 #import "CurrentUser.h"
 #import "UserFriendList.h"
 #import "NowPlaying.h"
@@ -176,24 +176,24 @@
     if ([self.usernameTextField.text isEqualToString:@""] || [self.passwordTextField.text isEqualToString:@""] ||
         [self.emailTextField.text isEqualToString:@""] || [self.phonenumberTextField.text isEqualToString:@""] || !phoneFlag ) {
         
+        [self.doneButton setEnabled:YES];
         if ([self nameExpecations]) {
             
             // Display error
             [SVProgressHUD showErrorWithStatus:@"Your name has to be one word. Please try again"];
-           [self.doneButton setEnabled:YES];
+      
             return;
         } else {
             
             // Display error
             [SVProgressHUD showErrorWithStatus:@"Please enter all of the fields"];
-            [self.doneButton setEnabled:YES];
+
             return;
         }
 
-        if (!phoneFlag) {
-            [SVProgressHUD showErrorWithStatus:@"Your phone number is invalid. Please try again"];
-        }
-        [self.doneButton setEnabled:YES];
+//        if (!phoneFlag) {
+//            [SVProgressHUD showErrorWithStatus:@"Your phone number is invalid. Please try again"];
+//        }
         
     } else {
         
@@ -290,11 +290,11 @@
             // Save data in local
             [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
 
-                CurrentUser *currentUser = [CurrentUser MR_createInContext:localContext];
+                CurrentUser *currentUser = [CurrentUser MR_createEntityInContext:localContext];
 
-                UserFriendList *currentUserFriendList = [UserFriendList MR_createInContext:localContext];
+                UserFriendList *currentUserFriendList = [UserFriendList MR_createEntityInContext:localContext];
                 
-                NowPlaying *nowPlaying = [NowPlaying MR_createInContext:localContext];
+                NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
                 // @"1" = Nothing is played
                 nowPlaying.playlistId = @"";
                 

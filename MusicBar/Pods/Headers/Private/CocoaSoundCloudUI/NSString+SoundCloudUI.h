@@ -1,1 +1,0 @@
-../../../CocoaSoundCloudUI/Sources/CocoaAdditions/NSString+SoundCloudUI.h
