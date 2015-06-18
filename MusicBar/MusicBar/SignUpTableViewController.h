@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-@interface iLLSignUpTableViewController : UITableViewController <UITextFieldDelegate>
+@interface SignUpTableViewController : UITableViewController <UITextFieldDelegate>
 
 @end

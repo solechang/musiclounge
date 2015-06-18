@@ -13,7 +13,7 @@
         <!--Sign Up-->
         <scene sceneID="jLz-ZH-6Bf">
             <objects>
-                <tableViewController clearsSelectionOnViewWillAppear="NO" id="MpX-i6-aOe" customClass="iLLSignUpTableViewController" sceneMemberID="viewController">
+                <tableViewController clearsSelectionOnViewWillAppear="NO" id="MpX-i6-aOe" customClass="SignUpTableViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wAR-0k-5lv">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -106,7 +106,69 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0wM-3b-dFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-97" y="1276"/>
+            <point key="canvasLocation" x="-233" y="1284"/>
+        </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="e6T-UM-3sP">
+            <objects>
+                <tabBarController id="Zi9-Mx-lub" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="h9U-f5-HfN">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="6sv-X2-7Vt" kind="relationship" relationship="viewControllers" id="rj0-vE-uYq"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fxL-gU-hNZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-190" y="2346"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="AKI-sh-iM1">
+            <objects>
+                <tableViewController id="BIP-or-ML5" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="UMD-TT-Cx0">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="QXO-O1-acg">
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QXO-O1-acg" id="pAB-hw-8gW">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="BIP-or-ML5" id="XhK-Az-yc6"/>
+                            <outlet property="delegate" destination="BIP-or-ML5" id="epV-2s-cuj"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="4EB-nN-G1f"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xqr-iC-Kkv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1337" y="1716"/>
+        </scene>
+        <!--Item-->
+        <scene sceneID="kSb-9f-3az">
+            <objects>
+                <navigationController id="6sv-X2-7Vt" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Item" id="pzR-iH-r3a"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="LTy-Sa-r4X">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BIP-or-ML5" kind="relationship" relationship="rootViewController" id="yEx-vp-WqD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CmB-CJ-cvB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="517" y="1716"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DS1-Lm-nmT">
@@ -126,10 +188,10 @@
             </objects>
             <point key="canvasLocation" x="-1588" y="1296"/>
         </scene>
-        <!--ILL Login View Controller-->
+        <!--Login View Controller-->
         <scene sceneID="2aG-am-E4b">
             <objects>
-                <viewController storyboardIdentifier="LoginViewController" id="Fvn-U9-peV" customClass="iLLLoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginViewController" id="Fvn-U9-peV" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="6Z1-c3-PMH"/>
                         <viewControllerLayoutGuide type="bottom" id="SGb-YZ-Ati"/>

@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLSignUpTableViewController.h"
+#import "SignUpTableViewController.h"
 #import <RHAddressBook/AddressBook.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
@@ -21,7 +21,7 @@
 #import "NBPhoneNumberUtil.h"
 #import "NBPhoneNumber.h"
 
-@interface iLLSignUpTableViewController () {
+@interface SignUpTableViewController () {
     BOOL phoneFlag;
 }
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation iLLSignUpTableViewController
+@implementation SignUpTableViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
