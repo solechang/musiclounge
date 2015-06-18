@@ -106,7 +106,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0wM-3b-dFj" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-297" y="1276"/>
+            <point key="canvasLocation" x="-97" y="1276"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="DS1-Lm-nmT">
@@ -177,7 +177,7 @@
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <segue destination="MpX-i6-aOe" kind="push" id="YUm-7U-4KU"/>
+                                    <segue destination="MpX-i6-aOe" kind="show" id="YUm-7U-4KU"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="250" translatesAutoresizingMaskIntoConstraints="NO" id="YMC-vo-1FR">

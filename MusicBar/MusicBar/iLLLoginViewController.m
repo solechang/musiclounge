@@ -10,7 +10,8 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 
 // Core Data
-#import <MagicalRecord/CoreData+MagicalRecord.h>
+// Objective-C
+#import <MagicalRecord/MagicalRecord.h>
 #import "CurrentUser.h"
 #import "UserFriendList.h"
 #import "NowPlaying.h"
@@ -146,11 +147,11 @@
                                                 [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                                                     
                                                     // Creating User contents in core data
-                                                    CurrentUser *currentUser = [CurrentUser MR_createInContext:localContext];
+                                                    CurrentUser *currentUser = [CurrentUser MR_createEntityInContext:localContext];
 //
-                                                    UserFriendList *currentUserFriendList = [UserFriendList MR_createInContext:localContext];
+                                                    UserFriendList *currentUserFriendList = [UserFriendList MR_createEntityInContext:localContext];
                                                     
-                                                    NowPlaying *nowPlaying = [NowPlaying MR_createInContext:localContext];
+                                                    NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
                                                     // @"1" = Nothing is played
                                                     nowPlaying.playlistId = @"";
                                                     

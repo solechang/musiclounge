@@ -8,6 +8,13 @@
 
 #import "AppDelegate.h"
 
+#import <Parse/Parse.h>
+#import "SCUI.h"
+#import <AVFoundation/AVFoundation.h>
+#import <MagicalRecord/MagicalRecord.h>
+#import <MagicalRecord/MagicalRecord+Setup.h>
+
+
 @interface AppDelegate ()
 
 @end
@@ -17,6 +24,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    //localdataCHANG
+    [MagicalRecord setupAutoMigratingCoreDataStack];
+    [Parse setApplicationId:@"OdGicS3F5uc5opaLcCcIyymbvFusjdOpvPct5Y9P"
+                  clientKey:@"HpJy0IqALLKvu02pSzlBW3JQvfPdN0HtMRx0lt4W"];
     return YES;
 }
 

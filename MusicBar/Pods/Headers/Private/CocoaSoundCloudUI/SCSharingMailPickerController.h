@@ -1,1 +1,0 @@
-../../../CocoaSoundCloudUI/Sources/SoundCloudUI/SCSharingMailPickerController.h

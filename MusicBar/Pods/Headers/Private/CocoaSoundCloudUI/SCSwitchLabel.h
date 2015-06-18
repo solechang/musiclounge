@@ -1,1 +1,0 @@
-../../../CocoaSoundCloudUI/Sources/SoundCloudUI/SCSwitchLabel.h

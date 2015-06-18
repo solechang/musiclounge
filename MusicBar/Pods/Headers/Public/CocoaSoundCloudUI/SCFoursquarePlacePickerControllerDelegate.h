@@ -1,1 +1,0 @@
-../../../CocoaSoundCloudUI/Sources/SoundCloudUI/SCFoursquarePlacePickerControllerDelegate.h
