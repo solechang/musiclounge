@@ -40,5 +40,12 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Mission-Script.otf</string>
+		<string>Wisdom Script AJ.otf</string>
+		<string>Streetwear.otf</string>
+		<string>governor.ttf</string>
+	</array>
 </dict>
 </plist>

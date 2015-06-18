@@ -18,14 +18,19 @@
 		B93D90051B3242FD00A2947C /* FriendPhonenumber.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90041B3242FD00A2947C /* FriendPhonenumber.m */; };
 		B93D90081B3242FD00A2947C /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90071B3242FD00A2947C /* Song.m */; };
 		B93D900B1B3242FD00A2947C /* PlaylistFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D900A1B3242FD00A2947C /* PlaylistFriend.m */; };
+		B93D90121B324B4700A2947C /* Streetwear.otf in Resources */ = {isa = PBXBuildFile; fileRef = B93D900E1B324B4700A2947C /* Streetwear.otf */; };
+		B93D90131B324B4700A2947C /* Mission-Script.otf in Resources */ = {isa = PBXBuildFile; fileRef = B93D900F1B324B4700A2947C /* Mission-Script.otf */; };
+		B93D90141B324B4700A2947C /* Wisdom Script AJ.otf in Resources */ = {isa = PBXBuildFile; fileRef = B93D90101B324B4700A2947C /* Wisdom Script AJ.otf */; };
+		B93D90151B324B4700A2947C /* governor.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B93D90111B324B4700A2947C /* governor.ttf */; };
+		B93D90171B324B6600A2947C /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B93D90161B324B6600A2947C /* placeholder.png */; };
 		B967734C1B32331A00C01AAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B967734B1B32331A00C01AAF /* main.m */; };
 		B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B967734E1B32331A00C01AAF /* AppDelegate.m */; };
 		B96773551B32331A00C01AAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B96773531B32331A00C01AAF /* Main.storyboard */; };
 		B96773571B32331A00C01AAF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B96773561B32331A00C01AAF /* Images.xcassets */; };
 		B967735A1B32331A00C01AAF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = B96773581B32331A00C01AAF /* LaunchScreen.xib */; };
 		B96773661B32331A00C01AAF /* MusicBarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B96773651B32331A00C01AAF /* MusicBarTests.m */; };
-		B96D16061B32371400406AAF /* iLLSignUpTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16031B32371400406AAF /* iLLSignUpTableViewController.m */; };
-		B96D16071B32371400406AAF /* iLLLoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16051B32371400406AAF /* iLLLoginViewController.m */; };
+		B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16031B32371400406AAF /* SignUpTableViewController.m */; };
+		B96D16071B32371400406AAF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16051B32371400406AAF /* LoginViewController.m */; };
 		CD8EB7DF71A63BBFB41C083F /* libPods-MusicBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 360198B029194192A1793D84 /* libPods-MusicBar.a */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +69,11 @@
 		B93D90071B3242FD00A2947C /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
 		B93D90091B3242FD00A2947C /* PlaylistFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistFriend.h; sourceTree = "<group>"; };
 		B93D900A1B3242FD00A2947C /* PlaylistFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistFriend.m; sourceTree = "<group>"; };
+		B93D900E1B324B4700A2947C /* Streetwear.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streetwear.otf; sourceTree = "<group>"; };
+		B93D900F1B324B4700A2947C /* Mission-Script.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mission-Script.otf"; sourceTree = "<group>"; };
+		B93D90101B324B4700A2947C /* Wisdom Script AJ.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wisdom Script AJ.otf"; sourceTree = "<group>"; };
+		B93D90111B324B4700A2947C /* governor.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = governor.ttf; sourceTree = "<group>"; };
+		B93D90161B324B6600A2947C /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
 		B96773461B32331A00C01AAF /* MusicBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B967734A1B32331A00C01AAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B967734B1B32331A00C01AAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -75,10 +85,10 @@
 		B967735F1B32331A00C01AAF /* MusicBarTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MusicBarTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B96773641B32331A00C01AAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B96773651B32331A00C01AAF /* MusicBarTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MusicBarTests.m; sourceTree = "<group>"; };
-		B96D16021B32371400406AAF /* iLLSignUpTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLSignUpTableViewController.h; sourceTree = "<group>"; };
-		B96D16031B32371400406AAF /* iLLSignUpTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLSignUpTableViewController.m; sourceTree = "<group>"; };
-		B96D16041B32371400406AAF /* iLLLoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLLoginViewController.h; sourceTree = "<group>"; };
-		B96D16051B32371400406AAF /* iLLLoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLLoginViewController.m; sourceTree = "<group>"; };
+		B96D16021B32371400406AAF /* SignUpTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignUpTableViewController.h; sourceTree = "<group>"; };
+		B96D16031B32371400406AAF /* SignUpTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpTableViewController.m; sourceTree = "<group>"; };
+		B96D16041B32371400406AAF /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		B96D16051B32371400406AAF /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -161,6 +171,22 @@
 			name = Friend;
 			sourceTree = "<group>";
 		};
+		B93D900C1B3249FA00A2947C /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				B967734D1B32331A00C01AAF /* AppDelegate.h */,
+				B967734E1B32331A00C01AAF /* AppDelegate.m */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
+		B93D900D1B324A0B00A2947C /* Me Tab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "Me Tab";
+			sourceTree = "<group>";
+		};
 		B967733D1B32331A00C01AAF = {
 			isa = PBXGroup;
 			children = (
@@ -184,10 +210,14 @@
 		B96773481B32331A00C01AAF /* MusicBar */ = {
 			isa = PBXGroup;
 			children = (
+				B93D900E1B324B4700A2947C /* Streetwear.otf */,
+				B93D900F1B324B4700A2947C /* Mission-Script.otf */,
+				B93D90101B324B4700A2947C /* Wisdom Script AJ.otf */,
+				B93D90111B324B4700A2947C /* governor.ttf */,
+				B93D90161B324B6600A2947C /* placeholder.png */,
+				B93D900C1B3249FA00A2947C /* Delegates */,
 				B93D8FCA1B32410700A2947C /* Core data */,
 				B96D16001B3236D000406AAF /* View Controllers */,
-				B967734D1B32331A00C01AAF /* AppDelegate.h */,
-				B967734E1B32331A00C01AAF /* AppDelegate.m */,
 				B96773531B32331A00C01AAF /* Main.storyboard */,
 				B96773561B32331A00C01AAF /* Images.xcassets */,
 				B96773581B32331A00C01AAF /* LaunchScreen.xib */,
@@ -225,6 +255,7 @@
 		B96D16001B3236D000406AAF /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				B93D900D1B324A0B00A2947C /* Me Tab */,
 				B96D16011B32370600406AAF /* Login and Sign up */,
 			);
 			name = "View Controllers";
@@ -233,10 +264,10 @@
 		B96D16011B32370600406AAF /* Login and Sign up */ = {
 			isa = PBXGroup;
 			children = (
-				B96D16021B32371400406AAF /* iLLSignUpTableViewController.h */,
-				B96D16031B32371400406AAF /* iLLSignUpTableViewController.m */,
-				B96D16041B32371400406AAF /* iLLLoginViewController.h */,
-				B96D16051B32371400406AAF /* iLLLoginViewController.m */,
+				B96D16021B32371400406AAF /* SignUpTableViewController.h */,
+				B96D16031B32371400406AAF /* SignUpTableViewController.m */,
+				B96D16041B32371400406AAF /* LoginViewController.h */,
+				B96D16051B32371400406AAF /* LoginViewController.m */,
 			);
 			name = "Login and Sign up";
 			sourceTree = "<group>";
@@ -323,9 +354,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B93D90141B324B4700A2947C /* Wisdom Script AJ.otf in Resources */,
+				B93D90131B324B4700A2947C /* Mission-Script.otf in Resources */,
 				B96773551B32331A00C01AAF /* Main.storyboard in Resources */,
 				B967735A1B32331A00C01AAF /* LaunchScreen.xib in Resources */,
 				B96773571B32331A00C01AAF /* Images.xcassets in Resources */,
+				B93D90171B324B6600A2947C /* placeholder.png in Resources */,
+				B93D90151B324B4700A2947C /* governor.ttf in Resources */,
+				B93D90121B324B4700A2947C /* Streetwear.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -377,11 +413,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				B93D90081B3242FD00A2947C /* Song.m in Sources */,
-				B96D16071B32371400406AAF /* iLLLoginViewController.m in Sources */,
+				B96D16071B32371400406AAF /* LoginViewController.m in Sources */,
 				B93D8FF31B3242FC00A2947C /* Friend.m in Sources */,
 				B93D8FF91B3242FC00A2947C /* UserFriendList.m in Sources */,
 				B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */,
-				B96D16061B32371400406AAF /* iLLSignUpTableViewController.m in Sources */,
+				B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */,
 				B93D8FCD1B32411600A2947C /* MusicBarModel.xcdatamodeld in Sources */,
 				B93D90021B3242FD00A2947C /* NowPlayingSong.m in Sources */,
 				B93D8FF01B3242FB00A2947C /* SongFriend.m in Sources */,

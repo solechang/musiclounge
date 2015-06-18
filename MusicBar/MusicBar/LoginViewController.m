@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLLoginViewController.h"
+#import "LoginViewController.h"
 #import <SVProgressHUD/SVProgressHUD.h>
 
 // Core Data
@@ -18,7 +18,7 @@
 
 #import <QuartzCore/QuartzCore.h>
 
-@interface iLLLoginViewController ()
+@interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -29,7 +29,7 @@
 
 @end
 
-@implementation iLLLoginViewController
+@implementation LoginViewController
 
 
 - (void)viewDidLoad
