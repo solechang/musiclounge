@@ -23,6 +23,10 @@
 		B93D90141B324B4700A2947C /* Wisdom Script AJ.otf in Resources */ = {isa = PBXBuildFile; fileRef = B93D90101B324B4700A2947C /* Wisdom Script AJ.otf */; };
 		B93D90151B324B4700A2947C /* governor.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B93D90111B324B4700A2947C /* governor.ttf */; };
 		B93D90171B324B6600A2947C /* placeholder.png in Resources */ = {isa = PBXBuildFile; fileRef = B93D90161B324B6600A2947C /* placeholder.png */; };
+		B93D901C1B32521100A2947C /* CSParallaxHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B93D901B1B32521100A2947C /* CSParallaxHeader.xib */; };
+		B93D901F1B32523500A2947C /* MyProfileCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D901E1B32523500A2947C /* MyProfileCollectionViewController.m */; };
+		B93D90221B3270FD00A2947C /* CSParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90211B3270FD00A2947C /* CSParallaxHeader.m */; };
+		B93D90251B32713A00A2947C /* MyPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */; };
 		B967734C1B32331A00C01AAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B967734B1B32331A00C01AAF /* main.m */; };
 		B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B967734E1B32331A00C01AAF /* AppDelegate.m */; };
 		B96773551B32331A00C01AAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B96773531B32331A00C01AAF /* Main.storyboard */; };
@@ -74,6 +78,13 @@
 		B93D90101B324B4700A2947C /* Wisdom Script AJ.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wisdom Script AJ.otf"; sourceTree = "<group>"; };
 		B93D90111B324B4700A2947C /* governor.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = governor.ttf; sourceTree = "<group>"; };
 		B93D90161B324B6600A2947C /* placeholder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = placeholder.png; sourceTree = "<group>"; };
+		B93D901B1B32521100A2947C /* CSParallaxHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CSParallaxHeader.xib; sourceTree = "<group>"; };
+		B93D901D1B32523500A2947C /* MyProfileCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyProfileCollectionViewController.h; sourceTree = "<group>"; };
+		B93D901E1B32523500A2947C /* MyProfileCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileCollectionViewController.m; sourceTree = "<group>"; };
+		B93D90201B3270FD00A2947C /* CSParallaxHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSParallaxHeader.h; sourceTree = "<group>"; };
+		B93D90211B3270FD00A2947C /* CSParallaxHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSParallaxHeader.m; sourceTree = "<group>"; };
+		B93D90231B32713A00A2947C /* MyPlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPlaylistCollectionViewCell.h; sourceTree = "<group>"; };
+		B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPlaylistCollectionViewCell.m; sourceTree = "<group>"; };
 		B96773461B32331A00C01AAF /* MusicBar.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicBar.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B967734A1B32331A00C01AAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B967734B1B32331A00C01AAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -183,8 +194,23 @@
 		B93D900D1B324A0B00A2947C /* Me Tab */ = {
 			isa = PBXGroup;
 			children = (
+				B93D90181B3251A000A2947C /* Cell */,
+				B93D901D1B32523500A2947C /* MyProfileCollectionViewController.h */,
+				B93D901E1B32523500A2947C /* MyProfileCollectionViewController.m */,
 			);
 			name = "Me Tab";
+			sourceTree = "<group>";
+		};
+		B93D90181B3251A000A2947C /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				B93D901B1B32521100A2947C /* CSParallaxHeader.xib */,
+				B93D90201B3270FD00A2947C /* CSParallaxHeader.h */,
+				B93D90211B3270FD00A2947C /* CSParallaxHeader.m */,
+				B93D90231B32713A00A2947C /* MyPlaylistCollectionViewCell.h */,
+				B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */,
+			);
+			name = Cell;
 			sourceTree = "<group>";
 		};
 		B967733D1B32331A00C01AAF = {
@@ -362,6 +388,7 @@
 				B93D90171B324B6600A2947C /* placeholder.png in Resources */,
 				B93D90151B324B4700A2947C /* governor.ttf in Resources */,
 				B93D90121B324B4700A2947C /* Streetwear.otf in Resources */,
+				B93D901C1B32521100A2947C /* CSParallaxHeader.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,6 +439,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B93D90251B32713A00A2947C /* MyPlaylistCollectionViewCell.m in Sources */,
+				B93D901F1B32523500A2947C /* MyProfileCollectionViewController.m in Sources */,
 				B93D90081B3242FD00A2947C /* Song.m in Sources */,
 				B96D16071B32371400406AAF /* LoginViewController.m in Sources */,
 				B93D8FF31B3242FC00A2947C /* Friend.m in Sources */,
@@ -419,6 +448,7 @@
 				B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */,
 				B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */,
 				B93D8FCD1B32411600A2947C /* MusicBarModel.xcdatamodeld in Sources */,
+				B93D90221B3270FD00A2947C /* CSParallaxHeader.m in Sources */,
 				B93D90021B3242FD00A2947C /* NowPlayingSong.m in Sources */,
 				B93D8FF01B3242FB00A2947C /* SongFriend.m in Sources */,
 				B93D8FFF1B3242FC00A2947C /* CurrentUser.m in Sources */,
