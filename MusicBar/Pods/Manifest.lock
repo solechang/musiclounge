@@ -26,6 +26,7 @@ PODS:
   - CocoaSoundCloudUI (1.0.9):
     - CocoaSoundCloudAPI (~> 1.0.2)
     - OHAttributedLabel
+  - CSStickyHeaderFlowLayout (0.2.7)
   - DZNEmptyDataSet (1.5.2)
   - DZNSegmentedControl (1.2.2)
   - libPhoneNumber-iOS (0.8.5)
@@ -45,6 +46,7 @@ DEPENDENCIES:
   - AFNetworking
   - CocoaSoundCloudAPI
   - CocoaSoundCloudUI
+  - CSStickyHeaderFlowLayout
   - DZNEmptyDataSet
   - DZNSegmentedControl (~> 1.2)
   - libPhoneNumber-iOS
@@ -60,6 +62,7 @@ SPEC CHECKSUMS:
   Bolts: d176cb1e0012175589e389a9db49b85e27787576
   CocoaSoundCloudAPI: bef452c90f3a3af6de41a620d7d156d716d68f79
   CocoaSoundCloudUI: f5aed254f432bc68a5a3570b74cdd6d18ce7b037
+  CSStickyHeaderFlowLayout: 739445e36fd96ab2cee9b9826a902396567fb6a5
   DZNEmptyDataSet: 741da409081a4bf707c949c964623a6ad1799772
   DZNSegmentedControl: 8a7fdd743672742c692106f4456aaede10d43131
   libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed

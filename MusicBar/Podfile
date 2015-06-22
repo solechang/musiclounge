@@ -16,6 +16,7 @@ target 'MusicBar' do
     pod 'MagicalRecord'
     pod 'libPhoneNumber-iOS'
     pod 'RHAddressBook'
+    pod "CSStickyHeaderFlowLayout"
 end
 
 target 'MusicBarTests' do
