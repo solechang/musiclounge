@@ -933,7 +933,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="89" id="HQI-Uu-K3k" customClass="iLLCustomSearchedSongTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="89" id="HQI-Uu-K3k" customClass="CustomSearchedSongTableViewCell">
                                 <rect key="frame" x="0.0" y="22" width="320" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="HQI-Uu-K3k" id="gC4-ci-9EI">
@@ -998,7 +998,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchedSongCell" rowHeight="89" id="K8V-cB-4Ao" customClass="iLLCustomSearchedSongTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchedSongCell" rowHeight="89" id="K8V-cB-4Ao" customClass="CustomSearchedSongTableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="K8V-cB-4Ao" id="P1g-P5-1dl">
@@ -1072,11 +1072,11 @@
             </objects>
             <point key="canvasLocation" x="510" y="3891"/>
         </scene>
-        <!--Item-->
+        <!--Friend-->
         <scene sceneID="0L2-yQ-j5C">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xHB-lD-4AK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Item" id="B3l-vI-1Wo"/>
+                    <tabBarItem key="tabBarItem" title="Friend" id="B3l-vI-1Wo"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="J10-ks-EUt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>

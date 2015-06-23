@@ -430,7 +430,7 @@
         _control.selectedSegmentIndex = 0;
         _control.bouncySelectionIndicator = YES;
         
-        _control.height = 50.0f;
+        _control.height = 54.0f;
         _control.width = 320.0f;
         _control.showsGroupingSeparators = YES;
 
