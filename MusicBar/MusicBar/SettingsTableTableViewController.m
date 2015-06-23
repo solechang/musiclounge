@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLSettingsTableTableViewController.h"
+#import "SettingsTableTableViewController.h"
 #import <RHAddressBook/AddressBook.h>
 
 // Core Data
@@ -23,7 +23,7 @@
 #import "NowPlayingSong.h"
 
 
-@interface iLLSettingsTableTableViewController ()
+@interface SettingsTableTableViewController ()
 
 
 
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation iLLSettingsTableTableViewController
+@implementation SettingsTableTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

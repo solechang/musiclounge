@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLMediaPlayerViewController.h"
+#import "MediaPlayerViewController.h"
 //#import "iLLFriendSearchSongsTableViewController.h"
 #import <Parse/Parse.h>
 #import <SDWebImage/UIImageView+WebCache.h>
@@ -28,7 +28,7 @@
 
 static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
-@interface iLLMediaPlayerViewController ()
+@interface MediaPlayerViewController ()
 //{
 //    NSTimer* timer;
 //

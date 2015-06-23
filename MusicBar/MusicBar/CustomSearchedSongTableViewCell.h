@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface iLLCustomSearchedSongTableViewCell : UITableViewCell
+@interface CustomSearchedSongTableViewCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *albumImage;
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;

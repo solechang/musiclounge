@@ -6,18 +6,18 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLSearchSongsTableViewController.h"
+#import "SearchSongsTableViewController.h"
 #import "SCUI.h"
-#import "iLLCustomSearchedSongTableViewCell.h"
-#import "iLLSong.h"
+#import "CustomSearchedSongTableViewCell.h"
+#import "CustomSong.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import <Parse/Parse.h>
-#import "iLLMediaPlayerViewController.h"
+#import "MediaPlayerViewController.h"
 #import "MySearchedSongsSearchControllerTableViewController.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
-@interface iLLSearchSongsTableViewController () {
+@interface SearchSongsTableViewController () {
     
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
@@ -32,7 +32,7 @@
 
 @end
 
-@implementation iLLSearchSongsTableViewController
+@implementation SearchSongsTableViewController
 
 
 - (void)viewDidLoad {
@@ -308,10 +308,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
   
     static NSString *CellIdentifier = @"songCell";
-    iLLCustomSearchedSongTableViewCell *cell = (iLLCustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 
     if (cell == nil) {
-        cell = [[iLLCustomSearchedSongTableViewCell alloc]
+        cell = [[CustomSearchedSongTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }

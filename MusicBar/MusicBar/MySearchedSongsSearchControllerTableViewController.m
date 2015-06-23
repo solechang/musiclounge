@@ -8,8 +8,8 @@
 
 #import "MySearchedSongsSearchControllerTableViewController.h"
 
-#import "iLLCustomSearchedSongTableViewCell.h"
-#import "iLLSong.h"
+#import "CustomSearchedSongTableViewCell.h"
+#import "CustomSong.h"
 #import "Song.h"
 
 #import "SongManager.h"
@@ -54,11 +54,11 @@
     
     static NSString *CellIdentifier = @"searchedSongCell";
 
-    iLLCustomSearchedSongTableViewCell *cell = (iLLCustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
-    iLLSong *song = nil;
+    CustomSong *song = nil;
     if (cell == nil) {
-        cell = [[iLLCustomSearchedSongTableViewCell alloc]
+        cell = [[CustomSearchedSongTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
@@ -95,7 +95,7 @@
     [self.tableView setEditing:NO];
     
     // Getting song info to add to user's iLList
-    iLLSong *songAtCell = nil;
+    CustomSong *songAtCell = nil;
     
     songAtCell = [self.searchResults objectAtIndex:indexPath.row];
     
@@ -106,7 +106,7 @@
 }
 
 
-- (UIButton*) addSongButtonPressed :(iLLSong*)song {
+- (UIButton*) addSongButtonPressed :(CustomSong*)song {
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     float buttonSize = 30.0f;

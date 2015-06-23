@@ -30,7 +30,7 @@
     
 }
 
--(id)initWithSong:(iLLSong *)song {
+-(id)initWithSong:(CustomSong *)song {
     
     self = [super init];
     
@@ -79,7 +79,7 @@
             // This loop below will extract the json into a dictionary to parse the title and other info of the searched songs.
             for (int i = 0; i < tracks.count; i++ ) {
                 
-                iLLSong *song = [iLLSong new];
+                CustomSong *song = [CustomSong new];
                 track = [tracks objectAtIndex:i];
                 
                 
@@ -166,7 +166,7 @@
     return result;
 }
 
-- (void) addSongToPlaylist:(iLLSong*)songAtCell playlistInfo:(Playlist*)playlist playlistTracks:(NSMutableArray*) iLListTracks {
+- (void) addSongToPlaylist:(CustomSong*)songAtCell playlistInfo:(Playlist*)playlist playlistTracks:(NSMutableArray*) iLListTracks {
     
     // Creating a song PFObject in the server
     PFObject *song = [PFObject objectWithClassName:@"Song"];

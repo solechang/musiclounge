@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface iLLSong : NSObject
+@interface CustomSong : NSObject
 @property (nonatomic, strong) NSString *title;
 @property (nonatomic, strong) NSString *uploadingUser;
 @property (nonatomic, strong) NSString *image;
