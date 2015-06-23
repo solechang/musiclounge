@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 iLList. All rights reserved.
 //
 
-#import "iLLProfilePictureTableViewController.h"
+#import "ProfilePictureTableViewController.h"
 #import <Parse/Parse.h>
 
 // Core Data
@@ -24,14 +24,14 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
-@interface iLLProfilePictureTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
+@interface ProfilePictureTableViewController () <UIImagePickerControllerDelegate, UINavigationControllerDelegate> {
         NSManagedObjectContext *defaultContext;
 }
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *saveButton;
 
 @end
 
-@implementation iLLProfilePictureTableViewController
+@implementation ProfilePictureTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];

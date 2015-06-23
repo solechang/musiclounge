@@ -6,8 +6,8 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLSong.h"
+#import "CustomSong.h"
 
-@implementation iLLSong
+@implementation CustomSong
 
 @end

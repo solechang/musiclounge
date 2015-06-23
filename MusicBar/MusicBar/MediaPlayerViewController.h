@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 //#import <STKAudioPlayer.h>
 
-@interface iLLMediaPlayerViewController : UIViewController //<STKAudioPlayerDelegate>
+@interface MediaPlayerViewController : UIViewController //<STKAudioPlayerDelegate>
 
 @end

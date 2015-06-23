@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLAddiLListTableViewController.h"
+#import "AddiLListTableViewController.h"
 #import <Parse/Parse.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
@@ -16,7 +16,7 @@
 //#import "UserIllist.h"
 #import "Playlist.h"
 
-@interface iLLAddiLListTableViewController () {
+@interface AddiLListTableViewController () {
     
     NSManagedObjectContext *defaultContext;
 }
@@ -27,7 +27,7 @@
 
 @end
 
-@implementation iLLAddiLListTableViewController
+@implementation AddiLListTableViewController
 
 - (void)viewDidLoad {
     

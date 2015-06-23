@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 iLList. All rights reserved.
 //
 
-#import "iLLCustomSearchedSongTableViewCell.h"
+#import "CustomSearchedSongTableViewCell.h"
 
-@implementation iLLCustomSearchedSongTableViewCell
+@implementation CustomSearchedSongTableViewCell
 
 - (void)layoutSubviews {
     [super layoutSubviews];

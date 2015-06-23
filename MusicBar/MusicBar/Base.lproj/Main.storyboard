@@ -245,7 +245,7 @@
         <!--Create Lounge-->
         <scene sceneID="VMd-ur-2aA">
             <objects>
-                <tableViewController id="gYc-jG-qCx" customClass="iLLAddiLListTableViewController" sceneMemberID="viewController">
+                <tableViewController id="gYc-jG-qCx" customClass="AddiLListTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="L2m-Ta-ubx">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -405,16 +405,16 @@
             </objects>
             <point key="canvasLocation" x="1248" y="935"/>
         </scene>
-        <!--ILL Search Songs Table View Controller-->
+        <!--Search Songs Table View Controller-->
         <scene sceneID="7cV-hE-cmX">
             <objects>
-                <tableViewController id="nze-Su-BCd" customClass="iLLSearchSongsTableViewController" sceneMemberID="viewController">
+                <tableViewController id="nze-Su-BCd" customClass="SearchSongsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="m9k-wN-PQY">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="89" id="sUh-mj-hWB" customClass="iLLCustomSearchedSongTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="songCell" rowHeight="89" id="sUh-mj-hWB" customClass="CustomSearchedSongTableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="sUh-mj-hWB" id="Hve-ey-jmd">
@@ -473,7 +473,7 @@
         <!--Settings-->
         <scene sceneID="Itt-uJ-CeU">
             <objects>
-                <tableViewController id="Vbb-Rh-xeO" customClass="iLLSettingsTableTableViewController" sceneMemberID="viewController">
+                <tableViewController id="Vbb-Rh-xeO" customClass="SettingsTableTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="1" id="3ws-Oo-i7v">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -602,7 +602,7 @@
         <!--Profile Picture-->
         <scene sceneID="w3o-df-Arc">
             <objects>
-                <tableViewController id="Wgf-eZ-YB3" customClass="iLLProfilePictureTableViewController" sceneMemberID="viewController">
+                <tableViewController id="Wgf-eZ-YB3" customClass="ProfilePictureTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="grouped" separatorStyle="default" rowHeight="44" sectionHeaderHeight="10" sectionFooterHeight="10" id="urx-9K-n6P">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -712,7 +712,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchedSongCell" rowHeight="89" id="3rl-ij-UcJ" customClass="iLLCustomSearchedSongTableViewCell">
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchedSongCell" rowHeight="89" id="3rl-ij-UcJ" customClass="CustomSearchedSongTableViewCell">
                                 <rect key="frame" x="0.0" y="86" width="320" height="89"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3rl-ij-UcJ" id="34X-3Z-fLg">

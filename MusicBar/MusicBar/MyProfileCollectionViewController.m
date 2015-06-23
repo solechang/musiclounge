@@ -15,7 +15,7 @@
 #import "SCUI.h"
 
 #import "LoginViewController.h"
-#import "iLLSearchSongsTableViewController.h"
+#import "SearchSongsTableViewController.h"
 #import "DZNSegmentedControl.h"
 
 #import "CSParallaxHeader.h"
@@ -23,8 +23,8 @@
 #import "iLLfollowingPlaylistCollectionViewCell.h"
 #import "CollectionViewCell.h"
 
-#import "iLLAddiLListTableViewController.h"
-#import "iLLSettingsTableTableViewController.h"
+#import "AddiLListTableViewController.h"
+#import "SettingsTableTableViewController.h"
 
 // CoreData
 #import <MagicalRecord/MagicalRecord.h>
@@ -672,7 +672,7 @@ didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([[segue identifier] isEqualToString:@"iLListSegue"]) {
         
         // Get destination view
-        iLLSearchSongsTableViewController *ssc = [segue destinationViewController];
+        SearchSongsTableViewController *ssc = [segue destinationViewController];
         
         // Initializing indexpath for the playlist cell
         NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
