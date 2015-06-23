@@ -188,6 +188,12 @@ NSString *const CSStickyHeaderParallaxHeader = @"CSStickyHeaderParallexHeader";
     }
     CGSize size = [super collectionViewContentSize];
     size.height += self.parallaxHeaderReferenceSize.height;
+
+    
+    if(size.height < 770){
+        size.height = 770;
+    }
+    
     return size;
 }
 

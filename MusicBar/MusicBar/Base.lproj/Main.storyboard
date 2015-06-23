@@ -343,7 +343,7 @@
                                 <connections>
                                     <outlet property="textLabel" destination="rDA-iK-vO2" id="KVT-lQ-qIj"/>
                                     <outlet property="textLabelCreator" destination="g0t-nJ-nJA" id="Auz-RK-Oqs"/>
-                                    <segue destination="nze-Su-BCd" kind="push" identifier="iLListSegue" id="9a2-Jq-6yt"/>
+                                    <segue destination="nze-Su-BCd" kind="show" identifier="iLListSegue" id="9a2-Jq-6yt"/>
                                 </connections>
                             </collectionViewCell>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell2" id="EMP-KO-ljH" customClass="CollectionViewCell">
@@ -387,12 +387,12 @@
                     <navigationItem key="navigationItem" id="tst-0l-Zfp">
                         <barButtonItem key="leftBarButtonItem" title="Edit" id="ycg-E9-yu7">
                             <connections>
-                                <segue destination="CjX-Ei-4hz" kind="modal" id="iz3-5a-1Du"/>
+                                <segue destination="CjX-Ei-4hz" kind="presentation" id="iz3-5a-1Du"/>
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="New" id="iYj-Gy-tOW">
                             <connections>
-                                <segue destination="SZe-Ji-SYC" kind="modal" id="awd-aJ-YyW"/>
+                                <segue destination="SZe-Ji-SYC" kind="presentation" id="awd-aJ-YyW"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>
@@ -708,7 +708,7 @@
             <objects>
                 <tableViewController storyboardIdentifier="MySearchedSongsSearchControllerTableViewController" id="CbU-sm-76v" customClass="MySearchedSongsSearchControllerTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="oTV-Se-93f">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -773,9 +773,10 @@
             <objects>
                 <navigationController storyboardIdentifier="TableSearchResultsNavController" automaticallyAdjustsScrollViewInsets="NO" id="1Xa-LO-LMy" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="eTA-XK-Hxt">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="eTA-XK-Hxt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.19215686269999999" green="0.066666666669999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
