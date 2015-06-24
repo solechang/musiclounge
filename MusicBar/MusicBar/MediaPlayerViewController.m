@@ -181,12 +181,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #pragma mark - Set current play list
 - (void) setCurrentPlaylist {
     
-    [self setupTimer];
-    [self updateControls];
+//    [self setupTimer];
+//    [self updateControls];
     
 //    [self.currentPlaylistButton setEnabled:YES];
 
-    [self playSong];
+//    [self playSong];
 
 
 }
@@ -255,178 +255,165 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #pragma mark - Play button
 
 - (IBAction)playButton:(id)sender {
-    [self playButtonPressed];
+//    [self playButtonPressed];
 }
--(void) playButtonPressed
-{
-    if (!nowPlayingPlayer)
-    {
-        return;
-    }
-    
-    if (nowPlayingPlayer.state == STKAudioPlayerStatePaused)
-    {
-        [nowPlayingPlayer resume];
-    }
-    else
-    {
-        [nowPlayingPlayer pause];
-    }
-}
-
+//-(void) playButtonPressed
+//{
+//    if (!nowPlayingPlayer)
+//    {
+//        return;
+//    }
+//    
+//    if (nowPlayingPlayer.state == STKAudioPlayerStatePaused)
+//    {
+//        [nowPlayingPlayer resume];
+//    }
+//    else
+//    {
+//        [nowPlayingPlayer pause];
+//    }
+//}
+//
 - (IBAction)nextButton:(id)sender {
-    [self setupTimer];
-    [self updateControls];
-    
-
-    flagSong = NO;
-    
-    [self playNextSong];
-    
+  
 }
-
-- (void) playSong {
-
-    
-    NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-    
-    NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
-    
-    currentSong = nowplayingSong;
-    
-    self.currentPlaylistButton.title = nowPlaying.playlistName;
-    
-    self.songTitle.text = nowplayingSong.title;
-    
-    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
-    
-    flagSong = NO;
-    
-    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
-    
-//    NSLog(@"1.) %@", resourceURL);
-    NSURL* url = [NSURL URLWithString:resourceURL];
-    STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:url];
-    [nowPlayingPlayer setDataSource:dataSource withQueueItemId:[[SampleQueueId alloc] initWithUrl:url andCount:0]];
-
-}
-
-- (void) playNextSong {
-    
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        
-        NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
-        
-        int nowPlayingIndex = [nowPlaying.songIndex intValue];
-//         if index is end of currentPlayList, set index to 0, if not increment index
-        if (nowPlayingIndex == currentPlayList.count - 1 ) {
-            nowPlayingIndex = 0;
-
-        } else {
-            nowPlayingIndex++;
-
-        }
-
-        nowPlaying.songIndex = [NSNumber numberWithInt:nowPlayingIndex];
-        
-        
-    } completion:^(BOOL success, NSError *error) {
-        
-        if (success) {
-            [self playSong];
-            
-        } else {
-            NSLog(@"Error 336.)");
-        }
-        
-    }];
-
-}
-
+//
+//- (void) playSong {
+//
+//    
+//    NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
+//    
+//    NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
+//    
+//    currentSong = nowplayingSong;
+//    
+//    self.currentPlaylistButton.title = nowPlaying.playlistName;
+//    
+//    self.songTitle.text = nowplayingSong.title;
+//    
+//    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+//    
+//    flagSong = NO;
+//    
+//    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+//    
+////    NSLog(@"1.) %@", resourceURL);
+//    NSURL* url = [NSURL URLWithString:resourceURL];
+//    STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:url];
+//    [nowPlayingPlayer setDataSource:dataSource withQueueItemId:[[SampleQueueId alloc] initWithUrl:url andCount:0]];
+//
+//}
+//
+//- (void) playNextSong {
+//    
+//    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//        
+//        NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
+//        
+//        int nowPlayingIndex = [nowPlaying.songIndex intValue];
+////         if index is end of currentPlayList, set index to 0, if not increment index
+//        if (nowPlayingIndex == currentPlayList.count - 1 ) {
+//            nowPlayingIndex = 0;
+//
+//        } else {
+//            nowPlayingIndex++;
+//
+//        }
+//
+//        nowPlaying.songIndex = [NSNumber numberWithInt:nowPlayingIndex];
+//        
+//        
+//    } completion:^(BOOL success, NSError *error) {
+//        
+//        if (success) {
+//            [self playSong];
+//            
+//        } else {
+//            NSLog(@"Error 336.)");
+//        }
+//        
+//    }];
+//
+//}
+//
 - (IBAction)backButton:(id)sender {
-    [self setupTimer];
-    [self updateControls];
-    
-    
-    flagSong = NO;
-    
-    [self playPreviousSong];
+
     
 }
-
-- (void ) playPreviousSong {
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        
-        NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
-        
-        NSUInteger nowPlayingIndex = [nowPlaying.songIndex integerValue];
-        
-        // if index is end of currentPlayList, set index to 0, if not increment index
-        if (nowPlayingIndex ==  0) {
-            NSUInteger currentPlayListCount = currentPlayList.count;
-            nowPlayingIndex = currentPlayListCount--;
-    
-        } else {
-            nowPlayingIndex--;
-            
-        }
-        
-        nowPlaying.songIndex = [NSNumber numberWithInteger:nowPlayingIndex];
-        
-    } completion:^(BOOL success, NSError *error) {
-        
-        if (success) {
-            [self playSong];
-            
-        } else {
-            NSLog(@"Error 382.)");
-        }
-        
-    }];
-}
-
-#pragma mark - Music slider
-- (IBAction)musicSlider:(id)sender {
-
-    [self sliderChanged];
-}
-
--(void) sliderChanged
-{
-    if (!nowPlayingPlayer)
-    {
-        return;
-    }
-
-    [nowPlayingPlayer seekToTime:self.musicSlider.value];
-}
-
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    
-    if ([[segue identifier] isEqualToString:@"currentIllistNowPlayingSegue"]) {
-        
-//        UINavigationController *navController = [segue destinationViewController];
-        
-//        iLLFriendSearchSongsTableViewController *vc = (iLLFriendSearchSongsTableViewController*)navController.topViewController;
-        
-//        [vc setPlaylistInfo:];
-        
-    }
-    
-}
-
-#pragma Set current song artwork size
-- (NSString*) setImageSize:(NSString*)image {
-    
-    // Resizing artwork to 300 by 300 pixels
-    NSString* resizeImage = [[NSString alloc] initWithString:image];
-    
-    resizeImage = [resizeImage stringByReplacingOccurrencesOfString:@"large" withString:@"t300x300"];
-    return resizeImage;
-}
+//
+//- (void ) playPreviousSong {
+//    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+//        
+//        NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
+//        
+//        NSUInteger nowPlayingIndex = [nowPlaying.songIndex integerValue];
+//        
+//        // if index is end of currentPlayList, set index to 0, if not increment index
+//        if (nowPlayingIndex ==  0) {
+//            NSUInteger currentPlayListCount = currentPlayList.count;
+//            nowPlayingIndex = currentPlayListCount--;
+//    
+//        } else {
+//            nowPlayingIndex--;
+//            
+//        }
+//        
+//        nowPlaying.songIndex = [NSNumber numberWithInteger:nowPlayingIndex];
+//        
+//    } completion:^(BOOL success, NSError *error) {
+//        
+//        if (success) {
+//            [self playSong];
+//            
+//        } else {
+//            NSLog(@"Error 382.)");
+//        }
+//        
+//    }];
+//}
+//
+//#pragma mark - Music slider
+//- (IBAction)musicSlider:(id)sender {
+//
+//    [self sliderChanged];
+//}
+//
+//-(void) sliderChanged
+//{
+//    if (!nowPlayingPlayer)
+//    {
+//        return;
+//    }
+//
+//    [nowPlayingPlayer seekToTime:self.musicSlider.value];
+//}
+//
+//#pragma mark - Navigation
+//
+//// In a storyboard-based application, you will often want to do a little preparation before navigation
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//    
+//    if ([[segue identifier] isEqualToString:@"currentIllistNowPlayingSegue"]) {
+//        
+////        UINavigationController *navController = [segue destinationViewController];
+//        
+////        iLLFriendSearchSongsTableViewController *vc = (iLLFriendSearchSongsTableViewController*)navController.topViewController;
+//        
+////        [vc setPlaylistInfo:];
+//        
+//    }
+//    
+//}
+//
+//#pragma Set current song artwork size
+//- (NSString*) setImageSize:(NSString*)image {
+//    
+//    // Resizing artwork to 300 by 300 pixels
+//    NSString* resizeImage = [[NSString alloc] initWithString:image];
+//    
+//    resizeImage = [resizeImage stringByReplacingOccurrencesOfString:@"large" withString:@"t300x300"];
+//    return resizeImage;
+//}
 
 
 @end

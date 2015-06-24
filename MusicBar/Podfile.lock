@@ -41,6 +41,7 @@ PODS:
   - SDWebImage/Core (3.7.2)
   - SVProgressHUD (1.1.3)
   - SWTableViewCell (0.3.7)
+  - TheAmazingAudioEngine (1.4.6)
 
 DEPENDENCIES:
   - AFNetworking
@@ -56,6 +57,7 @@ DEPENDENCIES:
   - SDWebImage (~> 3.6)
   - SVProgressHUD
   - SWTableViewCell (~> 0.3.7)
+  - TheAmazingAudioEngine
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
@@ -74,5 +76,6 @@ SPEC CHECKSUMS:
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   SWTableViewCell: 2a94aadc9d47b2b611fa064566bf57948b95b579
+  TheAmazingAudioEngine: 014e942f20456feaf5ccb48f440402306350abf8
 
 COCOAPODS: 0.37.2

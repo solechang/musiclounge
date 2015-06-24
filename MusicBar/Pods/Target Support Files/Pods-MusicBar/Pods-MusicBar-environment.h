@@ -138,6 +138,12 @@
 #define COCOAPODS_VERSION_MINOR_SWTableViewCell 3
 #define COCOAPODS_VERSION_PATCH_SWTableViewCell 7
 
+// TheAmazingAudioEngine
+#define COCOAPODS_POD_AVAILABLE_TheAmazingAudioEngine
+#define COCOAPODS_VERSION_MAJOR_TheAmazingAudioEngine 1
+#define COCOAPODS_VERSION_MINOR_TheAmazingAudioEngine 4
+#define COCOAPODS_VERSION_PATCH_TheAmazingAudioEngine 6
+
 // libPhoneNumber-iOS
 #define COCOAPODS_POD_AVAILABLE_libPhoneNumber_iOS
 #define COCOAPODS_VERSION_MAJOR_libPhoneNumber_iOS 0

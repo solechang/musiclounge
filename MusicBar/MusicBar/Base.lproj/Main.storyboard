@@ -1096,7 +1096,7 @@
         <!--Now Playing-->
         <scene sceneID="GbD-Ju-iae">
             <objects>
-                <viewController id="YFn-IZ-gpz" customClass="iLLMediaPlayerViewController" sceneMemberID="viewController">
+                <viewController id="YFn-IZ-gpz" customClass="MediaPlayerViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="qUO-ES-U2x"/>
                         <viewControllerLayoutGuide type="bottom" id="eEF-V7-88i"/>
