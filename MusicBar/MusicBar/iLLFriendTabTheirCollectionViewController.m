@@ -238,7 +238,7 @@
     [updateQuery findObjectsInBackgroundWithBlock:^(NSArray *playlists, NSError *error) {
    
         if (!error) {
-                    NSLog(@"2.)%@", playlists);
+   
             [self savePlaylistToLocal: playlists];
         }
         

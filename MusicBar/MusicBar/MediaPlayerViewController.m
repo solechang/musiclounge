@@ -10,8 +10,10 @@
 #import "iLLFriendSearchSongsTableViewController.h"
 #import <Parse/Parse.h>
 #import <SDWebImage/UIImageView+WebCache.h>
-#import "SampleQueueId.h"
+
 #import "AFNetworking.h"
+
+#import "TheAmazingAudioEngine.h"
 
 //#import "iLLApiClient.h"
 
@@ -43,6 +45,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *currentSong;
 }
 
+@property (nonatomic, strong) AEAudioController *audioController;
+
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *currentPlaylistButton;
 @property (weak, nonatomic) IBOutlet UISlider *musicSlider;
 @property (weak, nonatomic) IBOutlet UIImageView *currentSongArtwork;
@@ -63,6 +67,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [super viewDidLoad];
     // Instantiate the audio player
+    self.audioController = [[AEAudioController alloc]
+                            initWithAudioDescription:[AEAudioController nonInterleaved16BitStereoAudioDescription]
+                            inputEnabled:YES];
+    
     
     [self setNSManagedObjectContext];
 
