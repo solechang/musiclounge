@@ -17,7 +17,7 @@ target 'MusicBar' do
     pod 'libPhoneNumber-iOS'
     pod 'RHAddressBook'
     pod "CSStickyHeaderFlowLayout"
-    pod 'TheAmazingAudioEngine'
+    pod 'FreeStreamer'
 end
 
 target 'MusicBarTests' do

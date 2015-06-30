@@ -84,6 +84,12 @@
 #define COCOAPODS_VERSION_MINOR_DZNSegmentedControl 2
 #define COCOAPODS_VERSION_PATCH_DZNSegmentedControl 2
 
+// FreeStreamer
+#define COCOAPODS_POD_AVAILABLE_FreeStreamer
+#define COCOAPODS_VERSION_MAJOR_FreeStreamer 2
+#define COCOAPODS_VERSION_MINOR_FreeStreamer 12
+#define COCOAPODS_VERSION_PATCH_FreeStreamer 11
+
 // MagicalRecord
 #define COCOAPODS_POD_AVAILABLE_MagicalRecord
 #define COCOAPODS_VERSION_MAJOR_MagicalRecord 2
@@ -114,6 +120,12 @@
 #define COCOAPODS_VERSION_MINOR_RHAddressBook 1
 #define COCOAPODS_VERSION_PATCH_RHAddressBook 1
 
+// Reachability
+#define COCOAPODS_POD_AVAILABLE_Reachability
+#define COCOAPODS_VERSION_MAJOR_Reachability 3
+#define COCOAPODS_VERSION_MINOR_Reachability 2
+#define COCOAPODS_VERSION_PATCH_Reachability 0
+
 // SDWebImage
 #define COCOAPODS_POD_AVAILABLE_SDWebImage
 #define COCOAPODS_VERSION_MAJOR_SDWebImage 3
@@ -137,12 +149,6 @@
 #define COCOAPODS_VERSION_MAJOR_SWTableViewCell 0
 #define COCOAPODS_VERSION_MINOR_SWTableViewCell 3
 #define COCOAPODS_VERSION_PATCH_SWTableViewCell 7
-
-// TheAmazingAudioEngine
-#define COCOAPODS_POD_AVAILABLE_TheAmazingAudioEngine
-#define COCOAPODS_VERSION_MAJOR_TheAmazingAudioEngine 1
-#define COCOAPODS_VERSION_MINOR_TheAmazingAudioEngine 4
-#define COCOAPODS_VERSION_PATCH_TheAmazingAudioEngine 6
 
 // libPhoneNumber-iOS
 #define COCOAPODS_POD_AVAILABLE_libPhoneNumber_iOS

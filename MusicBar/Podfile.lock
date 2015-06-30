@@ -29,19 +29,21 @@ PODS:
   - CSStickyHeaderFlowLayout (0.2.7)
   - DZNEmptyDataSet (1.5.2)
   - DZNSegmentedControl (1.2.2)
+  - FreeStreamer (2.12.11):
+    - Reachability (~> 3.0)
   - libPhoneNumber-iOS (0.8.5)
   - MagicalRecord (2.3.0)
   - NXOAuth2Client (1.2.2)
   - OHAttributedLabel (3.5.5)
   - Parse (1.7.4):
     - Bolts/Tasks (>= 1.1.5)
+  - Reachability (3.2)
   - RHAddressBook (1.1.1)
   - SDWebImage (3.7.2):
     - SDWebImage/Core (= 3.7.2)
   - SDWebImage/Core (3.7.2)
   - SVProgressHUD (1.1.3)
   - SWTableViewCell (0.3.7)
-  - TheAmazingAudioEngine (1.4.6)
 
 DEPENDENCIES:
   - AFNetworking
@@ -50,6 +52,7 @@ DEPENDENCIES:
   - CSStickyHeaderFlowLayout
   - DZNEmptyDataSet
   - DZNSegmentedControl (~> 1.2)
+  - FreeStreamer
   - libPhoneNumber-iOS
   - MagicalRecord
   - Parse
@@ -57,7 +60,6 @@ DEPENDENCIES:
   - SDWebImage (~> 3.6)
   - SVProgressHUD
   - SWTableViewCell (~> 0.3.7)
-  - TheAmazingAudioEngine
 
 SPEC CHECKSUMS:
   AFNetworking: 05edc0ac4c4c8cf57bcf4b84be5b0744b6d8e71e
@@ -67,15 +69,16 @@ SPEC CHECKSUMS:
   CSStickyHeaderFlowLayout: 739445e36fd96ab2cee9b9826a902396567fb6a5
   DZNEmptyDataSet: 741da409081a4bf707c949c964623a6ad1799772
   DZNSegmentedControl: 8a7fdd743672742c692106f4456aaede10d43131
+  FreeStreamer: 37e0c8fe1e9fa6ced7349a9b01aaac81b013a814
   libPhoneNumber-iOS: b8ccd23576379caca37c7cbdd554addf384459ed
   MagicalRecord: 89eb7d7ead39fb37f01c3d010665ee94d17f8dba
   NXOAuth2Client: 492f961d549c411b344cfae861de0dc63b176edc
   OHAttributedLabel: 9b2eb99323dee6b3a81ef3bc8e98b084117bca2d
   Parse: 6ca512c6e860b66739c95151b2f76ac4712b7842
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   RHAddressBook: 870e9e0b34cb917b9c4c600fc3b7d5b530b23b13
   SDWebImage: 71b7cdc1d1721d6a82ed62889030225f2c249e29
   SVProgressHUD: 748080e4f36e603f6c02aec292664239df5279c1
   SWTableViewCell: 2a94aadc9d47b2b611fa064566bf57948b95b579
-  TheAmazingAudioEngine: 014e942f20456feaf5ccb48f440402306350abf8
 
 COCOAPODS: 0.37.2

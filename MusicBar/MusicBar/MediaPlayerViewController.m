@@ -13,8 +13,6 @@
 
 #import "AFNetworking.h"
 
-#import "TheAmazingAudioEngine.h"
-
 //#import "iLLApiClient.h"
 
 // CoreData
@@ -45,8 +43,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *currentSong;
 }
 
-@property (nonatomic, strong) AEAudioController *audioController;
-@property (nonatomic, strong) AEAudioFilePlayer *loop1;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *currentPlaylistButton;
 @property (weak, nonatomic) IBOutlet UISlider *musicSlider;
@@ -68,11 +64,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [super viewDidLoad];
     // Instantiate the audio player
-    self.audioController = [[AEAudioController alloc]
-                            initWithAudioDescription:[AEAudioController nonInterleaved16BitStereoAudioDescription]
-                            inputEnabled:YES];
-    
-    
     [self setNSManagedObjectContext];
 
     currentPlayList = [[NSMutableArray alloc] init];
@@ -301,14 +292,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songTitle.text = nowplayingSong.title;
     NSLog(@"1.) %@", nowplayingSong.title);
-        NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+    
+    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
     NSURL* url = [NSURL URLWithString:resourceURL];
 
-    // Create the first loop player
-    self.loop1 = [AEAudioFilePlayer audioFilePlayerWithURL:url                                           audioController:_audioController
-                                                     error:NULL];
-    _loop1.volume = 1.0;
-    _loop1.channelIsMuted = NO;
+    
     
     [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
