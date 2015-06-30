@@ -46,6 +46,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 @property (nonatomic, strong) AEAudioController *audioController;
+@property (nonatomic, strong) AEAudioFilePlayer *loop1;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *currentPlaylistButton;
 @property (weak, nonatomic) IBOutlet UISlider *musicSlider;
@@ -188,13 +189,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 #pragma mark - Set current play list
 - (void) setCurrentPlaylist {
-    
+
+  
 //    [self setupTimer];
 //    [self updateControls];
     
-//    [self.currentPlaylistButton setEnabled:YES];
+    [self.currentPlaylistButton setEnabled:YES];
 
-//    [self playSong];
+    [self playSong];
 
 
 }
@@ -286,31 +288,40 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
   
 }
 //
-//- (void) playSong {
-//
-//    
-//    NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-//    
-//    NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
-//    
-//    currentSong = nowplayingSong;
-//    
-//    self.currentPlaylistButton.title = nowPlaying.playlistName;
-//    
-//    self.songTitle.text = nowplayingSong.title;
-//    
-//    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
-//    
-//    flagSong = NO;
-//    
+- (void) playSong {
+    
+    
+    NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
+    
+    NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
+    
+    currentSong = nowplayingSong;
+    
+    self.currentPlaylistButton.title = nowPlaying.playlistName;
+    
+    self.songTitle.text = nowplayingSong.title;
+    NSLog(@"1.) %@", nowplayingSong.title);
+        NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+    NSURL* url = [NSURL URLWithString:resourceURL];
+
+    // Create the first loop player
+    self.loop1 = [AEAudioFilePlayer audioFilePlayerWithURL:url                                           audioController:_audioController
+                                                     error:NULL];
+    _loop1.volume = 1.0;
+    _loop1.channelIsMuted = NO;
+    
+    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+    
+    flagSong = NO;
+    
 //    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
 //    
 ////    NSLog(@"1.) %@", resourceURL);
 //    NSURL* url = [NSURL URLWithString:resourceURL];
 //    STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:url];
 //    [nowPlayingPlayer setDataSource:dataSource withQueueItemId:[[SampleQueueId alloc] initWithUrl:url andCount:0]];
-//
-//}
+
+}
 //
 //- (void) playNextSong {
 //    
@@ -413,15 +424,15 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //    
 //}
 //
-//#pragma Set current song artwork size
-//- (NSString*) setImageSize:(NSString*)image {
-//    
-//    // Resizing artwork to 300 by 300 pixels
-//    NSString* resizeImage = [[NSString alloc] initWithString:image];
-//    
-//    resizeImage = [resizeImage stringByReplacingOccurrencesOfString:@"large" withString:@"t300x300"];
-//    return resizeImage;
-//}
+#pragma Set current song artwork size
+- (NSString*) setImageSize:(NSString*)image {
+    
+    // Resizing artwork to 300 by 300 pixels
+    NSString* resizeImage = [[NSString alloc] initWithString:image];
+    
+    resizeImage = [resizeImage stringByReplacingOccurrencesOfString:@"large" withString:@"t300x300"];
+    return resizeImage;
+}
 
 
 @end
