@@ -50,7 +50,6 @@
 		B9B76F371B37E93000F63AC4 /* CustomSearchedSongTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F341B37E93000F63AC4 /* CustomSearchedSongTableViewCell.m */; };
 		B9B76F3B1B37E94900F63AC4 /* SongManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F3A1B37E94900F63AC4 /* SongManager.m */; };
 		B9B76F411B37E98A00F63AC4 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F3E1B37E98A00F63AC4 /* MediaPlayerViewController.m */; };
-		B9B76F421B37E98A00F63AC4 /* SampleQueueId.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F401B37E98A00F63AC4 /* SampleQueueId.m */; };
 		B9B76F461B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */; };
 		CD8EB7DF71A63BBFB41C083F /* libPods-MusicBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 360198B029194192A1793D84 /* libPods-MusicBar.a */; };
 /* End PBXBuildFile section */
@@ -149,8 +148,6 @@
 		B9B76F3A1B37E94900F63AC4 /* SongManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongManager.m; sourceTree = "<group>"; };
 		B9B76F3D1B37E98A00F63AC4 /* MediaPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MediaPlayerViewController.h; sourceTree = "<group>"; };
 		B9B76F3E1B37E98A00F63AC4 /* MediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayerViewController.m; sourceTree = "<group>"; };
-		B9B76F3F1B37E98A00F63AC4 /* SampleQueueId.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SampleQueueId.h; sourceTree = "<group>"; };
-		B9B76F401B37E98A00F63AC4 /* SampleQueueId.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SampleQueueId.m; sourceTree = "<group>"; };
 		B9B76F441B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySearchedSongsSearchControllerTableViewController.h; sourceTree = "<group>"; };
 		B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySearchedSongsSearchControllerTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -468,8 +465,6 @@
 			children = (
 				B9B76F3D1B37E98A00F63AC4 /* MediaPlayerViewController.h */,
 				B9B76F3E1B37E98A00F63AC4 /* MediaPlayerViewController.m */,
-				B9B76F3F1B37E98A00F63AC4 /* SampleQueueId.h */,
-				B9B76F401B37E98A00F63AC4 /* SampleQueueId.m */,
 			);
 			name = "Media Player Tab";
 			sourceTree = "<group>";
@@ -648,7 +643,6 @@
 				B9B76F351B37E93000F63AC4 /* SearchSongsTableViewController.m in Sources */,
 				B967734C1B32331A00C01AAF /* main.m in Sources */,
 				B93D900B1B3242FD00A2947C /* PlaylistFriend.m in Sources */,
-				B9B76F421B37E98A00F63AC4 /* SampleQueueId.m in Sources */,
 				B9B76F251B37E8D000F63AC4 /* AddiLListTableViewController.m in Sources */,
 				B93D8FF61B3242FC00A2947C /* Playlist.m in Sources */,
 				B93D90051B3242FD00A2947C /* FriendPhonenumber.m in Sources */,
