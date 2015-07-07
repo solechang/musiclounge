@@ -409,7 +409,7 @@
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
-                NSLog(@"1.)");
+
                 [vc.tableView reloadData];
             }
             
