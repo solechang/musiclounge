@@ -13,8 +13,6 @@
 
 #import "AFNetworking.h"
 
-#import "TheAmazingAudioEngine.h"
-
 //#import "iLLApiClient.h"
 
 // CoreData
@@ -28,13 +26,19 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
+#import "FSAudioStream.h"
+#import "FSAudioController.h"
+
 static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 @interface MediaPlayerViewController ()
 {
+    
+    FSAudioStream *audioStream;
+    FSAudioController *audioController;
+    
+    
     NSTimer* timer;
-
-//    STKAudioPlayer *nowPlayingPlayer;
     
     NSMutableArray *currentPlayList;
     
@@ -45,7 +49,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *currentSong;
 }
 
-@property (nonatomic, strong) AEAudioController *audioController;
+@property (nonatomic,strong) NSTimer *progressUpdateTimer;
+@property (nonatomic,strong) NSTimer *playbackSeekTimer;
+@property (nonatomic,assign) double seekToPoint;
+@property (nonatomic,assign) BOOL enableLogging;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *currentPlaylistButton;
 @property (weak, nonatomic) IBOutlet UISlider *musicSlider;
@@ -67,12 +74,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [super viewDidLoad];
     // Instantiate the audio player
-    self.audioController = [[AEAudioController alloc]
-                            initWithAudioDescription:[AEAudioController nonInterleaved16BitStereoAudioDescription]
-                            inputEnabled:YES];
-    
-    
     [self setNSManagedObjectContext];
+    
+    audioStream = [[FSAudioStream alloc] init];
+    audioController = [[FSAudioController alloc] init];
+    
 
     currentPlayList = [[NSMutableArray alloc] init];
     
@@ -84,6 +90,239 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     defaultContext = [NSManagedObjectContext MR_defaultContext];
 }
+
+- (void)viewWillAppear:(BOOL)animated {
+    __weak typeof(self) weakSelf = self;
+    audioController.onStateChange = ^(FSAudioStreamState state) {
+        switch (state) {
+                
+            case kFsAudioStreamRetrievingURL:
+//                weakSelf.enableLogging = NO;
+//                
+//                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//                
+//                [weakSelf showStatus:@"Retrieving URL..."];
+//                
+//                weakSelf.statusLabel.text = @"";
+//                
+//                weakSelf.progressSlider.enabled = NO;
+//                weakSelf.playButton.hidden = YES;
+//                weakSelf.pauseButton.hidden = NO;
+//                weakSelf.paused = NO;
+//                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrieving URL"];
+                
+                break;
+                
+            case kFsAudioStreamStopped:
+//                weakSelf.enableLogging = NO;
+//                
+//                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//                
+//                weakSelf.statusLabel.text = @"";
+//                
+//                weakSelf.progressSlider.enabled = NO;
+//                weakSelf.playButton.hidden = NO;
+//                weakSelf.pauseButton.hidden = YES;
+//                weakSelf.paused = NO;
+//                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: stopped"];
+                
+                break;
+                
+            case kFsAudioStreamBuffering: {
+//                if (weakSelf.initialBuffering) {
+//                    weakSelf.enableLogging = NO;
+//                    weakSelf.initialBuffering = NO;
+//                } else {
+//                    weakSelf.enableLogging = YES;
+//                }
+//                
+//                NSString *bufferingStatus = nil;
+//                if (weakSelf.configuration.usePrebufferSizeCalculationInSeconds) {
+//                    bufferingStatus = [[NSString alloc] initWithFormat:@"Buffering %f seconds...", weakSelf.audioController.activeStream.configuration.requiredPrebufferSizeInSeconds];
+//                } else {
+//                    bufferingStatus = [[NSString alloc] initWithFormat:@"Buffering %i bytes...", (weakSelf.audioController.activeStream.continuous ? weakSelf.configuration.requiredInitialPrebufferedByteCountForContinuousStream :
+//                                                                                                  weakSelf.configuration.requiredInitialPrebufferedByteCountForNonContinuousStream)];
+//                }
+//                
+//                [weakSelf showStatus:bufferingStatus];
+//                
+//                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//                weakSelf.progressSlider.enabled = NO;
+//                weakSelf.playButton.hidden = YES;
+//                weakSelf.pauseButton.hidden = NO;
+//                weakSelf.paused = NO;
+//                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: buffering"];
+                
+                break;
+            }
+                
+            case kFsAudioStreamSeeking:
+//                self.enableLogging = NO;
+//
+//                [weakSelf showStatus:@"Seeking..."];
+//                
+//                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
+//                weakSelf.progressSlider.enabled = NO;
+//                weakSelf.playButton.hidden = YES;
+//                weakSelf.pauseButton.hidden = NO;
+//                weakSelf.paused = NO;
+//                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: seeking"];
+                
+                break;
+                
+            case kFsAudioStreamPlaying:
+//                self.enableLogging = YES;
+                
+
+                
+                weakSelf.musicSlider.enabled = YES;
+                
+                if (!weakSelf.progressUpdateTimer) {
+                    weakSelf.progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                                                    target:weakSelf
+                                                                                  selector:@selector(updatePlaybackProgress)
+                                                                                  userInfo:nil
+                                                                                   repeats:YES];
+                }
+                
+//                if (weakSelf.volumeBeforeRamping > 0) {
+//                    // If we have volume before ramping set, it means we were seeked
+//                    
+//#if PAUSE_AFTER_SEEKING
+//                    [weakSelf pause:weakSelf];
+//                    weakSelf.audioController.volume = weakSelf.volumeBeforeRamping;
+//                    weakSelf.volumeBeforeRamping = 0;
+//                    
+//                    break;
+//#else
+//                    weakSelf.rampStep = 1;
+//                    weakSelf.rampStepCount = 5; // 50ms and 5 steps = 250ms ramp
+//                    weakSelf.rampUp = true;
+//                    weakSelf.postRampAction = @selector(finalizeSeeking);
+//                    
+//                    weakSelf.volumeRampTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 // 50ms
+//                                                                                target:weakSelf
+//                                                                              selector:@selector(rampVolume)
+//                                                                              userInfo:nil
+//                                                                               repeats:YES];
+//#endif
+//                }
+//                [weakSelf toggleNextPreviousButtons];
+//                weakSelf.playButton.hidden = YES;
+//                weakSelf.pauseButton.hidden = NO;
+//                weakSelf.paused = NO;
+                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: playing"];
+                
+                break;
+                
+            case kFsAudioStreamFailed:
+//                weakSelf.enableLogging = YES;
+//                
+//                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
+//                weakSelf.progressSlider.enabled = NO;
+//                weakSelf.playButton.hidden = NO;
+//                weakSelf.pauseButton.hidden = YES;
+//                weakSelf.paused = NO;
+//                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: failed"];
+                
+                break;
+            case kFsAudioStreamPlaybackCompleted:
+//                weakSelf.enableLogging = NO;
+//                
+//                [weakSelf toggleNextPreviousButtons];
+//                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: playback completed"];
+                
+                break;
+                
+            case kFsAudioStreamRetryingStarted:
+                weakSelf.enableLogging = YES;
+                
+//                [weakSelf showStatus:@"Attempt to retry playback..."];
+                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrying started"];
+                
+                break;
+                
+            case kFsAudioStreamRetryingSucceeded:
+                weakSelf.enableLogging = YES;
+                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrying succeeded"];
+                
+                break;
+                
+            case kFsAudioStreamRetryingFailed:
+//                weakSelf.enableLogging = YES;
+//                
+//                [weakSelf showErrorStatus:@"Failed to retry playback"];
+//                
+//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrying failed"];
+                
+                break;
+                
+            default:
+                break;
+
+                
+        }
+    };
+    
+}
+
+- (void)updatePlaybackProgress
+{
+    if (audioController.activeStream.continuous) {
+        self.musicSlider.enabled = NO;
+        self.musicSlider.value = 0;
+        self.startTime.text = @"";
+    } else {
+        self.musicSlider.enabled = YES;
+        
+        FSStreamPosition cur = audioController.activeStream.currentTimePlayed;
+        FSStreamPosition end = audioController.activeStream.duration;
+        
+        self.musicSlider.value = cur.position;
+        
+        self.startTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
+                                         cur.minute, cur.second,
+                                         end.minute, end.second];
+    }
+    
+//    self.bufferingIndicator.hidden = NO;
+//    self.prebufferStatus.hidden = YES;
+    
+}
+
+- (void)seekToNewTime
+{
+//    self.musicSlider.enabled = NO;
+//    
+//    // Fade out the volume to avoid pops
+//    _volumeBeforeRamping = audioController.volume;
+//    
+//    if (_volumeBeforeRamping > 0) {
+//        _rampStep = 1;
+//        _rampStepCount = 5; // 50ms and 5 steps = 250ms ramp
+//        _rampUp = false;
+//        _postRampAction = @selector(doSeeking);
+//        
+//        _volumeRampTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 // 50ms
+//                                                            target:self
+//                                                          selector:@selector(rampVolume)
+//                                                          userInfo:nil
+//                                                           repeats:YES];
+//    } else {
+//        // Just directly seek, volume is already 0
+//        [self doSeeking];
+//    }
+}
+
 
 - (void)viewDidAppear:(BOOL)animated {
     
@@ -144,7 +383,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 - (void) checkNowPlayingPlaylistId {
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-    NSLog(@"nowPlayuing: %@", nowPlaying.playlistId);
+
     if ([nowPlaying.playlistId isEqualToString:@""]) {
         
         NSLog(@"No songs to be played");
@@ -158,9 +397,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 #pragma mark - setCurrentPlayList
 - (void) getSongsFromLocal: (NowPlaying* )nowPlaying {
-    NSLog(@"1.)");
+
     NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
-        currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
+    
+    currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
+    
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
     
     // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
@@ -188,13 +429,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 #pragma mark - Set current play list
 - (void) setCurrentPlaylist {
-    
+
+  
 //    [self setupTimer];
 //    [self updateControls];
     
-//    [self.currentPlaylistButton setEnabled:YES];
+    [self.currentPlaylistButton setEnabled:YES];
 
-//    [self playSong];
+    [self playSong];
 
 
 }
@@ -286,31 +528,39 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
   
 }
 //
-//- (void) playSong {
-//
-//    
-//    NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-//    
-//    NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
-//    
-//    currentSong = nowplayingSong;
-//    
-//    self.currentPlaylistButton.title = nowPlaying.playlistName;
-//    
-//    self.songTitle.text = nowplayingSong.title;
-//    
-//    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
-//    
-//    flagSong = NO;
-//    
+- (void) playSong {
+    
+    
+    NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
+    
+    NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
+    
+    currentSong = nowplayingSong;
+    
+    self.currentPlaylistButton.title = nowPlaying.playlistName;
+    
+    self.songTitle.text = nowplayingSong.title;
+    NSLog(@"1.) %@", nowplayingSong.title);
+    
+    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+    NSURL* url = [NSURL URLWithString:resourceURL];
+
+    NSLog(@"2.) %@", resourceURL);
+    
+    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+    
+    flagSong = NO;
+    
+    [audioStream playFromURL:url];
+    
 //    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
 //    
 ////    NSLog(@"1.) %@", resourceURL);
 //    NSURL* url = [NSURL URLWithString:resourceURL];
 //    STKDataSource* dataSource = [STKAudioPlayer dataSourceFromURL:url];
 //    [nowPlayingPlayer setDataSource:dataSource withQueueItemId:[[SampleQueueId alloc] initWithUrl:url andCount:0]];
-//
-//}
+
+}
 //
 //- (void) playNextSong {
 //    
@@ -413,15 +663,15 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //    
 //}
 //
-//#pragma Set current song artwork size
-//- (NSString*) setImageSize:(NSString*)image {
-//    
-//    // Resizing artwork to 300 by 300 pixels
-//    NSString* resizeImage = [[NSString alloc] initWithString:image];
-//    
-//    resizeImage = [resizeImage stringByReplacingOccurrencesOfString:@"large" withString:@"t300x300"];
-//    return resizeImage;
-//}
+#pragma Set current song artwork size
+- (NSString*) setImageSize:(NSString*)image {
+    
+    // Resizing artwork to 300 by 300 pixels
+    NSString* resizeImage = [[NSString alloc] initWithString:image];
+    
+    resizeImage = [resizeImage stringByReplacingOccurrencesOfString:@"large" withString:@"t300x300"];
+    return resizeImage;
+}
 
 
 @end
