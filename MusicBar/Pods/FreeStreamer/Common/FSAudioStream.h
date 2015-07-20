@@ -16,12 +16,12 @@
 /**
  * The minor version of the current release.
  */
-#define FREESTREAMER_VERSION_MINOR          12
+#define FREESTREAMER_VERSION_MINOR          13
 
 /**
  * The reversion of the current release
  */
-#define FREESTREAMER_VERSION_REVISION       11
+#define FREESTREAMER_VERSION_REVISION       5
 
 /**
  * Follow this notification for the audio stream state changes.
@@ -195,6 +195,11 @@ typedef struct {
  * The benefit is that seeking is faster in the case the audio packets are already cached in memory.
  */
 @property (nonatomic,assign) BOOL seekingFromCacheEnabled;
+/**
+ * The property determining if FreeStreamer should handle audio session automatically.
+ * Leave it on if you don't want to handle the audio session by yourself.
+ */
+@property (nonatomic,assign) BOOL automaticAudioSessionHandlingEnabled;
 /**
  * The maximum size of the disk cache in bytes.
  */
@@ -371,6 +376,11 @@ NSString*             freeStreamerReleaseVersion();
  * The property has the suggested file extension for the stream based on the stream content type.
  */
 @property (nonatomic,readonly) NSString *suggestedFileExtension;
+/**
+ * Sets a default content length for the stream.  Used if
+ * the stream content-length is not available.
+ */
+@property (nonatomic, assign) UInt64 defaultContentLength;
 /**
  * The property has the content length of the stream (in bytes). The length is zero if
  * the stream is continuous.

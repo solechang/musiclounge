@@ -92,6 +92,7 @@ static NSInteger sortCacheObjects(id co1, id co2, void *keyForSorting)
         self.userAgent = [NSString stringWithFormat:@"FreeStreamer/%@ (%@)", freeStreamerReleaseVersion(), systemVersion];
         self.cacheEnabled = YES;
         self.seekingFromCacheEnabled = YES;
+        self.automaticAudioSessionHandlingEnabled = YES;
         self.maxDiskCacheSize = 256000000; // 256 MB
         self.usePrebufferSizeCalculationInSeconds = YES;
         self.requiredPrebufferSizeInSeconds = 7;
@@ -234,6 +235,7 @@ public:
 @property (nonatomic,assign) NSString *defaultContentType;
 @property (readonly) NSString *contentType;
 @property (readonly) NSString *suggestedFileExtension;
+@property (nonatomic, assign) UInt64 defaultContentLength;
 @property (readonly) UInt64 contentLength;
 @property (nonatomic,assign) NSURL *outputFile;
 @property (nonatomic,assign) BOOL wasInterrupted;
@@ -328,7 +330,9 @@ public:
             }
         }
         
-        [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+        if (self.configuration.automaticAudioSessionHandlingEnabled) {
+            [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:nil];
+        }
 #endif
         
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
@@ -410,7 +414,13 @@ public:
         [fsAudioStreamPrivateActiveSessions removeObjectForKey:[NSNumber numberWithUnsignedLong:(unsigned long)self]];
         
         if ([fsAudioStreamPrivateActiveSessions count] == 0) {
-            [[AVAudioSession sharedInstance] setActive:NO error:nil];
+            if (self.configuration.automaticAudioSessionHandlingEnabled) {
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
+                [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+#else
+                [[AVAudioSession sharedInstance] setActive:NO error:nil];
+#endif
+            }
         }
     }
 #endif
@@ -542,6 +552,11 @@ public:
     return suggestedFileExtension;
 }
 
+- (UInt64)defaultContentLength
+{
+    return _audioStream->defaultContentLength();
+}
+
 - (UInt64)contentLength
 {
     return _audioStream->contentLength();
@@ -634,6 +649,7 @@ public:
     config.requiredPrebufferSizeInSeconds = c->requiredPrebufferSizeInSeconds;
     config.cacheEnabled             = c->cacheEnabled;
     config.seekingFromCacheEnabled  = c->seekingFromCacheEnabled;
+    config.automaticAudioSessionHandlingEnabled = c->automaticAudioSessionHandlingEnabled;
     config.maxDiskCacheSize         = c->maxDiskCacheSize;
     
     if (c->userAgent) {
@@ -728,7 +744,9 @@ public:
             self.wasInterrupted = NO;
             
             @synchronized (self) {
-                [[AVAudioSession sharedInstance] setActive:YES error:nil];
+                if (self.configuration.automaticAudioSessionHandlingEnabled) {
+                    [[AVAudioSession sharedInstance] setActive:YES error:nil];
+                }
                 fsAudioStreamPrivateActiveSessions[[NSNumber numberWithUnsignedLong:(unsigned long)self]] = @"";
             }
             
@@ -761,7 +779,13 @@ public:
         [fsAudioStreamPrivateActiveSessions removeObjectForKey:[NSNumber numberWithUnsignedLong:(unsigned long)self]];
         
         if ([fsAudioStreamPrivateActiveSessions count] == 0) {
-            [[AVAudioSession sharedInstance] setActive:NO error:nil];
+            if (self.configuration.automaticAudioSessionHandlingEnabled) {
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
+                [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+#else
+                [[AVAudioSession sharedInstance] setActive:NO error:nil];
+#endif
+            }
         }
     }
 #endif
@@ -779,7 +803,9 @@ public:
 {
 #if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 40000)
     @synchronized (self) {
-        [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        if (self.configuration.automaticAudioSessionHandlingEnabled) {
+            [[AVAudioSession sharedInstance] setActive:YES error:nil];
+        }
         fsAudioStreamPrivateActiveSessions[[NSNumber numberWithUnsignedLong:(unsigned long)self]] = @"";
     }
 #endif
@@ -816,7 +842,13 @@ public:
         [fsAudioStreamPrivateActiveSessions removeObjectForKey:[NSNumber numberWithUnsignedLong:(unsigned long)self]];
         
         if ([fsAudioStreamPrivateActiveSessions count] == 0) {
-            [[AVAudioSession sharedInstance] setActive:NO error:nil];
+            if (self.configuration.automaticAudioSessionHandlingEnabled) {
+#if (__IPHONE_OS_VERSION_MIN_REQUIRED >= 60000)
+                [[AVAudioSession sharedInstance] setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
+#else
+                [[AVAudioSession sharedInstance] setActive:NO error:nil];
+#endif
+            }
         }
     }
 #endif
@@ -1065,7 +1097,7 @@ public:
 
 -(NSString *)description
 {
-    return [NSString stringWithFormat:@"[FreeStreamer %@] URL: %@\nbufferCount: %i\nbufferSize: %i\nmaxPacketDescs: %i\ndecodeQueueSize: %i\nhttpConnectionBufferSize: %i\noutputSampleRate: %f\noutputNumChannels: %ld\nbounceInterval: %i\nmaxBounceCount: %i\nstartupWatchdogPeriod: %i\nmaxPrebufferedByteCount: %i\nformat: %@\nbit rate: %f\nuserAgent: %@\ncacheDirectory: %@\npredefinedHttpHeaderValues: %@\ncacheEnabled: %@\nseekingFromCacheEnabled: %@\nmaxDiskCacheSize: %i\nusePrebufferSizeCalculationInSeconds: %@\nrequiredPrebufferSizeInSeconds: %f\nrequiredInitialPrebufferedByteCountForContinuousStream: %i\nrequiredInitialPrebufferedByteCountForNonContinuousStream: %i",
+    return [NSString stringWithFormat:@"[FreeStreamer %@] URL: %@\nbufferCount: %i\nbufferSize: %i\nmaxPacketDescs: %i\ndecodeQueueSize: %i\nhttpConnectionBufferSize: %i\noutputSampleRate: %f\noutputNumChannels: %ld\nbounceInterval: %i\nmaxBounceCount: %i\nstartupWatchdogPeriod: %i\nmaxPrebufferedByteCount: %i\nformat: %@\nbit rate: %f\nuserAgent: %@\ncacheDirectory: %@\npredefinedHttpHeaderValues: %@\ncacheEnabled: %@\nseekingFromCacheEnabled: %@\nautomaticAudioSessionHandlingEnabled: %@\nmaxDiskCacheSize: %i\nusePrebufferSizeCalculationInSeconds: %@\nrequiredPrebufferSizeInSeconds: %f\nrequiredInitialPrebufferedByteCountForContinuousStream: %i\nrequiredInitialPrebufferedByteCountForNonContinuousStream: %i",
             freeStreamerReleaseVersion(),
             self.url,
             self.configuration.bufferCount,
@@ -1086,6 +1118,7 @@ public:
             self.configuration.predefinedHttpHeaderValues,
             (self.configuration.cacheEnabled ? @"YES" : @"NO"),
             (self.configuration.seekingFromCacheEnabled ? @"YES" : @"NO"),
+            (self.configuration.automaticAudioSessionHandlingEnabled ? @"YES" : @"NO"),
             self.configuration.maxDiskCacheSize,
             (self.configuration.usePrebufferSizeCalculationInSeconds ? @"YES" : @"NO"),
             self.configuration.requiredPrebufferSizeInSeconds,
@@ -1146,6 +1179,7 @@ public:
         c->usePrebufferSizeCalculationInSeconds = configuration.usePrebufferSizeCalculationInSeconds;
         c->cacheEnabled             = configuration.cacheEnabled;
         c->seekingFromCacheEnabled  = configuration.seekingFromCacheEnabled;
+        c->automaticAudioSessionHandlingEnabled = configuration.automaticAudioSessionHandlingEnabled;
         c->maxDiskCacheSize         = configuration.maxDiskCacheSize;
         c->requiredInitialPrebufferedByteCountForContinuousStream = configuration.requiredInitialPrebufferedByteCountForContinuousStream;
         c->requiredInitialPrebufferedByteCountForNonContinuousStream = configuration.requiredInitialPrebufferedByteCountForNonContinuousStream;
@@ -1263,6 +1297,13 @@ public:
     NSAssert([NSThread isMainThread], @"FSAudioStream.suggestedFileExtension needs to be called in the main thread");
     
     return [_private suggestedFileExtension];
+}
+
+- (UInt64)defaultContentLength
+{
+    NSAssert([NSThread isMainThread], @"FSAudioStream.defaultContentLength needs to be called in the main thread");
+    
+    return [_private defaultContentLength];
 }
 
 - (UInt64)contentLength
@@ -1679,7 +1720,7 @@ void AudioStreamStateObserver::audioStreamStateChanged(astreamer::Audio_Stream::
     
     // Detach from the player so that the event loop can complete its cycle.
     // This ensures that the stream gets closed, if needs to be.
-    [NSTimer scheduledTimerWithTimeInterval:0.1
+    [NSTimer scheduledTimerWithTimeInterval:0
                                      target:priv
                                    selector:notificationHandler
                                    userInfo:nil
