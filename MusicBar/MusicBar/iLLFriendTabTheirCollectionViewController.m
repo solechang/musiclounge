@@ -431,7 +431,7 @@
         _control.bouncySelectionIndicator = YES;
         
         _control.height = 54.0f;
-        _control.width = 320.0f;
+        _control.width = self.view.bounds.size.width;
         _control.showsGroupingSeparators = YES;
 
         _control.tintColor = [UIColor colorWithRed:(202/255.0) green:(84/255.0) blue:(158/255.0) alpha:1];
