@@ -58,7 +58,7 @@
 #define COCOAPODS_POD_AVAILABLE_CSStickyHeaderFlowLayout
 #define COCOAPODS_VERSION_MAJOR_CSStickyHeaderFlowLayout 0
 #define COCOAPODS_VERSION_MINOR_CSStickyHeaderFlowLayout 2
-#define COCOAPODS_VERSION_PATCH_CSStickyHeaderFlowLayout 7
+#define COCOAPODS_VERSION_PATCH_CSStickyHeaderFlowLayout 8
 
 // CocoaSoundCloudAPI
 #define COCOAPODS_POD_AVAILABLE_CocoaSoundCloudAPI
@@ -75,8 +75,8 @@
 // DZNEmptyDataSet
 #define COCOAPODS_POD_AVAILABLE_DZNEmptyDataSet
 #define COCOAPODS_VERSION_MAJOR_DZNEmptyDataSet 1
-#define COCOAPODS_VERSION_MINOR_DZNEmptyDataSet 5
-#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 2
+#define COCOAPODS_VERSION_MINOR_DZNEmptyDataSet 6
+#define COCOAPODS_VERSION_PATCH_DZNEmptyDataSet 1
 
 // DZNSegmentedControl
 #define COCOAPODS_POD_AVAILABLE_DZNSegmentedControl
@@ -87,8 +87,8 @@
 // FreeStreamer
 #define COCOAPODS_POD_AVAILABLE_FreeStreamer
 #define COCOAPODS_VERSION_MAJOR_FreeStreamer 2
-#define COCOAPODS_VERSION_MINOR_FreeStreamer 12
-#define COCOAPODS_VERSION_PATCH_FreeStreamer 11
+#define COCOAPODS_VERSION_MINOR_FreeStreamer 13
+#define COCOAPODS_VERSION_PATCH_FreeStreamer 5
 
 // MagicalRecord
 #define COCOAPODS_POD_AVAILABLE_MagicalRecord
@@ -110,9 +110,10 @@
 
 // Parse
 #define COCOAPODS_POD_AVAILABLE_Parse
-#define COCOAPODS_VERSION_MAJOR_Parse 1
-#define COCOAPODS_VERSION_MINOR_Parse 7
-#define COCOAPODS_VERSION_PATCH_Parse 4
+// This library does not follow semantic-versioning,
+// so we were not able to define version macros.
+// Please contact the author.
+// Version: 1.7.5.2.
 
 // RHAddressBook
 #define COCOAPODS_POD_AVAILABLE_RHAddressBook
@@ -130,13 +131,13 @@
 #define COCOAPODS_POD_AVAILABLE_SDWebImage
 #define COCOAPODS_VERSION_MAJOR_SDWebImage 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage 7
-#define COCOAPODS_VERSION_PATCH_SDWebImage 2
+#define COCOAPODS_VERSION_PATCH_SDWebImage 3
 
 // SDWebImage/Core
 #define COCOAPODS_POD_AVAILABLE_SDWebImage_Core
 #define COCOAPODS_VERSION_MAJOR_SDWebImage_Core 3
 #define COCOAPODS_VERSION_MINOR_SDWebImage_Core 7
-#define COCOAPODS_VERSION_PATCH_SDWebImage_Core 2
+#define COCOAPODS_VERSION_PATCH_SDWebImage_Core 3
 
 // SVProgressHUD
 #define COCOAPODS_POD_AVAILABLE_SVProgressHUD
