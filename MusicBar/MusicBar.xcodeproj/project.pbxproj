@@ -529,6 +529,7 @@
 				TargetAttributes = {
 					B96773451B32331A00C01AAF = {
 						CreatedOnToolsVersion = 6.3.1;
+						DevelopmentTeam = XC864BZSDA;
 					};
 					B967735E1B32331A00C01AAF = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -779,9 +780,12 @@
 			baseConfigurationReference = 1E6E3A4ABE80FBEEAFC25546 /* Pods-MusicBar.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -790,9 +794,12 @@
 			baseConfigurationReference = 15A8B0BA37EEF5B3A5ED56A7 /* Pods-MusicBar.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
