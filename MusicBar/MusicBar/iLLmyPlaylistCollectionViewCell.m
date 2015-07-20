@@ -44,8 +44,8 @@ const float UI_CUES_MARGIN = 0.0f;
         
         [_labelPlaylistTitle setTextColor:[UIColor blackColor]];
         [_labelPlaylistTitle setBackgroundColor:[UIColor clearColor]];
-        [_labelPlaylistTitle  setFont:[UIFont fontWithName: @"Helvetica" size: 16.0f]];
-        [[self labelPlaylistTitle] setFrame:CGRectMake(30.f, 17.0f, 257.f, 21.f)];
+        [_labelPlaylistTitle  setFont:[UIFont fontWithName: @"Helvetica" size: 14.0f]];
+        [[self labelPlaylistTitle] setFrame:CGRectMake(30.f, 20.0f, 257.f, 21.f)];
 
         [[self labelPlaylistTitle] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [[self contentView] addSubview:[self labelPlaylistTitle]];
@@ -54,7 +54,7 @@ const float UI_CUES_MARGIN = 0.0f;
         [_labelPlaylistCreator setTextColor:[UIColor blackColor]];
         [_labelPlaylistCreator setBackgroundColor:[UIColor clearColor]];
         [_labelPlaylistCreator  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
-        [[self labelPlaylistCreator] setFrame:CGRectMake(200.f, 25.f, 257.f, 21.f)];
+        [[self labelPlaylistCreator] setFrame:CGRectMake(280.f, 25.f, 257.f, 21.f)];
         
         [[self labelPlaylistCreator] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [[self contentView] addSubview:[self labelPlaylistCreator]];
