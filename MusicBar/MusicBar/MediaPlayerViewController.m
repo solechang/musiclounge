@@ -28,13 +28,13 @@
 
 #import "FSAudioStream.h"
 #import "FSAudioController.h"
+#import "FSPlaylistItem.h"
 
 static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 @interface MediaPlayerViewController ()
 {
-    
-    FSAudioStream *audioStream;
+
     FSAudioController *audioController;
     
     
@@ -75,10 +75,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [super viewDidLoad];
     // Instantiate the audio player
     [self setNSManagedObjectContext];
-    
-    audioStream = [[FSAudioStream alloc] init];
+
     audioController = [[FSAudioController alloc] init];
     
+    self.userPlaylistItems = [[NSMutableArray alloc] init];
 
     currentPlayList = [[NSMutableArray alloc] init];
     
@@ -97,6 +97,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         switch (state) {
                 
             case kFsAudioStreamRetrievingURL:
+                NSLog(@"1.)");
 //                weakSelf.enableLogging = NO;
 //                
 //                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
@@ -115,6 +116,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamStopped:
+                NSLog(@"2.)");
 //                weakSelf.enableLogging = NO;
 //                
 //                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -131,6 +133,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamBuffering: {
+                NSLog(@"3.)");
 //                if (weakSelf.initialBuffering) {
 //                    weakSelf.enableLogging = NO;
 //                    weakSelf.initialBuffering = NO;
@@ -160,6 +163,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             }
                 
             case kFsAudioStreamSeeking:
+                
+                NSLog(@"4.)");
 //                self.enableLogging = NO;
 //
 //                [weakSelf showStatus:@"Seeking..."];
@@ -175,6 +180,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamPlaying:
+                
+                NSLog(@"5.)");
 //                self.enableLogging = YES;
                 
 
@@ -221,6 +228,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamFailed:
+                NSLog(@"6.)");
 //                weakSelf.enableLogging = YES;
 //                
 //                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
@@ -233,6 +241,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
+                NSLog(@"7.)");
 //                weakSelf.enableLogging = NO;
 //                
 //                [weakSelf toggleNextPreviousButtons];
@@ -242,6 +251,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamRetryingStarted:
+                NSLog(@"8.)");
                 weakSelf.enableLogging = YES;
                 
 //                [weakSelf showStatus:@"Attempt to retry playback..."];
@@ -251,6 +261,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamRetryingSucceeded:
+                NSLog(@"9.)");
                 weakSelf.enableLogging = YES;
                 
 //                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrying succeeded"];
@@ -258,6 +269,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamRetryingFailed:
+                NSLog(@"10.)");
 //                weakSelf.enableLogging = YES;
 //                
 //                [weakSelf showErrorStatus:@"Failed to retry playback"];
@@ -274,6 +286,27 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     };
     
 }
+
+- (void)addUserPlaylistItems
+{
+    for (FSPlaylistItem *item in self.userPlaylistItems) {
+        BOOL alreadyInPlaylist = NO;
+        
+        for (FSPlaylistItem *existingItem in self.playlistItems) {
+            if ([existingItem isEqual:item]) {
+                
+                alreadyInPlaylist = YES;
+                
+                break;
+            }
+        }
+        
+        if (!alreadyInPlaylist) {
+            [self.playlistItems addObject:item];
+        }
+    }
+}
+
 
 - (void)updatePlaybackProgress
 {
@@ -301,6 +334,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)seekToNewTime
 {
+    
+    
+    
 //    self.musicSlider.enabled = NO;
 //    
 //    // Fade out the volume to avoid pops
@@ -551,7 +587,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     flagSong = NO;
     
-    [audioStream playFromURL:url];
+//    [audioStream playFromURL:url];
     
 //    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
 //    
