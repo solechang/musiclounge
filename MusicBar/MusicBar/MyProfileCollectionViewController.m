@@ -435,7 +435,7 @@
     {
         
 //        _menuItems = @[[@"My Lounges" uppercaseString], [@"All Lounges" uppercaseString]];
-        _menuItems = @[[@"My Lounges" uppercaseString]];
+        _menuItems = @[[@"Lounges" uppercaseString]];
         _control = [[DZNSegmentedControl alloc] initWithItems:self.menuItems];
         
         _control.selectedSegmentIndex = 0;
