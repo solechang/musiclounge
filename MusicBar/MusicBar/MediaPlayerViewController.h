@@ -11,4 +11,9 @@
 
 @interface MediaPlayerViewController : UIViewController //<STKAudioPlayerDelegate>
 
+
+@property (nonatomic,strong) NSMutableArray *userPlaylistItems;
+
+@property (nonatomic,strong) NSMutableArray *playlistItems;
+
 @end
