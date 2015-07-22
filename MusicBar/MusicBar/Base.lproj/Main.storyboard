@@ -1175,7 +1175,7 @@
                                     <action selector="nextButton:" destination="YFn-IZ-gpz" eventType="touchUpInside" id="TyR-7J-NHu"/>
                                 </connections>
                             </button>
-                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Ciz-Ba-yfu">
+                            <slider opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ciz-Ba-yfu">
                                 <rect key="frame" x="22" y="333" width="277" height="31"/>
                                 <connections>
                                     <action selector="musicSlider:" destination="YFn-IZ-gpz" eventType="valueChanged" id="exD-Os-FBA"/>

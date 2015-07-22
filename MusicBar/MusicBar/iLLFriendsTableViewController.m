@@ -121,6 +121,7 @@
 
 #pragma mark - Check if Contactbook is authorized
 -(void) authorizeUserAddressbook {
+    
     // TODO: Prompt the user to change settings in the Settings when user's doesn't authorize the addressbook
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
         ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted ) {
