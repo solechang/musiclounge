@@ -307,7 +307,6 @@
                 currentUserFriendList.hostId = [[PFUser currentUser] objectId];
                 currentUserFriendList.objectId = userFriendList.objectId;
                 
-
                 currentUser.userFriendList = currentUserFriendList;
                 
             } completion:^(BOOL success, NSError *error) {
