@@ -531,39 +531,58 @@
 #pragma mark - Setting now playhing object
 
 -(void)setCurrentIllistNowPlaying: (NSIndexPath *) indexPath {
-//    [self.navigationItem.backBarButtonItem setEnabled:NO];
-    
+
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
-        NSIndexPath *path = indexPath;
-        NSInteger row = path.row;
         
         NowPlaying *nowPlayingDelete = [NowPlaying MR_findFirstInContext:localContext];
         [nowPlayingDelete MR_deleteEntityInContext:localContext];
+        
+        NSArray *nowPlayingSongArrayToDelete = [NowPlayingSong MR_findAllInContext:localContext];
+        
+        for (NowPlayingSong *nowPlayingSongDelete in nowPlayingSongArrayToDelete) {
+
+            [nowPlayingSongDelete MR_deleteEntityInContext:localContext];
+            
+        }
+
+
+    } completion:^(BOOL success, NSError *error) {
+
+        if (!error) {
+            [self setUpNowPlayingSongs:indexPath];
+            
+   
+  
+        } else {
+            NSLog(@"Error 653 %@", error);
+        }
+
+    }];
+    
+    
+}
+
+- (void) setUpNowPlayingSongs:(NSIndexPath *) indexPath {
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        NSIndexPath *path = indexPath;
+        NSInteger row = path.row;
+
+        
+        NSArray *songsInLocalArray = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:localContext];
         
         NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
         nowPlaying.playlistId = self.playlistInfo.objectId;
         nowPlaying.songIndex = [NSNumber numberWithInteger:row];
         nowPlaying.playlistName = self.playlistInfo.name;
         nowPlaying.updatedAt = [NSDate date];
-
+        
         Song *currentSong = [iLListTracks objectAtIndex:indexPath.row];
         nowPlaying.currentlyPlayingSongId = currentSong.objectId;
 
-        NSArray *nowPlayingSongArrayToDelete = [NowPlayingSong MR_findAllInContext:localContext];
-        
-        for (NowPlayingSong *nowPlayingSongDelete in nowPlayingSongArrayToDelete) {
-            NSLog(@"2.) nowPlayingSongDelete:%@", nowPlayingSongDelete.title);
-            [nowPlayingSongDelete MR_deleteEntityInContext:localContext];
-            
-        }
-        
-        
-        NSArray *songsInLocalArray = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:localContext];
-
-//        [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
         for ( Song *songsInLocal in songsInLocalArray ) {
-
+            
             NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_createEntityInContext:localContext];
             
             nowPlayingSong.artwork = songsInLocal.artwork;
@@ -578,20 +597,15 @@
             nowPlayingSong.createdAt = songsInLocal.createdAt;
             
             nowPlayingSong.nowPlaying = nowPlaying;
-            NSLog(@"3.) %@", nowPlayingSong.title);
         }
-
-    } completion:^(BOOL success, NSError *error) {
-
-        if (!error) {
-            
         
-  
-        } else {
-            NSLog(@"Error 653 %@", error);
+    }completion:^(BOOL success, NSError *error) {
+        
+        if (!error) {
+
         }
-   
-      
+    
+        
         
         if(self.tabBarController.selectedIndex == 0) {
             [self backButton:self];
@@ -604,11 +618,8 @@
             [self.tabBarController setSelectedIndex:2];
             
         }
-
-        
+    
     }];
-    
-    
 }
 
 - (IBAction)backButton:(id)sender {

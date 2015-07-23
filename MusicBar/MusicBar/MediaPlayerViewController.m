@@ -342,23 +342,23 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #pragma mark - setCurrentPlayList
 - (void) getSongsFromLocal: (NowPlaying* )nowPlaying {
 
-    NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
+//    NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findByAttribute:@"playlistId" withValue:nowPlaying.playlistId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    
+    NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findByAttribute:@"playlistId" withValue:nowPlaying.playlistId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
     
     currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
     
-//    NSLog(@"4.1) %@", nowPlayingSongsArray);
-    
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
+    
     
     // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
     if (![self checkCurrentSong: nowplayingSong]) {
         
-        for (NowPlayingSong *nowPlayingSong in nowPlayingSongsArray) {
-            
-            NSLog(@"4.) %@", nowplayingSong.title);
+        for (NowPlayingSong *nowPlaying in nowPlayingSongsArray) {
+
             
             FSPlaylistItem *item = [[FSPlaylistItem alloc] init];
-            item.title = nowPlayingSong.title;
+            item.title = nowPlaying.title;
             
             
             NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
