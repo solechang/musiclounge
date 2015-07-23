@@ -88,7 +88,7 @@
 #define COCOAPODS_POD_AVAILABLE_FreeStreamer
 #define COCOAPODS_VERSION_MAJOR_FreeStreamer 2
 #define COCOAPODS_VERSION_MINOR_FreeStreamer 13
-#define COCOAPODS_VERSION_PATCH_FreeStreamer 5
+#define COCOAPODS_VERSION_PATCH_FreeStreamer 6
 
 // MagicalRecord
 #define COCOAPODS_POD_AVAILABLE_MagicalRecord
@@ -113,7 +113,7 @@
 // This library does not follow semantic-versioning,
 // so we were not able to define version macros.
 // Please contact the author.
-// Version: 1.7.5.2.
+// Version: 1.7.5.3.
 
 // RHAddressBook
 #define COCOAPODS_POD_AVAILABLE_RHAddressBook
