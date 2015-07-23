@@ -49,11 +49,20 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *currentSong;
 }
 
+
+
 @property (nonatomic,strong) NSTimer *progressUpdateTimer;
 @property (nonatomic,strong) NSTimer *playbackSeekTimer;
 @property (nonatomic,assign) double seekToPoint;
 @property (nonatomic,assign) BOOL enableLogging;
 @property (nonatomic,assign) float volumeBeforeRamping;
+
+@property (nonatomic,assign) int rampStep;
+@property (nonatomic,assign) int rampStepCount;
+@property (nonatomic,assign) bool rampUp;
+@property (nonatomic,assign) SEL postRampAction;
+
+@property (nonatomic,strong) NSTimer *volumeRampTimer;
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *currentPlaylistButton;
 @property (weak, nonatomic) IBOutlet UISlider *musicSlider;
@@ -95,96 +104,36 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+    
     __weak typeof(self) weakSelf = self;
     audioController.onStateChange = ^(FSAudioStreamState state) {
         switch (state) {
                 
             case kFsAudioStreamRetrievingURL:
-                NSLog(@"1.)");
-//                weakSelf.enableLogging = NO;
-//                
-//                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//                
-//                [weakSelf showStatus:@"Retrieving URL..."];
-//                
-//                weakSelf.statusLabel.text = @"";
-//                
-//                weakSelf.progressSlider.enabled = NO;
-//                weakSelf.playButton.hidden = YES;
-//                weakSelf.pauseButton.hidden = NO;
-//                weakSelf.paused = NO;
-//                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrieving URL"];
+                NSLog(@"1.1.)");
                 
                 break;
                 
             case kFsAudioStreamStopped:
-                NSLog(@"2.)");
-//                weakSelf.enableLogging = NO;
-//                
-//                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//                
-//                weakSelf.statusLabel.text = @"";
-//                
-//                weakSelf.progressSlider.enabled = NO;
-//                weakSelf.playButton.hidden = NO;
-//                weakSelf.pauseButton.hidden = YES;
-//                weakSelf.paused = NO;
-//                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: stopped"];
+                 NSLog(@"1.2.)");
                 
                 break;
                 
             case kFsAudioStreamBuffering: {
-                NSLog(@"3.)");
-//                if (weakSelf.initialBuffering) {
-//                    weakSelf.enableLogging = NO;
-//                    weakSelf.initialBuffering = NO;
-//                } else {
-//                    weakSelf.enableLogging = YES;
-//                }
-//                
-//                NSString *bufferingStatus = nil;
-//                if (weakSelf.configuration.usePrebufferSizeCalculationInSeconds) {
-//                    bufferingStatus = [[NSString alloc] initWithFormat:@"Buffering %f seconds...", weakSelf.audioController.activeStream.configuration.requiredPrebufferSizeInSeconds];
-//                } else {
-//                    bufferingStatus = [[NSString alloc] initWithFormat:@"Buffering %i bytes...", (weakSelf.audioController.activeStream.continuous ? weakSelf.configuration.requiredInitialPrebufferedByteCountForContinuousStream :
-//                                                                                                  weakSelf.configuration.requiredInitialPrebufferedByteCountForNonContinuousStream)];
-//                }
-//                
-//                [weakSelf showStatus:bufferingStatus];
-//                
-//                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//                weakSelf.progressSlider.enabled = NO;
-//                weakSelf.playButton.hidden = YES;
-//                weakSelf.pauseButton.hidden = NO;
-//                weakSelf.paused = NO;
-//                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: buffering"];
+                NSLog(@"1.3.)");
                 
                 break;
             }
                 
             case kFsAudioStreamSeeking:
                 
-                NSLog(@"4.)");
-//                self.enableLogging = NO;
-//
-//                [weakSelf showStatus:@"Seeking..."];
-//                
-//                [UIApplication sharedApplication].networkActivityIndicatorVisible = YES;
-//                weakSelf.progressSlider.enabled = NO;
-//                weakSelf.playButton.hidden = YES;
-//                weakSelf.pauseButton.hidden = NO;
-//                weakSelf.paused = NO;
-//                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: seeking"];
+                NSLog(@"1.4.)");
                 
                 break;
                 
             case kFsAudioStreamPlaying:
                 
-                NSLog(@"5.)");
+                NSLog(@"1.5.)");
                 weakSelf.enableLogging = YES;
 
                 weakSelf.musicSlider.enabled = YES;
@@ -197,89 +146,64 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                                                                                    repeats:YES];
                 }
                 
-//                if (weakSelf.volumeBeforeRamping > 0) {
-//                    // If we have volume before ramping set, it means we were seeked
-//                    
-//#if PAUSE_AFTER_SEEKING
-//                    [weakSelf pause:weakSelf];
-//                    weakSelf.audioController.volume = weakSelf.volumeBeforeRamping;
-//                    weakSelf.volumeBeforeRamping = 0;
-//                    
-//                    break;
-//#else
-//                    weakSelf.rampStep = 1;
-//                    weakSelf.rampStepCount = 5; // 50ms and 5 steps = 250ms ramp
-//                    weakSelf.rampUp = true;
-//                    weakSelf.postRampAction = @selector(finalizeSeeking);
-//                    
-//                    weakSelf.volumeRampTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 // 50ms
-//                                                                                target:weakSelf
-//                                                                              selector:@selector(rampVolume)
-//                                                                              userInfo:nil
-//                                                                               repeats:YES];
-//#endif
-//                }
-//                [weakSelf toggleNextPreviousButtons];
-//                weakSelf.playButton.hidden = YES;
-//                weakSelf.pauseButton.hidden = NO;
-//                weakSelf.paused = NO;
+                if (weakSelf.volumeBeforeRamping > 0) {
+                    // If we have volume before ramping set, it means we were seeked
+                    
+#if PAUSE_AFTER_SEEKING
+                    [weakSelf pause:weakSelf];
+                    weakSelf.audioController.volume = weakSelf.volumeBeforeRamping;
+                    weakSelf.volumeBeforeRamping = 0;
+                    
+                    break;
+#else
+                    weakSelf.rampStep = 1;
+                    weakSelf.rampStepCount = 5; // 50ms and 5 steps = 250ms ramp
+                    weakSelf.rampUp = true;
+                    weakSelf.postRampAction = @selector(finalizeSeeking);
+                    
+                    weakSelf.volumeRampTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 // 50ms
+                                                                                target:weakSelf
+                                                                              selector:@selector(rampVolume)
+                                                                              userInfo:nil
+                                                                               repeats:YES];
+#endif
+                }
+                [weakSelf toggleNextPreviousButtons];
+
                 
 //                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: playing"];
-                
+
                 break;
                 
             case kFsAudioStreamFailed:
-                NSLog(@"6.)");
-//                weakSelf.enableLogging = YES;
-//                
-//                [UIApplication sharedApplication].networkActivityIndicatorVisible = NO;
-//                weakSelf.progressSlider.enabled = NO;
-//                weakSelf.playButton.hidden = NO;
-//                weakSelf.pauseButton.hidden = YES;
-//                weakSelf.paused = NO;
-//                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: failed"];
+                NSLog(@"1.6.)");
+
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
-                NSLog(@"7.)");
-//                weakSelf.enableLogging = NO;
-//                
-//                [weakSelf toggleNextPreviousButtons];
-//                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: playback completed"];
-                
+                NSLog(@"1.7.)");
+                [weakSelf toggleNextPreviousButtons];
                 break;
                 
             case kFsAudioStreamRetryingStarted:
-                NSLog(@"8.)");
+                NSLog(@"1.8.)");
                 weakSelf.enableLogging = YES;
-                
-//                [weakSelf showStatus:@"Attempt to retry playback..."];
-                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrying started"];
+
                 
                 break;
                 
             case kFsAudioStreamRetryingSucceeded:
-                NSLog(@"9.)");
+                NSLog(@"1.9.)");
                 weakSelf.enableLogging = YES;
-                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrying succeeded"];
-                
+
                 break;
                 
             case kFsAudioStreamRetryingFailed:
-                NSLog(@"10.)");
-//                weakSelf.enableLogging = YES;
-//                
-//                [weakSelf showErrorStatus:@"Failed to retry playback"];
-//                
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: retrying failed"];
-                
+                NSLog(@"1.10.)");
                 break;
                 
             default:
+                NSLog(@"1.11.)");
                 break;
 
                 
@@ -311,14 +235,15 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)updatePlaybackProgress
 {
-    NSLog(@"0.)");
+//    NSLog(@"0.)");
 //
-//    if (audioController.activeStream.continuous) {
+    if (audioController.activeStream.continuous) {
 //            NSLog(@"0.1)");
-//        self.musicSlider.enabled = NO;
-//        self.musicSlider.value = 0;
-//        self.startTime.text = @"";
-//    } else {
+        self.musicSlider.enabled = NO;
+        self.musicSlider.value = 0;
+        self.startTime.text = @"";
+    } else {
+//        NSLog(@"0.2)");
         self.musicSlider.enabled = YES;
         
         FSStreamPosition cur = audioController.activeStream.currentTimePlayed;
@@ -329,7 +254,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.startTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
                                          cur.minute, cur.second,
                                          end.minute, end.second];
-//    }
+    }
     
 //    self.bufferingIndicator.hidden = NO;
 //    self.prebufferStatus.hidden = YES;
@@ -421,19 +346,27 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
     
+//    NSLog(@"4.1) %@", nowPlayingSongsArray);
     
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
     
     // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
     if (![self checkCurrentSong: nowplayingSong]) {
         
-        for (NowPlayingSong *nowPlayingSong in currentPlayList) {
+        for (NowPlayingSong *nowPlayingSong in nowPlayingSongsArray) {
+            
+            NSLog(@"4.) %@", nowplayingSong.title);
             
             FSPlaylistItem *item = [[FSPlaylistItem alloc] init];
             item.title = nowPlayingSong.title;
-            item.url = [NSURL URLWithString:nowPlayingSong.stream_url];
+            
+            
+            NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+            NSURL* url = [NSURL URLWithString:resourceURL];
+            item.url = url;
             
             [self.userPlaylistItems addObject:item];
+            [audioController addItem:item];
             
         }
         
@@ -557,11 +490,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songTitle.text = nowplayingSong.title;
     
-    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
-    NSURL* url = [NSURL URLWithString:resourceURL];
+//    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+//    NSURL* url = [NSURL URLWithString:resourceURL];
     
-
-    [audioController playFromURL:url];
+    
+    
+    [audioController play];
+//    [audioController playFromURL:url];
     
     [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
@@ -580,6 +515,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 - (IBAction)musicSlider:(id)sender {
 
     [self sliderChanged];
+}
+
+- (void)finalizeSeeking
+{
+    _volumeBeforeRamping = 0;
 }
 
 -(void) sliderChanged
@@ -603,21 +543,20 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     _volumeBeforeRamping = audioController.volume;
     
     if (_volumeBeforeRamping > 0) {
-//        _rampStep = 1;
-//        _rampStepCount = 5; // 50ms and 5 steps = 250ms ramp
-//        _rampUp = false;
-//        _postRampAction = @selector(doSeeking);
-//        
-//        _volumeRampTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 // 50ms
-//                                                            target:self
-//                                                          selector:@selector(rampVolume)
-//                                                          userInfo:nil
-//                                                           repeats:YES];
+        _rampStep = 1;
+        _rampStepCount = 5; // 50ms and 5 steps = 250ms ramp
+        _rampUp = false;
+        _postRampAction = @selector(doSeeking);
+        
+        _volumeRampTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 // 50ms
+                                                            target:self
+                                                          selector:@selector(rampVolume)
+                                                          userInfo:nil
+                                                           repeats:YES];
     } else {
         // Just directly seek, volume is already 0
         [self doSeeking];
-    }
-}
+    }}
 
 - (void)doSeeking
 {
@@ -626,24 +565,46 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [audioController.activeStream seekToPosition:pos];
 }
 
-//
-//#pragma mark - Navigation
-//
-//// In a storyboard-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//    
-//    if ([[segue identifier] isEqualToString:@"currentIllistNowPlayingSegue"]) {
-//        
-////        UINavigationController *navController = [segue destinationViewController];
-//        
-////        iLLFriendSearchSongsTableViewController *vc = (iLLFriendSearchSongsTableViewController*)navController.topViewController;
-//        
-////        [vc setPlaylistInfo:];
-//        
-//    }
-//    
-//}
-//
+- (void)rampVolume
+{
+    if (_rampStep > _rampStepCount) {
+        [_volumeRampTimer invalidate], _volumeRampTimer = nil;
+        
+        if (_postRampAction) {
+            [self performSelector:_postRampAction withObject:nil afterDelay:0];
+        }
+        
+        return;
+    }
+    
+    if (_rampUp) {
+        audioController.volume = (_volumeBeforeRamping / _rampStepCount) * _rampStep;
+    } else {
+        audioController.volume = (_volumeBeforeRamping / _rampStepCount) * (_rampStepCount - _rampStep);
+    }
+    
+    _rampStep++;
+}
+
+-(void)toggleNextPreviousButtons
+{
+    if([audioController hasNextItem] || [audioController hasPreviousItem])
+    {
+        NSLog(@"2.1.)");
+        self.nextButton.hidden = NO;
+        self.backButton.hidden = NO;
+        self.nextButton.enabled = [audioController hasNextItem];
+        self.backButton.enabled = [audioController hasPreviousItem];
+    }
+    else
+    {
+        NSLog(@"2.2.)");
+        self.nextButton.hidden = YES;
+        self.backButton.hidden = YES;
+    }
+}
+
+
 #pragma Set current song artwork size
 - (NSString*) setImageSize:(NSString*)image {
     
@@ -654,5 +615,24 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     return resizeImage;
 }
 
+
+//
+//#pragma mark - Navigation
+//
+//// In a storyboard-based application, you will often want to do a little preparation before navigation
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+//
+//    if ([[segue identifier] isEqualToString:@"currentIllistNowPlayingSegue"]) {
+//
+////        UINavigationController *navController = [segue destinationViewController];
+//
+////        iLLFriendSearchSongsTableViewController *vc = (iLLFriendSearchSongsTableViewController*)navController.topViewController;
+//
+////        [vc setPlaylistInfo:];
+//
+//    }
+//
+//}
+//
 
 @end

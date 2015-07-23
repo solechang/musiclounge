@@ -128,6 +128,8 @@
     // GOTTA SAVE SONGS IN PLAYLIST!
     iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     
+    
+    
     [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Added %@!", songTitle] ];
     
     
@@ -153,6 +155,7 @@
 
     iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     [self.tableView reloadData];
+    
     
     if (songsInLocal.count == 0) {
         [self fetchSongsFromServer];
@@ -550,14 +553,15 @@
         NSArray *nowPlayingSongArrayToDelete = [NowPlayingSong MR_findAllInContext:localContext];
         
         for (NowPlayingSong *nowPlayingSongDelete in nowPlayingSongArrayToDelete) {
-            
+            NSLog(@"2.) nowPlayingSongDelete:%@", nowPlayingSongDelete.title);
             [nowPlayingSongDelete MR_deleteEntityInContext:localContext];
             
         }
         
         
         NSArray *songsInLocalArray = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:localContext];
-        
+
+//        [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
         for ( Song *songsInLocal in songsInLocalArray ) {
 
             NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_createEntityInContext:localContext];
@@ -574,12 +578,14 @@
             nowPlayingSong.createdAt = songsInLocal.createdAt;
             
             nowPlayingSong.nowPlaying = nowPlaying;
- 
+            NSLog(@"3.) %@", nowPlayingSong.title);
         }
 
     } completion:^(BOOL success, NSError *error) {
 
         if (!error) {
+            
+        
   
         } else {
             NSLog(@"Error 653 %@", error);
