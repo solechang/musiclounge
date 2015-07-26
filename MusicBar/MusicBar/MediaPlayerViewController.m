@@ -356,12 +356,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         for (NowPlayingSong *nowPlaying in nowPlayingSongsArray) {
 
-            
             FSPlaylistItem *item = [[FSPlaylistItem alloc] init];
             item.title = nowPlaying.title;
-            
-            
-            NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+
+            NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowPlaying.stream_url ,clientID];
             NSURL* url = [NSURL URLWithString:resourceURL];
             item.url = url;
             
@@ -475,10 +473,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)nextButton:(id)sender {
   
+ 
+    [audioController playNextItem];
+
 }
 //
 - (void) playSong {
-    
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
     
@@ -493,9 +493,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
 //    NSURL* url = [NSURL URLWithString:resourceURL];
     
-    
-    
     [audioController play];
+    NSLog(@"7.0) %@",[audioController currentPlaylistItem].title);
 //    [audioController playFromURL:url];
     
     [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
@@ -593,8 +592,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         NSLog(@"2.1.)");
         self.nextButton.hidden = NO;
         self.backButton.hidden = NO;
-        self.nextButton.enabled = [audioController hasNextItem];
-        self.backButton.enabled = [audioController hasPreviousItem];
+//        self.nextButton.enabled = [audioController hasNextItem];
+//        self.backButton.enabled = [audioController hasPreviousItem];
     }
     else
     {
