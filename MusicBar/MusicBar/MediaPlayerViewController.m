@@ -93,6 +93,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 - (void) setUpNavigationBar {
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
 }
 
 - (void) setUpData {
@@ -104,6 +105,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [self.currentPlaylistButton setEnabled:NO];
     
+    [self.playButton setEnabled:NO];
 }
 
 - (void) setNSManagedObjectContext {
@@ -129,7 +131,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamBuffering: {
                 NSLog(@"1.3.)");
-                
+               
                 break;
             }
                 
@@ -185,12 +187,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamFailed:
                 NSLog(@"1.6.)");
-
+                 [weakSelf.startTime setText:@"This song cannot be played. Please delete song :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
                 NSLog(@"1.7.)");
-                [weakSelf toggleNextPreviousButtons];
+//                [weakSelf toggleNextPreviousButtons];
+                [weakSelf nextButton:nil];
                 break;
                 
             case kFsAudioStreamRetryingStarted:
@@ -208,6 +211,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamRetryingFailed:
                 NSLog(@"1.10.)");
+                [weakSelf nextButton:nil];
                 break;
                 
             default:
@@ -249,10 +253,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //            NSLog(@"0.1)");
         self.musicSlider.enabled = NO;
         self.musicSlider.value = 0;
-        self.startTime.text = @"";
+        self.startTime.text = @"Loading";
+        self.playButton.enabled = NO;
     } else {
 //        NSLog(@"0.2)");
         self.musicSlider.enabled = YES;
+        self.playButton.enabled = YES;
         
         FSStreamPosition cur = audioController.activeStream.currentTimePlayed;
         FSStreamPosition end = audioController.activeStream.duration;

@@ -39,6 +39,11 @@
 		B96773661B32331A00C01AAF /* MusicBarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B96773651B32331A00C01AAF /* MusicBarTests.m */; };
 		B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16031B32371400406AAF /* SignUpTableViewController.m */; };
 		B96D16071B32371400406AAF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16051B32371400406AAF /* LoginViewController.m */; };
+		B9978DC51B67398A004203F1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC41B67398A004203F1 /* MediaPlayer.framework */; };
+		B9978DC71B67398F004203F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC61B67398F004203F1 /* CFNetwork.framework */; };
+		B9978DC91B673996004203F1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC81B673996004203F1 /* AudioToolbox.framework */; };
+		B9978DCB1B67399D004203F1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCA1B67399D004203F1 /* AVFoundation.framework */; };
+		B9978DCD1B6739B2004203F1 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCC1B6739B2004203F1 /* libxml2.dylib */; };
 		B9B76F1D1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F1A1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m */; };
 		B9B76F1E1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F1C1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.m */; };
 		B9B76F211B37E89200F63AC4 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F201B37E89200F63AC4 /* CollectionViewCell.m */; };
@@ -126,6 +131,11 @@
 		B96D16031B32371400406AAF /* SignUpTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpTableViewController.m; sourceTree = "<group>"; };
 		B96D16041B32371400406AAF /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B96D16051B32371400406AAF /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		B9978DC41B67398A004203F1 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		B9978DC61B67398F004203F1 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		B9978DC81B673996004203F1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		B9978DCA1B67399D004203F1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B9978DCC1B6739B2004203F1 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		B9B76F191B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLmyPlaylistCollectionViewCell.h; sourceTree = "<group>"; };
 		B9B76F1A1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLmyPlaylistCollectionViewCell.m; sourceTree = "<group>"; };
 		B9B76F1B1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLfollowingPlaylistCollectionViewCell.h; sourceTree = "<group>"; };
@@ -157,6 +167,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9978DCD1B6739B2004203F1 /* libxml2.dylib in Frameworks */,
+				B9978DCB1B67399D004203F1 /* AVFoundation.framework in Frameworks */,
+				B9978DC91B673996004203F1 /* AudioToolbox.framework in Frameworks */,
+				B9978DC71B67398F004203F1 /* CFNetwork.framework in Frameworks */,
+				B9978DC51B67398A004203F1 /* MediaPlayer.framework in Frameworks */,
 				CD8EB7DF71A63BBFB41C083F /* libPods-MusicBar.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +198,11 @@
 		2877A3CBA587BED982B7D201 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9978DCC1B6739B2004203F1 /* libxml2.dylib */,
+				B9978DCA1B67399D004203F1 /* AVFoundation.framework */,
+				B9978DC81B673996004203F1 /* AudioToolbox.framework */,
+				B9978DC61B67398F004203F1 /* CFNetwork.framework */,
+				B9978DC41B67398A004203F1 /* MediaPlayer.framework */,
 				360198B029194192A1793D84 /* libPods-MusicBar.a */,
 			);
 			name = Frameworks;
@@ -530,6 +550,11 @@
 					B96773451B32331A00C01AAF = {
 						CreatedOnToolsVersion = 6.3.1;
 						DevelopmentTeam = XC864BZSDA;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+						};
 					};
 					B967735E1B32331A00C01AAF = {
 						CreatedOnToolsVersion = 6.3.1;

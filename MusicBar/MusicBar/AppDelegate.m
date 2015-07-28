@@ -30,6 +30,11 @@
     [Parse setApplicationId:@"OdGicS3F5uc5opaLcCcIyymbvFusjdOpvPct5Y9P"
                   clientKey:@"HpJy0IqALLKvu02pSzlBW3JQvfPdN0HtMRx0lt4W"];
     
+    NSError* error;
+    
+    [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+
+    
     return YES;
 }
 
