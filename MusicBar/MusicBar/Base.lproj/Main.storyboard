@@ -133,7 +133,7 @@
         <scene sceneID="kSb-9f-3az">
             <objects>
                 <navigationController id="6sv-X2-7Vt" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Me" id="pzR-iH-r3a"/>
+                    <tabBarItem key="tabBarItem" title="Me" image="Me" id="pzR-iH-r3a"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="LTy-Sa-r4X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1129,7 +1129,9 @@
         <scene sceneID="0L2-yQ-j5C">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xHB-lD-4AK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friend" id="B3l-vI-1Wo"/>
+                    <tabBarItem key="tabBarItem" title="Friend" image="Friends" id="B3l-vI-1Wo">
+                        <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
+                    </tabBarItem>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="J10-ks-EUt">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1243,7 +1245,7 @@
         <scene sceneID="lim-xE-w29">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pBI-Yk-iW2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Audio Player" id="gcc-GI-rCZ"/>
+                    <tabBarItem key="tabBarItem" title="Audio Player" image="AudioPlayer" id="gcc-GI-rCZ"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="4K0-PC-uAY">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
@@ -1260,6 +1262,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="AudioPlayer" width="75" height="75"/>
+        <image name="Friends" width="75" height="75"/>
+        <image name="Me" width="75" height="75"/>
         <image name="metab2.png" width="50" height="50"/>
     </resources>
 </document>
