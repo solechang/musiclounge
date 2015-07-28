@@ -368,65 +368,31 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell" id="LV4-gn-Giv" customClass="CollectionViewCell">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="myProfileCollectionViewCell" id="LV4-gn-Giv" customClass="MyPlaylistCollectionViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="metab2.png" translatesAutoresizingMaskIntoConstraints="NO" id="Dl9-IY-Kdr">
-                                            <rect key="frame" x="5" y="5" width="40" height="40"/>
-                                        </imageView>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rDA-iK-vO2">
-                                            <rect key="frame" x="55" y="5" width="257" height="21"/>
+                                            <rect key="frame" x="44" y="14" width="145" height="21"/>
                                             <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="14"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0t-nJ-nJA">
-                                            <rect key="frame" x="55" y="25" width="257" height="21"/>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g0t-nJ-nJA">
+                                            <rect key="frame" x="167" y="14" width="145" height="21"/>
                                             <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="12"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                     </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <connections>
-                                    <outlet property="textLabel" destination="rDA-iK-vO2" id="KVT-lQ-qIj"/>
-                                    <outlet property="textLabelCreator" destination="g0t-nJ-nJA" id="Auz-RK-Oqs"/>
-                                    <segue destination="nze-Su-BCd" kind="show" identifier="iLListSegue" id="9a2-Jq-6yt"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell2" id="EMP-KO-ljH" customClass="CollectionViewCell">
-                                <rect key="frame" x="0.0" y="49" width="320" height="49"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="rs3-5c-bIH">
-                                            <rect key="frame" x="5" y="5" width="40" height="40"/>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6ml-NH-Uud">
-                                            <rect key="frame" x="55" y="5" width="257" height="21"/>
-                                            <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="14"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Lfp-mP-KaP">
-                                            <rect key="frame" x="55" y="25" width="257" height="21"/>
-                                            <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="12"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <connections>
-                                    <outlet property="textLabel" destination="6ml-NH-Uud" id="56U-Vo-AYa"/>
-                                    <outlet property="textLabelCreator" destination="Lfp-mP-KaP" id="WDZ-RM-1kr"/>
+                                    <outlet property="labelPlaylistCreator" destination="g0t-nJ-nJA" id="vfT-2X-OAt"/>
+                                    <outlet property="labelPlaylistTitle" destination="rDA-iK-vO2" id="bdt-D8-Vg0"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -451,6 +417,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="meTabMeSegmentedControlView" destination="Kxk-LB-fwa" id="XFi-hi-lF3"/>
+                        <segue destination="nze-Su-BCd" kind="show" identifier="iLListSegue" id="O1u-jj-hQg"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nEd-QE-Lbe" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -897,7 +864,7 @@
                             <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                         </collectionViewFlowLayout>
                         <cells>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="friendCollectionViewCell" id="bes-w0-iM7" customClass="CollectionViewCell">
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="friendCollectionViewCell" id="bes-w0-iM7" customClass="MyPlaylistCollectionViewCell">
                                 <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -1239,7 +1206,7 @@
                     </view>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" title="Now Playing" id="MAT-nB-epM">
-                        <barButtonItem key="rightBarButtonItem" enabled="NO" title="Lounge" id="5Vj-dD-aDi">
+                        <barButtonItem key="leftBarButtonItem" enabled="NO" title="Lounge" id="5Vj-dD-aDi">
                             <connections>
                                 <action selector="currentPlaylistButtonPressed:" destination="YFn-IZ-gpz" id="y3s-eM-jFU"/>
                             </connections>
@@ -1289,6 +1256,5 @@
         <image name="AudioPlayer" width="75" height="75"/>
         <image name="Friends" width="75" height="75"/>
         <image name="Me" width="75" height="75"/>
-        <image name="metab2.png" width="50" height="50"/>
     </resources>
 </document>

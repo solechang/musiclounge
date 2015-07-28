@@ -44,9 +44,7 @@
 		B9978DC91B673996004203F1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC81B673996004203F1 /* AudioToolbox.framework */; };
 		B9978DCB1B67399D004203F1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCA1B67399D004203F1 /* AVFoundation.framework */; };
 		B9978DCD1B6739B2004203F1 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCC1B6739B2004203F1 /* libxml2.dylib */; };
-		B9B76F1D1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F1A1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m */; };
-		B9B76F1E1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F1C1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.m */; };
-		B9B76F211B37E89200F63AC4 /* CollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F201B37E89200F63AC4 /* CollectionViewCell.m */; };
+		B9978DCE1B674368004203F1 /* MyPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */; };
 		B9B76F251B37E8D000F63AC4 /* AddiLListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F241B37E8D000F63AC4 /* AddiLListTableViewController.m */; };
 		B9B76F291B37E8E400F63AC4 /* SettingsTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F281B37E8E400F63AC4 /* SettingsTableTableViewController.m */; };
 		B9B76F2D1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F2C1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m */; };
@@ -136,12 +134,6 @@
 		B9978DC81B673996004203F1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B9978DCA1B67399D004203F1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B9978DCC1B6739B2004203F1 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
-		B9B76F191B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLmyPlaylistCollectionViewCell.h; sourceTree = "<group>"; };
-		B9B76F1A1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLmyPlaylistCollectionViewCell.m; sourceTree = "<group>"; };
-		B9B76F1B1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLfollowingPlaylistCollectionViewCell.h; sourceTree = "<group>"; };
-		B9B76F1C1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLfollowingPlaylistCollectionViewCell.m; sourceTree = "<group>"; };
-		B9B76F1F1B37E89200F63AC4 /* CollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionViewCell.h; sourceTree = "<group>"; };
-		B9B76F201B37E89200F63AC4 /* CollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CollectionViewCell.m; sourceTree = "<group>"; };
 		B9B76F231B37E8D000F63AC4 /* AddiLListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddiLListTableViewController.h; sourceTree = "<group>"; };
 		B9B76F241B37E8D000F63AC4 /* AddiLListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddiLListTableViewController.m; sourceTree = "<group>"; };
 		B9B76F271B37E8E400F63AC4 /* SettingsTableTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableTableViewController.h; sourceTree = "<group>"; };
@@ -323,12 +315,6 @@
 				B93D90211B3270FD00A2947C /* CSParallaxHeader.m */,
 				B93D90231B32713A00A2947C /* MyPlaylistCollectionViewCell.h */,
 				B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */,
-				B9B76F1F1B37E89200F63AC4 /* CollectionViewCell.h */,
-				B9B76F201B37E89200F63AC4 /* CollectionViewCell.m */,
-				B9B76F191B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.h */,
-				B9B76F1A1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m */,
-				B9B76F1B1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.h */,
-				B9B76F1C1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -645,6 +631,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9978DCE1B674368004203F1 /* MyPlaylistCollectionViewCell.m in Sources */,
 				B9B76F291B37E8E400F63AC4 /* SettingsTableTableViewController.m in Sources */,
 				B93D901F1B32523500A2947C /* MyProfileCollectionViewController.m in Sources */,
 				B93D90081B3242FD00A2947C /* Song.m in Sources */,
@@ -662,10 +649,7 @@
 				B93D90021B3242FD00A2947C /* NowPlayingSong.m in Sources */,
 				B93D8FF01B3242FB00A2947C /* SongFriend.m in Sources */,
 				B9200BE81B393ED2001372C0 /* FriendSearchControllerTableViewController.m in Sources */,
-				B9B76F211B37E89200F63AC4 /* CollectionViewCell.m in Sources */,
-				B9B76F1D1B37E88400F63AC4 /* iLLmyPlaylistCollectionViewCell.m in Sources */,
 				B93D8FFF1B3242FC00A2947C /* CurrentUser.m in Sources */,
-				B9B76F1E1B37E88400F63AC4 /* iLLfollowingPlaylistCollectionViewCell.m in Sources */,
 				B9B76F351B37E93000F63AC4 /* SearchSongsTableViewController.m in Sources */,
 				B967734C1B32331A00C01AAF /* main.m in Sources */,
 				B93D900B1B3242FD00A2947C /* PlaylistFriend.m in Sources */,
