@@ -10,7 +10,7 @@
 
 @interface MyPlaylistCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, readonly) UILabel *labelPlaylistTitle;
-@property (nonatomic, readonly) UILabel *labelPlaylistCreator;
+@property (weak, nonatomic) IBOutlet UILabel *labelPlaylistTitle;
+@property (weak, nonatomic) IBOutlet UILabel *labelPlaylistCreator;
 
 @end

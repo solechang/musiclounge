@@ -11,8 +11,8 @@
 
 @interface MyPlaylistCollectionViewCell ()
 
-@property (nonatomic,readwrite) UILabel *labelPlaylistTitle;
-@property (nonatomic,readwrite) UILabel *labelPlaylistCreator;
+//@property (nonatomic,readwrite) UILabel *labelPlaylistTitle;
+//@property (nonatomic,readwrite) UILabel *labelPlaylistCreator;
 
 @end
 
@@ -25,29 +25,28 @@ const float UI_CUES_MARGIN = 0.0f;
 
 @implementation MyPlaylistCollectionViewCell
 
-- (id)initWithFrame:(CGRect)frame
-{
+-(id) initWithFrame:(CGRect)frame {
+    NSLog(@"1.)");
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
+//        NSLog(@"2.) %@", self.labelPlaylistTitle.text);
         //        CGFloat borderWidth = 0.3f;
         UIView *cellView = [[UIView alloc] initWithFrame:frame];
         
         //        cellView.layer.borderWidth = borderWidth;
-        cellView.layer.borderColor = [UIColor grayColor].CGColor;
-        
-        
+        cellView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         
         self.backgroundView = cellView;
-        
+
         
         [self setLabelPlaylistTitle:[UILabel new]];
         
         [_labelPlaylistTitle setTextColor:[UIColor blackColor]];
         [_labelPlaylistTitle setBackgroundColor:[UIColor clearColor]];
         [_labelPlaylistTitle  setFont:[UIFont fontWithName: @"Helvetica" size: 16.0f]];
-        [[self labelPlaylistTitle] setFrame:CGRectMake(30.f, 17.0f, 257.f, 21.f)];
+     
+//        [[self labelPlaylistTitle] setFrame:CGRectMake(30.f, 17.0f, 257.f, 21.f)];
         
         [[self labelPlaylistTitle] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [[self contentView] addSubview:[self labelPlaylistTitle]];
@@ -56,11 +55,12 @@ const float UI_CUES_MARGIN = 0.0f;
         [_labelPlaylistCreator setTextColor:[UIColor blackColor]];
         [_labelPlaylistCreator setBackgroundColor:[UIColor clearColor]];
         [_labelPlaylistCreator  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
-        [[self labelPlaylistCreator] setFrame:CGRectMake(250.f, 25.f, 257.f, 21.f)];
+//        [[self labelPlaylistCreator] setFrame:CGRectMake(250.f, 25.f, 257.f, 21.f)];
         
         [[self labelPlaylistCreator] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [[self contentView] addSubview:[self labelPlaylistCreator]];
         
+        self.labelPlaylistTitle.text = @"HI";
         
         _tickLabel = [self createTickLabel];
         _tickLabel.text = @"\u2713";
@@ -83,16 +83,15 @@ const float UI_CUES_MARGIN = 0.0f;
     return self;
 }
 
--(void) layoutSubviews {
-    [super layoutSubviews];
-    // ensure the gradient layers occupies the full bounds
-    
-    
-    
-}
+//-(void) layoutSubviews {
+//    [super layoutSubviews];
+//    // ensure the gradient layers occupies the full bounds
+//
+//    
+//}
 
 -(UILabel*) createTickLabel {
-    
+
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectNull];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont boldSystemFontOfSize:32.0];
@@ -101,6 +100,7 @@ const float UI_CUES_MARGIN = 0.0f;
 }
 
 -(UILabel*) createCrossLabel {
+    
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectNull];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont boldSystemFontOfSize:32.0];
