@@ -85,14 +85,22 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [super viewDidLoad];
     // Instantiate the audio player
     [self setNSManagedObjectContext];
+    [self setUpNavigationBar];
+    [self setUpData];
 
-    audioController = [[FSAudioController alloc] init];
+    
+   
+}
+- (void) setUpNavigationBar {
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+}
+
+- (void) setUpData {
+     audioController = [[FSAudioController alloc] init];
     
     self.userPlaylistItems = [[NSMutableArray alloc] init];
 
     currentPlayList = [[NSMutableArray alloc] init];
-    
-    audioStream = [[FSAudioStream alloc] init];
     
     [self.currentPlaylistButton setEnabled:NO];
     
@@ -562,19 +570,19 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
         
         NSUInteger nowPlayingIndex = [nowPlaying.songIndex integerValue];
-        
+
         // if index is end of currentPlayList, set index to 0, if not increment index
         if (nowPlayingIndex ==  0) {
             NSUInteger currentPlayListCount = currentPlayList.count;
-            nowPlayingIndex = currentPlayListCount--;
+            nowPlayingIndex = currentPlayListCount - 1;
             
         } else {
             nowPlayingIndex--;
-            
+
         }
         
         nowPlaying.songIndex = [NSNumber numberWithInteger:nowPlayingIndex];
-        
+
     } completion:^(BOOL success, NSError *error) {
         
         if (success) {

@@ -31,7 +31,6 @@
 	</array>
 	<key>UIBackgroundModes</key>
 	<array>
-		<string></string>
 		<string>audio</string>
 	</array>
 	<key>UILaunchStoryboardName</key>
