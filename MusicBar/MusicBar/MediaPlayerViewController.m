@@ -474,13 +474,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)playButton:(id)sender {
     
-//    if ([self.playButton is])
-    if (audioController.isPlaying) {
+
+    [audioController pause];
+
+    if ([self.playButton.titleLabel.text isEqualToString:@"Play"]) {
+
         [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
-        [audioController pause];
+
     } else {
+
         [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
-        [audioController play];
+
     }
    
     
