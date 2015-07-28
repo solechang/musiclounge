@@ -342,33 +342,36 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #pragma mark - setCurrentPlayList
 - (void) getSongsFromLocal: (NowPlaying* )nowPlaying {
 
-    NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
+//    NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findByAttribute:@"playlistId" withValue:nowPlaying.playlistId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    
+    NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findByAttribute:@"playlistId" withValue:nowPlaying.playlistId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
     
     currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
     
-//    NSLog(@"4.1) %@", nowPlayingSongsArray);
-    
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
+    
     
     // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
     if (![self checkCurrentSong: nowplayingSong]) {
         
-        for (NowPlayingSong *nowPlayingSong in nowPlayingSongsArray) {
-            
-            NSLog(@"4.) %@", nowplayingSong.title);
-            
-            FSPlaylistItem *item = [[FSPlaylistItem alloc] init];
-            item.title = nowPlayingSong.title;
-            
-            
-            NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
-            NSURL* url = [NSURL URLWithString:resourceURL];
-            item.url = url;
-            
-            [self.userPlaylistItems addObject:item];
-            [audioController addItem:item];
-            
-        }
+//        NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+//        NSURL* url = [NSURL URLWithString:resourceURL];
+//        audioController.url = url;
+//        [audioController playFromURL:url];
+        
+//        for (NowPlayingSong *nowPlaying in nowPlayingSongsArray) {
+//
+//            FSPlaylistItem *item = [[FSPlaylistItem alloc] init];
+//            item.title = nowPlaying.title;
+//
+//            NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowPlaying.stream_url ,clientID];
+//            NSURL* url = [NSURL URLWithString:resourceURL];
+//            item.url = url;
+//            
+//            [self.userPlaylistItems addObject:item];
+//            [audioController addItem:item];
+//            
+//        }
         
         
         [self setCurrentPlaylist];
@@ -471,14 +474,60 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)playButton:(id)sender {
     
+
+    [audioController pause];
+
+    if ([self.playButton.titleLabel.text isEqualToString:@"Play"]) {
+
+        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+
+    } else {
+
+        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+
+    }
+   
+    
 }
 
 - (IBAction)nextButton:(id)sender {
-  
+    // stopping audio player when next song plays
+    [audioController stop];
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
+        
+        int nowPlayingIndex = [nowPlaying.songIndex intValue];
+        //         if index is end of currentPlayList, set index to 0, if not increment index
+        if (nowPlayingIndex == currentPlayList.count - 1 ) {
+            nowPlayingIndex = 0;
+            
+        } else {
+            nowPlayingIndex++;
+            
+        }
+        
+        nowPlaying.songIndex = [NSNumber numberWithInt:nowPlayingIndex];
+        
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        if (success) {
+            [self playSong];
+            
+        } else {
+            NSLog(@"Error 503.)");
+        }
+        
+    }];
+    
+
+ 
+
 }
 //
 - (void) playSong {
-    
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
     
@@ -490,13 +539,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songTitle.text = nowplayingSong.title;
     
-//    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
-//    NSURL* url = [NSURL URLWithString:resourceURL];
     
-    
+    NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
+    NSURL* url = [NSURL URLWithString:resourceURL];
+    audioController.url = url;
     
     [audioController play];
-//    [audioController playFromURL:url];
     
     [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
@@ -507,6 +555,36 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (IBAction)backButton:(id)sender {
+    // stop audio player when going back a song
+    [audioController stop];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
+        
+        NSUInteger nowPlayingIndex = [nowPlaying.songIndex integerValue];
+        
+        // if index is end of currentPlayList, set index to 0, if not increment index
+        if (nowPlayingIndex ==  0) {
+            NSUInteger currentPlayListCount = currentPlayList.count;
+            nowPlayingIndex = currentPlayListCount--;
+            
+        } else {
+            nowPlayingIndex--;
+            
+        }
+        
+        nowPlaying.songIndex = [NSNumber numberWithInteger:nowPlayingIndex];
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        if (success) {
+            [self playSong];
+            
+        } else {
+            NSLog(@"Error 382.)");
+        }
+        
+    }];
 
     
 }
@@ -588,20 +666,20 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 -(void)toggleNextPreviousButtons
 {
-    if([audioController hasNextItem] || [audioController hasPreviousItem])
-    {
-        NSLog(@"2.1.)");
-        self.nextButton.hidden = NO;
-        self.backButton.hidden = NO;
-        self.nextButton.enabled = [audioController hasNextItem];
-        self.backButton.enabled = [audioController hasPreviousItem];
-    }
-    else
-    {
-        NSLog(@"2.2.)");
-        self.nextButton.hidden = YES;
-        self.backButton.hidden = YES;
-    }
+//    if([audioController hasNextItem] || [audioController hasPreviousItem])
+//    {
+//        NSLog(@"2.1.)");
+//        self.nextButton.hidden = NO;
+//        self.backButton.hidden = NO;
+////        self.nextButton.enabled = [audioController hasNextItem];
+////        self.backButton.enabled = [audioController hasPreviousItem];
+//    }
+//    else
+//    {
+//        NSLog(@"2.2.)");
+//        self.nextButton.hidden = YES;
+//        self.backButton.hidden = YES;
+//    }
 }
 
 
