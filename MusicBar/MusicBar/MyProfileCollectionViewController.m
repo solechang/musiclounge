@@ -8,7 +8,6 @@
 
 #import "MyProfileCollectionViewController.h"
 
-#import "MyPlaylistCollectionViewCell.h"
 #import "CSParallaxHeader.h"
 #import "CSStickyHeaderFlowLayout.h"
 
@@ -19,9 +18,8 @@
 #import "DZNSegmentedControl.h"
 
 #import "CSParallaxHeader.h"
-#import "iLLmyPlaylistCollectionViewCell.h"
-#import "iLLfollowingPlaylistCollectionViewCell.h"
-#import "CollectionViewCell.h"
+#import "MyPlaylistCollectionViewCell.h"
+//#import "iLLfollowingPlaylistCollectionViewCell.h"
 
 #import "AddiLListTableViewController.h"
 #import "SettingsTableTableViewController.h"
@@ -233,7 +231,7 @@
             
         } else {
             
-            NSLog(@"No playlist changes 239");
+            NSLog(@"No playlist changes 234");
         }
         
     }];
@@ -395,11 +393,10 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-    [self.collectionView registerClass:[iLLmyPlaylistCollectionViewCell class]
-            forCellWithReuseIdentifier:NSStringFromClass([iLLmyPlaylistCollectionViewCell class])];
+//    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"myProfileCollectionViewCell"];
     
-    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
-            forCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class])];
+//    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
+//            forCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class])];
     
 }
 
@@ -535,49 +532,53 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     
     if (self.control.selectedSegmentIndex == 0) {
         
-        iLLmyPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([iLLmyPlaylistCollectionViewCell class]) forIndexPath:indexPath];
-        
+        NSString *cellIdentifier = @"myProfileCollectionViewCell";
+        MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+
+  
         Playlist *playlist = [myiLListArray objectAtIndex:indexPath.row];
         
         NSString *iLListName = playlist.name;
-        
+
         NSString *iLListCreator = [NSString stringWithFormat:@"Song count: %@", playlist.songCount]; //[myiLListArray objectAtIndex:indexPath.row][@"userName"];
-        
+       
         cell.labelPlaylistTitle.text = iLListName;
+
         //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
         cell.labelPlaylistCreator.text = iLListCreator;
         
+        NSLog(@"1.) %f", cell.contentView.frame.size.height);
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, cell.contentView.frame.size.width, 0.5f)];
         
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
-        
-        CGFloat borderWidth = 0.1f;
-        lineView.layer.borderWidth = borderWidth;
+//        CGFloat borderWidth = 0.1f;
+//        lineView.layer.borderWidth = borderWidth;
         lineView.backgroundColor = [UIColor lightGrayColor];
         [cell.contentView addSubview:lineView];
         
         return cell;
         
-        
-    } else if (self.control.selectedSegmentIndex == 1){
-        
-        //IK - Temporarily populating static cells; will import the list of playlists that the user is following
-        
-        iLLfollowingPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class]) forIndexPath:indexPath];        // -1 because of the buttonCell
-        
-        cell.labelPlaylistTitle.text = [NSString stringWithFormat:@"Following playlist"];
-        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: Whoever"];
-        
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
-        
-        CGFloat borderWidth = 0.1f;
-        lineView.layer.borderWidth = borderWidth;
-        lineView.backgroundColor = [UIColor lightGrayColor];
-        [cell.contentView addSubview:lineView];
-        
-        
-        return cell;
         
     }
+//    else if (self.control.selectedSegmentIndex == 1){
+//        
+//        //IK - Temporarily populating static cells; will import the list of playlists that the user is following
+//        
+//        iLLfollowingPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class]) forIndexPath:indexPath];        // -1 because of the buttonCell
+//        
+//        cell.labelPlaylistTitle.text = [NSString stringWithFormat:@"Following playlist"];
+//        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: Whoever"];
+//        
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
+//        
+//        CGFloat borderWidth = 0.1f;
+//        lineView.layer.borderWidth = borderWidth;
+//        lineView.backgroundColor = [UIColor lightGrayColor];
+//        [cell.contentView addSubview:lineView];
+//        
+//        
+//        return cell;
+//        
+//    }
     
     return nil;
 }
@@ -623,27 +624,17 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
 
 
-- (void)collectionView:(UICollectionView *)collectionView
-didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"2.1)");
     if (self.control.selectedSegmentIndex == 0) {
         
         [self performSegueWithIdentifier:@"iLListSegue" sender:self];
         
     }
     
-    else if (self.control.selectedSegmentIndex == 1) {
-        
-    }
-}
-
-
-
-- (void)collectionView:(UICollectionView *)collectionView
-didDeselectItemAtIndexPath:(NSIndexPath *)indexPath {
-    
-    //    UICollectionViewCell* cell = [collectionView cellForItemAtIndexPath:indexPath];
-    //    cell.backgroundColor = nil;
+//    else if (self.control.selectedSegmentIndex == 1) {
+//        
+//    }
 }
 
 
@@ -669,6 +660,7 @@ didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+
     if ([[segue identifier] isEqualToString:@"iLListSegue"]) {
         
         // Get destination view
@@ -865,7 +857,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                             [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
                             
                         } else {
-                            NSLog(@"743");
+                            NSLog(@"870");
                         }
                         
                         
