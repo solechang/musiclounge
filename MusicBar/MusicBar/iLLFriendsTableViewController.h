@@ -10,8 +10,9 @@
 #import <UIKit/UIKit.h>
 #import <Parse/Parse.h>
 
-#import "UIScrollView+EmptyDataSet.h" 
+#import "UIScrollView+EmptyDataSet.h"
+#import "SearchFriendsTableViewController.h"
 
-@interface iLLFriendsTableViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface iLLFriendsTableViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
 
 @end

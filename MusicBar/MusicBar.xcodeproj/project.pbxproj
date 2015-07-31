@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		445D7D411B6865BB009C7784 /* SearchFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */; };
+		445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445D7D421B68671C009C7784 /* searchFriendsCell.xib */; };
 		B9200BDF1B393EC4001372C0 /* iLLFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BDE1B393EC4001372C0 /* iLLFriendsTableViewController.m */; };
 		B9200BE61B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.m */; };
 		B9200BE71B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.m */; };
@@ -68,6 +70,9 @@
 		15A8B0BA37EEF5B3A5ED56A7 /* Pods-MusicBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicBar/Pods-MusicBar.release.xcconfig"; sourceTree = "<group>"; };
 		1E6E3A4ABE80FBEEAFC25546 /* Pods-MusicBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicBar/Pods-MusicBar.debug.xcconfig"; sourceTree = "<group>"; };
 		360198B029194192A1793D84 /* libPods-MusicBar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicBar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		445D7D3F1B6865BB009C7784 /* SearchFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFriendsTableViewController.h; sourceTree = "<group>"; };
+		445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFriendsTableViewController.m; sourceTree = "<group>"; };
+		445D7D421B68671C009C7784 /* searchFriendsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchFriendsCell.xib; sourceTree = "<group>"; };
 		B9200BDD1B393EC4001372C0 /* iLLFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLFriendsTableViewController.h; sourceTree = "<group>"; };
 		B9200BDE1B393EC4001372C0 /* iLLFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLFriendsTableViewController.m; sourceTree = "<group>"; };
 		B9200BE01B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLFriendTabTheirCollectionViewController.h; sourceTree = "<group>"; };
@@ -214,8 +219,11 @@
 		B9200BDC1B393EA9001372C0 /* Friends Table View Controller */ = {
 			isa = PBXGroup;
 			children = (
+				445D7D421B68671C009C7784 /* searchFriendsCell.xib */,
 				B9200BDD1B393EC4001372C0 /* iLLFriendsTableViewController.h */,
 				B9200BDE1B393EC4001372C0 /* iLLFriendsTableViewController.m */,
+				445D7D3F1B6865BB009C7784 /* SearchFriendsTableViewController.h */,
+				445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */,
 			);
 			name = "Friends Table View Controller";
 			sourceTree = "<group>";
@@ -566,6 +574,7 @@
 				B96773551B32331A00C01AAF /* Main.storyboard in Resources */,
 				B967735A1B32331A00C01AAF /* LaunchScreen.xib in Resources */,
 				B96773571B32331A00C01AAF /* Images.xcassets in Resources */,
+				445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */,
 				B93D90171B324B6600A2947C /* placeholder.png in Resources */,
 				B93D90151B324B4700A2947C /* governor.ttf in Resources */,
 				B93D90121B324B4700A2947C /* Streetwear.otf in Resources */,
@@ -647,6 +656,7 @@
 				B9B76F251B37E8D000F63AC4 /* AddiLListTableViewController.m in Sources */,
 				B93D8FF61B3242FC00A2947C /* Playlist.m in Sources */,
 				B93D90051B3242FD00A2947C /* FriendPhonenumber.m in Sources */,
+				445D7D411B6865BB009C7784 /* SearchFriendsTableViewController.m in Sources */,
 				B9B76F371B37E93000F63AC4 /* CustomSearchedSongTableViewCell.m in Sources */,
 				B9B76F2D1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m in Sources */,
 				B9B76F461B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m in Sources */,

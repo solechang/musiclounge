@@ -30,6 +30,9 @@
 }
 
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
+@property (weak, nonatomic) IBOutlet UISearchBar *friendSearchBar;
+@property (nonatomic, strong) UISearchController *searchController;
+@property (nonatomic, strong) SearchFriendsTableViewController *searchFriendsTableController;
 
 @end
 
@@ -61,7 +64,6 @@
     self.navigationController.navigationBar.titleTextAttributes = size;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
     
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
@@ -105,7 +107,14 @@
 - (void) initializeData {
     
     friendsPhonenumberDictionary = [[NSMutableDictionary alloc] init];
-    
+    self.searchFriendsTableController = [[SearchFriendsTableViewController alloc] init];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.searchController.searchResultsUpdater = self;
+    self.searchController.delegate = self;
+    self.searchController.searchBar.delegate = self;
+    self.definesPresentationContext = YES;
 }
 
 #pragma mark - Buttons
@@ -224,7 +233,6 @@
 }
 
 - (void) sortFriendsWhoExistsOnIllist {
-    
     friendsWhoExistsOniLList = [[NSMutableArray alloc] init];
 
     for (int i = 0; i < friendsList.count; i++ ) {
@@ -237,6 +245,8 @@
             [friendsWhoExistsOniLList addObject:[friendsList objectAtIndex:i]];
         }
     }
+    
+    self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [[NSMutableArray alloc] initWithCapacity:friendsWhoExistsOniLList.count];
     [self.tableView reloadData];
 
 }
@@ -604,6 +614,7 @@
     if (indexPath.section == 0) {
         // Friends who exist on iLList
         Friend *friendWhoExist =[friendsWhoExistsOniLList objectAtIndex:indexPath.row];
+        
         cell.textLabel.text = friendWhoExist.name;
         cell.textLabel.textColor = myColor;
         
@@ -893,7 +904,41 @@
     
 }
 
-
-
+#pragma mark - search for friend - Anthony
+-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+    // Update the filtered array based on the search text and scope.
+    // Remove all objects from the filtered search array
+    
+    [self.searchFriendsTableController.filteredFriendsWhoExistsOniLList removeAllObjects];
+    
+    NSMutableArray *tempArray = [[NSMutableArray alloc] init];
+    PFQuery *query = [PFUser query];
+    //query = [PFQuery queryWithClassName:@"User"];
+    //[query whereKey:@"name" equalTo:self.searchController.searchBar.text];
+    [query selectKeys:@[@"name"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSString *errorString = [error userInfo][@"error"];
+            NSLog(@"Log %@", errorString);
+        }
+        else {
+        // iterate through the objects array, which contains PFObjects for each Student
+        for(PFObject *pfObject in objects){
+            [tempArray addObject:pfObject[@"name"]];
+            NSLog(@"%@",pfObject[@"name"]);
+        }
+        // Filter the array using NSPredicate
+        NSLog(@"%@",tempArray);
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",self.searchController.searchBar.text];
+        self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
+        
+        NSLog(@"%@",self.searchFriendsTableController.filteredFriendsWhoExistsOniLList);
+            
+        SearchFriendsTableViewController *tableController = (SearchFriendsTableViewController *)self.searchController.searchResultsController;
+        //tableController.filteredFriendsWhoExistsOniLList = tempArray;
+        [tableController.tableView reloadData];
+        }
+    }];
+    }
 
 @end
