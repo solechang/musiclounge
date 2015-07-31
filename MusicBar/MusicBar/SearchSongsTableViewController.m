@@ -354,6 +354,9 @@
     return image;
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
+}
 #pragma mark - Search Delegate Methods
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {

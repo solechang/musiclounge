@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zi9-Mx-lub">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zi9-Mx-lub">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="governor.ttf">
@@ -508,7 +508,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Profile Picture" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DPg-QR-8eN">
-                                                    <rect key="frame" x="15" y="4" width="290" height="34.5"/>
+                                                    <rect key="frame" x="15" y="4" width="290" height="35"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="0.34303585419999999" blue="0.36245291819999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -842,10 +842,19 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
                         <outlet property="refreshButton" destination="tgj-lE-ctc" id="5qW-Ld-Iia"/>
+                        <outlet property="searchDisplayController" destination="2Uf-cQ-0FM" id="Ect-U1-MHN"/>
                         <segue destination="jMU-U9-WgW" kind="show" identifier="friendSegue" id="eF3-Lc-LdC"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="c2d-tz-UiI" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <searchDisplayController id="2Uf-cQ-0FM">
+                    <connections>
+                        <outlet property="delegate" destination="W3a-el-ogo" id="MMB-CM-1dH"/>
+                        <outlet property="searchContentsController" destination="W3a-el-ogo" id="yom-qb-fYh"/>
+                        <outlet property="searchResultsDataSource" destination="W3a-el-ogo" id="UsJ-SD-t4t"/>
+                        <outlet property="searchResultsDelegate" destination="W3a-el-ogo" id="a3c-yX-gW1"/>
+                    </connections>
+                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="738" y="3035"/>
         </scene>
