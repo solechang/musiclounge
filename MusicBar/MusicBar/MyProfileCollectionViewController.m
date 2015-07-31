@@ -583,6 +583,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     return nil;
 }
 
+//- (MyPlaylistCollectionViewCell*)
 
 
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView

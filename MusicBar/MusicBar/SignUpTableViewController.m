@@ -261,7 +261,7 @@
 -(void) createUserData :(PFUser*)user{
     PFACL *defaultACL = [PFACL ACL];
     [defaultACL setReadAccess:YES forUser:[PFUser currentUser]];
-    [defaultACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [defaultACL setWriteAccess:NO forUser:[PFUser currentUser]];
       
     //Creating UserFriendList PFObject and setting ACL
     PFObject *userFriendList = [PFObject objectWithClassName:@"UserFriendList"];
