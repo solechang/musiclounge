@@ -368,7 +368,9 @@
         SongManager *songMangerSearchedText = [[SongManager alloc] initWithTrackName:trackName] ;
         
         NSString *resourceURL = [songMangerSearchedText getResourceURL];
+        
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@",searchBar.text]];
+        
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
