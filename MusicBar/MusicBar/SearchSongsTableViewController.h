@@ -18,7 +18,9 @@
 #import "NowPlaying.h"
 #import "NowPlayingSong.h"
 
-@interface SearchSongsTableViewController : UITableViewController <UISearchBarDelegate,UISearchResultsUpdating, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+
+// Removed UISearchResultsUpdating
+@interface SearchSongsTableViewController : UITableViewController <UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, retain) Playlist* playlistInfo;
 

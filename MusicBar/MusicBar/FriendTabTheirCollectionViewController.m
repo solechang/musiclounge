@@ -6,12 +6,12 @@
 //  Copyright (c) 2015 iLList. All rights reserved.
 //
 
-#import "iLLFriendTabTheirCollectionViewController.h"
+#import "FriendTabTheirCollectionViewController.h"
 #import "CSStickyHeaderFlowLayout.h"
 
 #import "SCUI.h"
 
-#import "iLLFriendSearchSongsTableViewController.h"
+#import "FriendSearchSongsTableViewController.h"
 #import "DZNSegmentedControl.h"
 
 #import "CSParallaxHeader.h"
@@ -27,7 +27,7 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
-@interface iLLFriendTabTheirCollectionViewController ()   <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
+@interface FriendTabTheirCollectionViewController ()   <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
     
     NSMutableArray* myiLListArray;
     
@@ -53,7 +53,7 @@
 
 @end
 
-@implementation iLLFriendTabTheirCollectionViewController
+@implementation FriendTabTheirCollectionViewController
 
 - (void)viewDidLoad
 {
@@ -670,7 +670,7 @@ didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([[segue identifier] isEqualToString:@"iLListSegue"]) {
         
         // Get destination view
-        iLLFriendSearchSongsTableViewController *ssc = [segue destinationViewController];
+        FriendSearchSongsTableViewController *ssc = [segue destinationViewController];
         
         // Initializing indexpath for the playlist cell
         NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];

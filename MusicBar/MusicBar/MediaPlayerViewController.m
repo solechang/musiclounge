@@ -7,7 +7,7 @@
 //
 
 #import "MediaPlayerViewController.h"
-#import "iLLFriendSearchSongsTableViewController.h"
+#import "FriendSearchSongsTableViewController.h"
 #import <Parse/Parse.h>
 #import <SDWebImage/UIImageView+WebCache.h>
 

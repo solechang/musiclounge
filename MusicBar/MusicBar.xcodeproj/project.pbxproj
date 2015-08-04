@@ -9,9 +9,9 @@
 /* Begin PBXBuildFile section */
 		445D7D411B6865BB009C7784 /* SearchFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */; };
 		445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445D7D421B68671C009C7784 /* searchFriendsCell.xib */; };
-		B9200BDF1B393EC4001372C0 /* iLLFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BDE1B393EC4001372C0 /* iLLFriendsTableViewController.m */; };
-		B9200BE61B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.m */; };
-		B9200BE71B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.m */; };
+		B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */; };
+		B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */; };
+		B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */; };
 		B9200BE81B393ED2001372C0 /* FriendSearchControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE51B393ED2001372C0 /* FriendSearchControllerTableViewController.m */; };
 		B9200BEC1B393EF4001372C0 /* iLLSongFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BEB1B393EF4001372C0 /* iLLSongFriendManager.m */; };
 		B93D8FCD1B32411600A2947C /* MusicBarModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B93D8FCB1B32411600A2947C /* MusicBarModel.xcdatamodeld */; };
@@ -76,12 +76,12 @@
 		445D7D3F1B6865BB009C7784 /* SearchFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFriendsTableViewController.h; sourceTree = "<group>"; };
 		445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFriendsTableViewController.m; sourceTree = "<group>"; };
 		445D7D421B68671C009C7784 /* searchFriendsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchFriendsCell.xib; sourceTree = "<group>"; };
-		B9200BDD1B393EC4001372C0 /* iLLFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLFriendsTableViewController.h; sourceTree = "<group>"; };
-		B9200BDE1B393EC4001372C0 /* iLLFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLFriendsTableViewController.m; sourceTree = "<group>"; };
-		B9200BE01B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLFriendTabTheirCollectionViewController.h; sourceTree = "<group>"; };
-		B9200BE11B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLFriendTabTheirCollectionViewController.m; sourceTree = "<group>"; };
-		B9200BE21B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLFriendSearchSongsTableViewController.h; sourceTree = "<group>"; };
-		B9200BE31B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLFriendSearchSongsTableViewController.m; sourceTree = "<group>"; };
+		B9200BDD1B393EC4001372C0 /* FriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewController.h; sourceTree = "<group>"; };
+		B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewController.m; sourceTree = "<group>"; };
+		B9200BE01B393ED2001372C0 /* FriendTabTheirCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTabTheirCollectionViewController.h; sourceTree = "<group>"; };
+		B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendTabTheirCollectionViewController.m; sourceTree = "<group>"; };
+		B9200BE21B393ED2001372C0 /* FriendSearchSongsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendSearchSongsTableViewController.h; sourceTree = "<group>"; };
+		B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSearchSongsTableViewController.m; sourceTree = "<group>"; };
 		B9200BE41B393ED2001372C0 /* FriendSearchControllerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendSearchControllerTableViewController.h; sourceTree = "<group>"; };
 		B9200BE51B393ED2001372C0 /* FriendSearchControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSearchControllerTableViewController.m; sourceTree = "<group>"; };
 		B9200BEA1B393EF4001372C0 /* iLLSongFriendManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLSongFriendManager.h; sourceTree = "<group>"; };
@@ -218,10 +218,10 @@
 			isa = PBXGroup;
 			children = (
 				B9200BE91B393EE6001372C0 /* Friend Song Manager */,
-				B9200BE01B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.h */,
-				B9200BE11B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.m */,
-				B9200BE21B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.h */,
-				B9200BE31B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.m */,
+				B9200BE01B393ED2001372C0 /* FriendTabTheirCollectionViewController.h */,
+				B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */,
+				B9200BE21B393ED2001372C0 /* FriendSearchSongsTableViewController.h */,
+				B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */,
 				B9200BE41B393ED2001372C0 /* FriendSearchControllerTableViewController.h */,
 				B9200BE51B393ED2001372C0 /* FriendSearchControllerTableViewController.m */,
 			);
@@ -232,8 +232,8 @@
 			isa = PBXGroup;
 			children = (
 				445D7D421B68671C009C7784 /* searchFriendsCell.xib */,
-				B9200BDD1B393EC4001372C0 /* iLLFriendsTableViewController.h */,
-				B9200BDE1B393EC4001372C0 /* iLLFriendsTableViewController.m */,
+				B9200BDD1B393EC4001372C0 /* FriendsTableViewController.h */,
+				B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */,
 				445D7D3F1B6865BB009C7784 /* SearchFriendsTableViewController.h */,
 				445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */,
 			);
@@ -647,7 +647,7 @@
 				B96D16071B32371400406AAF /* LoginViewController.m in Sources */,
 				B93D8FF31B3242FC00A2947C /* Friend.m in Sources */,
 				B93D8FF91B3242FC00A2947C /* UserFriendList.m in Sources */,
-				B9200BDF1B393EC4001372C0 /* iLLFriendsTableViewController.m in Sources */,
+				B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */,
 				B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */,
 				B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */,
 				B9200BEC1B393EF4001372C0 /* iLLSongFriendManager.m in Sources */,
@@ -669,10 +669,10 @@
 				B9B76F371B37E93000F63AC4 /* CustomSearchedSongTableViewCell.m in Sources */,
 				B9B76F2D1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m in Sources */,
 				B9B76F461B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m in Sources */,
-				B9200BE61B393ED2001372C0 /* iLLFriendTabTheirCollectionViewController.m in Sources */,
+				B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */,
 				B9B76F3B1B37E94900F63AC4 /* SongManager.m in Sources */,
 				B93D8FFC1B3242FC00A2947C /* NowPlaying.m in Sources */,
-				B9200BE71B393ED2001372C0 /* iLLFriendSearchSongsTableViewController.m in Sources */,
+				B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

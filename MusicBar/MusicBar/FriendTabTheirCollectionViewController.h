@@ -13,7 +13,7 @@
 // Core data
 #import "Friend.h"
 
-@interface iLLFriendTabTheirCollectionViewController : UICollectionViewController
+@interface FriendTabTheirCollectionViewController : UICollectionViewController
 
 
 @property (strong, nonatomic) IBOutlet UICollectionView *friendTabTheirSegmentedControlView;

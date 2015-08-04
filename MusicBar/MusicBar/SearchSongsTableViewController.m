@@ -59,7 +59,9 @@
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     
-    self.searchController.searchResultsUpdater = self;
+//    self.searchController.searchResultsUpdater = self;
+    
+    self.searchController.searchBar.delegate = self;
     
     self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
     
@@ -355,13 +357,9 @@
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    
-}
-#pragma mark - Search Delegate Methods
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    NSString *searchString = searchController.searchBar.text;
 
+    NSString *searchString = searchBar.text;
+    
     if (searchString.length != 0 ) {
         NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
         
@@ -370,10 +368,10 @@
         SongManager *songMangerSearchedText = [[SongManager alloc] initWithTrackName:trackName] ;
         
         NSString *resourceURL = [songMangerSearchedText getResourceURL];
-        
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@",searchBar.text]];
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
-
+            [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
                 UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
                 self.searchResult = [songMangerSearchedText parseTrackData:data];
@@ -387,6 +385,7 @@
             
             [self.tableView reloadData];
             
+
         };
         
         [SCRequest performMethod:SCRequestMethodGET
@@ -397,6 +396,8 @@
                  responseHandler:handler];
     }
 
+    
+    
 }
 
 // When user swipes a cell

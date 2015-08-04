@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 iLList. All rights reserved.
 //
 
-#import "iLLFriendsTableViewController.h"
+#import "FriendsTableViewController.h"
 #import <RHAddressBook/AddressBook.h>
 #import <SVProgressHUD/SVProgressHUD.h>
 
@@ -18,9 +18,9 @@
 #import "Friend.h"
 #import "FriendPhonenumber.h"
 
-#import "iLLFriendTabTheirCollectionViewController.h"
+#import "FriendTabTheirCollectionViewController.h"
 
-@interface iLLFriendsTableViewController () {
+@interface FriendsTableViewController () {
     NSMutableArray *friendsList;
     NSMutableDictionary *friendsPhonenumberDictionary;
     NSMutableArray *friendsWhoExistsOniLList;
@@ -36,7 +36,7 @@
 
 @end
 
-@implementation iLLFriendsTableViewController
+@implementation FriendsTableViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -884,7 +884,7 @@
      if ([segue.identifier isEqualToString:@"friendSegue"]) {
          
          // Get destination view
-         iLLFriendTabTheirCollectionViewController *controller = (iLLFriendTabTheirCollectionViewController*)segue.destinationViewController;
+         FriendTabTheirCollectionViewController *controller = (FriendTabTheirCollectionViewController*)segue.destinationViewController;
          
          // Initializing indexpath for the friend cell
          NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
