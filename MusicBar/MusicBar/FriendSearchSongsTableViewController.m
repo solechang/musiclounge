@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 iLList. All rights reserved.
 //
 
-#import "iLLFriendSearchSongsTableViewController.h"
+#import "FriendSearchSongsTableViewController.h"
 #import "SCUI.h"
 #import "CustomSearchedSongTableViewCell.h"
 #import "CustomSong.h"
@@ -17,7 +17,7 @@
 
 #import "FriendSearchControllerTableViewController.h"
 
-@interface iLLFriendSearchSongsTableViewController (){
+@interface FriendSearchSongsTableViewController (){
     
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
@@ -34,7 +34,7 @@
 
 @end
 
-@implementation iLLFriendSearchSongsTableViewController
+@implementation FriendSearchSongsTableViewController
 
 
 - (void)viewDidLoad {
