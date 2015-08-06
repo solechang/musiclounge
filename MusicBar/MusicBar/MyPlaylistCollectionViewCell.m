@@ -38,7 +38,7 @@ const float UI_CUES_MARGIN = 0.0f;
         
         self.backgroundView = cellView;
         
-        [self setLabelPlaylistTitle:[UILabel new]];
+//        [self setLabelPlaylistTitle:[UILabel new]];
         
         [_labelPlaylistTitle setTextColor:[UIColor blackColor]];
         [_labelPlaylistTitle setBackgroundColor:[UIColor clearColor]];
@@ -49,7 +49,7 @@ const float UI_CUES_MARGIN = 0.0f;
         [[self labelPlaylistTitle] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [[self contentView] addSubview:[self labelPlaylistTitle]];
         
-        [self setLabelPlaylistCreator:[UILabel new]];
+//        [self setLabelPlaylistCreator:[UILabel new]];
         [_labelPlaylistCreator setTextColor:[UIColor blackColor]];
         [_labelPlaylistCreator setBackgroundColor:[UIColor clearColor]];
         [_labelPlaylistCreator  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
@@ -57,8 +57,6 @@ const float UI_CUES_MARGIN = 0.0f;
         
         [[self labelPlaylistCreator] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [[self contentView] addSubview:[self labelPlaylistCreator]];
-        
-        self.labelPlaylistTitle.text = @"HI";
         
         _tickLabel = [self createTickLabel];
         _tickLabel.text = @"\u2713";
