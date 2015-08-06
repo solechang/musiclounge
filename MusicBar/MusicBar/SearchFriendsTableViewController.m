@@ -8,8 +8,12 @@
 
 #import "SearchFriendsTableViewController.h"
 #import "Friend.h"
+#import "FriendTabTheirCollectionViewController.h"
+#import "FriendsTableViewController.h"
 
 @interface SearchFriendsTableViewController ()
+
+@property (weak,nonatomic) FriendsTableViewController *parentcontroller;
 
 @end
 
@@ -24,6 +28,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.tableView registerNib:[UINib nibWithNibName:@"searchFriendsCell" bundle:nil] forCellReuseIdentifier:@"cellID"];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -62,12 +67,16 @@
         // Friends who exist on iLList
         //Friend *friendWhoExist =[self.filteredFriendsWhoExistsOniLList objectAtIndex:indexPath.row];
         
-        cell.textLabel.text = [self.filteredFriendsWhoExistsOniLList objectAtIndex:indexPath.row];
+        cell.textLabel.text = [[self.filteredFriendsWhoExistsOniLList objectAtIndex:indexPath.row] name];
         cell.textLabel.textColor = myColor;
         
     }
     
     return cell;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    [self.friendsTableViewController performSegueWithIdentifier:@"friendSegue" sender:self];
 }
 
 @end

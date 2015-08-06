@@ -19,6 +19,7 @@
 #import "FriendPhonenumber.h"
 
 #import "FriendTabTheirCollectionViewController.h"
+#import "SearchFriendsTableViewController.h"
 
 @interface FriendsTableViewController () {
     NSMutableArray *friendsList;
@@ -111,7 +112,7 @@
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
     [self.searchController.searchBar sizeToFit];
     self.tableView.tableHeaderView = self.searchController.searchBar;
-    self.searchController.searchResultsUpdater = self;
+//    self.searchController.searchResultsUpdater = self;
     self.searchController.delegate = self;
     self.searchController.searchBar.delegate = self;
     self.definesPresentationContext = YES;
@@ -880,19 +881,22 @@
 
 #pragma mark - Navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-     
-     if ([segue.identifier isEqualToString:@"friendSegue"]) {
+     if ([segue.identifier isEqualToString:@"friendSegue"]){
          
          // Get destination view
          FriendTabTheirCollectionViewController *controller = (FriendTabTheirCollectionViewController*)segue.destinationViewController;
          
          // Initializing indexpath for the friend cell
-         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-         Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
-
-         controller.friendInfo = selectedFriend;
-         
-        
+         NSLog(@"%@",sender);
+         if (sender==nil) {
+             NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+             Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
+             controller.friendInfo = selectedFriend;
+         }else if(sender==self.searchFriendsTableController){
+             NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
+             Friend *selectedFriend =[self.searchFriendsTableController.filteredFriendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
+             controller.friendInfo = selectedFriend;
+         }
      }
  }
 
@@ -905,7 +909,9 @@
 }
 
 #pragma mark - search for friend - Anthony
--(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+//-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    
     // Update the filtered array based on the search text and scope.
     // Remove all objects from the filtered search array
     
@@ -924,16 +930,20 @@
         else {
         // iterate through the objects array, which contains PFObjects for each Student
         for(PFObject *pfObject in objects){
-            [tempArray addObject:pfObject[@"name"]];
-            NSLog(@"%@",pfObject[@"name"]);
+            Friend *friend = [Friend MR_createEntity];
+            friend.name =pfObject[@"name"];
+            friend.userId = pfObject.objectId;
+            [tempArray addObject:friend];
+            NSLog(@"%@",friend);
         }
         // Filter the array using NSPredicate
         NSLog(@"%@",tempArray);
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"SELF contains[c] %@",self.searchController.searchBar.text];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.name contains[c] %@",self.searchController.searchBar.text];
         self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
         
         NSLog(@"%@",self.searchFriendsTableController.filteredFriendsWhoExistsOniLList);
-            
+        
+        self.searchFriendsTableController.friendsTableViewController = self;
         SearchFriendsTableViewController *tableController = (SearchFriendsTableViewController *)self.searchController.searchResultsController;
         //tableController.filteredFriendsWhoExistsOniLList = tempArray;
         [tableController.tableView reloadData];
