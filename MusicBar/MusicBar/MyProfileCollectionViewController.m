@@ -393,7 +393,7 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-//    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"myProfileCollectionViewCell"];
+    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"myProfileCollectionViewCell"];
     
 //    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
 //            forCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class])];
@@ -416,7 +416,6 @@
 - (id)initWithCoder:(NSCoder *)aDecoder {
     
     self = [super initWithCoder:aDecoder];
-    
     
     if (self) {
         
@@ -447,7 +446,6 @@
         _control.showsCount = YES;
         
         [self setCountOnControl];
-        
         
         [_control addTarget:self action:@selector(selectedSegment:) forControlEvents:UIControlEventValueChanged];
         
@@ -534,8 +532,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         NSString *cellIdentifier = @"myProfileCollectionViewCell";
         MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
-
-  
+        
         Playlist *playlist = [myiLListArray objectAtIndex:indexPath.row];
         
         NSString *iLListName = playlist.name;
@@ -546,8 +543,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
         //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
         cell.labelPlaylistCreator.text = iLListCreator;
-        
-        NSLog(@"1.) %f", cell.contentView.frame.size.height);
+    
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, cell.contentView.frame.size.width, 0.5f)];
         
 //        CGFloat borderWidth = 0.1f;
@@ -626,7 +622,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"2.1)");
+
     if (self.control.selectedSegmentIndex == 0) {
         
         [self performSegueWithIdentifier:@"iLListSegue" sender:self];
@@ -831,8 +827,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
             [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
                 if( succeeded ) {
-                    
-                    
+
                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                         
                         Playlist *deletePlaylist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:playlistObjectID inContext:localContext];
@@ -858,7 +853,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                             [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
                             
                         } else {
-                            NSLog(@"870");
+                            NSLog(@"861");
                         }
                         
                         
@@ -871,10 +866,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 
             }];
             
-            
         }
-        
-        
+
     }];
 }
 
