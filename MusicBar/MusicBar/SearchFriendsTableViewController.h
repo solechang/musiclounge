@@ -7,10 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FriendsTableViewController.h"
+
 
 @interface SearchFriendsTableViewController : UITableViewController
 
 
 @property (strong,nonatomic) NSMutableArray *filteredFriendsWhoExistsOniLList;
+@property (weak,nonatomic) FriendsTableViewController *friendsTableViewController;
+
 
 @end
