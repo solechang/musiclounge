@@ -26,7 +26,6 @@ const float UI_CUES_MARGIN = 0.0f;
 @implementation MyPlaylistCollectionViewCell
 
 -(id) initWithFrame:(CGRect)frame {
-    NSLog(@"1.)");
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
@@ -38,7 +37,6 @@ const float UI_CUES_MARGIN = 0.0f;
         cellView.layer.borderColor = [UIColor lightGrayColor].CGColor;
         
         self.backgroundView = cellView;
-
         
         [self setLabelPlaylistTitle:[UILabel new]];
         
