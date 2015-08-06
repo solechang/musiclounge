@@ -539,8 +539,8 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
         NSString *iLListCreator = [NSString stringWithFormat:@"Song count: %@", playlist.songCount]; //[myiLListArray objectAtIndex:indexPath.row][@"userName"];
        
-        cell.labelPlaylistTitle.text = iLListName;
-
+        [cell.labelPlaylistTitle setText:iLListName];
+        NSLog(@"1.) %@", iLListName);
         //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
         cell.labelPlaylistCreator.text = iLListCreator;
     
