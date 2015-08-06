@@ -820,6 +820,10 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
 }
 
+#pragma mark - Anthony - Add Friend
+- (IBAction)addFriendButtonPushed:(id)sender {
+}
+
 //- (void) deletePlaylist {
 //    
 //
