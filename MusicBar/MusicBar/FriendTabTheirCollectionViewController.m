@@ -26,6 +26,7 @@
 #import "SongFriend.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
+#import "UserFriendList.h"
 
 @interface FriendTabTheirCollectionViewController ()   <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
     
@@ -50,6 +51,7 @@
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, strong) NSArray *menuItems;
 @property (nonatomic, retain) UIImage *profilePictureImage;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addFriendButton;
 
 @end
 
@@ -161,6 +163,13 @@
 - (void)viewDidAppear:(BOOL)animated {
    
      [self userPlaylistLogic];
+    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId];
+    if (findFriend.friend_exists){
+        self.addFriendButton.enabled = NO;
+    }else{
+        self.addFriendButton.enabled = YES;
+        NSLog(@"%@",findFriend.friend_exists);
+    }
         
 }
 
@@ -822,6 +831,42 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 #pragma mark - Anthony - Add Friend
 - (IBAction)addFriendButtonPushed:(id)sender {
+    PFACL *acl = [PFACL ACL];
+    [acl setReadAccess:YES forUser:[PFUser currentUser]];
+    [acl setWriteAccess:YES forUser:[PFUser currentUser]];
+    
+    PFObject *friend = [PFObject objectWithClassName:@"Friend"];
+    friend.ACL = acl;
+    friend[@"host"] = [[PFUser currentUser] objectId];
+    friend[@"friend_exists"] = @(YES);
+    friend[@"userId"] = self.friendInfo.userId;
+    friend[@"name"] = hostName;
+    
+    [friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
+        if (!error){
+            NSLog(@"Friend added");
+            
+            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
+                CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];
+                UserFriendList *currentUserFriendList = [UserFriendList MR_findFirstInContext:localContext];
+                Friend *friendInLocal = [Friend MR_createEntityInContext:localContext];
+                friendInLocal.hostId = friend[@"host"];
+                friendInLocal.objectId = friend.objectId;
+                friendInLocal.userId = self.friendInfo.userId;
+                friendInLocal.friend_exists = friend[@"friend_exists"];
+                friendInLocal.name = friend[@"name"];
+                [currentUserFriendList addFriendObject:friendInLocal];
+                // saving updated date for userfriendlist
+                currentUserFriendList.updatedAt = [NSDate date];
+                // Finding current User in coredata and updating with the userfriendlist in coredata
+                currentUser.userFriendList = currentUserFriendList;
+            } completion:^(BOOL success, NSError *error){
+                if(!error){
+                    self.addFriendButton.enabled = NO;
+                }
+            }];
+        }
+    }];
 }
 
 //- (void) deletePlaylist {

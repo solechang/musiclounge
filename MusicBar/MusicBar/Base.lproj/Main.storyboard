@@ -953,6 +953,7 @@
                     </navigationItem>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
+                        <outlet property="addFriendButton" destination="dDR-dG-NWO" id="djj-nH-aOn"/>
                         <outlet property="friendTabTheirSegmentedControlView" destination="zSZ-xP-LJH" id="N2W-yH-z7r"/>
                     </connections>
                 </collectionViewController>
