@@ -891,6 +891,7 @@
          if (sender==nil) {
              NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
              Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
+             NSLog(@"%@",selectedFriend.userId);
              controller.friendInfo = selectedFriend;
          }else if(sender==self.searchFriendsTableController){
              NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
