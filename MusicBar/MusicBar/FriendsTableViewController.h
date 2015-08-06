@@ -11,8 +11,7 @@
 #import <Parse/Parse.h>
 
 #import "UIScrollView+EmptyDataSet.h"
-#import "SearchFriendsTableViewController.h"
 
-@interface FriendsTableViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate, UISearchControllerDelegate, UISearchResultsUpdating>
+@interface FriendsTableViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate, UISearchControllerDelegate>
 
 @end
