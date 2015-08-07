@@ -54,6 +54,12 @@
 
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self retrieveFriendsFromLocal];
+    
+}
+
 - (void) viewWillDisappear:(BOOL)animated {
     [SVProgressHUD dismiss];
 }

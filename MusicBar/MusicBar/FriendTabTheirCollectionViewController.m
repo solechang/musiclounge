@@ -163,14 +163,7 @@
 - (void)viewDidAppear:(BOOL)animated {
    
      [self userPlaylistLogic];
-    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId];
-    if (findFriend.friend_exists){
-        self.addFriendButton.enabled = NO;
-    }else{
-        self.addFriendButton.enabled = YES;
-        NSLog(@"%@",findFriend.friend_exists);
-    }
-        
+    
 }
 
 - (void) userPlaylistLogic {
@@ -259,9 +252,6 @@
     myiLListArray = [[NSMutableArray alloc] init];
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
-        // clear myillist array
-        //        [myiLListArray removeAllObjects];
-        
         NSArray *playlistsArrayInLocal = [PlaylistFriend MR_findAllInContext:localContext];
         
         for (PFObject *playlistObject in playlists) {
@@ -297,7 +287,7 @@
             
         } else {
             
-            NSLog(@"No playlist changes 244");
+            NSLog(@"No playlist changes 290");
             [self.collectionView reloadData];
             [SVProgressHUD dismiss];
             
@@ -313,26 +303,50 @@
     NSArray *playlistArray = [PlaylistFriend MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
     PlaylistFriend *friendName = [PlaylistFriend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
     
+    
     if (playlistArray.count != 0 ) {
         
         hostName = [[NSString alloc] initWithString:friendName.userName];
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
         [self setCountOnControl];
         
-     
+        [self.collectionView reloadData];
+        
+    } else {
+        
+        [self getUserName];
         
     }
-    [self.collectionView reloadData];
+    
+
     [SVProgressHUD dismiss];
     
   
+}
+
+- (void) getUserName {
+    
+    PFQuery *query = [PFUser query];
+    hostName = [[NSString alloc] initWithString:self.friendInfo.name];
+    
+    [self.collectionView reloadData];
+    
+    
 }
 
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-//    [self getUserName];
+    // Check if friend exists
+    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId];
+    
+    if (findFriend.friend_exists){
+        self.addFriendButton.enabled = NO;
+    } else{
+        self.addFriendButton.enabled = YES;
+    }
+
 }
 
 - (void) setUpCollectionView {
@@ -370,15 +384,7 @@
     
 }
 
-- (void) getUserName {
-  
-        
-        hostName = [[NSString alloc] initWithString:self.friendInfo.name];
-        
-        [self.collectionView reloadData];
-   
-    
-}
+
 
 -(void)setUpCell{
     //IK - registering custom cells into the collection view programmatically
