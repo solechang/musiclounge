@@ -13,6 +13,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MagicalRecord/MagicalRecord.h>
 #import <MagicalRecord/MagicalRecord+Setup.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 @interface AppDelegate ()
@@ -24,6 +26,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+    // Crashlytics
+    [Fabric with:@[CrashlyticsKit]];
 
     //localdataCHANG
     [MagicalRecord setupAutoMigratingCoreDataStack];
