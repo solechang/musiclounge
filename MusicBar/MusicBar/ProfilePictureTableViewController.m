@@ -1,9 +1,9 @@
 //
-//  iLLProfilePictureTableViewController.m
-//  iLList
+//  ProfilePictureTableViewController.m
+//  MusicBar
 //
 //  Created by Jake Choi on 5/18/15.
-//  Copyright (c) 2015 iLList. All rights reserved.
+//  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
 #import "ProfilePictureTableViewController.h"

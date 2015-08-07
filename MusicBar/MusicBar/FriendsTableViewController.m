@@ -1,9 +1,9 @@
 //
-//  iLLFriendsTableViewController.m
-//  iLList
+//  FriendsTableViewController.m
+//  MusicBar
 //
 //  Created by Jake Choi on 1/14/15.
-//  Copyright (c) 2015 iLList. All rights reserved.
+//  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
 #import "FriendsTableViewController.h"
@@ -273,9 +273,9 @@
     friendsQueryUpdate.limit = 1000;
     
     [friendsQueryUpdate findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
-        NSLog(@"0.1)");
+
         if (!error) {
-          NSLog(@"0.2)");
+      
             if (objects.count != 0) {
              
                 /* Update and pin Friends when user deletes app and downloads app again or logs in from different iOS phone
@@ -328,9 +328,9 @@
                         
                         friendsList = [[NSMutableArray alloc] initWithArray:friends];
                         [self cleanPhonenumberStrings];
-                          NSLog(@"0.3)");
+                        
                     } else {
-                  NSLog(@"0.4)");
+
                         // User's Friends doesn't exist in the database
                         friendsList = [[NSMutableArray alloc] init];
                         NSLog( @"Error: retrieveUpdatedFriendsObjectFromServer");
@@ -341,7 +341,7 @@
 
                 
             } else {
-                  NSLog(@"0.5)");
+                
                 // PFObject Friend doesn't exists on local storage
     //             sync user's contact address to server
                 friendsList = [[NSMutableArray alloc] init];
@@ -349,14 +349,13 @@
                 
             }
         } else {
-              NSLog(@"0.6)");
             NSLog(@"Error: retrieveUpdatedFriendsObjectFromServer");
             [SVProgressHUD dismiss];
         }
     }];
 }
 - (void) cleanPhonenumberStrings {
-      NSLog(@"0.31)");
+    
     for (int i = 0; i < friendsList.count; i ++) {
         
         Friend *inFriendsList = [friendsList objectAtIndex:i];
@@ -403,7 +402,7 @@
 
 
 - (void) queryPhonenumberUsersInServer{
- NSLog(@"0.32)");
+ 
     /* PFCloud to the server and send the friendsPhonenumberDictionary
      * friendsPhonenumberDictionary will include the user contact's phonenumber and which index the phonenumber is in the
      * friendsList array.
@@ -893,11 +892,11 @@
          FriendTabTheirCollectionViewController *controller = (FriendTabTheirCollectionViewController*)segue.destinationViewController;
          
          // Initializing indexpath for the friend cell
-         NSLog(@"%@",sender);
+         
          if (sender==nil) {
              NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
              Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
-             NSLog(@"%@",selectedFriend.userId);
+
              controller.friendInfo = selectedFriend;
          }else if(sender==self.searchFriendsTableController){
              NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
@@ -928,32 +927,32 @@
     PFQuery *query = [PFUser query];
     //query = [PFQuery queryWithClassName:@"User"];
     //[query whereKey:@"name" equalTo:self.searchController.searchBar.text];
+    
     [query selectKeys:@[@"name"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSString *errorString = [error userInfo][@"error"];
-            NSLog(@"Log %@", errorString);
+            NSLog(@"935 Error: %@", errorString);
+            
         }
         else {
-        // iterate through the objects array, which contains PFObjects for each Student
-        for(PFObject *pfObject in objects){
-            Friend *friend = [Friend MR_createEntity];
-            friend.name =pfObject[@"name"];
-            friend.userId = pfObject.objectId;
-            [tempArray addObject:friend];
-            NSLog(@"%@",friend);
-        }
-        // Filter the array using NSPredicate
-        NSLog(@"%@",tempArray);
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.name contains[c] %@",self.searchController.searchBar.text];
-        self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
-        
-        NSLog(@"%@",self.searchFriendsTableController.filteredFriendsWhoExistsOniLList);
-        
-        self.searchFriendsTableController.friendsTableViewController = self;
-        SearchFriendsTableViewController *tableController = (SearchFriendsTableViewController *)self.searchController.searchResultsController;
-        //tableController.filteredFriendsWhoExistsOniLList = tempArray;
-        [tableController.tableView reloadData];
+            // iterate through the objects array, which contains PFObjects for each Student
+            for(PFObject *pfObject in objects){
+                Friend *friend = [Friend MR_createEntity];
+                friend.name =pfObject[@"name"];
+                friend.userId = pfObject.objectId;
+                [tempArray addObject:friend];
+
+            }
+            // Filter the array using NSPredicate
+
+            NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.name contains[c] %@",self.searchController.searchBar.text];
+            self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
+            
+            self.searchFriendsTableController.friendsTableViewController = self;
+            SearchFriendsTableViewController *tableController = (SearchFriendsTableViewController *)self.searchController.searchResultsController;
+            //tableController.filteredFriendsWhoExistsOniLList = tempArray;
+            [tableController.tableView reloadData];
         }
     }];
     }

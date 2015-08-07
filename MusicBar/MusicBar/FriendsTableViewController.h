@@ -1,9 +1,9 @@
 //
-//  iLLFriendsTableViewController.h
-//  iLList
+//  FriendsTableViewController.h
+//  MusicBar
 //
 //  Created by Jake Choi on 1/14/15.
-//  Copyright (c) 2015 iLList. All rights reserved.
+//  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
 

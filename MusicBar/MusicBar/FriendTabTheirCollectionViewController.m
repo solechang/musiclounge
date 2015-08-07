@@ -1,9 +1,9 @@
 //
-//  iLLFriendTabTheirCollectionViewController.m
-//  iLList
+//  FriendTabTheirCollectionViewController.m
+//  MusicBar
 //
 //  Created by Jake Choi on 2/24/15.
-//  Copyright (c) 2015 iLList. All rights reserved.
+//  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
 #import "FriendTabTheirCollectionViewController.h"
@@ -311,27 +311,32 @@
         [self setCountOnControl];
         
         [self.collectionView reloadData];
-        
+        [SVProgressHUD dismiss];
     } else {
         
         [self getUserName];
         
     }
-    
 
-    [SVProgressHUD dismiss];
     
-  
 }
 
 - (void) getUserName {
     
     PFQuery *query = [PFUser query];
-    hostName = [[NSString alloc] initWithString:self.friendInfo.name];
+    [query whereKey:@"objectId" equalTo:self.friendInfo.userId];
     
-    [self.collectionView reloadData];
-    
-    
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *userObject, NSError *error) {
+        
+        if (!error) {
+            
+            hostName = [[NSString alloc] initWithString:userObject[@"name"]];
+            
+            [self.collectionView reloadData];
+            [SVProgressHUD dismiss];
+        }
+        
+    }];
 }
 
 
@@ -639,7 +644,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"2.)");
+
     if (self.control.selectedSegmentIndex == 0) {
         
         [self performSegueWithIdentifier:@"iLListSegue" sender:self];
@@ -850,7 +855,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     [friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (!error){
-            NSLog(@"Friend added");
             
             [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
                 CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];
