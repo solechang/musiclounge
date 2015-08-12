@@ -544,14 +544,14 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
         
-        NSString *iLListName = playlist.name;
+        NSString *playlistName = playlist.name;
         
         //        NSString *iLListCreator =[myiLListArray objectAtIndex:indexPath.row][@"userName"];
-         NSString *iLListCreator = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
+         NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
         
-        cell.labelPlaylistTitle.text = iLListName;
-        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
-        cell.labelPlaylistCreator.text = iLListCreator;
+//        cell.labelPlaylistTitle.text = iLListName;
+//        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
+//        cell.labelPlaylistCreator.text = iLListCreator;
         
         UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
         
