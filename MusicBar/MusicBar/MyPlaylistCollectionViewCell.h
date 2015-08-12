@@ -10,9 +10,11 @@
 
 @interface MyPlaylistCollectionViewCell : UICollectionViewCell
 
-@property (weak, nonatomic) IBOutlet UILabel *labelPlaylistTitle;
-@property (weak, nonatomic) IBOutlet UILabel *labelPlaylistCreator;
+//@property (weak, nonatomic) IBOutlet UILabel *labelPlaylistTitle;
+//@property (weak, nonatomic) IBOutlet UILabel *labelPlaylistCreator;
 
+@property (nonatomic,readwrite) UILabel *labelPlaylistTitle;
+@property (nonatomic,readwrite) UILabel *labelPlaylistCreator;
 
 - (void) setPlaylistTitle:(NSString*)playlistTitle;
 @end

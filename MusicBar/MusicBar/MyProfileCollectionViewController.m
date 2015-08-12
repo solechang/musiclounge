@@ -539,20 +539,19 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
         NSString *iLListCreator = [NSString stringWithFormat:@"Song count: %@", playlist.songCount]; //[myiLListArray objectAtIndex:indexPath.row][@"userName"];
        
-        cell.labelPlaylistTitle.text = iLListName;
+//        cell.labelPlaylistTitle.text = iLListName;
+        [cell setPlaylistTitle:iLListName];
         
-        
-//        [cell.labelPlaylistTitle setText:iLListName];
-        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
-        cell.labelPlaylistCreator.text = iLListCreator;
+//                cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
+//        cell.labelPlaylistCreator.text = iLListCreator;
     
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, cell.contentView.frame.size.width, 0.5f)];
-        
-//        CGFloat borderWidth = 0.1f;
-//        lineView.layer.borderWidth = borderWidth;
-        lineView.backgroundColor = [UIColor lightGrayColor];
-        [cell.contentView addSubview:lineView];
-        
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, cell.contentView.frame.size.width, 0.5f)];
+//        
+////        CGFloat borderWidth = 0.1f;
+////        lineView.layer.borderWidth = borderWidth;
+//        lineView.backgroundColor = [UIColor lightGrayColor];
+//        [cell.contentView addSubview:lineView];
+//        NSLog(@"4.)");
         return cell;
         
         
