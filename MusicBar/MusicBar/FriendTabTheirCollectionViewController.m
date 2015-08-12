@@ -1,9 +1,9 @@
 //
-//  iLLFriendTabTheirCollectionViewController.m
-//  iLList
+//  FriendTabTheirCollectionViewController.m
+//  MusicBar
 //
 //  Created by Jake Choi on 2/24/15.
-//  Copyright (c) 2015 iLList. All rights reserved.
+//  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
 #import "FriendTabTheirCollectionViewController.h"
@@ -69,7 +69,7 @@
     
     [self setUpCell];
     
-    [self setUpGesture];
+//    [self setUpGesture];
     
     [self setNSManagedObjectContext];
     
@@ -163,14 +163,7 @@
 - (void)viewDidAppear:(BOOL)animated {
    
      [self userPlaylistLogic];
-    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId];
-    if (findFriend.friend_exists){
-        self.addFriendButton.enabled = NO;
-    }else{
-        self.addFriendButton.enabled = YES;
-        NSLog(@"%@",findFriend.friend_exists);
-    }
-        
+    
 }
 
 - (void) userPlaylistLogic {
@@ -259,9 +252,6 @@
     myiLListArray = [[NSMutableArray alloc] init];
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
-        // clear myillist array
-        //        [myiLListArray removeAllObjects];
-        
         NSArray *playlistsArrayInLocal = [PlaylistFriend MR_findAllInContext:localContext];
         
         for (PFObject *playlistObject in playlists) {
@@ -297,7 +287,7 @@
             
         } else {
             
-            NSLog(@"No playlist changes 244");
+            NSLog(@"No playlist changes 290");
             [self.collectionView reloadData];
             [SVProgressHUD dismiss];
             
@@ -313,26 +303,55 @@
     NSArray *playlistArray = [PlaylistFriend MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
     PlaylistFriend *friendName = [PlaylistFriend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
     
+    
     if (playlistArray.count != 0 ) {
         
         hostName = [[NSString alloc] initWithString:friendName.userName];
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
         [self setCountOnControl];
         
-     
+        [self.collectionView reloadData];
+        [SVProgressHUD dismiss];
+    } else {
+        
+        [self getUserName];
         
     }
-    [self.collectionView reloadData];
-    [SVProgressHUD dismiss];
+
     
-  
+}
+
+- (void) getUserName {
+    
+    PFQuery *query = [PFUser query];
+    [query whereKey:@"objectId" equalTo:self.friendInfo.userId];
+    
+    [query getFirstObjectInBackgroundWithBlock:^(PFObject *userObject, NSError *error) {
+        
+        if (!error) {
+            
+            hostName = [[NSString alloc] initWithString:userObject[@"name"]];
+            
+            [self.collectionView reloadData];
+            [SVProgressHUD dismiss];
+        }
+        
+    }];
 }
 
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-//    [self getUserName];
+    // Check if friend exists
+    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId];
+    
+    if (findFriend.friend_exists){
+        self.addFriendButton.enabled = NO;
+    } else{
+        self.addFriendButton.enabled = YES;
+    }
+
 }
 
 - (void) setUpCollectionView {
@@ -370,15 +389,7 @@
     
 }
 
-- (void) getUserName {
-  
-        
-        hostName = [[NSString alloc] initWithString:self.friendInfo.name];
-        
-        [self.collectionView reloadData];
-   
-    
-}
+
 
 -(void)setUpCell{
     //IK - registering custom cells into the collection view programmatically
@@ -391,24 +402,24 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class]
-            forCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class])];
+    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"friendCollectionViewCell"];
+    
     
 //    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
 //            forCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class])];
     
 }
 
--(void)setUpGesture{
-    //IK - registering gestures
-    
-    UIPanGestureRecognizer * handlePan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
-    [handlePan setDelegate:self];
-    [handlePan setMaximumNumberOfTouches:1];
-    [self.collectionView addGestureRecognizer:handlePan];
-    
-    
-}
+//-(void)setUpGesture{
+//    //IK - registering gestures
+//    
+//    UIPanGestureRecognizer * handlePan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+//    [handlePan setDelegate:self];
+//    [handlePan setMaximumNumberOfTouches:1];
+//    [self.collectionView addGestureRecognizer:handlePan];
+//    
+//    
+//}
 
 //added above
 
@@ -484,14 +495,15 @@
         count = [myiLListArray count];
         return count;
         
-    } else if (_control.selectedSegmentIndex == 1){
-        
-        //IK - Need to edit in the future to populate the number of playlists you're following
-        
-        count = 10;
-        return count;
     }
-    
+//    else if (_control.selectedSegmentIndex == 1){
+//        
+//        //IK - Need to edit in the future to populate the number of playlists you're following
+//        
+//        count = 10;
+//        return count;
+//    }
+//    
     return 0;
     
 }
@@ -529,25 +541,40 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     
     if (self.control.selectedSegmentIndex == 0) {
         
-        MyPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class]) forIndexPath:indexPath];
+        
+        NSString *cellIdentifier = @"friendCollectionViewCell";
+        
+        MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         
         PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
+
         
-        NSString *iLListName = playlist.name;
+        NSString *playlistName = playlist.name;
         
-        //        NSString *iLListCreator =[myiLListArray objectAtIndex:indexPath.row][@"userName"];
-         NSString *iLListCreator = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
+        NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
         
-        cell.labelPlaylistTitle.text = iLListName;
-        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
-        cell.labelPlaylistCreator.text = iLListCreator;
+        [cell setPlaylistNameAndSongCount:playlistName :songCount];
+
         
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
-        
-        CGFloat borderWidth = 0.1f;
-        lineView.layer.borderWidth = borderWidth;
-        lineView.backgroundColor = [UIColor lightGrayColor];
-        [cell.contentView addSubview:lineView];
+//        MyPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class]) forIndexPath:indexPath];
+//        
+//        PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
+//        
+//        NSString *playlistName = playlist.name;
+//        
+//        //        NSString *iLListCreator =[myiLListArray objectAtIndex:indexPath.row][@"userName"];
+//         NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
+//        
+////        cell.labelPlaylistTitle.text = iLListName;
+////        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
+////        cell.labelPlaylistCreator.text = iLListCreator;
+//        
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
+//        
+//        CGFloat borderWidth = 0.1f;
+//        lineView.layer.borderWidth = borderWidth;
+//        lineView.backgroundColor = [UIColor lightGrayColor];
+//        [cell.contentView addSubview:lineView];
 
         return cell;
         
@@ -633,7 +660,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"2.)");
+
     if (self.control.selectedSegmentIndex == 0) {
         
         [self performSegueWithIdentifier:@"iLListSegue" sender:self];
@@ -844,7 +871,6 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     [friend saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error){
         if (!error){
-            NSLog(@"Friend added");
             
             [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext){
                 CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];

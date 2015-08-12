@@ -13,6 +13,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MagicalRecord/MagicalRecord.h>
 #import <MagicalRecord/MagicalRecord+Setup.h>
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 
 @interface AppDelegate ()
@@ -24,14 +26,18 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    
+    
+    // Crashlytics
+    [Fabric with:@[CrashlyticsKit]];
 
     //localdataCHANG
     [MagicalRecord setupAutoMigratingCoreDataStack];
     [Parse setApplicationId:@"OdGicS3F5uc5opaLcCcIyymbvFusjdOpvPct5Y9P"
                   clientKey:@"HpJy0IqALLKvu02pSzlBW3JQvfPdN0HtMRx0lt4W"];
     
+    // For audio to play in background
     NSError* error;
-    
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
 
     

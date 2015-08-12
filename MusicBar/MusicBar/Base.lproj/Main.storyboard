@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zi9-Mx-lub">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zi9-Mx-lub">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
     </dependencies>
     <customFonts key="customFonts">
         <mutableArray key="governor.ttf">
@@ -788,7 +788,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qW8-jQ-pc3" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2830" y="2396"/>
+            <point key="canvasLocation" x="3510" y="1690"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fk4-sB-mYh">
@@ -807,7 +807,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="GuV-0P-mse" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2098" y="2384"/>
+            <point key="canvasLocation" x="2778" y="1678"/>
         </scene>
         <!--Friends-->
         <scene sceneID="Tml-a0-6zV">
@@ -880,61 +880,11 @@
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="CBg-Px-MNF">
-                                            <rect key="frame" x="5" y="5" width="40" height="40"/>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="54k-OS-thx">
-                                            <rect key="frame" x="55" y="5" width="257" height="21"/>
-                                            <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="14"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="H3r-PO-3RR">
-                                            <rect key="frame" x="55" y="25" width="257" height="21"/>
-                                            <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="12"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                                 </view>
                                 <size key="customSize" width="320" height="49"/>
                                 <connections>
-                                    <outlet property="textLabel" destination="54k-OS-thx" id="Aum-cu-3Zd"/>
-                                    <outlet property="textLabelCreator" destination="H3r-PO-3RR" id="OpR-nY-d9G"/>
                                     <segue destination="Y6W-Yv-iX5" kind="show" identifier="iLListSegue" id="kMa-Xu-FBY"/>
-                                </connections>
-                            </collectionViewCell>
-                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="friendCollectionViewCell2" id="eAa-mu-M0Y" customClass="CollectionViewCell">
-                                <rect key="frame" x="0.0" y="49" width="320" height="49"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cRj-EI-wAb">
-                                            <rect key="frame" x="5" y="5" width="40" height="40"/>
-                                        </imageView>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bVl-qH-MuX">
-                                            <rect key="frame" x="55" y="5" width="257" height="21"/>
-                                            <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="14"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OTB-hQ-dV1">
-                                            <rect key="frame" x="55" y="25" width="257" height="21"/>
-                                            <fontDescription key="fontDescription" name="EuphemiaUCAS" family="Euphemia UCAS" pointSize="12"/>
-                                            <color key="textColor" red="0.1140911069" green="0.13013689580000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                    </subviews>
-                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                </view>
-                                <size key="customSize" width="320" height="49"/>
-                                <connections>
-                                    <outlet property="textLabel" destination="bVl-qH-MuX" id="ZM1-sQ-wGk"/>
-                                    <outlet property="textLabelCreator" destination="OTB-hQ-dV1" id="w9f-U2-RSZ"/>
                                 </connections>
                             </collectionViewCell>
                         </cells>
@@ -1021,6 +971,7 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="ddG-Zy-CqZ"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Mc-xv-BiO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -1089,7 +1040,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tBx-wa-aOC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3830" y="3723"/>
+            <point key="canvasLocation" x="3726" y="3059"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rDj-Hx-eHu">
@@ -1107,7 +1058,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="afN-8o-XxQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2970" y="3723"/>
+            <point key="canvasLocation" x="2866" y="3059"/>
         </scene>
         <!--Friend-->
         <scene sceneID="0L2-yQ-j5C">
@@ -1239,6 +1190,7 @@
                         <outlet property="playButton" destination="f4f-hS-U5W" id="qad-Ek-ho8"/>
                         <outlet property="songTitle" destination="Xdc-Ls-8EB" id="RkA-Aj-aTQ"/>
                         <outlet property="startTime" destination="KK2-c1-xcv" id="hHo-PJ-nXO"/>
+                        <segue destination="Y6W-Yv-iX5" kind="presentation" identifier="currentPlaylistNowPlayingSegue" id="aW4-nE-PAw"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aWt-84-EyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1274,4 +1226,7 @@
         <image name="Friends" width="75" height="75"/>
         <image name="Me" width="75" height="75"/>
     </resources>
+    <inferredMetricsTieBreakers>
+        <segue reference="kMa-Xu-FBY"/>
+    </inferredMetricsTieBreakers>
 </document>

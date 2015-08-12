@@ -104,7 +104,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     currentPlayList = [[NSMutableArray alloc] init];
     
     [self.currentPlaylistButton setEnabled:NO];
-    
+    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+
     [self.playButton setEnabled:NO];
 }
 
@@ -480,7 +481,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)currentPlaylistButtonPressed:(id)sender {
     
-    [self performSegueWithIdentifier:@"currentIllistNowPlayingSegue" sender:self];
+    [self performSegueWithIdentifier:@"currentPlaylistNowPlayingSegue" sender:self];
     
 }
 
@@ -491,13 +492,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     [audioController pause];
 
-    if ([self.playButton.titleLabel.text isEqualToString:@"Play"]) {
+    if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
 
-        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
 
     } else {
 
-        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
 
     }
    
@@ -553,6 +554,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songTitle.text = nowplayingSong.title;
     
+    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
     NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
     NSURL* url = [NSURL URLWithString:resourceURL];
@@ -560,7 +562,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [audioController play];
     
-    [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
     flagSong = NO;
     
@@ -709,22 +710,31 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 
 //
-//#pragma mark - Navigation
-//
-//// In a storyboard-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-//
-//    if ([[segue identifier] isEqualToString:@"currentIllistNowPlayingSegue"]) {
-//
-////        UINavigationController *navController = [segue destinationViewController];
-//
-////        iLLFriendSearchSongsTableViewController *vc = (iLLFriendSearchSongsTableViewController*)navController.topViewController;
-//
-////        [vc setPlaylistInfo:];
-//
-//    }
-//
-//}
-//
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+
+    if ([[segue identifier] isEqualToString:@"currentPlaylistNowPlayingSegue"]) {
+
+//        UINavigationController *navController = [segue destinationViewController];
+
+//        FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
+
+//        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:localContext];
+//        playlist.userId = self.;
+//        playlist.name = playlistObject[@"iLListName"];
+//        playlist.objectId = playlistObject.objectId;
+//        
+//        playlist.userName = playlistObject[@"userName"];
+//        playlist.createdAt = playlistObject.createdAt;
+//        playlist.songCount = playlistObject[@"SongCount"];
+
+//        [vc setPlaylistInfo:];
+
+    }
+
+}
+
 
 @end

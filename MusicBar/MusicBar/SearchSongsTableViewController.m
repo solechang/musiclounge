@@ -61,9 +61,12 @@
     
 //    self.searchController.searchResultsUpdater = self;
     
+    [self.searchController.searchBar sizeToFit];
+    [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
+
     self.searchController.searchBar.delegate = self;
     
-    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
+//    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
     
@@ -433,6 +436,17 @@
     
     }
 }
+
+//- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    // Detemine if it's in editing mode
+//    if (self.tableView.editing)
+//    {
+//        return UITableViewCellEditingStyleDelete;
+//    }
+//    
+//    return UITableViewCellEditingStyleNone;
+//}
 
 - (void) updatePlaylistAfterDelete:(Song*) deleteSongInLocal forRowAtIndexPath:(NSIndexPath*) indexPath{
     
