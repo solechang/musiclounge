@@ -437,6 +437,17 @@
     }
 }
 
+//- (UITableViewCellEditingStyle)tableView:(UITableView *)aTableView editingStyleForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    // Detemine if it's in editing mode
+//    if (self.tableView.editing)
+//    {
+//        return UITableViewCellEditingStyleDelete;
+//    }
+//    
+//    return UITableViewCellEditingStyleNone;
+//}
+
 - (void) updatePlaylistAfterDelete:(Song*) deleteSongInLocal forRowAtIndexPath:(NSIndexPath*) indexPath{
     
     // Updating the playlist in the server

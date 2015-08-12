@@ -69,7 +69,7 @@
     
     [self setUpCell];
     
-    [self setUpGesture];
+//    [self setUpGesture];
     
     [self setNSManagedObjectContext];
     
@@ -402,24 +402,24 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class]
-            forCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class])];
+    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"friendCollectionViewCell"];
+    
     
 //    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
 //            forCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class])];
     
 }
 
--(void)setUpGesture{
-    //IK - registering gestures
-    
-    UIPanGestureRecognizer * handlePan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
-    [handlePan setDelegate:self];
-    [handlePan setMaximumNumberOfTouches:1];
-    [self.collectionView addGestureRecognizer:handlePan];
-    
-    
-}
+//-(void)setUpGesture{
+//    //IK - registering gestures
+//    
+//    UIPanGestureRecognizer * handlePan=[[UIPanGestureRecognizer alloc]initWithTarget:self action:@selector(handlePan:)];
+//    [handlePan setDelegate:self];
+//    [handlePan setMaximumNumberOfTouches:1];
+//    [self.collectionView addGestureRecognizer:handlePan];
+//    
+//    
+//}
 
 //added above
 
@@ -495,14 +495,15 @@
         count = [myiLListArray count];
         return count;
         
-    } else if (_control.selectedSegmentIndex == 1){
-        
-        //IK - Need to edit in the future to populate the number of playlists you're following
-        
-        count = 10;
-        return count;
     }
-    
+//    else if (_control.selectedSegmentIndex == 1){
+//        
+//        //IK - Need to edit in the future to populate the number of playlists you're following
+//        
+//        count = 10;
+//        return count;
+//    }
+//    
     return 0;
     
 }
@@ -540,25 +541,40 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     
     if (self.control.selectedSegmentIndex == 0) {
         
-        MyPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class]) forIndexPath:indexPath];
+        
+        NSString *cellIdentifier = @"friendCollectionViewCell";
+        
+        MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         
         PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
+
         
         NSString *playlistName = playlist.name;
         
-        //        NSString *iLListCreator =[myiLListArray objectAtIndex:indexPath.row][@"userName"];
-         NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
+        NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
         
-//        cell.labelPlaylistTitle.text = iLListName;
-//        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
-//        cell.labelPlaylistCreator.text = iLListCreator;
+        [cell setPlaylistNameAndSongCount:playlistName :songCount];
+
         
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
-        
-        CGFloat borderWidth = 0.1f;
-        lineView.layer.borderWidth = borderWidth;
-        lineView.backgroundColor = [UIColor lightGrayColor];
-        [cell.contentView addSubview:lineView];
+//        MyPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class]) forIndexPath:indexPath];
+//        
+//        PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
+//        
+//        NSString *playlistName = playlist.name;
+//        
+//        //        NSString *iLListCreator =[myiLListArray objectAtIndex:indexPath.row][@"userName"];
+//         NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
+//        
+////        cell.labelPlaylistTitle.text = iLListName;
+////        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
+////        cell.labelPlaylistCreator.text = iLListCreator;
+//        
+//        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height - 1.0, cell.contentView.frame.size.width, 1)];
+//        
+//        CGFloat borderWidth = 0.1f;
+//        lineView.layer.borderWidth = borderWidth;
+//        lineView.backgroundColor = [UIColor lightGrayColor];
+//        [cell.contentView addSubview:lineView];
 
         return cell;
         

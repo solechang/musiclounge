@@ -13,23 +13,23 @@
                 <rect key="frame" x="0.0" y="0.0" width="386" height="300"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GJ5-kw-1gF">
+                    <view clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="GJ5-kw-1gF">
                         <rect key="frame" x="0.0" y="0.0" width="386" height="300"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="kV5-fm-How">
+                            <view contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="kV5-fm-How">
                                 <rect key="frame" x="0.0" y="0.0" width="386" height="300"/>
                                 <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="placeholder.png" translatesAutoresizingMaskIntoConstraints="NO" id="rDp-UP-xVO">
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" image="placeholder.png" translatesAutoresizingMaskIntoConstraints="NO" id="rDp-UP-xVO">
                                         <rect key="frame" x="133" y="21" width="120" height="120"/>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-YU-GxS">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mWl-YU-GxS">
                                         <rect key="frame" x="64" y="149" width="258" height="27"/>
                                         <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="18"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="l3t-ti-EhT">
-                                        <rect key="frame" x="59" y="170" width="269" height="40"/>
+                                        <rect key="frame" x="59" y="178" width="269" height="32"/>
                                         <fontDescription key="fontDescription" name="Noteworthy-Light" family="Noteworthy" pointSize="11"/>
                                         <color key="textColor" red="0.50196081399917603" green="0.50196081399917603" blue="0.50196081399917603" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -37,27 +37,18 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.19215686274509802" green="0.066666666666666666" blue="0.25490196078431371" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" priority="999" constant="300" id="2Ov-ZV-f3l"/>
-                                    <constraint firstAttribute="width" constant="386" id="kTW-BU-PDu"/>
+                                    <constraint firstAttribute="centerY" secondItem="rDp-UP-xVO" secondAttribute="centerY" constant="69" id="0Z8-NK-MYR"/>
+                                    <constraint firstItem="mWl-YU-GxS" firstAttribute="top" secondItem="rDp-UP-xVO" secondAttribute="bottom" constant="8" id="OUt-oz-GNN"/>
+                                    <constraint firstItem="rDp-UP-xVO" firstAttribute="top" secondItem="kV5-fm-How" secondAttribute="top" constant="21" id="p0k-Jo-Uog"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.19215686274509805" green="0.066666666666666666" blue="0.25490196078431371" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstAttribute="bottom" secondItem="kV5-fm-How" secondAttribute="bottom" id="Otv-U8-mwP"/>
-                            <constraint firstItem="kV5-fm-How" firstAttribute="top" relation="greaterThanOrEqual" secondItem="GJ5-kw-1gF" secondAttribute="top" constant="-1" id="j7e-jm-dcw"/>
-                        </constraints>
                     </view>
                 </subviews>
                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-            <constraints>
-                <constraint firstItem="GJ5-kw-1gF" firstAttribute="top" secondItem="Yzg-ux-wDi" secondAttribute="top" id="AcS-23-vZ7"/>
-                <constraint firstAttribute="trailing" secondItem="GJ5-kw-1gF" secondAttribute="trailing" id="l9V-05-DQB"/>
-                <constraint firstAttribute="bottom" secondItem="GJ5-kw-1gF" secondAttribute="bottom" id="qKK-yd-1z7"/>
-                <constraint firstItem="GJ5-kw-1gF" firstAttribute="leading" secondItem="Yzg-ux-wDi" secondAttribute="leading" id="yQr-NA-nOE"/>
-            </constraints>
             <size key="customSize" width="386" height="426"/>
             <connections>
                 <outlet property="descriptionLabel" destination="l3t-ti-EhT" id="BQg-Om-duF"/>
