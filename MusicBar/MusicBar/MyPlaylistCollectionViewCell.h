@@ -13,4 +13,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *labelPlaylistTitle;
 @property (weak, nonatomic) IBOutlet UILabel *labelPlaylistCreator;
 
+
+- (void) setPlaylistTitle:(NSString*)playlistTitle;
 @end

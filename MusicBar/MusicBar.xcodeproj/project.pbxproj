@@ -47,6 +47,7 @@
 		B9978DCB1B67399D004203F1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCA1B67399D004203F1 /* AVFoundation.framework */; };
 		B9978DCD1B6739B2004203F1 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCC1B6739B2004203F1 /* libxml2.dylib */; };
 		B9978DCE1B674368004203F1 /* MyPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */; };
+		B9B43B661B794EB5009D262C /* MyPlaylistCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B9B43B651B794EB5009D262C /* MyPlaylistCell.xib */; };
 		B9B76F251B37E8D000F63AC4 /* AddiLListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F241B37E8D000F63AC4 /* AddiLListTableViewController.m */; };
 		B9B76F291B37E8E400F63AC4 /* SettingsTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F281B37E8E400F63AC4 /* SettingsTableTableViewController.m */; };
 		B9B76F2D1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F2C1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m */; };
@@ -139,6 +140,7 @@
 		B9978DC81B673996004203F1 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		B9978DCA1B67399D004203F1 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		B9978DCC1B6739B2004203F1 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		B9B43B651B794EB5009D262C /* MyPlaylistCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MyPlaylistCell.xib; sourceTree = "<group>"; };
 		B9B76F231B37E8D000F63AC4 /* AddiLListTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AddiLListTableViewController.h; sourceTree = "<group>"; };
 		B9B76F241B37E8D000F63AC4 /* AddiLListTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AddiLListTableViewController.m; sourceTree = "<group>"; };
 		B9B76F271B37E8E400F63AC4 /* SettingsTableTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingsTableTableViewController.h; sourceTree = "<group>"; };
@@ -323,6 +325,7 @@
 				B93D90211B3270FD00A2947C /* CSParallaxHeader.m */,
 				B93D90231B32713A00A2947C /* MyPlaylistCollectionViewCell.h */,
 				B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */,
+				B9B43B651B794EB5009D262C /* MyPlaylistCell.xib */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -585,6 +588,7 @@
 				B93D90131B324B4700A2947C /* Mission-Script.otf in Resources */,
 				B96773551B32331A00C01AAF /* Main.storyboard in Resources */,
 				B967735A1B32331A00C01AAF /* LaunchScreen.xib in Resources */,
+				B9B43B661B794EB5009D262C /* MyPlaylistCell.xib in Resources */,
 				B96773571B32331A00C01AAF /* Images.xcassets in Resources */,
 				445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */,
 				B93D90171B324B6600A2947C /* placeholder.png in Resources */,

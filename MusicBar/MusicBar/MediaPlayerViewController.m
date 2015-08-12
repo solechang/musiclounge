@@ -717,9 +717,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     if ([[segue identifier] isEqualToString:@"currentPlaylistNowPlayingSegue"]) {
 
-        UINavigationController *navController = [segue destinationViewController];
+//        UINavigationController *navController = [segue destinationViewController];
 
-        FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
+//        FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
 
 //        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:localContext];
 //        playlist.userId = self.;
