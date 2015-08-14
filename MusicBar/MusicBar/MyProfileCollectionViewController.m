@@ -262,8 +262,7 @@
     self.navigationController.navigationBar.titleTextAttributes = size;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    
-    
+
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
     
@@ -535,22 +534,12 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         Playlist *playlist = [myiLListArray objectAtIndex:indexPath.row];
         
-        NSString *iLListName = playlist.name;
+        NSString *playlistName = playlist.name;
 
-        NSString *iLListCreator = [NSString stringWithFormat:@"Song count: %@", playlist.songCount]; //[myiLListArray objectAtIndex:indexPath.row][@"userName"];
-       
-        [cell.labelPlaylistTitle setText:iLListName];
-        NSLog(@"1.) %@", iLListName);
-        //        cell.labelPlaylistCreator.text = [NSString stringWithFormat:@"Created by: %@", iLListCreator];
-        cell.labelPlaylistCreator.text = iLListCreator;
-    
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, cell.contentView.frame.size.height, cell.contentView.frame.size.width, 0.5f)];
+        NSString *songCount = [NSString stringWithFormat:@"Songs: %@", playlist.songCount];
         
-//        CGFloat borderWidth = 0.1f;
-//        lineView.layer.borderWidth = borderWidth;
-        lineView.backgroundColor = [UIColor lightGrayColor];
-        [cell.contentView addSubview:lineView];
-        
+        [cell setPlaylistNameAndSongCount:playlistName :songCount];
+
         return cell;
         
         

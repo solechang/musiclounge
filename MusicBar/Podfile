@@ -18,6 +18,8 @@ target 'MusicBar' do
     pod 'RHAddressBook'
     pod "CSStickyHeaderFlowLayout"
     pod 'FreeStreamer'
+    pod 'Fabric'
+    pod 'Crashlytics'
 end
 
 target 'MusicBarTests' do

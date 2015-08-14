@@ -9,16 +9,9 @@
 #import "MyPlaylistCollectionViewCell.h"
 
 
-@interface MyPlaylistCollectionViewCell ()
-
-//@property (nonatomic,readwrite) UILabel *labelPlaylistTitle;
-//@property (nonatomic,readwrite) UILabel *labelPlaylistCreator;
+@interface MyPlaylistCollectionViewCell () 
 
 @end
-
-
-UILabel *_tickLabel;
-UILabel *_crossLabel;
 
 const float UI_CUES_MARGIN = 0.0f;
 //const float UI_CUES_WIDTH = [self superView].bounds.size.width;
@@ -28,35 +21,31 @@ const float UI_CUES_MARGIN = 0.0f;
 -(id) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code
-//        NSLog(@"2.) %@", self.labelPlaylistTitle.text);
-        //        CGFloat borderWidth = 0.3f;
-        UIView *cellView = [[UIView alloc] initWithFrame:frame];
+//         Initialization code
+        self.playlistNameLabel = [[UILabel alloc] init];
         
-        //        cellView.layer.borderWidth = borderWidth;
-        cellView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        [self.playlistNameLabel setFrame:CGRectMake(40.0f, 20.0f, 257.0f, 21.0f)];
+        [self.playlistNameLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
+        [self.playlistNameLabel setBackgroundColor:[UIColor clearColor]];
+        [self.playlistNameLabel  setFont:[UIFont fontWithName: @"Helvetica" size: 12.0f]];
+        [self.playlistNameLabel setTextAlignment:NSTextAlignmentLeft];
+        [self.playlistNameLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+        [self.contentView addSubview:self.playlistNameLabel];
+
+        self.songCountLabel = [[UILabel alloc] init];
         
-        self.backgroundView = cellView;
+        [self.songCountLabel setFrame:CGRectMake(60.0f, 25.0f, 257.0f, 21.0f)];
+
+        [self.songCountLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
+        [self.songCountLabel setBackgroundColor:[UIColor clearColor]];
+        [self.songCountLabel  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
+        [self.songCountLabel setTextAlignment:NSTextAlignmentRight];
         
-//        [self setLabelPlaylistTitle:[UILabel new]];
+        [self.songCountLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+        [self.contentView addSubview:self.songCountLabel];
         
-        [_labelPlaylistTitle setTextColor:[UIColor blackColor]];
-        [_labelPlaylistTitle setBackgroundColor:[UIColor clearColor]];
-        [_labelPlaylistTitle  setFont:[UIFont fontWithName: @"Helvetica" size: 16.0f]];
-     
-//        [[self labelPlaylistTitle] setFrame:CGRectMake(30.f, 17.0f, 257.f, 21.f)];
-        
-        [[self labelPlaylistTitle] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-        [[self contentView] addSubview:[self labelPlaylistTitle]];
-        
-//        [self setLabelPlaylistCreator:[UILabel new]];
-        [_labelPlaylistCreator setTextColor:[UIColor blackColor]];
-        [_labelPlaylistCreator setBackgroundColor:[UIColor clearColor]];
-        [_labelPlaylistCreator  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
-//        [[self labelPlaylistCreator] setFrame:CGRectMake(250.f, 25.f, 257.f, 21.f)];
-        
-        [[self labelPlaylistCreator] setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
-        [[self contentView] addSubview:[self labelPlaylistCreator]];
+        UILabel *_tickLabel;
+        UILabel *_crossLabel;
         
         _tickLabel = [self createTickLabel];
         _tickLabel.text = @"\u2713";
@@ -75,16 +64,25 @@ const float UI_CUES_MARGIN = 0.0f;
                                       UI_CUES_WIDTH, self.bounds.size.height);
         _crossLabel.frame = CGRectMake(self.bounds.size.width + UI_CUES_MARGIN, 0,
                                        UI_CUES_WIDTH, self.bounds.size.height);
+        
+        
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, frame.size.height, frame.size.width, 0.5f)];
+        
+        CGFloat borderWidth = 0.1f;
+        lineView.layer.borderWidth = borderWidth;
+        lineView.backgroundColor = [UIColor lightGrayColor];
+        [self.contentView addSubview:lineView];
     }
     return self;
 }
 
-//-(void) layoutSubviews {
-//    [super layoutSubviews];
-//    // ensure the gradient layers occupies the full bounds
-//
-//    
-//}
+- (void) setPlaylistNameAndSongCount:(NSString*)playlistName :(NSString*) songCount {
+    
+    self.playlistNameLabel.text = playlistName;
+    self.songCountLabel.text = songCount;
+
+}
+
 
 -(UILabel*) createTickLabel {
 

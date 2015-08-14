@@ -1,9 +1,9 @@
 //
 //  CSParallaxHeader.h
-//  iLList
+//  MusicBar
 //
 //  Created by Ik Song on 2/5/15.
-//  Copyright (c) 2015 iLList. All rights reserved.
+//  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
