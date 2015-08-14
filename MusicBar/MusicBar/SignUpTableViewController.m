@@ -206,6 +206,7 @@
         
         // Setting privacy for the PrivateUserData PFObject
         PFACL *defaultACL = [PFACL ACL];
+        [defaultACL setPublicReadAccess:YES];
         [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
         
         // Setting User ACL
