@@ -96,7 +96,7 @@ heightForHeaderInSection:(NSInteger)section {
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    return 35.0;
+    return 45.0;
         
 }
 

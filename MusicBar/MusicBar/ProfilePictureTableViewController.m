@@ -35,9 +35,19 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setUpViewController];
 }
 
+- (void)setUpViewController{
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+    
+    
+}
 - (void) setNSManagedObjectContext {
     
     defaultContext = [NSManagedObjectContext MR_defaultContext];
@@ -78,10 +88,23 @@
     }
 
 }
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+    
+    navigationController.navigationBar.translucent = NO;
+    navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];
+    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+}
+
+
 
 #pragma marks - Getting Profile Image
 - (void) getProfileImageWithImagePicker {
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    
+        
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = self;
     [self presentViewController:imagePickerController animated:YES completion:nil];
