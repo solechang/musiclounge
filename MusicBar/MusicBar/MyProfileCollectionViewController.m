@@ -536,7 +536,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         NSString *playlistName = playlist.name;
 
-        NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
+        NSString *songCount = [NSString stringWithFormat:@"Songs: %@", playlist.songCount];
         
         [cell setPlaylistNameAndSongCount:playlistName :songCount];
 

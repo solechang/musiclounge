@@ -34,7 +34,7 @@ const float UI_CUES_MARGIN = 0.0f;
 
         self.songCountLabel = [[UILabel alloc] init];
         
-        [self.songCountLabel setFrame:CGRectMake(70.0f, 25.0f, 257.0f, 21.0f)];
+        [self.songCountLabel setFrame:CGRectMake(60.0f, 25.0f, 257.0f, 21.0f)];
 
         [self.songCountLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
         [self.songCountLabel setBackgroundColor:[UIColor clearColor]];
