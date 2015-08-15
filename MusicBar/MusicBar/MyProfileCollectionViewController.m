@@ -131,7 +131,7 @@
         LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         
         UINavigationController *loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
-        [self.navigationController presentViewController:loginNavigationController animated:NO completion:nil];
+        [self.navigationController presentViewController:loginNavigationController animated:YES completion:nil];
     }
     
 }
