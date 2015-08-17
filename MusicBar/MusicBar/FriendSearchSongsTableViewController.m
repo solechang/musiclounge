@@ -53,7 +53,12 @@
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     
-    self.searchController.searchResultsUpdater = self;
+//    self.searchController.searchResultsUpdater = self;
+    
+    [self.searchController.searchBar sizeToFit];
+    [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
+    
+    self.searchController.searchBar.delegate = self;
     
     self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
     
@@ -200,11 +205,13 @@
 
 - (void) getSongsFromLocal {
     
-    NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    NSLog(@"1.) %lu", iLListTracks.count);
     
-    iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
-    [self.tableView reloadData];
-    
+//    NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+//    
+//    iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+//    [self.tableView reloadData];
+//    
     [self fetchSongsFromServer];
 
     
@@ -313,7 +320,7 @@
             [playlistInLocal addSongFriendObject:songInLocal];
         }
         
-        playlistInLocal.songCount = [NSNumber numberWithInteger:[playlistInLocal.songFriend count]];
+        NSLog(@"2.) %@", playlistInLocal.songCount);
 
     } completion:^(BOOL success, NSError *error) {
         
@@ -384,10 +391,11 @@
 }
 
 
+
 #pragma mark - Search Delegate Methods
-- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
-{
-    NSString *searchString = searchController.searchBar.text;
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+    NSLog(@"1.)");
+    NSString *searchString = searchBar.text;
     
     if (searchString.length != 0 ) {
         NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
@@ -397,6 +405,8 @@
         iLLSongFriendManager *songMangerSearchedText = [[iLLSongFriendManager alloc] initWithTrackName:trackName] ;
         
         NSString *resourceURL = [songMangerSearchedText getResourceURL];
+        
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@",searchBar.text]];
         
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {

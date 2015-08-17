@@ -117,7 +117,7 @@
     self.searchFriendsTableController = [[SearchFriendsTableViewController alloc] init];
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
     [self.searchController.searchBar sizeToFit];
-    [self.searchController.searchBar setPlaceholder:@"Find new Friends :)"];
+    [self.searchController.searchBar setPlaceholder:@"Find new Friends through username :)"];
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
 //    self.searchController.searchResultsUpdater = self;
