@@ -562,21 +562,21 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     flagSong = NO;
     
-    [self setLockScreenSongInfo];
+    [self setLockScreenSongInfo :nowplayingSong];
 
 
 }
-
-- (void) setLockScreenSongInfo {
-    FSStreamPosition end = audioController.activeStream.duration;
+- (void) calculateSongBySeconds {
     
-    NSString *duration = [NSString stringWithFormat:@"%i:%02i", end.minute, end.second];
-    NSLog(@"1.) %@", duration);
+    
+}
+- (void) setLockScreenSongInfo : (NowPlayingSong*)nowPlayingSong{
+    NSLog(@"1.) %@", nowPlayingSong.time);
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork];
     NSDictionary *info = @{ MPMediaItemPropertyArtist: @"",
                             MPMediaItemPropertyAlbumTitle: @"",
                             MPMediaItemPropertyTitle: self.songTitle.text,
-                            MPMediaItemPropertyPlaybackDuration:@"100",
+                            MPMediaItemPropertyPlaybackDuration:nowPlayingSong.time,
                             MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
                             };
     
