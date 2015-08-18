@@ -175,11 +175,11 @@
     [profilePictureQuery getFirstObjectInBackgroundWithBlock:^(PFObject *userImage, NSError *error) {
         
         if (userImage) {
-            NSLog(@"1.)");
+     
             [self replaceProfilePicture: userImage : imageFile :image];
             
         } else {
-            NSLog(@"2.)");
+  
             [self saveProfileImageToUserInServer: imageFile :image];
             
         }

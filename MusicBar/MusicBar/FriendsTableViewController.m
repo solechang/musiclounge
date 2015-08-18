@@ -227,7 +227,7 @@
 
         // Querying friends from local storage
         friendsList = [[NSMutableArray alloc] initWithArray:friendsCoreDataArray];
- 
+
         // Sort existings friends on top of list
         [self sortFriendsWhoExistsOnIllist];
         
@@ -904,6 +904,9 @@
              NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
              Friend *selectedFriend =[self.searchFriendsTableController.filteredFriendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;
+             
+             NSLog(@"2.) %@", self.searchFriendsTableController.filteredFriendsWhoExistsOniLList );
+//             [self.searchFriendsTableController setActive:NO];
          }
      }
  }
@@ -952,9 +955,8 @@
             self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
             
             self.searchFriendsTableController.friendsTableViewController = self;
-            SearchFriendsTableViewController *tableController = (SearchFriendsTableViewController *)self.searchController.searchResultsController;
-            //tableController.filteredFriendsWhoExistsOniLList = tempArray;
-            [tableController.tableView reloadData];
+            
+            [self.searchFriendsTableController.tableView reloadData];
         }
     }];
     }

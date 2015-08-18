@@ -205,7 +205,6 @@
 
 - (void) getSongsFromLocal {
     
-    NSLog(@"1.) %lu", iLListTracks.count);
     
 //    NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
 //    
