@@ -67,6 +67,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setUpMediaPlayerLockScreen];
     
     [self setUpNavigationBar];
     [self setUpCollectionView];
@@ -81,6 +82,18 @@
     [self control];
     
 }
+
+- (void) setUpMediaPlayerLockScreen {
+    
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    
+    // Set ourselves as the first responder
+    
+    [self becomeFirstResponder];
+
+    
+}
+- (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void) setNSManagedObjectContext {
     
