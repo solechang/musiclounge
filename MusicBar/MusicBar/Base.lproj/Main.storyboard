@@ -28,7 +28,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Name" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rwv-W3-osR">
+                                                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Username" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="rwv-W3-osR">
                                                     <rect key="frame" x="20" y="7" width="290" height="30"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" returnKeyType="next"/>
@@ -403,7 +403,7 @@
                     </collectionView>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="tst-0l-Zfp">
-                        <barButtonItem key="leftBarButtonItem" title="Edit" id="ycg-E9-yu7">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="ycg-E9-yu7">
                             <connections>
                                 <segue destination="CjX-Ei-4hz" kind="presentation" id="iz3-5a-1Du"/>
                             </connections>
@@ -916,7 +916,7 @@
             <objects>
                 <tableViewController id="Y6W-Yv-iX5" customClass="FriendSearchSongsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4VP-mB-3rf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1227,6 +1227,6 @@
         <image name="Me" width="75" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kMa-Xu-FBY"/>
+        <segue reference="aW4-nE-PAw"/>
     </inferredMetricsTieBreakers>
 </document>

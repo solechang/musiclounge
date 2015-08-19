@@ -121,7 +121,7 @@
 //        NSLog(@"New view controller was pushed");
         
     } else if ([viewControllers indexOfObject:self] == NSNotFound) {
-        
+       
         // View is disappearing because it was popped from the stack
 //        NSLog(@"View controller was popped");
        
@@ -169,10 +169,8 @@
 - (void) userPlaylistLogic {
     
     [self getProfilePicture];
-    //    Basically only need to do:
 
-    
-    
+
 }
 
 - (void) getProfilePicture {
@@ -249,14 +247,14 @@
 
 - (void) savePlaylistToLocal: (NSArray*) playlists {
     
-    myiLListArray = [[NSMutableArray alloc] init];
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         NSArray *playlistsArrayInLocal = [PlaylistFriend MR_findAllInContext:localContext];
         
         for (PFObject *playlistObject in playlists) {
             
             PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:localContext];
+//            PlaylistFriend *playlist = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:playlistObject.objectId inContext:localContext];
             playlist.userId = self.friendInfo.userId;
             playlist.name = playlistObject[@"iLListName"];
             playlist.objectId = playlistObject.objectId;

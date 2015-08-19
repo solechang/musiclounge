@@ -137,7 +137,7 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == self.usernameTextField) {
-        
+        self.usernameTextField.text = [self.usernameTextField.text lowercaseString];
         
         [self.phonenumberTextField becomeFirstResponder];
     } else if (textField == self.phonenumberTextField) {
@@ -197,67 +197,96 @@
         
     } else {
         
-        // Setting sign up User
-        PFUser *user = [PFUser user];
-        user[@"name"] = self.usernameTextField.text;
-        user.username = self.emailTextField.text;
-        user.email = self.emailTextField.text;
-        user.password = self.passwordTextField.text;
+        // Find if username is in use or not.
+        PFQuery *query = [PFUser query];
         
-        // Setting privacy for the PrivateUserData PFObject
-        PFACL *defaultACL = [PFACL ACL];
-        [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+        [query whereKey:@"name" equalTo:self.usernameTextField.text];
         
-        // Setting User ACL
-        user.ACL = defaultACL;
-        
-        
-        NSMutableDictionary *phonenumberDictionary = [NSMutableDictionary new];
-        [phonenumberDictionary setObject:self.phonenumberTextField.text forKey:@"phone_number" ];
-        
-        [PFCloud callFunctionInBackground:@"checkPhonenumber" withParameters:phonenumberDictionary
-                                                        block:^(NSString *result, NSError *error) {
+        [query getFirstObjectInBackgroundWithBlock:^(PFObject *foundUsername, NSError *error) {
             
-            if (!error ) {
-  
-                [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                    
-                    if (!error) {
-                        [self createUserData :user];
-                        
-                        
-                    } else {
-                        
-                        NSString *errorString = [error userInfo][@"error"];
-                                                NSLog(@"ERROR: %@", errorString);
-                        
-                        if ([errorString containsString:@"invalid email"]) {
-                            [SVProgressHUD showErrorWithStatus:@"Please use another email"];
-                            [self setEmailTextFieldRed];
-                    
-
-                        }
-                        if ( [errorString containsString:@"username"] ){
-                            [SVProgressHUD showErrorWithStatus:@"Please use another email"];
-                            [self setEmailTextFieldRed];
-
-                        }
-                        
-                        [self.doneButton setEnabled:YES];
-                    }
-                    
-                }];
-
+            if( !foundUsername ) {
+                [self setUsernameFieldGreen];
+                [self setUpSignUpUser];
+                
             } else {
-                [SVProgressHUD showErrorWithStatus:@"Please use another phone number"];
+                [self setUsernameTextFieldRed];
+                [SVProgressHUD showErrorWithStatus:@"Please use another username."];
 
             }
-            NSLog(@"%@", result);
         }];
+        
+        
 
+        
+        
     }// end else
 
 }
+
+- (void) setUpSignUpUser {
+    
+    // Setting sign up User
+    PFUser *user = [PFUser user];
+    user[@"name"] = self.usernameTextField.text;
+    user.username = self.emailTextField.text;
+    user.email = self.emailTextField.text;
+    user.password = self.passwordTextField.text;
+    
+    // Setting privacy for the PrivateUserData PFObject
+    PFACL *defaultACL = [PFACL ACL];
+    [defaultACL setPublicReadAccess:YES];
+    [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
+    
+    // Setting User ACL
+    user.ACL = defaultACL;
+    
+    
+    NSMutableDictionary *phonenumberDictionary = [NSMutableDictionary new];
+    [phonenumberDictionary setObject:self.phonenumberTextField.text forKey:@"phone_number" ];
+    
+    [PFCloud callFunctionInBackground:@"checkPhonenumber" withParameters:phonenumberDictionary
+                                block:^(NSString *result, NSError *error) {
+                                    
+                                    if (!error ) {
+                                        // Need to change PFCloud if more than 1000 users register
+                                        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+                                            
+                                            if (!error) {
+                                                [self createUserData :user];
+                                                
+                                                
+                                            } else {
+                                                
+                                                NSString *errorString = [error userInfo][@"error"];
+                                                NSLog(@"ERROR: %@", errorString);
+                                                
+                                                if ([errorString containsString:@"invalid email"]) {
+                                                    [SVProgressHUD showErrorWithStatus:@"Please use another email"];
+                                                    [self setEmailTextFieldRed];
+                                                    
+                                                    
+                                                }
+                                                if ( [errorString containsString:@"username"] ){
+                                                    [SVProgressHUD showErrorWithStatus:@"Please use another email"];
+                                                    [self setEmailTextFieldRed];
+                                                    
+                                                }
+                                                
+                                                [self.doneButton setEnabled:YES];
+                                            }
+                                            
+                                        }];
+                                        
+                                    } else {
+                                        [SVProgressHUD showErrorWithStatus:@"Please use another phone number"];
+                                        
+                                    }
+                                    NSLog(@"%@", result);
+                                }];
+
+}
+
+
 -(void) createUserData :(PFUser*)user{
     PFACL *defaultACL = [PFACL ACL];
     [defaultACL setReadAccess:YES forUser:[PFUser currentUser]];
@@ -325,6 +354,19 @@
         }
     }];
 }
+
+- (void) setUsernameTextFieldRed {
+    self.usernameTextField.layer.cornerRadius=1.0f;
+    self.usernameTextField.layer.masksToBounds=YES;
+    self.usernameTextField.layer.borderColor=[[UIColor redColor]CGColor];
+    self.usernameTextField.layer.borderWidth= 1.0f;
+    
+}
+
+- (void) setUsernameFieldGreen {
+    self.usernameTextField.layer.borderColor=[[UIColor greenColor]CGColor];
+}
+
 
 - (void) setEmailTextFieldRed {
     self.emailTextField.layer.cornerRadius=1.0f;
