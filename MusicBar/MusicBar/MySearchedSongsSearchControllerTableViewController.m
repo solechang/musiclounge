@@ -74,9 +74,39 @@
     
     //IK - Link adding song function here
     UIButton* button = [self addSongButtonPressed:song];
+    [button setTranslatesAutoresizingMaskIntoConstraints:false];
+    NSLayoutConstraint *centerYconstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                        attribute:NSLayoutAttributeCenterY
+                                                                        relatedBy:NSLayoutRelationEqual
+                                                                           toItem:cell.contentView
+                                                                        attribute:NSLayoutAttributeCenterY
+                                                                       multiplier:1.0
+                                                                         constant:0];
+    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                       attribute:NSLayoutAttributeWidth
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:1.0
+                                                                        constant:30.0f];
+    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                       attribute:NSLayoutAttributeHeight
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:nil
+                                                                       attribute:NSLayoutAttributeNotAnAttribute
+                                                                      multiplier:1.0
+                                                                        constant:30.0f];
+    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                       attribute:NSLayoutAttributeTrailing
+                                                                       relatedBy:NSLayoutRelationEqual
+                                                                          toItem:cell.contentView
+                                                                       attribute:NSLayoutAttributeTrailing
+                                                                      multiplier:1.0
+                                                                        constant:-10];
     
     [cell.contentView addSubview:button];
     [cell.contentView bringSubviewToFront:button];
+    [cell.contentView addConstraints:@[centerYconstraint,widthConstraint,heightConstraint,rightConstraint]];
     // Configure the cell...
     
     return cell;
