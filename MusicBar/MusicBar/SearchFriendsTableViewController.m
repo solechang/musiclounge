@@ -21,7 +21,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    NSLog(@"1.)");
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -51,11 +51,11 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
     // Return the number of rows in the section.
-    if (section == 0) {
+//    if (section == 0) {
         return [self.filteredFriendsWhoExistsOniLList count];
-    }
-    
-    return 0;
+//    }
+//    
+//    return 0;
     
 }
 
@@ -70,7 +70,7 @@
     if (indexPath.section == 0) {
         // Friends who exist on iLList
         //Friend *friendWhoExist =[self.filteredFriendsWhoExistsOniLList objectAtIndex:indexPath.row];
-        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [[self.filteredFriendsWhoExistsOniLList objectAtIndex:indexPath.row] name];
         cell.textLabel.textColor = myColor;
         
@@ -81,6 +81,7 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [self.friendsTableViewController performSegueWithIdentifier:@"friendSegue" sender:self];
+    
 }
 
 @end

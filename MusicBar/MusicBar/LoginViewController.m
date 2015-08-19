@@ -184,7 +184,7 @@
                                                 
                                                 NSString *errorString = [error userInfo][@"error"];
                                                 NSLog(@"ERROR: %@", errorString);
-                                                [SVProgressHUD showSuccessWithStatus:errorString];
+                                                [SVProgressHUD showErrorWithStatus:errorString];
                                             }
                                         }];
         

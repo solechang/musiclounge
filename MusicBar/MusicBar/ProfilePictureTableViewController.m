@@ -35,9 +35,24 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+    [self setUpViewController];
 }
 
+-(void)viewDidAppear:(BOOL)animated{
+    
+    [[UIApplication sharedApplication] setStatusBarStyle:UIStatusBarStyleLightContent];
+}
+
+- (void)setUpViewController{
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+    
+    
+}
 - (void) setNSManagedObjectContext {
     
     defaultContext = [NSManagedObjectContext MR_defaultContext];
@@ -78,10 +93,24 @@
     }
 
 }
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated {
+ 
+
+    navigationController.navigationBar.translucent = NO;
+    navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];
+    navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    navigationController.navigationBar.tintColor = [UIColor whiteColor];
+
+}
+
+
 
 #pragma marks - Getting Profile Image
 - (void) getProfileImageWithImagePicker {
     UIImagePickerController *imagePickerController = [[UIImagePickerController alloc] init];
+    
+        
     imagePickerController.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     imagePickerController.delegate = self;
     [self presentViewController:imagePickerController animated:YES completion:nil];
@@ -101,11 +130,11 @@
     
     
     [picker dismissViewControllerAnimated:YES completion:^{
+      
+        
         [SVProgressHUD dismiss];
         
     }];
-
-    
 
     [self savePictureToServer:image];
     
@@ -122,8 +151,8 @@
         
         if (!error) {
             if (succeeded) {
-                
-                [self saveProfileImageToUserInServer: imageFile :image];
+                [self checkIfProfileImageExists: imageFile :image];
+             
                 
                 
             } else {
@@ -132,20 +161,60 @@
             
         } else {
             // Handle error
+            NSLog(@"156.)");
         }
     }];
     
 }
-
-- (void) saveProfileImageToUserInServer: (PFFile *) imageFile :(UIImage*) image{
+- (void) checkIfProfileImageExists: (PFFile *) imageFile :(UIImage*) image  {
     
-    PFObject *profilePictureObject = [PFObject objectWithClassName:@"ProfilePicture" ];
+    
+    PFQuery *profilePictureQuery = [PFQuery queryWithClassName:@"ProfilePicture"];
+    [profilePictureQuery whereKey:@"hostObjectId" equalTo:[[PFUser currentUser] objectId]];
+
+    [profilePictureQuery getFirstObjectInBackgroundWithBlock:^(PFObject *userImage, NSError *error) {
+        
+        if (userImage) {
+     
+            [self replaceProfilePicture: userImage : imageFile :image];
+            
+        } else {
+  
+            [self saveProfileImageToUserInServer: imageFile :image];
+            
+        }
+        
+        
+    }];
+    
+    
+}
+
+- (void ) replaceProfilePicture: (PFObject*) userImage : (PFFile *) imageFile :(UIImage*) image {
+    
+    userImage[@"profilePic"] = imageFile;
+    
+    [userImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if (succeeded) {
+            NSLog(@"3.)");
+            [self savePictureToLocal:image];
+
+        } else {
+            NSLog(@"193 Error)");
+        }
+        
+    }];
+    
+}
+- (void) saveProfileImageToUserInServer: (PFFile *) imageFile :(UIImage*) image {
+    
+    PFObject *profilePictureObject = [PFObject objectWithClassName:@"ProfilePicture"];
     profilePictureObject[@"hostObjectId"] = [[PFUser currentUser] objectId];
     profilePictureObject[@"profilePic"] = imageFile;
     
     PFACL *defaultACL = [PFACL ACL];
-    
-    [defaultACL setPublicWriteAccess:YES];
+    [defaultACL setWriteAccess:YES forUser:[PFUser currentUser]];
     
     [defaultACL setPublicReadAccess:YES];
     
@@ -167,6 +236,8 @@
 }
 
 - (void) savePictureToLocal:(UIImage*) image {
+    
+      NSLog(@"4.)");
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];

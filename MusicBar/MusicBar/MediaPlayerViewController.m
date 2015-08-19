@@ -30,11 +30,15 @@
 #import "FSAudioController.h"
 #import "FSPlaylistItem.h"
 
+#import <MediaPlayer/MediaPlayer.h>
+
 static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 @interface MediaPlayerViewController ()
 {
 
+    MPNowPlayingInfoCenter *nowPlayingInfo;
+    
     FSAudioController *audioController;
     
     FSAudioStream *audioStream;
@@ -285,24 +289,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                                                            repeats:YES];
 
     
-    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
-    [self becomeFirstResponder];
-    
+      
     [self checkNowPlayingPlaylistId];
     
 
 }
 
-#pragma Setting background audio
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    
-    //End recieving events
-    [[UIApplication sharedApplication] endReceivingRemoteControlEvents];
-    [self resignFirstResponder];
-    
-    
-}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -313,25 +306,29 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     return YES;
 }
 
-- (void) registerForAudioObjectNotifications {
-    
-    //    NSNotificationCenter *notificationCenter = [NSNotificationCenter defaultCenter];
-    
-    //    [notificationCenter addObserver: self
-    //                           selector: @selector (handlePlaybackStateChanged:)
-    //                               name: nil //MixerHostAudioObjectPlaybackStateDidChangeNotification
-    //                             object: nil//audioObject
-    //     ];
-}
-- (void) remoteControlReceivedWithEvent: (UIEvent *) receivedEvent {
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
     
     if (receivedEvent.type == UIEventTypeRemoteControl) {
         
         switch (receivedEvent.subtype) {
                 
-            case UIEventSubtypeRemoteControlTogglePlayPause:
-                //                [self playOrStop: nil];
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                NSLog(@"prev");
+                [self backButton:self];
+                break;
                 
+            case UIEventSubtypeRemoteControlNextTrack:
+                NSLog(@"next");
+                [self nextButton:self];
+                break;
+                
+            case UIEventSubtypeRemoteControlPlay:
+                [self playButton:self];
+                break;
+                
+            case UIEventSubtypeRemoteControlPause:
+                [self playButton:self];
                 break;
                 
             default:
@@ -565,8 +562,25 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     flagSong = NO;
     
+    [self setLockScreenSongInfo :nowplayingSong];
 
 
+}
+- (void) calculateSongBySeconds {
+    
+    
+}
+- (void) setLockScreenSongInfo : (NowPlayingSong*)nowPlayingSong{
+    NSLog(@"1.) %@", nowPlayingSong.time);
+//    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork];
+    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"",
+                            MPMediaItemPropertyAlbumTitle: @"",
+                            MPMediaItemPropertyTitle: self.songTitle.text,
+                            MPMediaItemPropertyPlaybackDuration:nowPlayingSong.time,
+                            MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+                            };
+    
+    [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
 }
 
 - (IBAction)backButton:(id)sender {

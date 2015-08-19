@@ -67,6 +67,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [self setUpMediaPlayerLockScreen];
     
     [self setUpNavigationBar];
     [self setUpCollectionView];
@@ -81,6 +82,18 @@
     [self control];
     
 }
+
+- (void) setUpMediaPlayerLockScreen {
+    
+    [[UIApplication sharedApplication] beginReceivingRemoteControlEvents];
+    
+    // Set ourselves as the first responder
+    
+    [self becomeFirstResponder];
+
+    
+}
+- (BOOL)canBecomeFirstResponder { return YES; }
 
 - (void) setNSManagedObjectContext {
     
@@ -131,7 +144,7 @@
         LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
         
         UINavigationController *loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
-        [self.navigationController presentViewController:loginNavigationController animated:NO completion:nil];
+        [self.navigationController presentViewController:loginNavigationController animated:YES completion:nil];
     }
     
 }
