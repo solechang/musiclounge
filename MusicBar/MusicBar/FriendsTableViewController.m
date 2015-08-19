@@ -57,7 +57,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self retrieveFriendsFromLocal];
-    
+    [self.searchFriendsTableController.tableView reloadData];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
