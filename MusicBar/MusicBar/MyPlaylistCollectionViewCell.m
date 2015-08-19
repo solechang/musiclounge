@@ -31,6 +31,7 @@ const float UI_CUES_MARGIN = 0.0f;
         [self.playlistNameLabel setTextAlignment:NSTextAlignmentLeft];
         [self.playlistNameLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.contentView addSubview:self.playlistNameLabel];
+            
 
         self.songCountLabel = [[UILabel alloc] init];
         

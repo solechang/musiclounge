@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14E46" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -42,6 +42,7 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder.png" translatesAutoresizingMaskIntoConstraints="NO" id="rDp-UP-xVO">
                                         <rect key="frame" x="133" y="21" width="120" height="120"/>
                                         <constraints>
+                                            <constraint firstAttribute="width" constant="120" id="7O8-zK-0Zu"/>
                                             <constraint firstAttribute="height" constant="120" id="SUG-qP-u4D"/>
                                         </constraints>
                                     </imageView>
@@ -50,20 +51,20 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="l3t-ti-EhT" secondAttribute="bottom" constant="90" id="0qc-1i-vf8"/>
                                     <constraint firstAttribute="height" priority="999" constant="300" id="2Ov-ZV-f3l"/>
+                                    <constraint firstAttribute="centerX" secondItem="rDp-UP-xVO" secondAttribute="centerX" id="9jM-6O-wLb"/>
                                     <constraint firstItem="mWl-YU-GxS" firstAttribute="leading" secondItem="kV5-fm-How" secondAttribute="leading" constant="64" id="SRm-i5-RtF"/>
                                     <constraint firstAttribute="width" constant="386" id="kTW-BU-PDu"/>
                                     <constraint firstItem="l3t-ti-EhT" firstAttribute="leading" secondItem="kV5-fm-How" secondAttribute="leading" constant="59" id="ndw-jz-Foz"/>
                                     <constraint firstAttribute="trailing" secondItem="l3t-ti-EhT" secondAttribute="trailing" constant="58" id="nxs-gc-99W"/>
                                     <constraint firstItem="l3t-ti-EhT" firstAttribute="top" secondItem="mWl-YU-GxS" secondAttribute="bottom" constant="-6" id="puN-YK-5n7"/>
-                                    <constraint firstAttribute="trailing" secondItem="rDp-UP-xVO" secondAttribute="trailing" constant="133" id="rXi-wb-OH9"/>
                                     <constraint firstItem="mWl-YU-GxS" firstAttribute="top" secondItem="rDp-UP-xVO" secondAttribute="bottom" constant="8" id="uyP-Jx-i3o"/>
                                     <constraint firstAttribute="trailing" secondItem="mWl-YU-GxS" secondAttribute="trailing" constant="64" id="zQD-t3-xPw"/>
-                                    <constraint firstItem="rDp-UP-xVO" firstAttribute="leading" secondItem="kV5-fm-How" secondAttribute="leading" constant="133" id="zmR-Z6-Y3T"/>
                                 </constraints>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.19215686274509805" green="0.066666666666666666" blue="0.25490196078431371" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="centerX" secondItem="kV5-fm-How" secondAttribute="centerX" id="DdM-ZV-P6p"/>
                             <constraint firstItem="kV5-fm-How" firstAttribute="top" secondItem="GJ5-kw-1gF" secondAttribute="top" id="s9t-AZ-g0a"/>
                             <constraint firstItem="kV5-fm-How" firstAttribute="leading" secondItem="GJ5-kw-1gF" secondAttribute="leading" id="y2m-PX-dBv"/>
                         </constraints>
