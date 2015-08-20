@@ -42,8 +42,40 @@ const float UI_CUES_MARGIN = 0.0f;
         [self.songCountLabel  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
         [self.songCountLabel setTextAlignment:NSTextAlignmentRight];
         
-        [self.songCountLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+        //[self.songCountLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+        [self.songCountLabel setTranslatesAutoresizingMaskIntoConstraints:false];
+        
+        NSLayoutConstraint *centerYconstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
+                                                                             attribute:NSLayoutAttributeCenterY
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:self.contentView
+                                                                             attribute:NSLayoutAttributeCenterY
+                                                                            multiplier:1.0
+                                                                              constant:0];
+        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
+                                                                           attribute:NSLayoutAttributeWidth
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:nil
+                                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                                          multiplier:1.0
+                                                                            constant:257.0f];
+        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
+                                                                            attribute:NSLayoutAttributeHeight
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:nil
+                                                                            attribute:NSLayoutAttributeNotAnAttribute
+                                                                           multiplier:1.0
+                                                                             constant:21.0f];
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:self.contentView
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                          multiplier:1.0
+                                                                            constant:-20];
+
         [self.contentView addSubview:self.songCountLabel];
+        [self.contentView addConstraints:@[centerYconstraint,widthConstraint,heightConstraint,rightConstraint]];
         
         UILabel *_tickLabel;
         UILabel *_crossLabel;
