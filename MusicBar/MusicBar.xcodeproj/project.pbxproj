@@ -58,6 +58,7 @@
 		B9B76F461B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */; };
 		B9E42E171B8578AF0016E7F2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E42E161B8578AF0016E7F2 /* Accounts.framework */; };
 		B9E42E191B8578B70016E7F2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E42E181B8578B70016E7F2 /* Social.framework */; };
+		B9E4BE1E1B85814400F12F92 /* SetUsernameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E4BE1D1B85814400F12F92 /* SetUsernameTableViewController.m */; };
 		CD8EB7DF71A63BBFB41C083F /* libPods-MusicBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 360198B029194192A1793D84 /* libPods-MusicBar.a */; };
 /* End PBXBuildFile section */
 
@@ -161,6 +162,8 @@
 		B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySearchedSongsSearchControllerTableViewController.m; sourceTree = "<group>"; };
 		B9E42E161B8578AF0016E7F2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
 		B9E42E181B8578B70016E7F2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
+		B9E4BE1C1B85814400F12F92 /* SetUsernameTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SetUsernameTableViewController.h; sourceTree = "<group>"; };
+		B9E4BE1D1B85814400F12F92 /* SetUsernameTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SetUsernameTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -414,6 +417,8 @@
 				B96D16031B32371400406AAF /* SignUpTableViewController.m */,
 				B96D16041B32371400406AAF /* LoginViewController.h */,
 				B96D16051B32371400406AAF /* LoginViewController.m */,
+				B9E4BE1C1B85814400F12F92 /* SetUsernameTableViewController.h */,
+				B9E4BE1D1B85814400F12F92 /* SetUsernameTableViewController.m */,
 			);
 			name = "Login and Sign up";
 			sourceTree = "<group>";
@@ -668,6 +673,7 @@
 				B93D90081B3242FD00A2947C /* Song.m in Sources */,
 				B96D16071B32371400406AAF /* LoginViewController.m in Sources */,
 				B93D8FF31B3242FC00A2947C /* Friend.m in Sources */,
+				B9E4BE1E1B85814400F12F92 /* SetUsernameTableViewController.m in Sources */,
 				B93D8FF91B3242FC00A2947C /* UserFriendList.m in Sources */,
 				B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */,
 				B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */,

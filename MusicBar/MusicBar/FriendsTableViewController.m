@@ -21,6 +21,8 @@
 #import "FriendTabTheirCollectionViewController.h"
 #import "SearchFriendsTableViewController.h"
 
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
 @interface FriendsTableViewController () {
     NSMutableArray *friendsList;
     NSMutableDictionary *friendsPhonenumberDictionary;
@@ -133,8 +135,20 @@
      */
     [self.refreshButton setEnabled:NO];
     [SVProgressHUD showWithStatus:@"Loading Friends :)"];
-    [self queryFriendsFromServer];
+    
+//    [self queryFriendsFromServer];
+    [self getFriendsFromFacebook];
 }
+
+- (void) getFriendsFromFacebook {
+    if ([FBSDKAccessToken currentAccessToken]) {
+        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil]
+         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+             if (!error) {
+                 NSLog(@"fetched user:%@", result);
+             }
+         }];
+    }}
 
 #pragma mark - Check if Contactbook is authorized
 -(void) authorizeUserAddressbook {

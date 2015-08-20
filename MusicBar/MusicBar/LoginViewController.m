@@ -29,6 +29,7 @@
 @property (weak, nonatomic) IBOutlet UIView *subView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 
+@property (weak, nonatomic) IBOutlet UIButton *facebookLoginButton;
 
 @end
 
@@ -39,7 +40,7 @@
 {
     [super viewDidLoad];
 
-    
+
     [self gradientSetting];
     
     self.subView.layer.cornerRadius = 10;
@@ -104,18 +105,36 @@
 
 }
 - (IBAction)faceBookLogin:(id)sender {
-    
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    [self.facebookLoginButton setEnabled:NO];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         if (!user) {
-            NSLog(@"Uh oh. The user cancelled the Facebook login.");
+            
+            NSLog(@"1.1.) Uh oh. The user cancelled the Facebook login.");
         } else if (user.isNew) {
-            NSLog(@"User signed up and logged in through Facebook!");
+            
+            NSLog(@"1.2.) User signed up and logged in through Facebook!");
+            [self performSegueWithIdentifier:@"usernameSegue" sender:self];
+            
         } else {
-            NSLog(@"User logged in through Facebook!");
+            
+            NSLog(@"1.3.) User logged in through Facebook!");
+            
+            if (user[@"name"] != nil) {
+                
+                [self setUpCurrentUser: user];
+                
+            } else {
+                
+                [self performSegueWithIdentifier:@"usernameSegue" sender:self];
+                
+            }
+            
         }
+        
+        [self.facebookLoginButton setEnabled:YES];
     }];
 }
 
@@ -137,6 +156,56 @@
     return YES;
 }
 
+- (void) setUpCurrentUser: (PFUser*)user{
+    
+    // Delete local current user first
+    NSArray *deleteCurrentUserArray = [CurrentUser MR_findAll];
+    
+    for ( CurrentUser *deleteCurrentUser in deleteCurrentUserArray ) {
+        [deleteCurrentUser.userFriendList MR_deleteEntity];
+        //[deleteCurrentUser.userIllist MR_deleteEntity];
+        [deleteCurrentUser MR_deleteEntity];
+    }
+    
+    
+    // Save data in local
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        // Creating User contents in core data
+        CurrentUser *currentUser = [CurrentUser MR_createEntityInContext:localContext];
+        //
+        UserFriendList *currentUserFriendList = [UserFriendList MR_createEntityInContext:localContext];
+        
+        NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
+        // @"1" = Nothing is played
+        nowPlaying.playlistId = @"";
+        
+        // saving user's name, phone number, and email onto core data
+        currentUser.name = user[@"name"];
+        currentUser.userId = [[PFUser currentUser] objectId];
+
+        
+        
+        // setting data for current user illist and friend list onto core data
+        currentUserFriendList.hostId = [[PFUser currentUser] objectId];
+        
+        currentUser.userFriendList = currentUserFriendList;
+        
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+            
+            // Display success to log in
+            [SVProgressHUD showSuccessWithStatus:@"Welcome back to iLList!"];
+            
+            
+        }];
+        
+    }];
+
+}
+
 - (IBAction)loginButton:(id)sender {
     
     if ([self.emailTextField.text isEqualToString:@""] || [self.passwordTextField.text isEqualToString:@""] ) {
@@ -151,53 +220,7 @@
                                             if (user) {
                                                 // Do stuff after successful login.
                                                 
-                                                
-                                                // Delete local current user first
-                                                NSArray *deleteCurrentUserArray = [CurrentUser MR_findAll];
-                                                
-                                                for ( CurrentUser *deleteCurrentUser in deleteCurrentUserArray ) {
-                                                    [deleteCurrentUser.userFriendList MR_deleteEntity];
-//                                                    [deleteCurrentUser.userIllist MR_deleteEntity];
-                                                    [deleteCurrentUser MR_deleteEntity];
-                                                }
-                                                
-                                                
-                                                // Save data in local
-                                                [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-                                                    
-                                                    // Creating User contents in core data
-                                                    CurrentUser *currentUser = [CurrentUser MR_createEntityInContext:localContext];
-//
-                                                    UserFriendList *currentUserFriendList = [UserFriendList MR_createEntityInContext:localContext];
-                                                    
-                                                    NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
-                                                    // @"1" = Nothing is played
-                                                    nowPlaying.playlistId = @"";
-                                                    
-                                                    // saving user's name, phone number, and email onto core data
-                                                    currentUser.name = user[@"name"];
-                                                    currentUser.userId = [[PFUser currentUser] objectId];
-                                                    currentUser.email = user.email;
-                                                    
-                                                    
-                                                    // setting data for current user illist and friend list onto core data
-                                                    currentUserFriendList.hostId = [[PFUser currentUser] objectId];
-                                                    
-                                                    currentUser.userFriendList = currentUserFriendList;
-                                                    
-                                                    
-                                                } completion:^(BOOL success, NSError *error) {
-                                                    
-                                                    [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                                                        
-                                                        // Display success to log in
-                                                        [SVProgressHUD showSuccessWithStatus:@"Welcome back to iLList!"];
-                                                        
-                                                        
-                                                    }];
-                                                    
-                                                }];
-                                                
+                                                [self setUpCurrentUser:user];
                                             } else {
                                                 //The login failed. Check error to see why.
                                                 
