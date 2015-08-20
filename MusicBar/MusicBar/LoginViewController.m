@@ -19,6 +19,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
 
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
@@ -113,16 +114,9 @@
         if (!user) {
             
             NSLog(@"1.1.) Uh oh. The user cancelled the Facebook login.");
-        } else if (user.isNew) {
-            
-            NSLog(@"1.2.) User signed up and logged in through Facebook!");
-            [self performSegueWithIdentifier:@"usernameSegue" sender:self];
-            
         } else {
             
 //            NSLog(@"1.3.) %@", user);
-            
-            
             
             if (user[@"name"] != nil) {
                 
@@ -130,7 +124,8 @@
                 
             } else {
                 
-                [self performSegueWithIdentifier:@"usernameSegue" sender:self];
+                [self setFacebookID:user];
+//                [self performSegueWithIdentifier:@"usernameSegue" sender:self];
                 
             }
             
@@ -196,16 +191,70 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        [self.navigationController dismissViewControllerAnimated:YES completion:^{
-            
-            // Display success to log in
-            [SVProgressHUD showSuccessWithStatus:@"Welcome back to iLList!"];
-            
-            
-        }];
-        
+        [self setFacebookID:  user];
+
     }];
 
+}
+
+- (void) setFacebookID: (PFUser *) user{
+    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+                                  initWithGraphPath:@"me"
+                                  parameters:nil
+                                  HTTPMethod:@"GET"];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+                                          id result,
+                                          NSError *error) {
+        // Handle the result
+        NSLog(@"1.) %@", result);
+        NSString *facebookID = result[@"id"];
+        
+        
+        if (![facebookID isEqualToString:@""]) {
+            [self saveUserFacebookID: facebookID :user];
+        }
+
+        
+        
+        
+   
+    }];
+    
+}
+
+- (void) saveUserFacebookID :(NSString*) facebookID : (PFUser *) user{
+    
+    user[@"facebookID"] = facebookID;
+    
+    [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+    
+        if (succeeded) {
+            
+            if (user.isNew) {
+                [self performSegueWithIdentifier:@"usernameSegue" sender:self];
+                
+                
+            } else {
+                
+                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                    
+                    // Display success to log in
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to iLList!"];
+                    
+                    
+                }];
+                
+            }
+            
+        }
+        
+        
+    }];
+    
+    
+    
+    
+    
 }
 
 - (IBAction)loginButton:(id)sender {

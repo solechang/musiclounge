@@ -142,7 +142,7 @@
 
 - (void) getFriendsFromFacebook {
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
-                                  initWithGraphPath:@"me/friends"
+                                  initWithGraphPath:@"me"
                                   parameters:nil
                                   HTTPMethod:@"GET"];
     [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
