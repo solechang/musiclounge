@@ -20,6 +20,8 @@ target 'MusicBar' do
     pod 'FreeStreamer'
     pod 'Fabric'
     pod 'Crashlytics'
+    pod 'ParseFacebookUtilsV4'
+    pod 'FBSDKCoreKit'
 end
 
 target 'MusicBarTests' do

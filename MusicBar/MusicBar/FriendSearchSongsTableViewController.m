@@ -318,8 +318,7 @@
             
             [playlistInLocal addSongFriendObject:songInLocal];
         }
-        
-        NSLog(@"2.) %@", playlistInLocal.songCount);
+
 
     } completion:^(BOOL success, NSError *error) {
         
@@ -393,7 +392,7 @@
 
 #pragma mark - Search Delegate Methods
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    NSLog(@"1.)");
+
     NSString *searchString = searchBar.text;
     
     if (searchString.length != 0 ) {
@@ -409,7 +408,7 @@
         
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
-            
+            [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
                 UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
                 self.searchResult = [songMangerSearchedText parseTrackData:data];

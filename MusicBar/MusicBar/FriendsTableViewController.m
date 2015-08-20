@@ -56,7 +56,7 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self retrieveFriendsFromLocal];
+
     [self.searchFriendsTableController.tableView reloadData];
 }
 
@@ -74,7 +74,6 @@
     
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-    
     
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
@@ -250,11 +249,11 @@
         Friend *friend = [friendsList objectAtIndex:i];
         
         if ([friend.friend_exists isEqual:@(YES) ]) {
-            
+            NSLog(@"1.1.) %@", friend.name);
             [friendsWhoExistsOniLList addObject:[friendsList objectAtIndex:i]];
         }
     }
-    
+    NSLog(@"\n");
     self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [[NSMutableArray alloc] initWithCapacity:friendsWhoExistsOniLList.count];
     [self.tableView reloadData];
 
@@ -905,7 +904,6 @@
              Friend *selectedFriend =[self.searchFriendsTableController.filteredFriendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;
              
-             NSLog(@"2.) %@", self.searchFriendsTableController.filteredFriendsWhoExistsOniLList );
 //             [self.searchFriendsTableController setActive:NO];
          }
      }

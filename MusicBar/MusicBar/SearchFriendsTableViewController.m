@@ -21,7 +21,10 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    NSLog(@"1.)");
+
+
+
+
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
@@ -30,8 +33,18 @@
     [self.tableView registerNib:[UINib nibWithNibName:@"searchFriendsCell" bundle:nil] forCellReuseIdentifier:@"cellID"];
     
 }
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    NSLog(@"1.)");
+    self.navigationController.navigationBar.barStyle = UISearchBarStyleMinimal;
+//    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
+//    
+//    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+}
 
 - (void)viewDidAppear:(BOOL)animated {
+
     [self.tableView reloadData];
 }
 

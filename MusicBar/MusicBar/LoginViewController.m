@@ -18,6 +18,8 @@
 
 #import <QuartzCore/QuartzCore.h>
 
+#import <ParseFacebookUtilsV4/PFFacebookUtils.h>
+
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -26,6 +28,7 @@
 @property (strong, nonatomic) IBOutlet UIView *mainView;
 @property (weak, nonatomic) IBOutlet UIView *subView;
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
+
 
 @end
 
@@ -42,7 +45,7 @@
     self.subView.layer.cornerRadius = 10;
     self.subView.layer.masksToBounds = YES;
     
-    [self.titleLabel setFont:[UIFont fontWithName:@"Wisdom Script" size:40.0]];
+    [self.titleLabel setFont:[UIFont fontWithName:@"Wisdom Script" size:56.0]];
     self.titleLabel.text = @"MusicBar";
     
     
@@ -63,6 +66,7 @@
                                    action:@selector(dismissKeyboard)];
     
     [self.view addGestureRecognizer:tap];
+   
     
 }
 
@@ -98,6 +102,21 @@
     [self.emailTextField resignFirstResponder];
     [self.passwordTextField resignFirstResponder];
 
+}
+- (IBAction)faceBookLogin:(id)sender {
+    
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships", @"user_birthday", @"user_location"];
+    
+    // Login PFUser using Facebook
+    [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
+        if (!user) {
+            NSLog(@"Uh oh. The user cancelled the Facebook login.");
+        } else if (user.isNew) {
+            NSLog(@"User signed up and logged in through Facebook!");
+        } else {
+            NSLog(@"User logged in through Facebook!");
+        }
+    }];
 }
 
 - (void)didReceiveMemoryWarning

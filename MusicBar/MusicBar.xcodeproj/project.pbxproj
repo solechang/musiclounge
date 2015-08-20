@@ -56,6 +56,8 @@
 		B9B76F3B1B37E94900F63AC4 /* SongManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F3A1B37E94900F63AC4 /* SongManager.m */; };
 		B9B76F411B37E98A00F63AC4 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F3E1B37E98A00F63AC4 /* MediaPlayerViewController.m */; };
 		B9B76F461B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */; };
+		B9E42E171B8578AF0016E7F2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E42E161B8578AF0016E7F2 /* Accounts.framework */; };
+		B9E42E191B8578B70016E7F2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E42E181B8578B70016E7F2 /* Social.framework */; };
 		CD8EB7DF71A63BBFB41C083F /* libPods-MusicBar.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 360198B029194192A1793D84 /* libPods-MusicBar.a */; };
 /* End PBXBuildFile section */
 
@@ -157,6 +159,8 @@
 		B9B76F3E1B37E98A00F63AC4 /* MediaPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MediaPlayerViewController.m; sourceTree = "<group>"; };
 		B9B76F441B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MySearchedSongsSearchControllerTableViewController.h; sourceTree = "<group>"; };
 		B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MySearchedSongsSearchControllerTableViewController.m; sourceTree = "<group>"; };
+		B9E42E161B8578AF0016E7F2 /* Accounts.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accounts.framework; path = System/Library/Frameworks/Accounts.framework; sourceTree = SDKROOT; };
+		B9E42E181B8578B70016E7F2 /* Social.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Social.framework; path = System/Library/Frameworks/Social.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -164,6 +168,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B9E42E191B8578B70016E7F2 /* Social.framework in Frameworks */,
+				B9E42E171B8578AF0016E7F2 /* Accounts.framework in Frameworks */,
 				B9978DCD1B6739B2004203F1 /* libxml2.dylib in Frameworks */,
 				B9978DCB1B67399D004203F1 /* AVFoundation.framework in Frameworks */,
 				B9978DC91B673996004203F1 /* AudioToolbox.framework in Frameworks */,
@@ -195,6 +201,8 @@
 		2877A3CBA587BED982B7D201 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B9E42E181B8578B70016E7F2 /* Social.framework */,
+				B9E42E161B8578AF0016E7F2 /* Accounts.framework */,
 				B9978DCC1B6739B2004203F1 /* libxml2.dylib */,
 				B9978DCA1B67399D004203F1 /* AVFoundation.framework */,
 				B9978DC81B673996004203F1 /* AudioToolbox.framework */,
@@ -815,6 +823,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -829,6 +841,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
 				INFOPLIST_FILE = MusicBar/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
