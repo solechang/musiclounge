@@ -106,7 +106,7 @@
 }
 - (IBAction)faceBookLogin:(id)sender {
     [self.facebookLoginButton setEnabled:NO];
-    NSArray *permissionsArray = @[ @"user_about_me", @"user_relationships"];
+    NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"read_custom_friendlists"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -120,7 +120,9 @@
             
         } else {
             
-            NSLog(@"1.3.) User logged in through Facebook!");
+//            NSLog(@"1.3.) %@", user);
+            
+            
             
             if (user[@"name"] != nil) {
                 

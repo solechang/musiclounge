@@ -134,21 +134,36 @@
      * refresh button to load up their contacts from the address book
      */
     [self.refreshButton setEnabled:NO];
-    [SVProgressHUD showWithStatus:@"Loading Friends :)"];
+//    [SVProgressHUD showWithStatus:@"Loading Friends :)"];
     
 //    [self queryFriendsFromServer];
     [self getFriendsFromFacebook];
 }
 
 - (void) getFriendsFromFacebook {
-    if ([FBSDKAccessToken currentAccessToken]) {
-        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters:nil]
-         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-             if (!error) {
-                 NSLog(@"fetched user:%@", result);
-             }
-         }];
-    }}
+    FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
+                                  initWithGraphPath:@"me/friends"
+                                  parameters:nil
+                                  HTTPMethod:@"GET"];
+    [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
+                                          id result,
+                                          NSError *error) {
+        // Handle the result
+        NSLog(@"1.) %@", result);
+    }];
+    
+//    if ([FBSDKAccessToken currentAccessToken]) {
+//        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters: nil]
+//         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
+//             if (!error) {
+//                 
+//                 NSLog(@"fetched user:%@", result);
+//             }
+//         }];
+//        
+//    }
+
+}
 
 #pragma mark - Check if Contactbook is authorized
 -(void) authorizeUserAddressbook {

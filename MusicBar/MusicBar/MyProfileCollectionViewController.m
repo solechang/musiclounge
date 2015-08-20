@@ -68,6 +68,9 @@
 {
     [super viewDidLoad];
     
+    
+    NSLog(@"1.) %@", [PFUser currentUser][@"authData"]);
+    
     [self setUpMediaPlayerLockScreen];
     
     [self setUpNavigationBar];
