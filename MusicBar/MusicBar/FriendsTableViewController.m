@@ -29,6 +29,8 @@
     NSMutableArray *friendsWhoExistsOniLList;
     
     NSManagedObjectContext *defaultContext;
+    
+    NSMutableDictionary *friendsFacebookIDDictionary;
 
 }
 
@@ -113,12 +115,13 @@
 
 #pragma mark - Initialization of data
 - (void) initializeData {
+    friendsFacebookIDDictionary = [[NSMutableDictionary alloc] init];
     
     friendsPhonenumberDictionary = [[NSMutableDictionary alloc] init];
     self.searchFriendsTableController = [[SearchFriendsTableViewController alloc] init];
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
     [self.searchController.searchBar sizeToFit];
-    [self.searchController.searchBar setPlaceholder:@"Find new Friends through username :)"];
+    [self.searchController.searchBar setPlaceholder:@"Find new Friends by username :)"];
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
 //    self.searchController.searchResultsUpdater = self;
@@ -137,38 +140,121 @@
 //    [SVProgressHUD showWithStatus:@"Loading Friends :)"];
     
 //    [self queryFriendsFromServer];
-    [self getFriendsFromFacebook];
+    [self queryFacebookIDFromUsers];
 }
+
+
+- (void) queryFacebookIDFromUsers {
+
+    PFQuery *query = [PFUser query];
+    
+    [query selectKeys:@[@"facebookID"]];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
+        if (error) {
+            NSString *errorString = [error userInfo][@"error"];
+            NSLog(@"170.) Error: %@", errorString);
+            
+        } else {
+
+
+            [self filterFacebookID:users];
+            
+        }
+        
+    }];
+    
+}
+
+- (void) filterFacebookID: (NSArray*) users {
+
+    for (PFUser* user in users) {
+        if (user[@"facebookID"]) {
+           
+            [friendsFacebookIDDictionary setObject:user forKey:user[@"facebookID"]];
+            
+        }
+
+    }
+    [self getFriendsFromFacebook];
+    
+}
+
 
 - (void) getFriendsFromFacebook {
     FBSDKGraphRequest *request = [[FBSDKGraphRequest alloc]
-                                  initWithGraphPath:@"me"
+                                  initWithGraphPath:@"me/friends"
                                   parameters:nil
                                   HTTPMethod:@"GET"];
     [request startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection,
                                           id result,
                                           NSError *error) {
+        
+        
         // Handle the result
-        NSLog(@"1.) %@", result);
+        NSArray *friendsWhoExistOnApp = result[@"data"];
+        
+        [self addFriendsFromFacebook:friendsWhoExistOnApp];
+        
     }];
     
-//    if ([FBSDKAccessToken currentAccessToken]) {
-//        [[[FBSDKGraphRequest alloc] initWithGraphPath:@"me" parameters: nil]
-//         startWithCompletionHandler:^(FBSDKGraphRequestConnection *connection, id result, NSError *error) {
-//             if (!error) {
-//                 
-//                 NSLog(@"fetched user:%@", result);
-//             }
-//         }];
-//        
-//    }
+    
+}
 
+- (void) addFriendsFromFacebook: (NSArray*) friendsWhoExistOnApp {
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        // Finding current User in coredata and updating with the userfriendlist in coredata
+//        CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];
+//        
+//        UserFriendList *currentUserFriendList = [UserFriendList MR_findFirstInContext:localContext];
+        
+        for (NSDictionary* friendInfo in friendsWhoExistOnApp) {
+            
+            NSLog(@"2.) %@", friendInfo[@"id"]);
+            
+            if ([friendsFacebookIDDictionary objectForKey:friendInfo[@"id"]]) {
+                
+                Friend *friend = [Friend MR_createEntityInContext:localContext];
+                
+            }
+            
+        }
+        
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        
+        if (success) {
+            
+            // User's Friends exist in the database
+            CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:defaultContext];
+            
+            NSArray *friends = [currentUser.userFriendList.friend allObjects];
+            
+            friendsList = [[NSMutableArray alloc] initWithArray:friends];
+            [self cleanPhonenumberStrings];
+            
+        } else {
+            
+            // User's Friends doesn't exist in the database
+            friendsList = [[NSMutableArray alloc] init];
+            NSLog( @"Error: retrieveUpdatedFriendsObjectFromServer");
+            
+        }
+        
+    }];
+
+    
+    
+   
+    
 }
 
 #pragma mark - Check if Contactbook is authorized
 -(void) authorizeUserAddressbook {
     
-    // TODO: Prompt the user to change settings in the Settings when user's doesn't authorize the addressbook
+//     TODO: Prompt the user to change settings in the Settings when user's doesn't authorize the addressbook
     if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusDenied ||
         ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusRestricted ) {
         
@@ -898,7 +984,7 @@
 
 - (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
     
-    NSString *text = @"To add friends, search your friends on the explore tab";
+    NSString *text = @"To add friends, search your friends on the search bar by username";
     
     NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
     paragraph.lineBreakMode = NSLineBreakByWordWrapping;

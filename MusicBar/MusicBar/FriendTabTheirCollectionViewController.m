@@ -162,10 +162,6 @@
 //added below
 - (void)viewDidAppear:(BOOL)animated {
     
-    NSArray *findFriends = [Friend MR_findByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
-    
-    NSLog(@"2.) %@", findFriends);
-    
     // Check if friend exists
     Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
 
