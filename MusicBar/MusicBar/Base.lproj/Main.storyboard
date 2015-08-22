@@ -576,6 +576,9 @@
                                                 </label>
                                             </subviews>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <segue destination="xF8-ln-yqt" kind="presentation" id="y1T-OM-Igj"/>
+                                        </connections>
                                     </tableViewCell>
                                 </cells>
                             </tableViewSection>
@@ -639,6 +642,73 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LPh-Jd-mpy" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2798" y="127"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ZfK-f6-4qF">
+            <objects>
+                <navigationController id="xF8-ln-yqt" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="FkM-Fh-ics">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="yQg-p8-XVv" kind="relationship" relationship="rootViewController" id="7nq-IX-HMo"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Zh7-nB-0xy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3554" y="-548"/>
+        </scene>
+        <!--Your Info-->
+        <scene sceneID="UkD-zC-HWJ">
+            <objects>
+                <viewController id="yQg-p8-XVv" customClass="ProfileInfoViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sg8-eo-moE"/>
+                        <viewControllerLayoutGuide type="bottom" id="eq0-Lf-add"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="L5D-Cq-j9R">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rt2-y9-KaA">
+                                <rect key="frame" x="50" y="124" width="501" height="119"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="yQg-p8-XVv" id="e9s-yM-VUc"/>
+                                </connections>
+                            </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter your description below:" lineBreakMode="wordWrap" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mt0-tr-paw">
+                                <rect key="frame" x="16" y="82" width="225" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" red="0.20696006146636389" green="0.027145262521451385" blue="0.2627051767676768" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstItem="Mt0-tr-paw" firstAttribute="top" secondItem="sg8-eo-moE" secondAttribute="bottom" constant="18" id="3xL-qO-CsW"/>
+                            <constraint firstItem="Rt2-y9-KaA" firstAttribute="leading" secondItem="L5D-Cq-j9R" secondAttribute="leadingMargin" constant="34" id="kfa-Ud-fbl"/>
+                            <constraint firstItem="Mt0-tr-paw" firstAttribute="leading" secondItem="L5D-Cq-j9R" secondAttribute="leadingMargin" id="qco-8b-Hvq"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Rt2-y9-KaA" secondAttribute="trailing" constant="33" id="wBa-Ld-KT8"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Your Info" id="PuR-98-EqG">
+                        <barButtonItem key="rightBarButtonItem" title="Save" id="1v9-rc-mJd">
+                            <connections>
+                                <action selector="saveButtonPushed:" destination="yQg-p8-XVv" id="6uq-1d-dri"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="infoTextView" destination="Rt2-y9-KaA" id="fHB-yO-DpF"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Xju-Bp-wrF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4319" y="-547"/>
         </scene>
         <!--Profile Picture-->
         <scene sceneID="w3o-df-Arc">
@@ -1112,6 +1182,22 @@
             </objects>
             <point key="canvasLocation" x="2866" y="3059"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="8Rl-BN-oPg">
+            <objects>
+                <navigationController id="BSE-Kd-Qnp" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bby-Q2-8Ul">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Y6W-Yv-iX5" kind="relationship" relationship="rootViewController" id="C4C-G5-Ws6"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="6Mt-15-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2158" y="3788"/>
+        </scene>
         <!--Friend-->
         <scene sceneID="0L2-yQ-j5C">
             <objects>
@@ -1242,7 +1328,7 @@
                         <outlet property="playButton" destination="f4f-hS-U5W" id="qad-Ek-ho8"/>
                         <outlet property="songTitle" destination="Xdc-Ls-8EB" id="RkA-Aj-aTQ"/>
                         <outlet property="startTime" destination="KK2-c1-xcv" id="hHo-PJ-nXO"/>
-                        <segue destination="Y6W-Yv-iX5" kind="presentation" identifier="currentPlaylistNowPlayingSegue" id="aW4-nE-PAw"/>
+                        <segue destination="BSE-Kd-Qnp" kind="presentation" identifier="currentPlaylistNowPlayingSegue" id="RXy-Pf-so1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aWt-84-EyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1279,6 +1365,6 @@
         <image name="Me" width="75" height="75"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="aW4-nE-PAw"/>
+        <segue reference="C4C-G5-Ws6"/>
     </inferredMetricsTieBreakers>
 </document>

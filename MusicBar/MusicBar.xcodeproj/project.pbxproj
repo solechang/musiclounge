@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		44103B271B87EE0F006808F3 /* CurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 44103B261B87EE0F006808F3 /* CurrentUser.m */; };
 		445D7D411B6865BB009C7784 /* SearchFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */; };
 		445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445D7D421B68671C009C7784 /* searchFriendsCell.xib */; };
+		445FCFFA1B87E02100C6D042 /* ProfileInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445FCFF91B87E02100C6D042 /* ProfileInfoViewController.m */; };
 		B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */; };
 		B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */; };
 		B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */; };
@@ -20,7 +22,6 @@
 		B93D8FF61B3242FC00A2947C /* Playlist.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D8FF51B3242FC00A2947C /* Playlist.m */; };
 		B93D8FF91B3242FC00A2947C /* UserFriendList.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D8FF81B3242FC00A2947C /* UserFriendList.m */; };
 		B93D8FFC1B3242FC00A2947C /* NowPlaying.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D8FFB1B3242FC00A2947C /* NowPlaying.m */; };
-		B93D8FFF1B3242FC00A2947C /* CurrentUser.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D8FFE1B3242FC00A2947C /* CurrentUser.m */; };
 		B93D90021B3242FD00A2947C /* NowPlayingSong.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90011B3242FD00A2947C /* NowPlayingSong.m */; };
 		B93D90051B3242FD00A2947C /* FriendPhonenumber.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90041B3242FD00A2947C /* FriendPhonenumber.m */; };
 		B93D90081B3242FD00A2947C /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90071B3242FD00A2947C /* Song.m */; };
@@ -73,9 +74,13 @@
 		15A8B0BA37EEF5B3A5ED56A7 /* Pods-MusicBar.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicBar.release.xcconfig"; path = "Pods/Target Support Files/Pods-MusicBar/Pods-MusicBar.release.xcconfig"; sourceTree = "<group>"; };
 		1E6E3A4ABE80FBEEAFC25546 /* Pods-MusicBar.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicBar.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicBar/Pods-MusicBar.debug.xcconfig"; sourceTree = "<group>"; };
 		360198B029194192A1793D84 /* libPods-MusicBar.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicBar.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		44103B251B87EE0F006808F3 /* CurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentUser.h; sourceTree = "<group>"; };
+		44103B261B87EE0F006808F3 /* CurrentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentUser.m; sourceTree = "<group>"; };
 		445D7D3F1B6865BB009C7784 /* SearchFriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchFriendsTableViewController.h; sourceTree = "<group>"; };
 		445D7D401B6865BB009C7784 /* SearchFriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchFriendsTableViewController.m; sourceTree = "<group>"; };
 		445D7D421B68671C009C7784 /* searchFriendsCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = searchFriendsCell.xib; sourceTree = "<group>"; };
+		445FCFF81B87E02100C6D042 /* ProfileInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ProfileInfoViewController.h; sourceTree = "<group>"; };
+		445FCFF91B87E02100C6D042 /* ProfileInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileInfoViewController.m; sourceTree = "<group>"; };
 		B9200BDD1B393EC4001372C0 /* FriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewController.h; sourceTree = "<group>"; };
 		B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewController.m; sourceTree = "<group>"; };
 		B9200BE01B393ED2001372C0 /* FriendTabTheirCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTabTheirCollectionViewController.h; sourceTree = "<group>"; };
@@ -97,8 +102,6 @@
 		B93D8FF81B3242FC00A2947C /* UserFriendList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserFriendList.m; sourceTree = "<group>"; };
 		B93D8FFA1B3242FC00A2947C /* NowPlaying.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlaying.h; sourceTree = "<group>"; };
 		B93D8FFB1B3242FC00A2947C /* NowPlaying.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlaying.m; sourceTree = "<group>"; };
-		B93D8FFD1B3242FC00A2947C /* CurrentUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CurrentUser.h; sourceTree = "<group>"; };
-		B93D8FFE1B3242FC00A2947C /* CurrentUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CurrentUser.m; sourceTree = "<group>"; };
 		B93D90001B3242FD00A2947C /* NowPlayingSong.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NowPlayingSong.h; sourceTree = "<group>"; };
 		B93D90011B3242FD00A2947C /* NowPlayingSong.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NowPlayingSong.m; sourceTree = "<group>"; };
 		B93D90031B3242FD00A2947C /* FriendPhonenumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendPhonenumber.h; sourceTree = "<group>"; };
@@ -205,6 +208,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		445FCFFB1B87E03A00C6D042 /* Info */ = {
+			isa = PBXGroup;
+			children = (
+				445FCFF81B87E02100C6D042 /* ProfileInfoViewController.h */,
+				445FCFF91B87E02100C6D042 /* ProfileInfoViewController.m */,
+			);
+			name = Info;
+			sourceTree = "<group>";
+		};
 		B9200BDA1B393D78001372C0 /* Friends Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,10 +264,10 @@
 		B93D8FCA1B32410700A2947C /* Core data */ = {
 			isa = PBXGroup;
 			children = (
+				44103B251B87EE0F006808F3 /* CurrentUser.h */,
+				44103B261B87EE0F006808F3 /* CurrentUser.m */,
 				B93D90061B3242FD00A2947C /* Song.h */,
 				B93D90071B3242FD00A2947C /* Song.m */,
-				B93D8FFD1B3242FC00A2947C /* CurrentUser.h */,
-				B93D8FFE1B3242FC00A2947C /* CurrentUser.m */,
 				B93D8FF41B3242FC00A2947C /* Playlist.h */,
 				B93D8FF51B3242FC00A2947C /* Playlist.m */,
 				B93D8FCF1B32414300A2947C /* Friend */,
@@ -434,6 +446,7 @@
 		B9B76F261B37E8D300F63AC4 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				445FCFFB1B87E03A00C6D042 /* Info */,
 				B9B76F2A1B37E8EE00F63AC4 /* Profile PIcture */,
 				B9B76F271B37E8E400F63AC4 /* SettingsTableTableViewController.h */,
 				B9B76F281B37E8E400F63AC4 /* SettingsTableTableViewController.m */,
@@ -664,6 +677,7 @@
 				B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */,
 				B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */,
 				B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */,
+				44103B271B87EE0F006808F3 /* CurrentUser.m in Sources */,
 				B9200BEC1B393EF4001372C0 /* iLLSongFriendManager.m in Sources */,
 				B93D8FCD1B32411600A2947C /* MusicBarModel.xcdatamodeld in Sources */,
 				B9B76F361B37E93000F63AC4 /* CustomSong.m in Sources */,
@@ -672,7 +686,6 @@
 				B93D90021B3242FD00A2947C /* NowPlayingSong.m in Sources */,
 				B93D8FF01B3242FB00A2947C /* SongFriend.m in Sources */,
 				B9200BE81B393ED2001372C0 /* FriendSearchControllerTableViewController.m in Sources */,
-				B93D8FFF1B3242FC00A2947C /* CurrentUser.m in Sources */,
 				B9B76F351B37E93000F63AC4 /* SearchSongsTableViewController.m in Sources */,
 				B967734C1B32331A00C01AAF /* main.m in Sources */,
 				B93D900B1B3242FD00A2947C /* PlaylistFriend.m in Sources */,
@@ -686,6 +699,7 @@
 				B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */,
 				B9B76F3B1B37E94900F63AC4 /* SongManager.m in Sources */,
 				B93D8FFC1B3242FC00A2947C /* NowPlaying.m in Sources */,
+				445FCFFA1B87E02100C6D042 /* ProfileInfoViewController.m in Sources */,
 				B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

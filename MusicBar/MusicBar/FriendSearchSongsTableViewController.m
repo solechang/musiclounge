@@ -21,6 +21,7 @@
     
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
+    int counter;
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -267,7 +268,6 @@
 }
 
 - (void ) fetchSongsFromServer {
-    
     PFQuery *updatedQuery = [PFQuery queryWithClassName:@"Song"];
 
     [updatedQuery whereKey:@"iLListId" equalTo:self.playlistInfo.objectId];
@@ -279,7 +279,10 @@
     [updatedQuery findObjectsInBackgroundWithBlock:^(NSArray *songsInServer, NSError *error) {
         
         if (!error) {
-            [self saveSongsToLocal: songsInServer];
+            if (counter<1) {
+                [self saveSongsToLocal: songsInServer];
+                counter++;
+            }
             
         } else {
             NSLog(@"Error with fetching songs from server 271");

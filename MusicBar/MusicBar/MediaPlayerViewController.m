@@ -730,21 +730,18 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
     if ([[segue identifier] isEqualToString:@"currentPlaylistNowPlayingSegue"]) {
-
-//        UINavigationController *navController = [segue destinationViewController];
-
-//        FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
-
-//        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:localContext];
-//        playlist.userId = self.;
-//        playlist.name = playlistObject[@"iLListName"];
-//        playlist.objectId = playlistObject.objectId;
-//        
+        UINavigationController *navController = [segue destinationViewController];
+        FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
+        
+        NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
+        PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
+        playlist.objectId = nowPlaying.playlistId;
+        
 //        playlist.userName = playlistObject[@"userName"];
 //        playlist.createdAt = playlistObject.createdAt;
 //        playlist.songCount = playlistObject[@"SongCount"];
 
-//        [vc setPlaylistInfo:];
+        vc.playlistInfo = playlist;
 
     }
 

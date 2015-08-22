@@ -2,7 +2,7 @@
 //  CurrentUser.m
 //  MusicBar
 //
-//  Created by Jake Choi on 6/17/15.
+//  Created by Anthony Merrin on 8/21/15.
 //  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
@@ -16,6 +16,7 @@
 @dynamic name;
 @dynamic profilePicture;
 @dynamic userId;
+@dynamic info;
 @dynamic userFriendList;
 
 @end
