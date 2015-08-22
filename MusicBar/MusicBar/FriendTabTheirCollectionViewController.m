@@ -60,7 +60,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    self.addFriendButton.enabled = NO;
     self.profilePictureImage = [UIImage imageNamed: @"placeholder.png"];
     
 //    [self setUpNavigationBar];
@@ -161,8 +161,17 @@
 
 //added below
 - (void)viewDidAppear:(BOOL)animated {
-   
-     [self userPlaylistLogic];
+    
+    // Check if friend exists
+    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
+
+    if (findFriend.friend_exists){
+        self.addFriendButton.enabled = NO;
+    } else{
+        self.addFriendButton.enabled = YES;
+    }
+
+    [self userPlaylistLogic];
     
 }
 
@@ -341,15 +350,7 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // Check if friend exists
-    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId];
-    
-    if (findFriend.friend_exists){
-        self.addFriendButton.enabled = NO;
-    } else{
-        self.addFriendButton.enabled = YES;
-    }
-
+  
 }
 
 - (void) setUpCollectionView {

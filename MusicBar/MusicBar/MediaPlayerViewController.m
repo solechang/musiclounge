@@ -737,9 +737,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
         playlist.objectId = nowPlaying.playlistId;
         
-//        playlist.userName = playlistObject[@"userName"];
-//        playlist.createdAt = playlistObject.createdAt;
-//        playlist.songCount = playlistObject[@"SongCount"];
+
 
         vc.playlistInfo = playlist;
 
