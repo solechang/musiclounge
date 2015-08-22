@@ -93,7 +93,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self setUpData];
 
     
-   
+
 }
 - (void) setUpNavigationBar {
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -108,6 +108,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     currentPlayList = [[NSMutableArray alloc] init];
     
     [self.currentPlaylistButton setEnabled:NO];
+    
     [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
 
     [self.playButton setEnabled:NO];
@@ -429,7 +430,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //    [self setupTimer];
 //    [self updateControls];
     
-    [self.currentPlaylistButton setEnabled:YES];
+//    [self.currentPlaylistButton setEnabled:YES];
 
     [self playSong];
 

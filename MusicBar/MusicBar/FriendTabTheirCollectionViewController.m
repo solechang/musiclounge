@@ -161,7 +161,7 @@
 
 //added below
 - (void)viewDidAppear:(BOOL)animated {
-    NSLog(@"1.) %@", self.friendInfo.userId);
+
     if (self.friendInfo.userId) {
         // Check if friend exists
         Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];

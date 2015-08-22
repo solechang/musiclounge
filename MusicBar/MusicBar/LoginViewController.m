@@ -109,10 +109,13 @@
     [self.facebookLoginButton setEnabled:NO];
     NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"read_custom_friendlists"];
     
+    [SVProgressHUD showWithStatus:@"Loading :)"];
+    
     // Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         if (!user) {
-            
+            [SVProgressHUD dismiss];
+            [SVProgressHUD showErrorWithStatus:@"You have canceled Facebook login :("];
             NSLog(@"1.1.) Uh oh. The user cancelled the Facebook login.");
         } else {
             
@@ -235,7 +238,7 @@
                 
                 
             } else {
-                
+         
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     
                     // Display success to log in
@@ -245,6 +248,7 @@
                 }];
                 
             }
+            [SVProgressHUD dismiss];
             
         }
         
