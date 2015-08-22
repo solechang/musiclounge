@@ -735,7 +735,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 //        FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
 
-//        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:localContext];
+//        PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
 //        playlist.userId = self.;
 //        playlist.name = playlistObject[@"iLListName"];
 //        playlist.objectId = playlistObject.objectId;

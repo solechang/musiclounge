@@ -67,6 +67,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
+    
     [self setUpMediaPlayerLockScreen];
     
     [self setUpNavigationBar];
