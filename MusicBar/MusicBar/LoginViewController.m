@@ -223,7 +223,7 @@
 }
 
 - (void) saveUserFacebookID :(NSString*) facebookID : (PFUser *) user{
-    
+
     user[@"facebookID"] = facebookID;
     
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -239,7 +239,7 @@
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     
                     // Display success to log in
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to iLList!"];
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to MusicBar!"];
                     
                     
                 }];

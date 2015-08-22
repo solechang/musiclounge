@@ -200,17 +200,17 @@
     userFriendList.ACL = defaultACL;
     
     // PFObject PrivateUserData
-    PFObject *privateData = [PFObject objectWithClassName:@"PrivateUserData"];
+//    PFObject *privateData = [PFObject objectWithClassName:@"PrivateUserData"];
     
     // When user signs up, their phone number has to be only numbers and US phone number. Need to include for international
-    [privateData setObject:[[PFUser currentUser] objectId] forKey:@"host"];
+//    [privateData setObject:[[PFUser currentUser] objectId] forKey:@"host"];
     
-    privateData.ACL = defaultACL;
+//    privateData.ACL = defaultACL;
     
     NSMutableArray *userData = [[NSMutableArray alloc] init];
     //    [userData addObject:userIllists];
     [userData addObject:userFriendList];
-    [userData addObject:privateData];
+//    [userData addObject:privateData];
     
     // Save data in parse
     [PFObject saveAllInBackground:userData block:^(BOOL succeeded, NSError *error) {
