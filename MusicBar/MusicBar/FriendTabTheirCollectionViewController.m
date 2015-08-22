@@ -161,17 +161,22 @@
 
 //added below
 - (void)viewDidAppear:(BOOL)animated {
-    
-    // Check if friend exists
-    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
-
-    if (findFriend.friend_exists){
-        self.addFriendButton.enabled = NO;
-    } else{
-        self.addFriendButton.enabled = YES;
+    NSLog(@"1.) %@", self.friendInfo.userId);
+    if (self.friendInfo.userId) {
+        // Check if friend exists
+        Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
+        
+        if (findFriend.friend_exists){
+            self.addFriendButton.enabled = NO;
+        } else{
+            self.addFriendButton.enabled = YES;
+        }
+        
+        
+        [self userPlaylistLogic];
     }
-
-    [self userPlaylistLogic];
+    
+    
     
 }
 
@@ -354,14 +359,6 @@
 }
 
 - (void) setUpCollectionView {
-    
-    //    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    //    CGFloat screenScale = [[UIScreen mainScreen] scale];
-    //    CGSize screenSize = CGSizeMake(screenBounds.size.width * screenScale, screenBounds.size.height * screenScale);
-
-    //    NSLog(@"%f", screenSize.height);
-    
-    //    self.collectionView.contentSize = screenSize;
     
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.bounces = YES;

@@ -215,7 +215,7 @@
             Friend *friendInLocal = [Friend MR_createEntityInContext:localContext];
             friendInLocal.name = friendInParse[@"name"];
             friendInLocal.hostId = [PFUser currentUser].objectId;
-            friendInLocal.objectId = friendInParse[@"userId"];
+            friendInLocal.userId = friendInParse[@"userId"];
             friendInLocal.friend_exists = @(YES);
             [currentUserFriendList addFriendObject:friendInLocal];
 
@@ -435,7 +435,7 @@
         Friend *friend = [friendsList objectAtIndex:i];
         
         if ([friend.friend_exists isEqual:@(YES) ]) {
-            
+         
             [friendsWhoExistsOniLList addObject:[friendsList objectAtIndex:i]];
         }
     }

@@ -211,8 +211,12 @@
 //    
 //    iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
 //    [self.tableView reloadData];
-//    
-    [self fetchSongsFromServer];
+    
+    if (self.playlistInfo.objectId) {
+         [self fetchSongsFromServer];
+    }
+   
+   
 
     
     
