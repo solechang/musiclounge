@@ -92,8 +92,6 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
-   
-//    [self authorizeUserAddressbook];
 
 }
 
@@ -139,11 +137,8 @@
      * refresh button to load up their contacts from the address book
      */
     [self.refreshButton setEnabled:NO];
-//    [SVProgressHUD showWithStatus:@"Loading Friends :)"];
     
     [self retrieveFriendsFromLocal];
-//    [self queryFriendsFromServer];
-
 }
 
 
@@ -151,9 +146,10 @@
 - (void) retrieveFriendsFromLocal {
     
     NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES];
-
     
     if (friendsCoreDataArray.count == 0) {
+        
+        [SVProgressHUD showWithStatus:@"Loading Friends through Facebook :)"];
         
         // If no friend object exists. This is when the user first goes into friend time in his/ her lifetime of using the app
         [self queryFacebookIDFromUsers];
@@ -187,6 +183,7 @@
         if (error) {
             NSString *errorString = [error userInfo][@"error"];
             NSLog(@"170.) Error: %@", errorString);
+            [SVProgressHUD dismiss];
             
         } else {
 
@@ -223,10 +220,15 @@
                                           NSError *error) {
         
         
-        // Handle the result
-        NSArray *friendsWhoExistOnApp = result[@"data"];
+        if (!error) {
+            // Handle the result
+            NSArray *friendsWhoExistOnApp = result[@"data"];
         
-        [self addFriendsFromFacebookToServer:friendsWhoExistOnApp];
+            [self addFriendsFromFacebookToServer:friendsWhoExistOnApp];
+        } else {
+             [SVProgressHUD dismiss];
+        }
+        
         
     }];
     
@@ -272,6 +274,7 @@
 
         } else {
             NSLog(@"Error 275.)");
+                 [SVProgressHUD dismiss];
         }
         
     }];
@@ -287,8 +290,6 @@
         UserFriendList *currentUserFriendList = [UserFriendList MR_findFirstInContext:localContext];
         
         for (NSDictionary* friendInfo in friendsWhoExistOnApp) {
-            
-            NSLog(@"2.) %@", friendInfo[@"id"]);
             
             if ([friendsFacebookIDDictionary objectForKey:friendInfo[@"id"]]) {
                 
@@ -326,9 +327,11 @@
             
             // User's Friends doesn't exist in the database
             friendsList = [[NSMutableArray alloc] init];
-            NSLog( @"Error: retrieveUpdatedFriendsObjectFromServer");
+            NSLog( @"Error: 335.)");
             
         }
+        
+        [SVProgressHUD dismiss];
         
     }];
     
