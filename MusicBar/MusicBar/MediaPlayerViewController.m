@@ -342,13 +342,28 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     if ([nowPlaying.playlistId isEqualToString:@""]) {
         
+        [self setButtonsEnabled:NO];
         NSLog(@"No songs to be played");
         
     } else {
+        [self setButtonsEnabled:YES];
 
         [self getSongsFromLocal: nowPlaying];
     }
     
+}
+
+- (void) setButtonsEnabled:(BOOL) yesOrNo {
+    
+    if (yesOrNo) {
+        self.startTime.text = @"Loading";
+    } else {
+        self.startTime.text = @"Please choose a song to play in a lounge";
+        self.songTitle.text = @"";
+    }
+    [self.playButton setEnabled:yesOrNo];
+    [self.nextButton setEnabled:yesOrNo];
+    [self.backButton setEnabled:yesOrNo];
 }
 
 #pragma mark - setCurrentPlayList

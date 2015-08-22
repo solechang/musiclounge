@@ -37,7 +37,7 @@
 
     [self setNSManagedObjectContext];
     self.iLListName.delegate = self;
-    
+    [self.iLListName becomeFirstResponder];
 }
 
 -(void) setUpNavigationBar{

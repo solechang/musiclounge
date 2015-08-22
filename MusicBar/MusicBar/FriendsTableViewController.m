@@ -151,8 +151,10 @@
         
         [SVProgressHUD showWithStatus:@"Loading Friends through Facebook :)"];
         
+        [self queryFriendsFromParse];
+        
         // If no friend object exists. This is when the user first goes into friend time in his/ her lifetime of using the app
-        [self queryFacebookIDFromUsers];
+//        [self queryFacebookIDFromUsers];
         
     } else {
         
@@ -172,6 +174,89 @@
     
 }
 
+- (void) queryFriendsFromParse {
+    
+    PFQuery *friendQuery = [PFQuery queryWithClassName:@"Friend"];
+    
+    [friendQuery whereKey:@"host" equalTo:[PFUser currentUser].objectId];
+    
+    [friendQuery findObjectsInBackgroundWithBlock:^(NSArray *friendsInParse, NSError *error) {
+        
+        if (!error) {
+            
+            if (friendsInParse.count != 0) {
+                
+                [self addFriendsFromParse:friendsInParse];
+                
+            } else {
+                
+                [self queryFacebookIDFromUsers];
+            }
+            
+        }
+      
+        
+    }];
+
+    
+}
+
+- (void) addFriendsFromParse:(NSArray*) friendsInParse {
+    
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        // Finding current User in coredata and updating with the userfriendlist in coredata
+        CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];
+        UserFriendList *currentUserFriendList = [UserFriendList MR_findFirstInContext:localContext];
+        
+        
+        for (PFObject* friendInParse in friendsInParse) {
+            
+            Friend *friendInLocal = [Friend MR_createEntityInContext:localContext];
+            friendInLocal.name = friendInParse[@"name"];
+            friendInLocal.hostId = [PFUser currentUser].objectId;
+            friendInLocal.objectId = friendInParse[@"userId"];
+            friendInLocal.friend_exists = @(YES);
+            [currentUserFriendList addFriendObject:friendInLocal];
+
+            
+        }
+        
+        currentUser.userFriendList = currentUserFriendList;
+        
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        
+        if (success) {
+            
+            // User's Friends exist in the database
+            CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:defaultContext];
+            
+            NSArray *friends = [currentUser.userFriendList.friend allObjects];
+            
+            friendsList = [[NSMutableArray alloc] initWithArray:friends];
+            
+            [self sortFriendsWhoExistsOnIllist];
+            
+        } else {
+            
+            // User's Friends doesn't exist in the database
+            friendsList = [[NSMutableArray alloc] init];
+            NSLog( @"Error: 246.)");
+            
+        }
+        
+        [SVProgressHUD dismiss];
+        [self.refreshButton setEnabled:YES];
+        
+    }];
+
+
+    
+    
+}
+
 - (void) queryFacebookIDFromUsers {
     
     // This is ran when users first use the app to find friends from facebook :)
@@ -184,7 +269,7 @@
             NSString *errorString = [error userInfo][@"error"];
             NSLog(@"170.) Error: %@", errorString);
             [SVProgressHUD dismiss];
-            
+            [self.refreshButton setEnabled:YES];
         } else {
 
             [self filterFacebookID:users];
@@ -226,7 +311,8 @@
         
             [self addFriendsFromFacebookToServer:friendsWhoExistOnApp];
         } else {
-             [SVProgressHUD dismiss];
+            [SVProgressHUD dismiss];
+            [self.refreshButton setEnabled:YES];
         }
         
         
@@ -273,8 +359,10 @@
             
 
         } else {
+            
             NSLog(@"Error 275.)");
-                 [SVProgressHUD dismiss];
+             [SVProgressHUD dismiss];
+            [self.refreshButton setEnabled:YES];
         }
         
     }];
@@ -332,6 +420,7 @@
         }
         
         [SVProgressHUD dismiss];
+        [self.refreshButton setEnabled:YES];
         
     }];
     
