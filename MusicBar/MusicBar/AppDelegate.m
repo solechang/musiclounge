@@ -97,19 +97,19 @@
     switch (routeChangeReason) {
             
         case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
-            NSLog(@"AVAudioSessionRouteChangeReasonNewDeviceAvailable");
-            NSLog(@"Headphone/Line plugged in");
+//            NSLog(@"AVAudioSessionRouteChangeReasonNewDeviceAvailable");
+//            NSLog(@"Headphone/Line plugged in");
             break;
             
         case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
-            NSLog(@"AVAudioSessionRouteChangeReasonOldDeviceUnavailable");
-            NSLog(@"Headphone/Line was pulled. Stopping player....");
+//            NSLog(@"AVAudioSessionRouteChangeReasonOldDeviceUnavailable");
+//            NSLog(@"Headphone/Line was pulled. Stopping player....");
             [[NSNotificationCenter defaultCenter] postNotificationName:@"StopPlayer" object:self];
             break;
             
         case AVAudioSessionRouteChangeReasonCategoryChange:
             // called at start - also when other audio wants to play
-            NSLog(@"AVAudioSessionRouteChangeReasonCategoryChange");
+//            NSLog(@"AVAudioSessionRouteChangeReasonCategoryChange");
             break;
     }
 }

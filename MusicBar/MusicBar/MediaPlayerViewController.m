@@ -133,8 +133,18 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 
 
-- (void) setUpNavigationBar {
+-(void) setUpNavigationBar{
+    
+    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+    self.navigationController.navigationBar.topItem.title = @"Now Spinning";
+    self.navigationController.navigationBar.titleTextAttributes = size;
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    
+//    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+    
+    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
 }
 
@@ -568,6 +578,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (void) stopPlayer {
+    
+    if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
+        
+        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+        
+    } else {
+        
+        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+        
+    }
+    
     if ([NSThread isMainThread]) {
         // We are the main thread, just directly call:
         [audioController pause];
@@ -607,12 +628,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 
 }
-- (void) calculateSongBySeconds {
-    
-    
-}
-- (void) setLockScreenSongInfo : (NowPlayingSong*)nowPlayingSong{
 
+- (void) setLockScreenSongInfo : (NowPlayingSong*)nowPlayingSong{
     
 //    NSString *playDurationTime = [NSString stringWithFormat:@"%@",  end.minute * 60 + end.second]
 

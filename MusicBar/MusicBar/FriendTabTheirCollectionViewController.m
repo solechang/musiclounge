@@ -317,8 +317,12 @@
     
     
     if (playlistArray.count != 0 ) {
-        
         hostName = [[NSString alloc] initWithString:friendName.userName];
+        
+        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+        self.navigationController.navigationBar.topItem.title = hostName;
+        self.navigationController.navigationBar.titleTextAttributes = size;
+        
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
         [self setCountOnControl];
         
@@ -343,6 +347,10 @@
         if (!error) {
             
             hostName = [[NSString alloc] initWithString:userObject[@"name"]];
+            
+            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+            self.navigationController.navigationBar.topItem.title = hostName;
+            self.navigationController.navigationBar.titleTextAttributes = size;
             
             [self.collectionView reloadData];
             [SVProgressHUD dismiss];
