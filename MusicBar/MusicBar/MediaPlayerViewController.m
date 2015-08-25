@@ -90,11 +90,49 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     // Instantiate the audio player
     [self setNSManagedObjectContext];
     [self setUpNavigationBar];
+    
+    [self setUpNotifications];
+    
     [self setUpData];
+
 
     
 
 }
+
+- (void) setUpNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"NextSong" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"BackSong" object:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"PlayAndPause" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"StopPlayer" object:nil];
+
+}
+
+- (void) activityNotifications:(NSNotification *)notification {
+    
+
+        if ([[notification name] isEqualToString:@"NextSong"]) {
+             [self nextButton:self];
+            
+        } else if ([[notification name] isEqualToString:@"BackSong"]) {
+             [self backButton:self];
+            
+        } else if ([[notification name] isEqualToString:@"PlayAndPause"]) {
+            [self playButton:self];
+            
+        } else if ([[notification name] isEqualToString:@"StopPlayer"]) {
+            [self stopPlayer];
+            
+        }
+
+        
+
+    
+}
+
+
+
 - (void) setUpNavigationBar {
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -274,6 +312,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.startTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
                                          cur.minute, cur.second,
                                          end.minute, end.second];
+        
     }
     
 //    self.bufferingIndicator.hidden = NO;
@@ -308,35 +347,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 
-- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
-    
-    if (receivedEvent.type == UIEventTypeRemoteControl) {
-        
-        switch (receivedEvent.subtype) {
-                
-            case UIEventSubtypeRemoteControlPreviousTrack:
-                NSLog(@"prev");
-                [self backButton:self];
-                break;
-                
-            case UIEventSubtypeRemoteControlNextTrack:
-                NSLog(@"next");
-                [self nextButton:self];
-                break;
-                
-            case UIEventSubtypeRemoteControlPlay:
-                [self playButton:self];
-                break;
-                
-            case UIEventSubtypeRemoteControlPause:
-                [self playButton:self];
-                break;
-                
-            default:
-                break;
-        }
-    }
-}
+
+
 - (void) checkNowPlayingPlaylistId {
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
@@ -554,7 +566,20 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
  
 
 }
-//
+
+- (void) stopPlayer {
+    if ([NSThread isMainThread]) {
+        // We are the main thread, just directly call:
+        [audioController pause];
+    } else {
+        // We are not on the main thread, use GCD for the main thread:
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [audioController pause];
+        });
+    }
+
+}
+
 - (void) playSong {
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
@@ -587,12 +612,25 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 }
 - (void) setLockScreenSongInfo : (NowPlayingSong*)nowPlayingSong{
-    NSLog(@"1.) %@", nowPlayingSong.time);
+
+    
+//    NSString *playDurationTime = [NSString stringWithFormat:@"%@",  end.minute * 60 + end.second]
+
+    NSString *minutes = [nowPlayingSong.time componentsSeparatedByString:@":"][0];
+    int minutesInt = [minutes intValue];
+    
+    NSString *seconds = [nowPlayingSong.time componentsSeparatedByString:@":"][1];
+    int secondsInt = [seconds intValue];
+    
+    int totalSeconds = (60 * minutesInt) + secondsInt;
+    
+    NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
+    
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork];
     NSDictionary *info = @{ MPMediaItemPropertyArtist: @"",
                             MPMediaItemPropertyAlbumTitle: @"",
                             MPMediaItemPropertyTitle: self.songTitle.text,
-                            MPMediaItemPropertyPlaybackDuration:nowPlayingSong.time,
+                            MPMediaItemPropertyPlaybackDuration:totalSecondsString,
                             MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
                             };
     
@@ -679,7 +717,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     } else {
         // Just directly seek, volume is already 0
         [self doSeeking];
-    }}
+    }
+
+}
 
 - (void)doSeeking
 {
