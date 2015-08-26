@@ -586,18 +586,19 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     } else {
         
         [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+        if ([NSThread isMainThread]) {
+            // We are the main thread, just directly call:
+            [audioController pause];
+        } else {
+            // We are not on the main thread, use GCD for the main thread:
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [audioController pause];
+            });
+        }
         
     }
     
-    if ([NSThread isMainThread]) {
-        // We are the main thread, just directly call:
-        [audioController pause];
-    } else {
-        // We are not on the main thread, use GCD for the main thread:
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [audioController pause];
-        });
-    }
+    
 
 }
 
