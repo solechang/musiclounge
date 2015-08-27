@@ -161,17 +161,22 @@
 
 //added below
 - (void)viewDidAppear:(BOOL)animated {
-    
-    // Check if friend exists
-    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
 
-    if (findFriend.friend_exists){
-        self.addFriendButton.enabled = NO;
-    } else{
-        self.addFriendButton.enabled = YES;
+    if (self.friendInfo.userId) {
+        // Check if friend exists
+        Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
+        
+        if (findFriend.friend_exists){
+            self.addFriendButton.enabled = NO;
+        } else{
+            self.addFriendButton.enabled = YES;
+        }
+        
+        
+        [self userPlaylistLogic];
     }
-
-    [self userPlaylistLogic];
+    
+    
     
 }
 
@@ -312,8 +317,12 @@
     
     
     if (playlistArray.count != 0 ) {
-        
         hostName = [[NSString alloc] initWithString:friendName.userName];
+        
+        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+        self.navigationController.navigationBar.topItem.title = hostName;
+        self.navigationController.navigationBar.titleTextAttributes = size;
+        
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
         [self setCountOnControl];
         
@@ -339,6 +348,10 @@
             
             hostName = [[NSString alloc] initWithString:userObject[@"name"]];
             
+            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+            self.navigationController.navigationBar.topItem.title = hostName;
+            self.navigationController.navigationBar.titleTextAttributes = size;
+            
             [self.collectionView reloadData];
             [SVProgressHUD dismiss];
         }
@@ -354,14 +367,6 @@
 }
 
 - (void) setUpCollectionView {
-    
-    //    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    //    CGFloat screenScale = [[UIScreen mainScreen] scale];
-    //    CGSize screenSize = CGSizeMake(screenBounds.size.width * screenScale, screenBounds.size.height * screenScale);
-
-    //    NSLog(@"%f", screenSize.height);
-    
-    //    self.collectionView.contentSize = screenSize;
     
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.bounces = YES;

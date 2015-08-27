@@ -35,7 +35,7 @@
 }
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    NSLog(@"1.)");
+
     self.navigationController.navigationBar.barStyle = UISearchBarStyleMinimal;
 //    self.navigationController.navigationBar.tintColor = [UIColor blackColor];
 //    
