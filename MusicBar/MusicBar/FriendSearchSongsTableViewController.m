@@ -200,72 +200,19 @@
     
     [self getSongsFromLocal];
     
-    
-    
 }
 
 - (void) getSongsFromLocal {
-    
-    
-//    NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-//    
-//    iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
-//    [self.tableView reloadData];
-//    
-    [self fetchSongsFromServer];
 
     
+    if (self.playlistInfo.objectId) {
+         [self fetchSongsFromServer];
+    }
+
     
 }
 
-- (void) checkIfPlaylistUpdated {
-    
-    // Checking if the iLList updated in the server
-    PFQuery *updatedIllistQuery = [PFQuery queryWithClassName:@"Illist"];
-    
-    [updatedIllistQuery getObjectInBackgroundWithId:self.playlistInfo.objectId block:^(PFObject *updatedIllistObject, NSError *error) {
-        
-        if (!error) {
-            
-            PlaylistFriend *playlist = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:defaultContext];
-            
-            // Update if updatedAt dates do not equal
-            if (![updatedIllistObject.updatedAt isEqual: playlist.updatedAt]) {
-                
-                [self updatePlaylistInLocal:updatedIllistObject];
-                
-            } else {
-                // No need to update playlist since it is not updated
-                NSLog(@"No need to update playlist 163.)");
-            }
-        }
-        
-        
-    }];
-    
-}
 
-- (void) updatePlaylistInLocal:(PFObject*) updatedIllistObject {
-    
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        
-        PlaylistFriend *playlist = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:localContext];
-        
-        playlist.updatedAt = updatedIllistObject.updatedAt;
-        
-    } completion:^(BOOL success, NSError *error) {
-        
-        if (success) {
-            
-            [self fetchSongsFromServer];
-        } else {
-            
-            NSLog(@"The playlist is not updated 247.)");
-        }
-        
-    }];
-    
-}
 
 - (void ) fetchSongsFromServer {
     PFQuery *updatedQuery = [PFQuery queryWithClassName:@"Song"];
@@ -277,15 +224,21 @@
     [SVProgressHUD showWithStatus:@"Loading Playlist"];
     
     [updatedQuery findObjectsInBackgroundWithBlock:^(NSArray *songsInServer, NSError *error) {
-        
+
         if (!error) {
+            
+
             if (counter<1) {
+   
                 [self saveSongsToLocal: songsInServer];
                 counter++;
+            } else {
+                [SVProgressHUD dismiss];
             }
             
         } else {
-            NSLog(@"Error with fetching songs from server 271");
+             NSLog(@"1.3)");
+            NSLog(@"Error with fetching songs from server 235");
         }
         
     }];
@@ -335,7 +288,7 @@
             
         } else {
             
-            NSLog(@"Songs didnt not save locally 252.)");
+            NSLog(@"Songs didnt not save locally 285.)");
             
         }
         [SVProgressHUD dismiss];
@@ -646,16 +599,17 @@
         }
         
         
-        
+    
         if(self.tabBarController.selectedIndex == 0) {
             [self backButton:self];
+            
             // Change to media player from me tab
-            [self.tabBarController setSelectedIndex:3];
+            [self.tabBarController setSelectedIndex:2];
             
         } else if(self.tabBarController.selectedIndex == 1) {
-            
+ 
             // Change to media player from Friend tab
-            [self.tabBarController setSelectedIndex:3];
+            [self.tabBarController setSelectedIndex:2];
             
         }
         
