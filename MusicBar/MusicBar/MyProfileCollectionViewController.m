@@ -111,7 +111,6 @@
         layout.parallaxHeaderMinimumReferenceSize = CGSizeMake(self.view.frame.size.width, 0);
         
         layout.itemSize = CGSizeMake(self.view.frame.size.width, layout.itemSize.height);
-        
         layout.parallaxHeaderAlwaysOnTop = YES;
         
         // If we want to disable the sticky header effect
