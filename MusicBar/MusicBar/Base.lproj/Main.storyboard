@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7702" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zi9-Mx-lub">
-
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zi9-Mx-lub">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -741,9 +740,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Rt2-y9-KaA">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rt2-y9-KaA">
                                 <rect key="frame" x="50" y="124" width="501" height="119"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="119" id="765-f2-2RZ"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue" family="Helvetica Neue" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                 <connections>
@@ -759,7 +761,10 @@
                         </subviews>
                         <color key="backgroundColor" red="0.20696006146636389" green="0.027145262521451385" blue="0.2627051767676768" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
+                            <constraint firstAttribute="centerY" secondItem="Rt2-y9-KaA" secondAttribute="centerY" constant="116.5" id="1lx-KH-N7f"/>
                             <constraint firstItem="Mt0-tr-paw" firstAttribute="top" secondItem="sg8-eo-moE" secondAttribute="bottom" constant="18" id="3xL-qO-CsW"/>
+                            <constraint firstAttribute="centerY" secondItem="Mt0-tr-paw" secondAttribute="centerY" constant="207.5" id="Dmt-sy-3B8"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Mt0-tr-paw" secondAttribute="trailing" constant="343" id="Gkq-5v-EeJ"/>
                             <constraint firstItem="Rt2-y9-KaA" firstAttribute="leading" secondItem="L5D-Cq-j9R" secondAttribute="leadingMargin" constant="34" id="kfa-Ud-fbl"/>
                             <constraint firstItem="Mt0-tr-paw" firstAttribute="leading" secondItem="L5D-Cq-j9R" secondAttribute="leadingMargin" id="qco-8b-Hvq"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Rt2-y9-KaA" secondAttribute="trailing" constant="33" id="wBa-Ld-KT8"/>
