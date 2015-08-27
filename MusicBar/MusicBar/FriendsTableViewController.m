@@ -599,6 +599,6 @@
             [self.searchFriendsTableController.tableView reloadData];
         }
     }];
-    }
+}
 
 @end

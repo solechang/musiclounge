@@ -582,10 +582,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
         
         [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
-        
-    } else {
-        
-        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
         if ([NSThread isMainThread]) {
             // We are the main thread, just directly call:
             [audioController pause];
