@@ -541,7 +541,7 @@
              Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
 
              controller.friendInfo = selectedFriend;
-         }else if(sender==self.searchFriendsTableController){
+         } else if(sender==self.searchFriendsTableController){
              NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
              Friend *selectedFriend =[self.searchFriendsTableController.filteredFriendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;

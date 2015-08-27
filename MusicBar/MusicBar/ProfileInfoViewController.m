@@ -55,6 +55,10 @@
                 } completion:^(BOOL success, NSError *error) {
                     if(success){
                         
+                        CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:[NSManagedObjectContext MR_defaultContext]];
+                        NSLog(@"%@",currentUser);
+                        NSLog(@"%@",currentUser.info);
+                        
                         [SVProgressHUD showSuccessWithStatus:@"Your description has been updated successfully!"];
                         [self.navigationController dismissViewControllerAnimated:YES completion:^{
                         }];
