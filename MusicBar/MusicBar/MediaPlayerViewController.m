@@ -629,6 +629,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [audioController play];
     
+    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
     
     flagSong = NO;
     
