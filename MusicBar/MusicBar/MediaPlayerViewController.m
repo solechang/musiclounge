@@ -94,9 +94,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self setUpNotifications];
     
     [self setUpData];
-
-
     
+    [[self.currentSongArtwork layer] setBorderWidth:2.0f];
+    [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    self.songTitle.numberOfLines = 1;
+    self.songTitle.adjustsFontSizeToFitWidth = YES;
 
 }
 
@@ -320,9 +323,16 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         self.musicSlider.value = cur.position;
         
-        self.startTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
-                                         cur.minute, cur.second,
-                                         end.minute, end.second];
+//        self.startTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
+//                                         cur.minute, cur.second,
+//                                         end.minute, end.second];
+        self.startTime.text = [NSString stringWithFormat:@"%i:%02i",
+                               cur.minute, cur.second];
+//        self.endTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
+//                               cur.minute, cur.second,
+//                               end.minute, end.second];
+        self.endTime.text = [NSString stringWithFormat:@"%i:%02i",
+                             end.minute - cur.minute, end.second - cur.second];
         
     }
     
