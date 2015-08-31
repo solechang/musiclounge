@@ -309,6 +309,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.musicSlider.value = 0;
         self.startTime.text = @"Loading";
         self.playButton.enabled = NO;
+        
     } else {
 //        NSLog(@"0.2)");
         self.musicSlider.enabled = YES;
