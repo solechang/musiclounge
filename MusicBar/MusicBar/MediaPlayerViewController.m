@@ -244,7 +244,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamFailed:
                 NSLog(@"1.6.)");
-                 [weakSelf.startTime setText:@"This song cannot be played. Please delete song :("];
+                 [weakSelf.songTitle setText:@"This song cannot be played. Please delete song :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
@@ -311,6 +311,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.musicSlider.enabled = NO;
         self.musicSlider.value = 0;
         self.startTime.text = @"Loading";
+        self.endTime.text = @"Loading";
         self.playButton.enabled = NO;
         
     } else {
@@ -331,8 +332,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //        self.endTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
 //                               cur.minute, cur.second,
 //                               end.minute, end.second];
+        
+        unsigned endMin = end.minute - cur.minute;
+        unsigned endSec = end.second;
         self.endTime.text = [NSString stringWithFormat:@"%i:%02i",
-                             end.minute - cur.minute, end.second - cur.second];
+                             endMin, endSec];
         
     }
     

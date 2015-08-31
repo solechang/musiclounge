@@ -47,6 +47,7 @@
     BOOL swipedCellPastHalfWay;
     
     NSString *hostName;
+    NSString *userInfo;
     
     NSManagedObjectContext *defaultContext;
     
@@ -164,7 +165,7 @@
     
     myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
     
-    [self setCountOnControl];
+
     
     [self.collectionView reloadData];
     
@@ -240,7 +241,7 @@
             NSArray *playlistArray = [Playlist MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
             
             myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
-            
+            [self setCountOnControl];
             [self.collectionView reloadData];
             
         } else {
@@ -258,6 +259,7 @@
     
     [self getUserName];
     [self getProfilePicture];
+//    [self getUserInfo];
 }
 
 - (void) setUpCollectionView {
@@ -284,7 +286,22 @@
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
 }
+- (void) getUserInfo {
+    
+    CurrentUser *user = [CurrentUser MR_findFirstInContext:defaultContext];
+    
+    if (user.info != nil) {
+        
+        userInfo = [[NSString alloc] initWithString:user.info];
+        
+        [self.collectionView reloadData];
+        
+    } else {
+        userInfo = [[NSString alloc] init];
+        [self.collectionView reloadData];
+    }
 
+}
 - (void) getUserName {
     
     CurrentUser *user = [CurrentUser MR_findFirstInContext:defaultContext];
@@ -612,6 +629,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
                                                                            forIndexPath:indexPath];
         
         cell.textLabelName.text = hostName;
+        cell.descriptionLabel.text = userInfo;
         [cell.profileImage setImage: self.profilePictureImage];
         cell.profileImage.contentMode = UIViewContentModeScaleAspectFill;
         
