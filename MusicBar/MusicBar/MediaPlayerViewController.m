@@ -244,7 +244,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamFailed:
                 NSLog(@"1.6.)");
-                 [weakSelf.songTitle setText:@"This song cannot be played. Please delete song :("];
+                 [weakSelf.songTitle setText:@"This song cannot be played because SoundCloud disabled it. Please delete the song :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
