@@ -46,7 +46,7 @@
     [self setupTableView];
     
     [self setUpSearchController];
-//    [self setupTitle];
+    [self setupTitle];
 
 }
 
