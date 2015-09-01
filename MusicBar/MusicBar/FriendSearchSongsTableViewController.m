@@ -22,6 +22,9 @@
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
     int counter;
+    UINavigationController *navController;
+    FriendSearchControllerTableViewController *vc;
+
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -47,6 +50,13 @@
     [self setupTableView];
     [self setUpNotifications];
     
+}
+
+- (void) setUpData {
+    navController = (UINavigationController *)self.searchController.searchResultsController;
+    
+    
+    vc = (FriendSearchControllerTableViewController *)navController.topViewController;
 }
 
 - (void) setUpSearchController {
@@ -366,10 +376,10 @@
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
-                UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
-                self.searchResult = [songMangerSearchedText parseTrackData:data];
+               
                 
-                FriendSearchControllerTableViewController *vc = (FriendSearchControllerTableViewController *)navController.topViewController;
+                [self setUpData];
+                self.searchResult = [songMangerSearchedText parseTrackData:data];
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
@@ -388,6 +398,16 @@
           sendingProgressHandler:nil
                  responseHandler:handler];
     }
+    
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    [vc.iLListTracks removeAllObjects];
+    [vc.searchResults removeAllObjects];
+
+    [vc.tableView reloadData];
+    
     
 }
 

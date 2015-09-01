@@ -21,6 +21,8 @@
     
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
+    UINavigationController *navController;
+    MySearchedSongsSearchControllerTableViewController *vc;
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -44,8 +46,15 @@
     [self setupTableView];
     
     [self setUpSearchController];
-    [self setupTitle];
+//    [self setupTitle];
 
+}
+
+- (void) setUpData {
+    navController = (UINavigationController *)self.searchController.searchResultsController;
+    
+    
+    vc = (MySearchedSongsSearchControllerTableViewController *)navController.topViewController;
 }
 
 - (void) setNSManagedObjectContext {
@@ -357,9 +366,11 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
 
+
     NSString *searchString = searchBar.text;
     
     if (searchString.length != 0 ) {
+        
         NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
         
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
@@ -374,10 +385,10 @@
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
-                UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
+
+                [self setUpData];
                 self.searchResult = [songMangerSearchedText parseTrackData:data];
                 
-                MySearchedSongsSearchControllerTableViewController *vc = (MySearchedSongsSearchControllerTableViewController *)navController.topViewController;
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
@@ -397,6 +408,17 @@
                  responseHandler:handler];
     }
 
+    
+    
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+   
+    [vc.iLListTracks removeAllObjects];
+    [vc.searchResults removeAllObjects];
+ 
+    
+    [vc.tableView reloadData];
     
     
 }
