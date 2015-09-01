@@ -134,37 +134,6 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
-//
-//#pragma mark - Navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-//
-//
-//    if ([segue.identifier isEqualToString:@"showNewFriendSegue"]){
-//        
-//        // Get destination view
-//        FriendTabTheirCollectionViewController *controller = (FriendTabTheirCollectionViewController*)segue.destinationViewController;
-////        controller.tabBarController = self.tabBarController;
-//        
-//
-//        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-//        Friend *selectedFriend =[self.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
-//        controller.friendInfo = selectedFriend;
-////        [self.searchController.searchBar setHidden:YES];
-////        [self.searchController setActive:NO];
-//        
-//         self.searchController.searchBar.hidden = NO;
-//        [self.searchController.searchBar resignFirstResponder];
-////        [self deleteSearchedFriends];
-//    }
-//}
-//
-//- (void) deleteSearchedFriends {
-//    // Deleting the list of people who just got searched
-//    for (Friend *deleteFriend in self.friendsWhoAreSearched) {
-//        
-//        NSLog(@"5.) %@", deleteFriend.name);
-//        [deleteFriend MR_deleteEntity];
-//    }
-//}
+
 
 @end
