@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Zi9-Mx-lub">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14D136" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="YK6-xh-7z4">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -159,32 +159,11 @@
             </objects>
             <point key="canvasLocation" x="-233" y="1284"/>
         </scene>
-        <!--Tab Bar Controller-->
-        <scene sceneID="e6T-UM-3sP">
-            <objects>
-                <tabBarController id="Zi9-Mx-lub" sceneMemberID="viewController">
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="h9U-f5-HfN">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                        <color key="barTintColor" red="0.19215686269999999" green="0.066666666669999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </tabBar>
-                    <connections>
-                        <segue destination="6sv-X2-7Vt" kind="relationship" relationship="viewControllers" id="rj0-vE-uYq"/>
-                        <segue destination="xHB-lD-4AK" kind="relationship" relationship="viewControllers" id="zIQ-Hu-hTd"/>
-                        <segue destination="pBI-Yk-iW2" kind="relationship" relationship="viewControllers" id="bZL-nJ-2UP"/>
-                    </connections>
-                </tabBarController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="fxL-gU-hNZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-1066" y="2366"/>
-        </scene>
         <!--Me-->
         <scene sceneID="kSb-9f-3az">
             <objects>
                 <navigationController id="6sv-X2-7Vt" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Me" image="Me" id="pzR-iH-r3a"/>
+                    <tabBarItem key="tabBarItem" title="Me" id="pzR-iH-r3a"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="LTy-Sa-r4X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1275,11 +1254,32 @@
             </objects>
             <point key="canvasLocation" x="1495" y="4904"/>
         </scene>
+        <!--Tab Bar Controller-->
+        <scene sceneID="wNZ-al-6AU">
+            <objects>
+                <tabBarController id="YK6-xh-7z4" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="scd-v7-Wwx">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                        <color key="barTintColor" red="0.19215686269999999" green="0.066666666669999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="6sv-X2-7Vt" kind="relationship" relationship="viewControllers" id="8mg-R1-AP5"/>
+                        <segue destination="xHB-lD-4AK" kind="relationship" relationship="viewControllers" id="fuI-wY-hF2"/>
+                        <segue destination="pBI-Yk-iW2" kind="relationship" relationship="viewControllers" id="rzJ-UK-dh4"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="luo-4G-EBR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1404" y="3206"/>
+        </scene>
         <!--Friend-->
         <scene sceneID="0L2-yQ-j5C">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xHB-lD-4AK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friend" image="Friends" id="B3l-vI-1Wo">
+                    <tabBarItem key="tabBarItem" title="Friend" id="B3l-vI-1Wo">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1570,7 +1570,7 @@
         <scene sceneID="lim-xE-w29">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pBI-Yk-iW2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Music Player" image="AudioPlayer" id="gcc-GI-rCZ">
+                    <tabBarItem key="tabBarItem" title="Music Player" id="gcc-GI-rCZ">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1590,9 +1590,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="AudioPlayer" width="75" height="75"/>
-        <image name="Friends" width="75" height="75"/>
-        <image name="Me" width="75" height="75"/>
         <image name="poweredBySoundCloud.png" width="104" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>

@@ -46,7 +46,7 @@
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
     
     
-    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
+//    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
 }
 
