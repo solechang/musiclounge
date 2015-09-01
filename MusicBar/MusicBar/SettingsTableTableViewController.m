@@ -74,11 +74,11 @@
 
 
 #pragma mark - Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 4;
-}
+//
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+//    // Return the number of sections.
+//    return 4;
+//}
 
 //IK - Gaps between sections
 
@@ -100,48 +100,48 @@ heightForHeaderInSection:(NSInteger)section {
         
 }
 
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 35)];
-    
-    //IK - Setting custom background color and a border
-    headerView.backgroundColor = self.tableView.backgroundColor;
-    headerView.layer.borderColor = [UIColor colorWithWhite:0.5 alpha:1.0].CGColor;
-    headerView.layer.borderWidth = 0.0;
-    
-    //IK - Adding label
-    UILabel* headerLabel = [[UILabel alloc] init];
-    headerLabel.frame = CGRectMake(15, 0, tableView.frame.size.width - 30, 44);
-    headerLabel.backgroundColor = [UIColor clearColor];
-    headerLabel.textColor = [UIColor grayColor];
-    headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
-    headerLabel.textAlignment = NSTextAlignmentLeft;
-    
-    switch (section)
-    {
-        case 0:
-            headerLabel.text = @"Profile Picture";
-
-            break;
-        case 1:
-            headerLabel.text = @"Account Settings";
-            break;
-        case 2:
-            headerLabel.text = @"Support";
-            break;
-        case 3:
-            headerLabel.text = @"Log Out";
-            break;
-        default:
-            headerLabel.text = @"";
-            break;
-    }
-
-    [headerView addSubview:headerLabel];
-    
-    
-    return headerView;
-}
+//-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 35)];
+//    
+//    //IK - Setting custom background color and a border
+//    headerView.backgroundColor = self.tableView.backgroundColor;
+//    headerView.layer.borderColor = [UIColor colorWithWhite:0.5 alpha:1.0].CGColor;
+//    headerView.layer.borderWidth = 0.0;
+//    
+//    //IK - Adding label
+//    UILabel* headerLabel = [[UILabel alloc] init];
+//    headerLabel.frame = CGRectMake(15, 0, tableView.frame.size.width - 30, 44);
+//    headerLabel.backgroundColor = [UIColor clearColor];
+//    headerLabel.textColor = [UIColor grayColor];
+//    headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
+//    headerLabel.textAlignment = NSTextAlignmentLeft;
+//    
+//    switch (section)
+//    {
+//        case 0:
+//            headerLabel.text = @"Profile Picture";
+//
+//            break;
+//        case 1:
+//            headerLabel.text = @"Account Settings";
+//            break;
+//        case 2:
+//            headerLabel.text = @"Support";
+//            break;
+//        case 3:
+//            headerLabel.text = @"Log Out";
+//            break;
+//        default:
+//            headerLabel.text = @"";
+//            break;
+//    }
+//
+//    [headerView addSubview:headerLabel];
+//    
+//    
+//    return headerView;
+//}
 
 //IK - Section header titles
 
@@ -172,35 +172,29 @@ heightForHeaderInSection:(NSInteger)section {
 //    return sectionName;
 //}
 
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//
+//    //IK - Reference the storyboard for the number of cells per section.
+//    
+//    if (section == 0){
+//        return 1;
+//    }
+//    else if (section == 1){
+//        return 2;
+//    }
+//    else if (section == 2){
+//        return 1;
+//    }
+//    else if (section == 3){
+//        return 1;
+//    }
+//    
+//    return 0;
+//}
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    //IK - Reference the storyboard for the number of cells per section.
-    
-    if (section == 0){
-        return 1;
-    }
-    else if (section == 1){
-        return 2;
-    }
-    else if (section == 2){
-        return 1;
-    }
-    else if (section == 3){
-        return 1;
-    }
-    
-    return 0;
-}
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    
-    return cell;
-}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];

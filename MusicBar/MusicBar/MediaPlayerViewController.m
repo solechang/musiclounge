@@ -244,7 +244,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamFailed:
                 NSLog(@"1.6.)");
-                 [weakSelf.startTime setText:@"This song cannot be played. Please delete song :("];
+                 [weakSelf.songTitle setText:@"This song cannot be played. Please delete song :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
@@ -311,6 +311,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.musicSlider.enabled = NO;
         self.musicSlider.value = 0;
         self.startTime.text = @"Loading";
+        self.endTime.text = @"Loading";
         self.playButton.enabled = NO;
         
     } else {
@@ -331,8 +332,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //        self.endTime.text = [NSString stringWithFormat:@"%i:%02i / %i:%02i",
 //                               cur.minute, cur.second,
 //                               end.minute, end.second];
+        
+        unsigned endMin = end.minute - cur.minute;
+        unsigned endSec = end.second;
         self.endTime.text = [NSString stringWithFormat:@"%i:%02i",
-                             end.minute - cur.minute, end.second - cur.second];
+                             endMin, endSec];
         
     }
     
@@ -623,12 +627,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
+//    [self.currentSongArtwork];
+    
+//    UIImage *myBadgedImage = [self drawImage:profileImage withBadge:badgeImage];
+    
     NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
     NSURL* url = [NSURL URLWithString:resourceURL];
     audioController.url = url;
     
     [audioController play];
     
+    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
     
     flagSong = NO;
     
@@ -636,6 +645,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 
 }
+
 
 - (void) setLockScreenSongInfo : (NowPlayingSong*)nowPlayingSong{
     
@@ -652,7 +662,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork];
-    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"",
+    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicBar",
                             MPMediaItemPropertyAlbumTitle: @"",
                             MPMediaItemPropertyTitle: self.songTitle.text,
                             MPMediaItemPropertyPlaybackDuration:totalSecondsString,
@@ -689,7 +699,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             [self playSong];
             
         } else {
-            NSLog(@"Error 382.)");
+            NSLog(@"Error 702.)");
         }
         
     }];
