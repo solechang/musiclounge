@@ -19,7 +19,7 @@
 #import "FriendPhonenumber.h"
 
 #import "FriendTabTheirCollectionViewController.h"
-#import "SearchFriendsTableViewController.h"
+#import "FindFriendsTableViewController.h"
 
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
@@ -38,7 +38,7 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *refreshButton;
 @property (weak, nonatomic) IBOutlet UISearchBar *friendSearchBar;
 @property (nonatomic, strong) UISearchController *searchController;
-@property (nonatomic, strong) SearchFriendsTableViewController *searchFriendsTableController;
+@property (nonatomic, strong) FindFriendsTableViewController *searchFriendsTableController;
 
 @end
 
@@ -51,18 +51,43 @@
 
     [self initializeData];
     
+//    [self setUpSearchController];
+    
     [self setUpNavigationBar];
     
     [self setUpTableView];
 
-    [self refreshButton:self];
+//    [self refreshButton:self];
+    [self retrieveFriendsFromLocal];
 
+}
+
+- (void) setUpSearchController {
+    UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"FindFriendTableSearchResultsNavController"];
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    
+    //    self.searchController.searchResultsUpdater = self;
+    
+    [self.searchController.searchBar sizeToFit];
+    [self.searchController.searchBar setPlaceholder:@"Find new Friends by username :)"];
+    
+    self.searchController.searchBar.delegate = self;
+    
+    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
+    
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    
+    self.definesPresentationContext = YES;
+    
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-
-    [self.searchFriendsTableController.tableView reloadData];
+//    self.searchController.searchBar.hidden = NO;
+    NSLog(@"1.)");
+    [self sortFriendsWhoExistsOnIllist];
+//    [self.searchFriendsTableController.tableView reloadData];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -116,9 +141,9 @@
 - (void) initializeData {
     
     friendsFacebookIDDictionary = [[NSMutableDictionary alloc] init];
-    
     friendsPhonenumberDictionary = [[NSMutableDictionary alloc] init];
-    self.searchFriendsTableController = [[SearchFriendsTableViewController alloc] init];
+    
+    self.searchFriendsTableController = [[FindFriendsTableViewController alloc] init];
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
     [self.searchController.searchBar sizeToFit];
     [self.searchController.searchBar setPlaceholder:@"Find new Friends by username :)"];
@@ -433,6 +458,7 @@
         
         // For friends who exist on the server
         Friend *friend = [friendsList objectAtIndex:i];
+        NSLog(@"2.) %@", friend.name);
         
         if ([friend.friend_exists isEqual:@(YES) ]) {
          
@@ -440,7 +466,7 @@
         }
     }
     
-    self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [[NSMutableArray alloc] initWithCapacity:friendsWhoExistsOniLList.count];
+//    self.searchFriendsTableController.filteredFriendsWhoExists = [[NSMutableArray alloc] initWithCapacity:friendsWhoExistsOniLList.count];
     [self.tableView reloadData];
     
 }
@@ -535,19 +561,24 @@
          FriendTabTheirCollectionViewController *controller = (FriendTabTheirCollectionViewController*)segue.destinationViewController;
          
          // Initializing indexpath for the friend cell
-         
+         NSLog(@"9.) %@", sender);
          if (sender==nil) {
              NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
              Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
 
              controller.friendInfo = selectedFriend;
-         } else if(sender==self.searchFriendsTableController){
-             NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
-             Friend *selectedFriend =[self.searchFriendsTableController.filteredFriendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
-             controller.friendInfo = selectedFriend;
              
-//             [self.searchFriendsTableController setActive:NO];
+         } else if(sender == self.searchFriendsTableController){
+             NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
+             Friend *selectedFriend = [self.searchFriendsTableController.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
+             controller.friendInfo = selectedFriend;
+        
+             //             [self.searchFriendsTableController setActive:NO];
          }
+         
+//         else if (sender == [FindFriendsTableViewController class] ) {
+//             NSLog(@"10.)");
+//         }
      }
  }
 
@@ -562,11 +593,15 @@
 #pragma mark - search for friend - Anthony
 //-(void)updateSearchResultsForSearchController:(UISearchController *)searchController {
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
-    
+    NSLog(@"10.)");
     // Update the filtered array based on the search text and scope.
     // Remove all objects from the filtered search array
     
-    [self.searchFriendsTableController.filteredFriendsWhoExistsOniLList removeAllObjects];
+    [self deleteSearchedFriends];
+    [self.searchFriendsTableController.filteredFriendsWhoExists removeAllObjects];
+    [self.searchFriendsTableController.tableView reloadData];
+    
+    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching for %@", searchBar.text]];
     
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
     PFQuery *query = [PFUser query];
@@ -579,26 +614,86 @@
             NSString *errorString = [error userInfo][@"error"];
             NSLog(@"935 Error: %@", errorString);
             
-        }
-        else {
+        } else {
             // iterate through the objects array, which contains PFObjects for each Student
-            for(PFObject *pfObject in objects){
-                Friend *friend = [Friend MR_createEntity];
-                friend.name =pfObject[@"name"];
-                friend.userId = pfObject.objectId;
-                [tempArray addObject:friend];
+            for(PFObject *pfUser in objects){
+                
+                Friend *friend = [Friend MR_findFirstByAttribute:@"userId" withValue:pfUser.objectId];
+                
+                if (friend) {
+                    
+                       [tempArray addObject:friend];
+                    
+                } else {
+                    
+                    Friend *newFriend = [Friend MR_createEntity];
+                    newFriend.name = pfUser[@"name"];
+                    newFriend.userId = pfUser.objectId;
+                    newFriend.deleteSearch = @(YES);
+                    
+                    [tempArray addObject:newFriend];
 
+                }
             }
+            
             // Filter the array using NSPredicate
-
+            
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.name contains[c] %@",self.searchController.searchBar.text];
-            self.searchFriendsTableController.filteredFriendsWhoExistsOniLList = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
+            self.searchFriendsTableController.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
             
             self.searchFriendsTableController.friendsTableViewController = self;
             
             [self.searchFriendsTableController.tableView reloadData];
+            
+//            if (self.searchController.searchResultsController) {
+//                
+//                UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
+//                
+//                FindFriendsTableViewController *vc = (FindFriendsTableViewController *)navController.topViewController;
+//                vc.searchController = self.searchController;
+////                vc.friendsTableViewController = self;
+////                vc.tabBarController = self.tabBarController;
+//                
+//                // Filter the array using NSPredicate
+//                NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.name contains[c] %@",self.searchController.searchBar.text];
+//                vc.friendsWhoAreSearched = tempArray;
+//                
+//                vc.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
+//                
+//                
+//                [vc.tableView reloadData];
+//            }
+//
+            [self.tableView reloadData];
+ 
+//            [self deleteSearchedFriends:tempArray];
         }
+        
+       [SVProgressHUD dismiss];
     }];
+}
+
+
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    NSLog(@"3.)");
+    
+   
+}
+
+
+- (void) deleteSearchedFriends {
+    NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES];
+    for (int i = 0; i <friendsCoreDataArray.count; i++ ) {
+        
+        // For friends who exist on the server
+        Friend *friend = [friendsCoreDataArray objectAtIndex:i];
+        
+        if ([friend.deleteSearch isEqual:@(YES)] && friend.friend_exists == NULL ) {
+            NSLog(@"4.) %@", friend.name);
+            [friend MR_deleteEntity];
+        }
+    }
 }
 
 @end

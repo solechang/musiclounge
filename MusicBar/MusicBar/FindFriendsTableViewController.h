@@ -10,11 +10,15 @@
 #import "FriendsTableViewController.h"
 
 
-@interface SearchFriendsTableViewController : UITableViewController
+@interface FindFriendsTableViewController : UITableViewController
 
 
-@property (strong,nonatomic) NSMutableArray *filteredFriendsWhoExistsOniLList;
+@property (strong,nonatomic) NSMutableArray *filteredFriendsWhoExists;
+@property (nonatomic, strong) NSArray *friendsWhoAreSearched;
+
+
 @property (weak,nonatomic) FriendsTableViewController *friendsTableViewController;
 
+@property (nonatomic, strong) UISearchController *searchController;
 
 @end

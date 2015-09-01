@@ -165,8 +165,9 @@
     if (self.friendInfo.userId) {
         // Check if friend exists
         Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
+//        NSLog(@"1.) %@ : %@ : %@", findFriend, findFriend.name, findFriend.friend_exists);
         
-        if (findFriend.friend_exists){
+        if (findFriend.friend_exists != NULL && findFriend.friend_exists && findFriend.friend_exists != nil){
             self.addFriendButton.enabled = NO;
         } else{
             self.addFriendButton.enabled = YES;
@@ -378,9 +379,9 @@
 
 -(void) setUpNavigationBar{
     
-    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
-    self.navigationController.navigationBar.topItem.title = @"MusicBar";
-    self.navigationController.navigationBar.titleTextAttributes = size;
+//    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+//    self.navigationController.navigationBar.topItem.title = @"MusicBar";
+//    self.navigationController.navigationBar.titleTextAttributes = size;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -392,8 +393,6 @@
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
 }
-
-
 
 -(void)setUpCell{
     //IK - registering custom cells into the collection view programmatically

@@ -1031,7 +1031,7 @@
             <objects>
                 <collectionViewController autoresizesArchivedViewToFullSize="NO" id="jMU-U9-WgW" customClass="FriendTabTheirCollectionViewController" sceneMemberID="viewController">
                     <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="zSZ-xP-LJH">
-                        <rect key="frame" x="0.0" y="94" width="600" height="487"/>
+                        <rect key="frame" x="0.0" y="64" width="600" height="487"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="ocO-Ub-7Ex" customClass="CSStickyHeaderFlowLayout">
@@ -1076,7 +1076,7 @@
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wG2-ih-IUa" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1476" y="3035"/>
+            <point key="canvasLocation" x="2291" y="3019"/>
         </scene>
         <!--Friend Search Songs Table View Controller-->
         <scene sceneID="IwR-SZ-KP0">
@@ -1158,7 +1158,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8Mc-xv-BiO" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2166" y="3035"/>
+            <point key="canvasLocation" x="2981" y="3019"/>
         </scene>
         <!--Friend Search Controller Table View Controller-->
         <scene sceneID="NiB-y4-Wrs">
@@ -1237,7 +1237,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tBx-wa-aOC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3534" y="3067"/>
+            <point key="canvasLocation" x="4379" y="3025"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="rDj-Hx-eHu">
@@ -1256,7 +1256,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="afN-8o-XxQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2866" y="3059"/>
+            <point key="canvasLocation" x="3681" y="3043"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="8Rl-BN-oPg">
@@ -1273,7 +1273,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6Mt-15-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1500" y="3988"/>
+            <point key="canvasLocation" x="1495" y="4904"/>
         </scene>
         <!--Friend-->
         <scene sceneID="0L2-yQ-j5C">
@@ -1386,10 +1386,14 @@
                                     <action selector="nextButton:" destination="YFn-IZ-gpz" eventType="touchUpInside" id="TyR-7J-NHu"/>
                                 </connections>
                             </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poweredBySoundCloud.png" translatesAutoresizingMaskIntoConstraints="NO" id="DcR-F9-Ytx">
+                                <rect key="frame" x="346" y="303" width="104" height="32"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.19215686274509805" green="0.066666666666666666" blue="0.25490196078431371" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="tMq-hl-Bb4" firstAttribute="top" secondItem="KK2-c1-xcv" secondAttribute="bottom" constant="16" id="07f-oK-E9w"/>
+                            <constraint firstItem="DcR-F9-Ytx" firstAttribute="leading" secondItem="m1O-vL-Q3c" secondAttribute="trailing" constant="-104" id="1Ob-4i-saN"/>
                             <constraint firstItem="m1O-vL-Q3c" firstAttribute="leading" secondItem="8oJ-G2-wv7" secondAttribute="leadingMargin" constant="134" id="1Sx-1V-MPJ"/>
                             <constraint firstItem="egF-qb-qKN" firstAttribute="trailing" secondItem="8oJ-G2-wv7" secondAttribute="trailingMargin" id="22P-bz-kBY"/>
                             <constraint firstItem="f4f-hS-U5W" firstAttribute="leading" secondItem="tMq-hl-Bb4" secondAttribute="trailing" constant="53" id="25f-2J-6jM"/>
@@ -1425,6 +1429,7 @@
                             <constraint firstItem="Rej-7G-VKF" firstAttribute="leading" secondItem="8oJ-G2-wv7" secondAttribute="leadingMargin" constant="508" id="Qq5-dp-fEd"/>
                             <constraint firstItem="KK2-c1-xcv" firstAttribute="leading" secondItem="8oJ-G2-wv7" secondAttribute="leadingMargin" constant="463" id="SDI-f1-9bE"/>
                             <constraint firstItem="KK2-c1-xcv" firstAttribute="leading" secondItem="8oJ-G2-wv7" secondAttribute="leadingMargin" id="Srr-CR-QBm"/>
+                            <constraint firstItem="DcR-F9-Ytx" firstAttribute="top" secondItem="m1O-vL-Q3c" secondAttribute="bottom" constant="-32" id="UcA-qR-u47"/>
                             <constraint firstItem="egF-qb-qKN" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="3" id="UjG-Sc-eym"/>
                             <constraint firstItem="KK2-c1-xcv" firstAttribute="leading" secondItem="8oJ-G2-wv7" secondAttribute="leadingMargin" constant="53" id="V9a-S7-BzR"/>
                             <constraint firstItem="egF-qb-qKN" firstAttribute="leading" secondItem="f4f-hS-U5W" secondAttribute="trailing" constant="57" id="VGo-Up-dGI"/>
@@ -1559,7 +1564,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aWt-84-EyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="812" y="3988"/>
+            <point key="canvasLocation" x="807" y="4904"/>
         </scene>
         <!--Music Player-->
         <scene sceneID="lim-xE-w29">
@@ -1581,13 +1586,14 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="NeC-n8-eMu" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="0.0" y="3988"/>
+            <point key="canvasLocation" x="-5" y="4904"/>
         </scene>
     </scenes>
     <resources>
         <image name="AudioPlayer" width="75" height="75"/>
         <image name="Friends" width="75" height="75"/>
         <image name="Me" width="75" height="75"/>
+        <image name="poweredBySoundCloud.png" width="104" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="C4C-G5-Ws6"/>

@@ -627,6 +627,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [self.currentSongArtwork sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
+//    [self.currentSongArtwork];
+    
+//    UIImage *myBadgedImage = [self drawImage:profileImage withBadge:badgeImage];
+    
     NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
     NSURL* url = [NSURL URLWithString:resourceURL];
     audioController.url = url;
@@ -641,6 +645,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 
 }
+
 
 - (void) setLockScreenSongInfo : (NowPlayingSong*)nowPlayingSong{
     
@@ -657,7 +662,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork];
-    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"",
+    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicBar",
                             MPMediaItemPropertyAlbumTitle: @"",
                             MPMediaItemPropertyTitle: self.songTitle.text,
                             MPMediaItemPropertyPlaybackDuration:totalSecondsString,
@@ -694,7 +699,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             [self playSong];
             
         } else {
-            NSLog(@"Error 382.)");
+            NSLog(@"Error 702.)");
         }
         
     }];

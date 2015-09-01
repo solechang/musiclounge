@@ -2,7 +2,7 @@
 //  Friend.m
 //  MusicBar
 //
-//  Created by Jake Choi on 6/17/15.
+//  Created by Jake Choi on 8/31/15.
 //  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
@@ -18,6 +18,7 @@
 @dynamic name;
 @dynamic objectId;
 @dynamic userId;
+@dynamic deleteSearch;
 @dynamic friendPhonenumber;
 @dynamic userFriendList;
 
