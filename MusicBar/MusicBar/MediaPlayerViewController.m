@@ -51,6 +51,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     BOOL flagSong; // flags currently playing song
     
     NowPlayingSong *currentSong;
+    
+    FSStreamPosition pos;
 }
 
 
@@ -163,6 +165,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
 
     [self.playButton setEnabled:NO];
+    
+
+    
+//    FSStreamPosition pos = {0};
+    
 }
 
 - (void) setNSManagedObjectContext {
@@ -758,7 +765,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)doSeeking
 {
-    FSStreamPosition pos = {0};
     pos.position = _seekToPoint;
     [audioController.activeStream seekToPosition:pos];
 }
