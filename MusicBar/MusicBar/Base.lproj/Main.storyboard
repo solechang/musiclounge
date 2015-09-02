@@ -163,7 +163,7 @@
         <scene sceneID="kSb-9f-3az">
             <objects>
                 <navigationController id="6sv-X2-7Vt" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Me" id="pzR-iH-r3a"/>
+                    <tabBarItem key="tabBarItem" title="Me" image="martini" id="pzR-iH-r3a"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="LTy-Sa-r4X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -1261,11 +1261,11 @@
             </objects>
             <point key="canvasLocation" x="-1404" y="3206"/>
         </scene>
-        <!--Friend-->
+        <!--Friends-->
         <scene sceneID="0L2-yQ-j5C">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xHB-lD-4AK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friend" id="B3l-vI-1Wo">
+                    <tabBarItem key="tabBarItem" title="Friends" image="friends-1" id="B3l-vI-1Wo">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1552,11 +1552,11 @@
             </objects>
             <point key="canvasLocation" x="807" y="4904"/>
         </scene>
-        <!--Music Player-->
+        <!--Now Spinning-->
         <scene sceneID="lim-xE-w29">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pBI-Yk-iW2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Music Player" id="gcc-GI-rCZ">
+                    <tabBarItem key="tabBarItem" title="Now Spinning" image="djc" id="gcc-GI-rCZ">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1576,6 +1576,9 @@
         </scene>
     </scenes>
     <resources>
+        <image name="djc" width="30" height="30"/>
+        <image name="friends-1" width="30" height="30"/>
+        <image name="martini" width="30" height="30"/>
         <image name="poweredBySoundCloud.png" width="104" height="32"/>
     </resources>
     <inferredMetricsTieBreakers>

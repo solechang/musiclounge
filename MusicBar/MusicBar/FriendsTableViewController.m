@@ -51,42 +51,36 @@
 
     [self initializeData];
     
-//    [self setUpSearchController];
+    [self setUpSearchController];
     
     [self setUpNavigationBar];
     
     [self setUpTableView];
 
-//    [self refreshButton:self];
-    [self retrieveFriendsFromLocal];
-
 }
 
 - (void) setUpSearchController {
-    UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"FindFriendTableSearchResultsNavController"];
     
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
-    
-    //    self.searchController.searchResultsUpdater = self;
+    self.searchFriendsTableController = [[FindFriendsTableViewController alloc] init];
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
     
     [self.searchController.searchBar sizeToFit];
     [self.searchController.searchBar setPlaceholder:@"Find new Friends by username :)"];
     
-    self.searchController.searchBar.delegate = self;
-    
-    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
-    
     self.tableView.tableHeaderView = self.searchController.searchBar;
     
+    self.searchController.delegate = self;
+    self.searchController.searchBar.delegate = self;
     self.definesPresentationContext = YES;
+
     
 }
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 //    self.searchController.searchBar.hidden = NO;
-    
-    [self sortFriendsWhoExistsOnIllist];
+
+    [self retrieveFriendsFromLocal];
     [self.searchFriendsTableController.tableView reloadData];
 }
 
@@ -158,16 +152,6 @@
     friendsFacebookIDDictionary = [[NSMutableDictionary alloc] init];
     friendsPhonenumberDictionary = [[NSMutableDictionary alloc] init];
     
-    self.searchFriendsTableController = [[FindFriendsTableViewController alloc] init];
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
-    [self.searchController.searchBar sizeToFit];
-    [self.searchController.searchBar setPlaceholder:@"Find new Friends by username :)"];
-    
-    self.tableView.tableHeaderView = self.searchController.searchBar;
-
-    self.searchController.delegate = self;
-    self.searchController.searchBar.delegate = self;
-    self.definesPresentationContext = YES;
 }
 
 #pragma mark - Buttons
@@ -474,7 +458,7 @@
         
         // For friends who exist on the server
         Friend *friend = [friendsList objectAtIndex:i];
-        NSLog(@"2.) %@", friend.name);
+        
         
         if ([friend.friend_exists isEqual:@(YES) ]) {
          
@@ -577,7 +561,7 @@
          FriendTabTheirCollectionViewController *controller = (FriendTabTheirCollectionViewController*)segue.destinationViewController;
          
          // Initializing indexpath for the friend cell
-         NSLog(@"9.) %@", sender);
+
          if (sender==nil) {
              NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
              Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
@@ -589,12 +573,9 @@
              Friend *selectedFriend = [self.searchFriendsTableController.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;
         
-             //             [self.searchFriendsTableController setActive:NO];
+
          }
          
-//         else if (sender == [FindFriendsTableViewController class] ) {
-//             NSLog(@"10.)");
-//         }
      }
  }
 
