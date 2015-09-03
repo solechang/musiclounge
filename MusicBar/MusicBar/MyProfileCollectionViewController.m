@@ -71,7 +71,7 @@
 
     
     [self setUpMediaPlayerLockScreen];
-    
+    [self setUpNotifications];
     [self setUpNavigationBar];
     [self setUpCollectionView];
     [self setUpHeaderFlowLayout];
@@ -83,6 +83,23 @@
     [self setNSManagedObjectContext];
     
     [self control];
+    
+}
+
+- (void) setUpNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"pictureChanged" object:nil];
+}
+
+- (void) activityNotifications:(NSNotification *)notification {
+    
+        if ([[notification name] isEqualToString:@"pictureChanged"]) {
+
+            [self getProfilePicture];
+            [self.collectionView reloadData];
+            
+        }
+        
+    
     
 }
 
