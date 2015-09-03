@@ -163,7 +163,7 @@
         <scene sceneID="kSb-9f-3az">
             <objects>
                 <navigationController id="6sv-X2-7Vt" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Me" image="martini" id="pzR-iH-r3a"/>
+                    <tabBarItem key="tabBarItem" title="Me" image="metab" id="pzR-iH-r3a"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="LTy-Sa-r4X">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -292,7 +292,7 @@
                                     <constraint firstAttribute="height" constant="45" id="738-o4-cAL"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="Governor" family="Governor" pointSize="15"/>
-                                <state key="normal" title="Login through Facebook">
+                                <state key="normal" title="Login with Facebook">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.83782233390000005" alpha="1" colorSpace="calibratedRGB"/>
                                 </state>
@@ -685,6 +685,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="logoutCell" destination="bBl-o0-0mq" id="YJ4-cs-k00"/>
+                        <outlet property="termsOfUseCell" destination="uXA-ID-Qoy" id="kx5-9O-sVq"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LPh-Jd-mpy" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -1289,7 +1290,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tMq-hl-Bb4">
-                                <rect key="frame" x="16" y="396" width="35" height="30"/>
+                                <rect key="frame" x="16" y="417" width="35" height="30"/>
                                 <state key="normal" title="Back">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1305,7 +1306,7 @@
                                 </connections>
                             </slider>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f4f-hS-U5W">
-                                <rect key="frame" x="285" y="400" width="30" height="30"/>
+                                <rect key="frame" x="285" y="417" width="30" height="30"/>
                                 <state key="normal" title="Play">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -1354,8 +1355,11 @@
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poweredBySoundCloud.png" translatesAutoresizingMaskIntoConstraints="NO" id="DcR-F9-Ytx">
+                                <rect key="frame" x="346" y="303" width="104" height="32"/>
+                            </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="egF-qb-qKN">
-                                <rect key="frame" x="552" y="396" width="32" height="30"/>
+                                <rect key="frame" x="552" y="417" width="32" height="30"/>
                                 <state key="normal" title="Next">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -1364,9 +1368,6 @@
                                     <action selector="nextButton:" destination="YFn-IZ-gpz" eventType="touchUpInside" id="TyR-7J-NHu"/>
                                 </connections>
                             </button>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poweredBySoundCloud.png" translatesAutoresizingMaskIntoConstraints="NO" id="DcR-F9-Ytx">
-                                <rect key="frame" x="346" y="303" width="104" height="32"/>
-                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.19215686274509805" green="0.066666666666666666" blue="0.25490196078431371" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -1392,7 +1393,7 @@
                             <constraint firstItem="Rej-7G-VKF" firstAttribute="top" secondItem="qUO-ES-U2x" secondAttribute="bottom" constant="220" id="Bwo-N4-Afb"/>
                             <constraint firstItem="Ciz-Ba-yfu" firstAttribute="leading" secondItem="m1O-vL-Q3c" secondAttribute="leading" id="Cy1-7e-DGa"/>
                             <constraint firstItem="f4f-hS-U5W" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="2.5" id="Dqk-Bu-aPI"/>
-                            <constraint firstItem="f4f-hS-U5W" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="7" id="Dvv-e4-3JW"/>
+                            <constraint firstItem="f4f-hS-U5W" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="23.5" id="Dvv-e4-3JW"/>
                             <constraint firstAttribute="trailingMargin" secondItem="KK2-c1-xcv" secondAttribute="trailing" constant="495" id="F6F-NA-7J3"/>
                             <constraint firstItem="m1O-vL-Q3c" firstAttribute="leading" secondItem="KK2-c1-xcv" secondAttribute="trailing" constant="8" id="G1X-29-094"/>
                             <constraint firstAttribute="centerX" secondItem="Ciz-Ba-yfu" secondAttribute="centerX" constant="4" id="HkL-4L-n63"/>
@@ -1412,7 +1413,7 @@
                             <constraint firstItem="KK2-c1-xcv" firstAttribute="leading" secondItem="8oJ-G2-wv7" secondAttribute="leadingMargin" constant="53" id="V9a-S7-BzR"/>
                             <constraint firstItem="egF-qb-qKN" firstAttribute="leading" secondItem="f4f-hS-U5W" secondAttribute="trailing" constant="57" id="VGo-Up-dGI"/>
                             <constraint firstItem="Rej-7G-VKF" firstAttribute="leading" secondItem="Ciz-Ba-yfu" secondAttribute="trailing" constant="14" id="VRx-be-lz8"/>
-                            <constraint firstItem="tMq-hl-Bb4" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="2.5" id="VtU-05-Q7B"/>
+                            <constraint firstItem="tMq-hl-Bb4" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="23.5" id="VtU-05-Q7B"/>
                             <constraint firstItem="KK2-c1-xcv" firstAttribute="leading" secondItem="tMq-hl-Bb4" secondAttribute="leading" id="WCy-fs-Abf"/>
                             <constraint firstAttribute="trailingMargin" secondItem="f4f-hS-U5W" secondAttribute="trailing" constant="269" id="WD2-Rh-643"/>
                             <constraint firstItem="Xdc-Ls-8EB" firstAttribute="width" secondItem="m1O-vL-Q3c" secondAttribute="width" id="X1m-xY-ue3"/>
@@ -1424,7 +1425,7 @@
                             <constraint firstItem="Ciz-Ba-yfu" firstAttribute="top" secondItem="m1O-vL-Q3c" secondAttribute="bottom" constant="8" id="ZoW-Yt-ZwG"/>
                             <constraint firstItem="Xdc-Ls-8EB" firstAttribute="top" secondItem="m1O-vL-Q3c" secondAttribute="bottom" constant="39" id="aXU-Fq-qMq"/>
                             <constraint firstAttribute="trailingMargin" secondItem="m1O-vL-Q3c" secondAttribute="trailing" constant="134" id="bAf-7e-kej"/>
-                            <constraint firstItem="egF-qb-qKN" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="2.5" id="cgi-SM-6oB"/>
+                            <constraint firstItem="egF-qb-qKN" firstAttribute="top" secondItem="Xdc-Ls-8EB" secondAttribute="bottom" constant="23.5" id="cgi-SM-6oB"/>
                             <constraint firstItem="m1O-vL-Q3c" firstAttribute="top" secondItem="qUO-ES-U2x" secondAttribute="bottom" constant="35" id="e6k-Lt-3Zc"/>
                             <constraint firstItem="KK2-c1-xcv" firstAttribute="centerX" secondItem="Ciz-Ba-yfu" secondAttribute="centerX" id="eFR-Kz-eg5"/>
                             <constraint firstItem="f4f-hS-U5W" firstAttribute="leading" secondItem="8oJ-G2-wv7" secondAttribute="leadingMargin" constant="269" id="eU9-8L-dEA"/>
@@ -1548,7 +1549,7 @@
         <scene sceneID="lim-xE-w29">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pBI-Yk-iW2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Now Spinning" image="djc2" id="gcc-GI-rCZ">
+                    <tabBarItem key="tabBarItem" title="Now Spinning" image="realdj" id="gcc-GI-rCZ">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1569,9 +1570,9 @@
     </scenes>
     <resources>
         <image name="Friends" width="37" height="37"/>
-        <image name="djc2" width="350" height="350"/>
-        <image name="martini" width="30" height="30"/>
+        <image name="metab" width="30" height="30"/>
         <image name="poweredBySoundCloud.png" width="104" height="32"/>
+        <image name="realdj" width="37" height="37"/>
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="C4C-G5-Ws6"/>

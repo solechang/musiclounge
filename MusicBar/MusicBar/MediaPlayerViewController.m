@@ -94,17 +94,31 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self setUpNotifications];
     
     [self setUpData];
-    
+//    [self gradientSetting];
     [[self.currentSongArtwork layer] setBorderWidth:2.0f];
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     
-    [[self.view layer] setBorderWidth:2.0f];
-    [[self.view layer] setBorderColor:[UIColor whiteColor].CGColor];
+//    [[self.view layer] setBorderWidth:2.0f];
+//    [[self.view layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
 
+}
+
+-(void)gradientSetting {
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    
+    UIColor *topColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0) blue:(65/255.0) alpha:0] ;
+    UIColor *bottomColor = [UIColor colorWithRed:(75/255.0) green:(31/255.0) blue:(83/255.0) alpha:1] ;
+    
+    gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[bottomColor CGColor], nil];
+    [self.view.layer insertSublayer:gradient atIndex:0];
+    
+    
 }
 
 - (void) setUpNotifications {
