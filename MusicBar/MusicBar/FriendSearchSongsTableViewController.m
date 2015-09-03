@@ -338,6 +338,9 @@
         
         // iLList tableview
         
+        cell.titleLabel.numberOfLines = 3;
+        cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        
         /* May need to change the code below for code efficiency like how it is written for searchdisplaycontroller
          * by using iLLSong
          */

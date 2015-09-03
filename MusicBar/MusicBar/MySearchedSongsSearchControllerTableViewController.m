@@ -63,6 +63,9 @@
                 reuseIdentifier:CellIdentifier];
     }
     
+    cell.titleLabel.numberOfLines = 3;
+    cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+    
     // Searched song table view
     song = [self.searchResults objectAtIndex:indexPath.row];
     cell.titleLabel.text = song.title;

@@ -336,7 +336,9 @@
          * by using iLLSong
          */
         
-        NSLog(@"1.) %@", iLListTracks);
+        cell.titleLabel.numberOfLines = 3;
+        cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        
         Song *song = [iLListTracks objectAtIndex:indexPath.row];
         cell.titleLabel.text = song.title;
         cell.uploadingUserLabel.text = song.uploadingUser;
@@ -418,7 +420,6 @@
    
     [vc.searchResults removeAllObjects];
  
-    
     [vc.tableView reloadData];
     
     

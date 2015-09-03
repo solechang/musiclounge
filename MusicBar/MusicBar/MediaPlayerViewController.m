@@ -104,6 +104,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
+    
+//    [self.playButton buttonWithType:UIButtonTypeSystem];
+    [self.playButton setTintColor:[UIColor whiteColor]];
+    [self.nextButton setTintColor:[UIColor whiteColor]];
+    [self.backButton setTintColor:[UIColor whiteColor]];
+
+
 
 }
 
@@ -177,8 +184,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     currentPlayList = [[NSMutableArray alloc] init];
     
     [self.currentPlaylistButton setEnabled:NO];
+    UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
+    [self.playButton setImage:buttonImage forState:UIControlStateNormal];
     
-    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+    self.playButton.tag = 1;
 
     [self.playButton setEnabled:NO];
     self.playButton.alpha = 0.5;
@@ -541,15 +550,20 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 
     [audioController pause];
-
-    if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
-
-        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+    
+    // playbutton tag: 0 = paused, 1 = playing
+    if (self.playButton.tag == 1) {
+        self.playButton.tag = 0;
+        UIImage *buttonImage = [UIImage imageNamed:@"playbutton.png"];
+        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+        
         [self.musicSlider setEnabled:NO];
 
     } else {
-
-        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+        self.playButton.tag = 1;
+        UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
+        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+      
         [self.musicSlider setEnabled:YES];
     }
    
@@ -557,9 +571,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (IBAction)nextButton:(id)sender {
+    
+    [self.playButton setEnabled:NO];
+    self.playButton.alpha = 0.5;
+    
     // stopping audio player when next song plays
     [audioController stop];
-
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
@@ -584,7 +601,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             [self playSong];
             
         } else {
-            NSLog(@"Error 503.)");
+            NSLog(@"Error 601.)");
         }
         
     }];
@@ -596,9 +613,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) stopPlayer {
     
-    if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
+    if (self.playButton.tag == 1) {
         
-        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+        self.playButton.tag = 0;
+        UIImage *buttonImage = [UIImage imageNamed:@"playbutton.png"];
+        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+        
         if ([NSThread isMainThread]) {
             // We are the main thread, just directly call:
             [audioController pause];
@@ -642,7 +662,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.playButton.alpha = 1.0;
     
-    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+    self.playButton.tag = 1;
+    UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
+    [self.playButton setImage:buttonImage forState:UIControlStateNormal];
     
     [self setLockScreenSongInfo :nowplayingSong];
 
@@ -676,8 +698,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (IBAction)backButton:(id)sender {
+    
+    [self.playButton setEnabled:NO];
+    self.playButton.alpha = 0.5;
+    
     // stop audio player when going back a song
     [audioController stop];
+    
+
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
