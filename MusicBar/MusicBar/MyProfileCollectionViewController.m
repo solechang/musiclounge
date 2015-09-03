@@ -71,7 +71,7 @@
 
     
     [self setUpMediaPlayerLockScreen];
-    
+    [self setUpNotifications];
     [self setUpNavigationBar];
     [self setUpCollectionView];
     [self setUpHeaderFlowLayout];
@@ -83,6 +83,23 @@
     [self setNSManagedObjectContext];
     
     [self control];
+    
+}
+
+- (void) setUpNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"pictureChanged" object:nil];
+}
+
+- (void) activityNotifications:(NSNotification *)notification {
+    
+        if ([[notification name] isEqualToString:@"pictureChanged"]) {
+
+            [self getProfilePicture];
+            [self.collectionView reloadData];
+            
+        }
+        
+    
     
 }
 
@@ -775,7 +792,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     
     if(swipedCell.frame.origin.x < -swipedCell.frame.size.width / 4){
         
-        swipedCellPastHalfWay = YES;
+//        swipedCellPastHalfWay = YES;
         
         if (_control.selectedSegmentIndex == 0){
             
@@ -792,13 +809,14 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
          ];
     }
     
+    
     [UIView animateWithDuration:0.2
                      animations:^{
                          swipedCell.frame = originalFrame;
                      }
      ];
-    
-    swipedCellPastHalfWay = NO;
+//
+//    swipedCellPastHalfWay = NO;
     
     self.collectionView.scrollEnabled = YES;
     

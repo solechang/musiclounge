@@ -197,7 +197,7 @@
     [userImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (succeeded) {
-            NSLog(@"3.)");
+ 
             [self savePictureToLocal:image];
 
         } else {
@@ -236,8 +236,7 @@
 }
 
 - (void) savePictureToLocal:(UIImage*) image {
-    
-      NSLog(@"4.)");
+
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];
@@ -251,7 +250,11 @@
         if (!error) {
             if (success) {
                 
-                 [SVProgressHUD showSuccessWithStatus:@"Successfully saved Profile Picture :)"];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureChanged" object:self ];
+                
+                [SVProgressHUD showSuccessWithStatus:@"Successfully saved Profile Picture :)"];
+                
                
             } else {
                 

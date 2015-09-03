@@ -165,7 +165,7 @@
     button.layer.borderWidth=1.0f;
     
     if (song.stream_url == nil) {
-        button.enabled = NO;
+        [button setEnabled:NO];
         
         button.backgroundColor = [UIColor lightGrayColor];
     }
@@ -175,7 +175,7 @@
         
         if ([song.stream_url isEqualToString:checkIfSongExistsInPlaylist.stream_url]) {
             
-            button.enabled = NO;
+           [button setEnabled:NO];
             
             button.backgroundColor = [UIColor lightGrayColor];
             

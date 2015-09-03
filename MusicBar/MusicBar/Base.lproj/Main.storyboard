@@ -784,9 +784,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Choose Picture from Photos" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Uxr-og-Ban">
-                                                    <rect key="frame" x="52" y="11" width="217" height="21"/>
+                                                    <rect key="frame" x="45" y="11" width="217" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                                    <color key="textColor" red="1" green="0.34303585419999999" blue="0.36245291819999997" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                             </subviews>
@@ -998,6 +998,51 @@
                 </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="738" y="3035"/>
+        </scene>
+        <!--Root View Controller-->
+        <scene sceneID="5rM-bq-5XV">
+            <objects>
+                <tableViewController automaticallyAdjustsScrollViewInsets="NO" id="cbc-M9-Jyt" customClass="FindFriendsTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="skI-Uu-BmL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="findFriendsCell" id="rgX-os-iXW">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="rgX-os-iXW" id="ALW-ze-DkB">
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="cbc-M9-Jyt" id="5w5-Ex-H3O"/>
+                            <outlet property="delegate" destination="cbc-M9-Jyt" id="CQa-XQ-4uN"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="ZLm-Q5-lrs"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aR4-2S-EYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="627" y="3994"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="25w-0B-bjJ">
+            <objects>
+                <navigationController storyboardIdentifier="FindFriendTableSearchResultsNavController" id="yWz-22-bzs" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="CQk-nO-rk4">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.19215686269999999" green="0.066666666669999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="cbc-M9-Jyt" kind="relationship" relationship="rootViewController" id="UMR-vm-cHm"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AQK-eP-u6g" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8" y="3854"/>
         </scene>
         <!--Friend Tab Their Collection View Controller-->
         <scene sceneID="mli-mo-Ze2">
@@ -1486,16 +1531,15 @@
                                 <exclude reference="eFR-Kz-eg5"/>
                                 <exclude reference="o5z-Zq-LoA"/>
                                 <exclude reference="ugm-0e-YtT"/>
-                                <exclude reference="Ahb-BS-fXC"/>
-                                <exclude reference="PaB-1o-M3L"/>
-                                <exclude reference="jtc-G6-hcW"/>
-                                <exclude reference="tgT-Vi-Vxh"/>
                                 <exclude reference="07f-oK-E9w"/>
                                 <exclude reference="4Tp-AM-9zy"/>
                                 <exclude reference="AXf-Yx-fof"/>
                                 <exclude reference="hWH-Gd-yeo"/>
                                 <exclude reference="wZc-S8-YgK"/>
-                                <exclude reference="L7W-5r-c2M"/>
+                                <exclude reference="Ahb-BS-fXC"/>
+                                <exclude reference="PaB-1o-M3L"/>
+                                <exclude reference="jtc-G6-hcW"/>
+                                <exclude reference="tgT-Vi-Vxh"/>
                                 <exclude reference="25f-2J-6jM"/>
                                 <exclude reference="Dqk-Bu-aPI"/>
                                 <exclude reference="Qlk-Lr-sja"/>
@@ -1506,6 +1550,7 @@
                                 <exclude reference="gPn-ic-8d3"/>
                                 <exclude reference="vKA-ff-mg6"/>
                                 <exclude reference="yRi-5O-dde"/>
+                                <exclude reference="L7W-5r-c2M"/>
                                 <exclude reference="2QS-sf-wzQ"/>
                                 <exclude reference="Bwo-N4-Afb"/>
                                 <exclude reference="Qq5-dp-fEd"/>

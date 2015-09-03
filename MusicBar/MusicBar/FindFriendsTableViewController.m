@@ -28,7 +28,7 @@
 //    self.definesPresentationContext = YES;
 //    [self setUpNavigationBar];
     
-    [self.tableView registerNib:[UINib nibWithNibName:@"searchFriendsCell" bundle:nil] forCellReuseIdentifier:@"cellID"];
+//    [self.tableView registerNib:[UINib nibWithNibName:@"searchFriendsCell" bundle:nil] forCellReuseIdentifier:@"cellID"];
     [self.tableView setRowHeight:50];
     
 }
@@ -59,8 +59,7 @@
     if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
         
         // View is disappearing because a new view controller was pushed onto the stack
-        
-//        self.searchController.searchBar.hidden = YES;
+        self.searchController.active = NO;
         
     } else if ([viewControllers indexOfObject:self] == NSNotFound) {
         
@@ -78,15 +77,10 @@
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
-//    [self.filteredFriendsWhoExists removeAllObjects];
     [self.tableView reloadData];
     self.searchController.searchBar.hidden = NO;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-
-//    [self.tableView reloadData];
-}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -111,7 +105,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cellID" forIndexPath:indexPath];
+     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"findFriendsCell" forIndexPath:indexPath];
     
     //dark blue?
     UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];

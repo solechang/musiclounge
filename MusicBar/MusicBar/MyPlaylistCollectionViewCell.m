@@ -110,7 +110,7 @@ const float UI_CUES_MARGIN = 0.0f;
         UILabel *_crossLabel;
         
         _tickLabel = [self createTickLabel];
-        _tickLabel.text = @"\u2713";
+        _tickLabel.text = @"Dropping soon :) \u2713";
         _tickLabel.textAlignment = NSTextAlignmentRight;
         [self addSubview:_tickLabel];
         
@@ -122,8 +122,7 @@ const float UI_CUES_MARGIN = 0.0f;
         
         const float UI_CUES_WIDTH = self.bounds.size.width;
         
-        _tickLabel.frame = CGRectMake(-UI_CUES_WIDTH - UI_CUES_MARGIN, 0,
-                                      UI_CUES_WIDTH, self.bounds.size.height);
+        _tickLabel.frame = CGRectMake(-UI_CUES_WIDTH - UI_CUES_MARGIN, 0, UI_CUES_WIDTH, self.bounds.size.height);
         _crossLabel.frame = CGRectMake(self.bounds.size.width + UI_CUES_MARGIN, 0,
                                        UI_CUES_WIDTH, self.bounds.size.height);
         
@@ -151,7 +150,8 @@ const float UI_CUES_MARGIN = 0.0f;
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectNull];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont boldSystemFontOfSize:32.0];
-    label.backgroundColor = [UIColor greenColor];
+    label.backgroundColor = [UIColor colorWithRed:(202/255.0) green:(84/255.0) blue:(158/255.0) alpha:1];
+
     return label;
 }
 
@@ -160,7 +160,7 @@ const float UI_CUES_MARGIN = 0.0f;
     UILabel* label = [[UILabel alloc] initWithFrame:CGRectNull];
     label.textColor = [UIColor whiteColor];
     label.font = [UIFont boldSystemFontOfSize:32.0];
-    label.backgroundColor = [UIColor redColor];
+    label.backgroundColor = [UIColor colorWithRed:250.0f/255.0f green:65.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
     
     return label;
 }
