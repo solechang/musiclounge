@@ -775,7 +775,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     
     if(swipedCell.frame.origin.x < -swipedCell.frame.size.width / 4){
         
-        swipedCellPastHalfWay = YES;
+//        swipedCellPastHalfWay = YES;
         
         if (_control.selectedSegmentIndex == 0){
             
@@ -792,13 +792,14 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
          ];
     }
     
+    
     [UIView animateWithDuration:0.2
                      animations:^{
                          swipedCell.frame = originalFrame;
                      }
      ];
-    
-    swipedCellPastHalfWay = NO;
+//
+//    swipedCellPastHalfWay = NO;
     
     self.collectionView.scrollEnabled = YES;
     
