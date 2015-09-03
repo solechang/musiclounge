@@ -56,6 +56,8 @@
     [self setUpNavigationBar];
     
     [self setUpTableView];
+    
+    
 
 }
 
@@ -521,6 +523,11 @@
     return @"";
 }
 
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [SVProgressHUD dismiss];
+}
+
+
 
 #pragma mark - DZN Table view when empty
 
@@ -651,6 +658,8 @@
        [SVProgressHUD dismiss];
     }];
 }
+
+
 
 - (void) deleteSearchedFriends {
     NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES];
