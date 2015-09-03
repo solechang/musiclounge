@@ -209,30 +209,30 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         switch (state) {
                 
             case kFsAudioStreamRetrievingURL:
-                NSLog(@"1.1.)");
+//                NSLog(@"1.1.)");
                 
                 break;
                 
             case kFsAudioStreamStopped:
-                 NSLog(@"1.2.)");
+//                 NSLog(@"1.2.)");
                 
                 break;
                 
             case kFsAudioStreamBuffering: {
-                NSLog(@"1.3.)");
+//                NSLog(@"1.3.)");
                
                 break;
             }
                 
             case kFsAudioStreamSeeking:
                 
-                NSLog(@"1.4.)");
+//                NSLog(@"1.4.)");
                 
                 break;
                 
             case kFsAudioStreamPlaying:
                 
-                NSLog(@"1.5.)");
+//                NSLog(@"1.5.)");
                 weakSelf.enableLogging = YES;
 
                 weakSelf.musicSlider.enabled = YES;
@@ -275,36 +275,36 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamFailed:
-                NSLog(@"1.6.)");
+//                NSLog(@"1.6.)");
                  [weakSelf.songTitle setText:@"This song cannot be played because SoundCloud disabled it. Please delete the song :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
-                NSLog(@"1.7.)");
+//                NSLog(@"1.7.)");
 //                [weakSelf toggleNextPreviousButtons];
                 [weakSelf nextButton:nil];
                 break;
                 
             case kFsAudioStreamRetryingStarted:
-                NSLog(@"1.8.)");
+//                NSLog(@"1.8.)");
                 weakSelf.enableLogging = YES;
 
                 
                 break;
                 
             case kFsAudioStreamRetryingSucceeded:
-                NSLog(@"1.9.)");
+//                NSLog(@"1.9.)");
                 weakSelf.enableLogging = YES;
 
                 break;
                 
             case kFsAudioStreamRetryingFailed:
-                NSLog(@"1.10.)");
+//                NSLog(@"1.10.)");
                 [weakSelf nextButton:nil];
                 break;
                 
             default:
-                NSLog(@"1.11.)");
+//                NSLog(@"1.11.)");
                 break;
 
                 
@@ -415,7 +415,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     if ([nowPlaying.playlistId isEqualToString:@""]) {
         
         [self setButtonsEnabled:NO];
-        NSLog(@"No songs to be played");
+//        NSLog(@"No songs to be played");
         
     } else {
         [self setButtonsEnabled:YES];
@@ -601,7 +601,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             [self playSong];
             
         } else {
-            NSLog(@"Error 601.)");
+//            NSLog(@"Error 601.)");
         }
         
     }];
@@ -730,7 +730,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             [self playSong];
             
         } else {
-            NSLog(@"Error 702.)");
+//            NSLog(@"Error 702.)");
         }
         
     }];

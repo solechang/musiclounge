@@ -290,7 +290,7 @@
             
             // User's Friends doesn't exist in the database
             friendsList = [[NSMutableArray alloc] init];
-            NSLog( @"Error: 246.)");
+//            NSLog( @"Error: 246.)");
             
         }
         
@@ -313,8 +313,8 @@
     [query selectKeys:@[@"facebookID", @"name"]];
     [query findObjectsInBackgroundWithBlock:^(NSArray *users, NSError *error) {
         if (error) {
-            NSString *errorString = [error userInfo][@"error"];
-            NSLog(@"170.) Error: %@", errorString);
+//            NSString *errorString = [error userInfo][@"error"];
+//            NSLog(@"170.) Error: %@", errorString);
             [SVProgressHUD dismiss];
             [self.refreshButton setEnabled:YES];
         } else {
@@ -407,7 +407,7 @@
 
         } else {
             
-            NSLog(@"Error 275.)");
+//            NSLog(@"Error 275.)");
              [SVProgressHUD dismiss];
             [self.refreshButton setEnabled:YES];
         }

@@ -21,6 +21,10 @@
 #import "NBPhoneNumberUtil.h"
 #import "NBPhoneNumber.h"
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
+
 @interface SignUpTableViewController () {
     BOOL phoneFlag;
 }
@@ -258,7 +262,7 @@
                                             } else {
                                                 
                                                 NSString *errorString = [error userInfo][@"error"];
-                                                NSLog(@"ERROR: %@", errorString);
+//                                                NSLog(@"ERROR: %@", errorString);
                                                 
                                                 if ([errorString containsString:@"invalid email"]) {
                                                     [SVProgressHUD showErrorWithStatus:@"Please use another email"];
@@ -281,7 +285,7 @@
                                         [SVProgressHUD showErrorWithStatus:@"Please use another phone number"];
                                         
                                     }
-                                    NSLog(@"%@", result);
+//                                    NSLog(@"%@", result);
                                 }];
 
 }
@@ -341,16 +345,18 @@
             } completion:^(BOOL success, NSError *error) {
                 
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                  
+                   
             
                     [self.doneButton setEnabled:YES];
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome to iLList!"];
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicBar!"];
                     
                 }];
                 
             }];
 
         } else {
-            NSLog(@"Error in saving: createUserData %@", error);
+//            NSLog(@"Error in saving: createUserData %@", error);
         }
     }];
 }

@@ -247,8 +247,8 @@
             }
             
         } else {
-             NSLog(@"1.3)");
-            NSLog(@"Error with fetching songs from server 235");
+//             NSLog(@"1.3)");
+//            NSLog(@"Error with fetching songs from server 235");
         }
         
     }];
@@ -298,7 +298,7 @@
             
         } else {
             
-            NSLog(@"Songs didnt not save locally 285.)");
+//            NSLog(@"Songs didnt not save locally 285.)");
             
         }
         [SVProgressHUD dismiss];
@@ -453,7 +453,7 @@
                 //                [self deleteSongInLocal:deleteSong forRowAtIndexPath:indexPath];
                 
             } else {
-                NSLog(@"Error in deleting song 456");
+//                NSLog(@"Error in deleting song 456");
                 
             }
             
@@ -481,7 +481,7 @@
             
             
         } else {
-            NSLog(@"Did not update playlist after delete 484");
+//            NSLog(@"Did not update playlist after delete 484");
         }
         
     }];
@@ -506,7 +506,7 @@
             
         } else {
             
-            NSLog(@"The playlist did not update 509.)");
+//            NSLog(@"The playlist did not update 509.)");
         }
         
     }];
@@ -529,7 +529,7 @@
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
         } else {
-            NSLog(@"Couldn't delete song in local: 534.)");
+//            NSLog(@"Couldn't delete song in local: 534.)");
         }
         
         
@@ -617,7 +617,7 @@
         if (!error) {
   
         } else {
-            NSLog(@"Error 653 %@", error);
+//            NSLog(@"Error 653 %@", error);
         }
         
         

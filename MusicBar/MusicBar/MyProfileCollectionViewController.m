@@ -263,7 +263,7 @@
             
         } else {
             
-            NSLog(@"No playlist changes 234");
+//            NSLog(@"No playlist changes 234");
         }
         
     }];
@@ -891,14 +891,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                             [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
                             
                         } else {
-                            NSLog(@"861");
+//                            NSLog(@"861");
                         }
                         
                         
                     }];
                     
                 } else {
-                    NSLog(@"Error in delete: clickedButtonAtIndex");
+//                    NSLog(@"Error in delete: clickedButtonAtIndex");
                     
                 }
                 

@@ -113,7 +113,7 @@
 
             
         } else {
-            NSLog(@"ERROR: %@", jsonError.localizedDescription);
+//            NSLog(@"ERROR: %@", jsonError.localizedDescription);
             return nil;
         }
     }
@@ -219,11 +219,11 @@
     [PFObject saveAllInBackground:sendObjectsToServer block:^(BOOL succeeded, NSError *error) {
         
         if (succeeded) {
-            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
+//            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
             [self saveSongToLocal:song];
             
         } else {
-            NSLog(@"221.)");
+//            NSLog(@"221.)");
             [[NSNotificationCenter defaultCenter] postNotificationName:@"FailedToAddSong" object:self ];
         }
         
@@ -269,7 +269,7 @@
             
         } else {
             
-            NSLog(@"Error: %@ 267", error.localizedDescription);
+//            NSLog(@"Error: %@ 267", error.localizedDescription);
             [[NSNotificationCenter defaultCenter] postNotificationName:@"FailedToAddSong" object:self ];
 
             
