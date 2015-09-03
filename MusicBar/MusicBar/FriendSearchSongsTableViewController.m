@@ -403,7 +403,6 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
     
-    [vc.iLListTracks removeAllObjects];
     [vc.searchResults removeAllObjects];
 
     [vc.tableView reloadData];

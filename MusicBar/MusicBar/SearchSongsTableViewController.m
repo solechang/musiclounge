@@ -335,6 +335,8 @@
         /* May need to change the code below for code efficiency like how it is written for searchdisplaycontroller
          * by using iLLSong
          */
+        
+        NSLog(@"1.) %@", iLListTracks);
         Song *song = [iLListTracks objectAtIndex:indexPath.row];
         cell.titleLabel.text = song.title;
         cell.uploadingUserLabel.text = song.uploadingUser;
@@ -414,7 +416,6 @@
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
    
-    [vc.iLListTracks removeAllObjects];
     [vc.searchResults removeAllObjects];
  
     
