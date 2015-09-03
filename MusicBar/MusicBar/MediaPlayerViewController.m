@@ -48,9 +48,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSManagedObjectContext *defaultContext;
     
-    BOOL flagSong; // flags currently playing song
-    
     NowPlayingSong *currentSong;
+    
+    FSStreamPosition pos;
 }
 
 
@@ -94,13 +94,38 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self setUpNotifications];
     
     [self setUpData];
-    
+//    [self gradientSetting];
     [[self.currentSongArtwork layer] setBorderWidth:2.0f];
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
     
+    
+//    [[self.view layer] setBorderWidth:2.0f];
+//    [[self.view layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
+    
+//    [self.playButton buttonWithType:UIButtonTypeSystem];
+    [self.playButton setTintColor:[UIColor whiteColor]];
+    [self.nextButton setTintColor:[UIColor whiteColor]];
+    [self.backButton setTintColor:[UIColor whiteColor]];
 
+
+
+}
+
+-(void)gradientSetting {
+    
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = self.view.bounds;
+    
+    UIColor *topColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0) blue:(65/255.0) alpha:0] ;
+    UIColor *bottomColor = [UIColor colorWithRed:(75/255.0) green:(31/255.0) blue:(83/255.0) alpha:1] ;
+    
+    gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[bottomColor CGColor], nil];
+    [self.view.layer insertSublayer:gradient atIndex:0];
+    
+    
 }
 
 - (void) setUpNotifications {
@@ -159,10 +184,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     currentPlayList = [[NSMutableArray alloc] init];
     
     [self.currentPlaylistButton setEnabled:NO];
+    UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
+    [self.playButton setImage:buttonImage forState:UIControlStateNormal];
     
-    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+    self.playButton.tag = 1;
 
     [self.playButton setEnabled:NO];
+    self.playButton.alpha = 0.5;
+
+    
+//    FSStreamPosition pos = {0};
+    
 }
 
 - (void) setNSManagedObjectContext {
@@ -313,11 +345,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.startTime.text = @"Loading";
         self.endTime.text = @"Loading";
         self.playButton.enabled = NO;
+        self.playButton.alpha = 0.5;
         
     } else {
 //        NSLog(@"0.2)");
-        self.musicSlider.enabled = YES;
+//        self.musicSlider.enabled = YES;
         self.playButton.enabled = YES;
+        self.playButton.alpha = 1.0;
         
         FSStreamPosition cur = audioController.activeStream.currentTimePlayed;
         FSStreamPosition end = audioController.activeStream.duration;
@@ -395,9 +429,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     if (yesOrNo) {
         self.startTime.text = @"Loading";
+
     } else {
-        self.startTime.text = @"Please choose a song to play in a lounge";
-        self.songTitle.text = @"";
+        self.startTime.text = @"";
+        self.songTitle.text = @"Please choose a song to play in a lounge";
     }
     [self.playButton setEnabled:yesOrNo];
     [self.nextButton setEnabled:yesOrNo];
@@ -418,27 +453,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
     if (![self checkCurrentSong: nowplayingSong]) {
-        
-//        NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
-//        NSURL* url = [NSURL URLWithString:resourceURL];
-//        audioController.url = url;
-//        [audioController playFromURL:url];
-        
-//        for (NowPlayingSong *nowPlaying in nowPlayingSongsArray) {
-//
-//            FSPlaylistItem *item = [[FSPlaylistItem alloc] init];
-//            item.title = nowPlaying.title;
-//
-//            NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowPlaying.stream_url ,clientID];
-//            NSURL* url = [NSURL URLWithString:resourceURL];
-//            item.url = url;
-//            
-//            [self.userPlaylistItems addObject:item];
-//            [audioController addItem:item];
-//            
-//        }
-        
-        
+    
         [self setCurrentPlaylist];
 
     }
@@ -462,12 +477,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 #pragma mark - Set current play list
 - (void) setCurrentPlaylist {
-
-  
-//    [self setupTimer];
-//    [self updateControls];
-    
-//    [self.currentPlaylistButton setEnabled:YES];
 
     [self playSong];
 
@@ -541,21 +550,31 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 
     [audioController pause];
-
-    if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
-
-        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+    
+    // playbutton tag: 0 = paused, 1 = playing
+    if (self.playButton.tag == 1) {
+        self.playButton.tag = 0;
+        UIImage *buttonImage = [UIImage imageNamed:@"playbutton.png"];
+        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+        
+        [self.musicSlider setEnabled:NO];
 
     } else {
-
-        [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
-
+        self.playButton.tag = 1;
+        UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
+        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+      
+        [self.musicSlider setEnabled:YES];
     }
    
     
 }
 
 - (IBAction)nextButton:(id)sender {
+    
+    [self.playButton setEnabled:NO];
+    self.playButton.alpha = 0.5;
+    
     // stopping audio player when next song plays
     [audioController stop];
     
@@ -582,7 +601,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             [self playSong];
             
         } else {
-            NSLog(@"Error 503.)");
+            NSLog(@"Error 601.)");
         }
         
     }];
@@ -594,9 +613,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) stopPlayer {
     
-    if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
+    if (self.playButton.tag == 1) {
         
-        [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+        self.playButton.tag = 0;
+        UIImage *buttonImage = [UIImage imageNamed:@"playbutton.png"];
+        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+        
         if ([NSThread isMainThread]) {
             // We are the main thread, just directly call:
             [audioController pause];
@@ -636,10 +658,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     audioController.url = url;
     
     [audioController play];
+    [self.playButton setEnabled:YES];
     
-    [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
+    self.playButton.alpha = 1.0;
     
-    flagSong = NO;
+    self.playButton.tag = 1;
+    UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
+    [self.playButton setImage:buttonImage forState:UIControlStateNormal];
     
     [self setLockScreenSongInfo :nowplayingSong];
 
@@ -673,8 +698,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (IBAction)backButton:(id)sender {
+    
+    [self.playButton setEnabled:NO];
+    self.playButton.alpha = 0.5;
+    
     // stop audio player when going back a song
     [audioController stop];
+    
+
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
@@ -758,7 +789,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)doSeeking
 {
-    FSStreamPosition pos = {0};
     pos.position = _seekToPoint;
     [audioController.activeStream seekToPosition:pos];
 }

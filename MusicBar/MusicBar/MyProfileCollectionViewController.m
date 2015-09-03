@@ -819,9 +819,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         
         [self deletePlaylist];
-    }
-    
-    else if (buttonIndex == 0) {
+        
+    } else if (buttonIndex == 0) {
         CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
                                           swipedCell.bounds.size.width, swipedCell.bounds.size.height);
         [UIView animateWithDuration:0.2

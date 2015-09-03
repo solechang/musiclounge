@@ -21,6 +21,8 @@
     
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
+    UINavigationController *navController;
+    MySearchedSongsSearchControllerTableViewController *vc;
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -46,6 +48,13 @@
     [self setUpSearchController];
     [self setupTitle];
 
+}
+
+- (void) setUpData {
+    navController = (UINavigationController *)self.searchController.searchResultsController;
+    
+    
+    vc = (MySearchedSongsSearchControllerTableViewController *)navController.topViewController;
 }
 
 - (void) setNSManagedObjectContext {
@@ -326,6 +335,10 @@
         /* May need to change the code below for code efficiency like how it is written for searchdisplaycontroller
          * by using iLLSong
          */
+        
+        cell.titleLabel.numberOfLines = 3;
+        cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        
         Song *song = [iLListTracks objectAtIndex:indexPath.row];
         cell.titleLabel.text = song.title;
         cell.uploadingUserLabel.text = song.uploadingUser;
@@ -357,9 +370,11 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
 
+
     NSString *searchString = searchBar.text;
     
     if (searchString.length != 0 ) {
+        
         NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
         
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
@@ -374,10 +389,10 @@
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
-                UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
+
+                [self setUpData];
                 self.searchResult = [songMangerSearchedText parseTrackData:data];
                 
-                MySearchedSongsSearchControllerTableViewController *vc = (MySearchedSongsSearchControllerTableViewController *)navController.topViewController;
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
@@ -397,6 +412,15 @@
                  responseHandler:handler];
     }
 
+    
+    
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+   
+    [vc.searchResults removeAllObjects];
+ 
+    [vc.tableView reloadData];
     
     
 }

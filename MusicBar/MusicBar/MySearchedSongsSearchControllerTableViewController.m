@@ -24,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self.tableView setRowHeight:90];
     
 }
@@ -53,15 +53,18 @@
 //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchedSongCell" forIndexPath:indexPath];
     
     static NSString *CellIdentifier = @"searchedSongCell";
-
-    CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CustomSong *song = nil;
     if (cell == nil) {
         cell = [[CustomSearchedSongTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
+    
+    cell.titleLabel.numberOfLines = 3;
+    cell.titleLabel.adjustsFontSizeToFitWidth = YES;
     
     // Searched song table view
     song = [self.searchResults objectAtIndex:indexPath.row];
@@ -174,11 +177,11 @@
     return button;
     
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //Change the selected background view of the cell.
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
+//- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    //Change the selected background view of the cell.
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+//}
 
 
 /*
