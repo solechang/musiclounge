@@ -32,6 +32,9 @@
     NSManagedObjectContext *defaultContext;
     
     NSMutableDictionary *friendsFacebookIDDictionary;
+    
+    UINavigationController *navController;
+    FindFriendsTableViewController *vc;
 
 }
 
@@ -50,9 +53,10 @@
     [self setNSManagedObjectContext];
 
     [self initializeData];
+
     
     [self setUpSearchController];
-    
+        [self setUpSearchData];
     [self setUpNavigationBar];
     
     [self setUpTableView];
@@ -61,13 +65,27 @@
 
 }
 
+- (void) setUpSearchData {
+    
+    navController = (UINavigationController *)self.searchController.searchResultsController;
+    
+    
+    vc = (FindFriendsTableViewController *)navController.topViewController;
+}
+
+
 - (void) setUpSearchController {
     
-    self.searchFriendsTableController = [[FindFriendsTableViewController alloc] init];
-    self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
+    UINavigationController *searchResultsController = [[self storyboard] instantiateViewControllerWithIdentifier:@"FindFriendTableSearchResultsNavController"];
+    
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    
+//    self.searchFriendsTableController = [[FindFriendsTableViewController alloc] init];
+//    self.searchController = [[UISearchController alloc] initWithSearchResultsController:self.searchFriendsTableController];
     
     [self.searchController.searchBar sizeToFit];
     [self.searchController.searchBar setPlaceholder:@"Find new Friends by username :)"];
+        self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
     
@@ -91,6 +109,7 @@
     NSArray *viewControllers = self.navigationController.viewControllers;
     
     if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
+        [vc.filteredFriendsWhoExists removeAllObjects];
         [self.searchController setActive:NO];
         // View is disappearing because a new view controller was pushed onto the stack
         //        NSLog(@"New view controller was pushed");
@@ -577,9 +596,10 @@
 
              controller.friendInfo = selectedFriend;
              
-         } else if(sender == self.searchFriendsTableController){
-             NSIndexPath *selectedIndexPath = [self.searchFriendsTableController.tableView indexPathForSelectedRow];
-             Friend *selectedFriend = [self.searchFriendsTableController.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
+         } else if(sender == vc){
+
+             NSIndexPath *selectedIndexPath = [vc.tableView indexPathForSelectedRow];
+             Friend *selectedFriend = [vc.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;
         
 
@@ -644,12 +664,20 @@
             
             // Filter the array using NSPredicate
             
+            [self setUpSearchData];
+            
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.name contains[c] %@",self.searchController.searchBar.text];
-            self.searchFriendsTableController.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
             
-            self.searchFriendsTableController.friendsTableViewController = self;
+            vc.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
+//            self.searchFriendsTableController.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
             
-            [self.searchFriendsTableController.tableView reloadData];
+            vc.friendsTableViewController = self;
+//            self.searchFriendsTableController.friendsTableViewController = self;
+            
+//            [vc.friendsTableViewController.tableView reloadData];
+            
+            [vc.tableView reloadData];
+//            [self.searchFriendsTableController.tableView reloadData];
         
             [self.tableView reloadData];
  
