@@ -194,19 +194,41 @@ heightForHeaderInSection:(NSInteger)section {
 //}
 
 
-
+- (void)popAlertViewForLoggingOut{
+    UIAlertView *logOutAlert = [[UIAlertView alloc]
+                                initWithTitle:@"MusicBar"
+                                message:@"Are you sure you want to leave MusicBar? :("
+                                delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    [logOutAlert show];
+    
+}
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    
     UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];
     
     if (theCellClicked == self.logoutCell) {
-//        RHAddressBook *addressBook = [[RHAddressBook alloc] init];
         
-        [self deleteUserDataAndLogout];
+        [self popAlertViewForLoggingOut];
 
     }
     
 }
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 1) {
+        
+        [self deleteUserDataAndLogout];
+        
+    }
+    
+}
+
+
 
 #pragma mark - Deleting core data
 - (void) deleteUserDataAndLogout {
@@ -289,18 +311,6 @@ heightForHeaderInSection:(NSInteger)section {
     } completion:^(BOOL success, NSError *error) {
         
         if (success) {
-            
-//            NSArray *friendsArray = [Friend MR_findAll];
-//            NSArray *userFriendList = [UserFriendList MR_findAll];
-//            NSArray *currentUser = [CurrentUser MR_findAll];
-//            NSArray *userfriendpn = [FriendPhonenumber MR_findAll];
-//            NSArray *userIllist = [UserIllist MR_findAll];
-//
-//            NSLog(@"1.) %@", friendsArray);
-//            NSLog(@"2.) %@", userFriendList);
-//            NSLog(@"3.) %@", currentUser);
-//            NSLog(@"4.) %@", userfriendpn);
-//            NSLog(@"5.) %@", userIllist);
             
             
             // Need to delete pinned PFObjects!

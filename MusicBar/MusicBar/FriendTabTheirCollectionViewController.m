@@ -861,6 +861,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 #pragma mark - Anthony - Add Friend
 - (IBAction)addFriendButtonPushed:(id)sender {
+    
     PFACL *acl = [PFACL ACL];
     [acl setReadAccess:YES forUser:[PFUser currentUser]];
     [acl setWriteAccess:YES forUser:[PFUser currentUser]];
@@ -889,9 +890,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 currentUserFriendList.updatedAt = [NSDate date];
                 // Finding current User in coredata and updating with the userfriendlist in coredata
                 currentUser.userFriendList = currentUserFriendList;
+                
             } completion:^(BOOL success, NSError *error){
                 if(!error){
                     self.addFriendButton.enabled = NO;
+                    [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"%@ is now your friend :)",hostName]];
                 }
             }];
         }

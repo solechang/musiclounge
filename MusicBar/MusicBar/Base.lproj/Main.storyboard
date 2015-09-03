@@ -979,16 +979,9 @@
                         </connections>
                     </tableView>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
-                    <navigationItem key="navigationItem" title="Friends" id="j2N-Be-1EE">
-                        <barButtonItem key="rightBarButtonItem" systemItem="refresh" id="tgj-lE-ctc">
-                            <connections>
-                                <action selector="refreshButton:" destination="W3a-el-ogo" id="nmg-bl-Bx8"/>
-                            </connections>
-                        </barButtonItem>
-                    </navigationItem>
+                    <navigationItem key="navigationItem" title="Friends" id="j2N-Be-1EE"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
                     <connections>
-                        <outlet property="refreshButton" destination="tgj-lE-ctc" id="5qW-Ld-Iia"/>
                         <outlet property="searchDisplayController" destination="2Uf-cQ-0FM" id="Ect-U1-MHN"/>
                         <segue destination="jMU-U9-WgW" kind="show" identifier="friendSegue" id="eF3-Lc-LdC"/>
                     </connections>
@@ -1265,7 +1258,7 @@
         <scene sceneID="0L2-yQ-j5C">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="xHB-lD-4AK" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Friends" image="friends-1" id="B3l-vI-1Wo">
+                    <tabBarItem key="tabBarItem" title="Friends" image="Friends" id="B3l-vI-1Wo">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1315,7 +1308,6 @@
                                 <rect key="frame" x="285" y="400" width="30" height="30"/>
                                 <state key="normal" title="Play">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
                                     <action selector="playButton:" destination="YFn-IZ-gpz" eventType="touchUpInside" id="LXh-vQ-k5Q"/>
@@ -1556,7 +1548,7 @@
         <scene sceneID="lim-xE-w29">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="pBI-Yk-iW2" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Now Spinning" image="djc" id="gcc-GI-rCZ">
+                    <tabBarItem key="tabBarItem" title="Now Spinning" image="djc2" id="gcc-GI-rCZ">
                         <offsetWrapper key="titlePositionAdjustment" horizontal="0.0" vertical="0.0"/>
                     </tabBarItem>
                     <toolbarItems/>
@@ -1576,8 +1568,8 @@
         </scene>
     </scenes>
     <resources>
-        <image name="djc" width="30" height="30"/>
-        <image name="friends-1" width="30" height="30"/>
+        <image name="Friends" width="37" height="37"/>
+        <image name="djc2" width="350" height="350"/>
         <image name="martini" width="30" height="30"/>
         <image name="poweredBySoundCloud.png" width="104" height="32"/>
     </resources>

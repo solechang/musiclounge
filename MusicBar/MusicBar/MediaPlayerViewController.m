@@ -48,8 +48,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSManagedObjectContext *defaultContext;
     
-    BOOL flagSong; // flags currently playing song
-    
     NowPlayingSong *currentSong;
     
     FSStreamPosition pos;
@@ -99,6 +97,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [[self.currentSongArtwork layer] setBorderWidth:2.0f];
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
+    
+    
+    [[self.view layer] setBorderWidth:2.0f];
+    [[self.view layer] setBorderColor:[UIColor whiteColor].CGColor];
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
@@ -165,7 +167,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
 
     [self.playButton setEnabled:NO];
-    
+    self.playButton.alpha = 0.5;
 
     
 //    FSStreamPosition pos = {0};
@@ -320,11 +322,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.startTime.text = @"Loading";
         self.endTime.text = @"Loading";
         self.playButton.enabled = NO;
+        self.playButton.alpha = 0.5;
         
     } else {
 //        NSLog(@"0.2)");
-        self.musicSlider.enabled = YES;
+//        self.musicSlider.enabled = YES;
         self.playButton.enabled = YES;
+        self.playButton.alpha = 1.0;
         
         FSStreamPosition cur = audioController.activeStream.currentTimePlayed;
         FSStreamPosition end = audioController.activeStream.duration;
@@ -402,9 +406,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     if (yesOrNo) {
         self.startTime.text = @"Loading";
+
     } else {
-        self.startTime.text = @"Please choose a song to play in a lounge";
-        self.songTitle.text = @"";
+        self.startTime.text = @"";
+        self.songTitle.text = @"Please choose a song to play in a lounge";
     }
     [self.playButton setEnabled:yesOrNo];
     [self.nextButton setEnabled:yesOrNo];
@@ -425,27 +430,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
     if (![self checkCurrentSong: nowplayingSong]) {
-        
-//        NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
-//        NSURL* url = [NSURL URLWithString:resourceURL];
-//        audioController.url = url;
-//        [audioController playFromURL:url];
-        
-//        for (NowPlayingSong *nowPlaying in nowPlayingSongsArray) {
-//
-//            FSPlaylistItem *item = [[FSPlaylistItem alloc] init];
-//            item.title = nowPlaying.title;
-//
-//            NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowPlaying.stream_url ,clientID];
-//            NSURL* url = [NSURL URLWithString:resourceURL];
-//            item.url = url;
-//            
-//            [self.userPlaylistItems addObject:item];
-//            [audioController addItem:item];
-//            
-//        }
-        
-        
+    
         [self setCurrentPlaylist];
 
     }
@@ -469,12 +454,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 #pragma mark - Set current play list
 - (void) setCurrentPlaylist {
-
-  
-//    [self setupTimer];
-//    [self updateControls];
-    
-//    [self.currentPlaylistButton setEnabled:YES];
 
     [self playSong];
 
@@ -552,11 +531,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     if ([self.playButton.titleLabel.text isEqualToString:@"Pause"]) {
 
         [self.playButton setTitle:@"Play" forState:UIControlStateNormal];
+        [self.musicSlider setEnabled:NO];
 
     } else {
 
         [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
-
+        [self.musicSlider setEnabled:YES];
     }
    
     
@@ -565,6 +545,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 - (IBAction)nextButton:(id)sender {
     // stopping audio player when next song plays
     [audioController stop];
+
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
@@ -643,10 +624,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     audioController.url = url;
     
     [audioController play];
+    [self.playButton setEnabled:YES];
+    
+    self.playButton.alpha = 1.0;
     
     [self.playButton setTitle:@"Pause" forState:UIControlStateNormal];
-    
-    flagSong = NO;
     
     [self setLockScreenSongInfo :nowplayingSong];
 

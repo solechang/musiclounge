@@ -152,6 +152,8 @@
     friendsFacebookIDDictionary = [[NSMutableDictionary alloc] init];
     friendsPhonenumberDictionary = [[NSMutableDictionary alloc] init];
     
+//    self.refreshButton ];
+    
 }
 
 #pragma mark - Buttons
@@ -173,7 +175,7 @@
     
     if (friendsCoreDataArray.count == 0) {
         
-        [SVProgressHUD showWithStatus:@"Loading Friends through Facebook :)"];
+        [SVProgressHUD showWithStatus:@"Loading Friends :)"];
         
         [self queryFriendsFromParse];
         
