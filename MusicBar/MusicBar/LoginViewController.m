@@ -51,7 +51,7 @@
     self.subView.layer.masksToBounds = YES;
     
     [self.titleLabel setFont:[UIFont fontWithName:@"Wisdom Script" size:56.0]];
-    self.titleLabel.text = @"MusicBar";
+    self.titleLabel.text = @"MusicLounge";
     
     
     self.loginButton.layer.cornerRadius = 10;
@@ -245,7 +245,7 @@
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     
                     PFUser *currentUser = [PFUser currentUser];
-                    [Answers logLoginWithMethod:@"MusicBar"
+                    [Answers logLoginWithMethod:@"MusicLounge"
                                         success:@YES
                                customAttributes:@{@"username": currentUser[@"name"],
                                                   @"userID" : currentUser.objectId
@@ -253,7 +253,7 @@
                                                   }];
                     
                     // Display success to log in
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to MusicBar!"];
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to MusicLounge!"];
                     
                     
                 }];

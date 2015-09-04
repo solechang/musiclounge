@@ -246,7 +246,7 @@
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     
                     PFUser *currentUser = [PFUser currentUser];
-                    [Answers logSignUpWithMethod:@"MusicBar"
+                    [Answers logSignUpWithMethod:@"MusicLounge"
                                          success:@YES
                                 customAttributes:@{@"username": currentUser[@"name"],
                                                    @"userId" :currentUser.objectId
@@ -254,7 +254,7 @@
                                                    }];
                     
                     [self.doneButton setEnabled:YES];
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicBar!"];
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicLounge!"];
                     
                 }];
                 

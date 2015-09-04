@@ -349,7 +349,7 @@
                    
             
                     [self.doneButton setEnabled:YES];
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicBar!"];
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicLounge!"];
                     
                 }];
                 

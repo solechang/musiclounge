@@ -687,7 +687,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork];
-    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicBar",
+    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
                             MPMediaItemPropertyAlbumTitle: @"",
                             MPMediaItemPropertyTitle: self.songTitle.text,
                             MPMediaItemPropertyPlaybackDuration:totalSecondsString,
