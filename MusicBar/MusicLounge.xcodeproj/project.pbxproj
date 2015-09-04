@@ -524,9 +524,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		B96773451B32331A00C01AAF /* MusicBar */ = {
+		B96773451B32331A00C01AAF /* MusicLounge */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B96773691B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicBar" */;
+			buildConfigurationList = B96773691B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicLounge" */;
 			buildPhases = (
 				29B35D72030965AC27153E7F /* Check Pods Manifest.lock */,
 				B96773421B32331A00C01AAF /* Sources */,
@@ -539,14 +539,14 @@
 			);
 			dependencies = (
 			);
-			name = MusicBar;
+			name = MusicLounge;
 			productName = MusicBar;
 			productReference = B96773461B32331A00C01AAF /* MusicBar.app */;
 			productType = "com.apple.product-type.application";
 		};
-		B967735E1B32331A00C01AAF /* MusicBarTests */ = {
+		B967735E1B32331A00C01AAF /* MusicLoungeTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = B967736C1B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicBarTests" */;
+			buildConfigurationList = B967736C1B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicLoungeTests" */;
 			buildPhases = (
 				B967735B1B32331A00C01AAF /* Sources */,
 				B967735C1B32331A00C01AAF /* Frameworks */,
@@ -557,7 +557,7 @@
 			dependencies = (
 				B96773611B32331A00C01AAF /* PBXTargetDependency */,
 			);
-			name = MusicBarTests;
+			name = MusicLoungeTests;
 			productName = MusicBarTests;
 			productReference = B967735F1B32331A00C01AAF /* MusicBarTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -586,7 +586,7 @@
 					};
 				};
 			};
-			buildConfigurationList = B96773411B32331A00C01AAF /* Build configuration list for PBXProject "MusicBar" */;
+			buildConfigurationList = B96773411B32331A00C01AAF /* Build configuration list for PBXProject "MusicLounge" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -599,8 +599,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				B96773451B32331A00C01AAF /* MusicBar */,
-				B967735E1B32331A00C01AAF /* MusicBarTests */,
+				B96773451B32331A00C01AAF /* MusicLounge */,
+				B967735E1B32331A00C01AAF /* MusicLoungeTests */,
 			);
 		};
 /* End PBXProject section */
@@ -735,7 +735,7 @@
 /* Begin PBXTargetDependency section */
 		B96773611B32331A00C01AAF /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = B96773451B32331A00C01AAF /* MusicBar */;
+			target = B96773451B32331A00C01AAF /* MusicLounge */;
 			targetProxy = B96773601B32331A00C01AAF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -913,7 +913,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		B96773411B32331A00C01AAF /* Build configuration list for PBXProject "MusicBar" */ = {
+		B96773411B32331A00C01AAF /* Build configuration list for PBXProject "MusicLounge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B96773671B32331A00C01AAF /* Debug */,
@@ -922,7 +922,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B96773691B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicBar" */ = {
+		B96773691B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicLounge" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B967736A1B32331A00C01AAF /* Debug */,
@@ -931,7 +931,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B967736C1B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicBarTests" */ = {
+		B967736C1B32331A00C01AAF /* Build configuration list for PBXNativeTarget "MusicLoungeTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				B967736D1B32331A00C01AAF /* Debug */,

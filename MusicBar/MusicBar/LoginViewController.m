@@ -50,7 +50,7 @@
     self.subView.layer.cornerRadius = 10;
     self.subView.layer.masksToBounds = YES;
     
-    [self.titleLabel setFont:[UIFont fontWithName:@"Wisdom Script" size:56.0]];
+    [self.titleLabel setFont:[UIFont fontWithName:@"Wisdom Script" size:44.0]];
     self.titleLabel.text = @"MusicLounge";
     
     
