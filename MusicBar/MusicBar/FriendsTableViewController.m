@@ -537,7 +537,7 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0 ) {
-        return @"Friends on MusicBar";
+        return @"Friends on MusicLounge";
     }
     return @"";
 }
