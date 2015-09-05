@@ -201,7 +201,7 @@
     int songCountUpdate = [playlistInLocal.songCount intValue];
     
     songCountUpdate++;
-    NSLog(@"0.) %@", [NSNumber numberWithInt:songCountUpdate]);
+//    NSLog(@"0.) %@", [NSNumber numberWithInt:songCountUpdate]);
     illistInServer[@"SongCount"] = [NSNumber numberWithInt:songCountUpdate];
 
     
@@ -213,11 +213,11 @@
     [PFObject saveAllInBackground:sendObjectsToServer block:^(BOOL succeeded, NSError *error) {
         
         if (succeeded) {
-            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
+//            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
             [self saveSongToLocal:song];
             
         } else {
-            NSLog(@"211.)");
+//            NSLog(@"211.)");
             
         }
         
@@ -265,7 +265,7 @@
             
         } else {
             
-            NSLog(@"Error: %@ 267", error.localizedDescription);
+//            NSLog(@"Error: %@ 267", error.localizedDescription);
             [[NSNotificationCenter defaultCenter] postNotificationName:@"ReloadTableView" object:self ];
             
             

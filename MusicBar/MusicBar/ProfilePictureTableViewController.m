@@ -156,12 +156,12 @@
                 
                 
             } else {
-                NSLog(@"Did not succeded 158");
+//                NSLog(@"Did not succeded 158");
             }
             
         } else {
             // Handle error
-            NSLog(@"156.)");
+//            NSLog(@"156.)");
         }
     }];
     
@@ -201,7 +201,7 @@
             [self savePictureToLocal:image];
 
         } else {
-            NSLog(@"193 Error)");
+//            NSLog(@"193 Error)");
         }
         
     }];
@@ -226,7 +226,7 @@
             [self savePictureToLocal:image];
             
         } else {
-            NSLog(@"Failed to save picture to CurrentUser in Server 180");
+//            NSLog(@"Failed to save picture to CurrentUser in Server 180");
         }
         
         

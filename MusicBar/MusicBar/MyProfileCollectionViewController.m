@@ -263,7 +263,7 @@
             
         } else {
             
-            NSLog(@"No playlist changes 234");
+//            NSLog(@"No playlist changes 234");
         }
         
     }];
@@ -291,7 +291,7 @@
 -(void) setUpNavigationBar{
     
     NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
-    self.navigationController.navigationBar.topItem.title = @"MusicBar";
+    self.navigationController.navigationBar.topItem.title = @"MusicLounge";
     self.navigationController.navigationBar.titleTextAttributes = size;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -824,7 +824,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 
 - (void)popAlertViewForMyLoungeDelete{
     UIAlertView *deleteAlert = [[UIAlertView alloc]
-                                initWithTitle:@"MusicBar"
+                                initWithTitle:@"MusicLounge"
                                 message:@"Are you sure you want to delete this playlist?"
                                 delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
     [deleteAlert show];
@@ -891,14 +891,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                             [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
                             
                         } else {
-                            NSLog(@"861");
+//                            NSLog(@"861");
                         }
                         
                         
                     }];
                     
                 } else {
-                    NSLog(@"Error in delete: clickedButtonAtIndex");
+//                    NSLog(@"Error in delete: clickedButtonAtIndex");
                     
                 }
                 

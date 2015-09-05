@@ -92,8 +92,8 @@ heightForHeaderInSection:(NSInteger)section {
 
 - (void)popAlertViewForLoggingOut{
     UIAlertView *logOutAlert = [[UIAlertView alloc]
-                                initWithTitle:@"MusicBar"
-                                message:@"Are you sure you want to leave MusicBar? :("
+                                initWithTitle:@"MusicLounge"
+                                message:@"Are you sure you want to leave MusicLounge? :("
                                 delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
     [logOutAlert show];
     

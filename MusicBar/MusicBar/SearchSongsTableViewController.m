@@ -195,7 +195,7 @@
                 
             } else {
                 // No need to update playlist since it is not updated
-                NSLog(@"No need to update playlist 163.)");
+//                NSLog(@"No need to update playlist 163.)");
             }
         }
  
@@ -220,7 +220,7 @@
             [self fetchSongsFromServer];
         } else {
             
-            NSLog(@"The playlist is not updated 187.)");
+//            NSLog(@"The playlist is not updated 187.)");
         }
         
     }];
@@ -242,7 +242,7 @@
             [self saveSongsToLocal: songsInServer];
             
         } else {
-            NSLog(@"Error with fetching songs from server 208");
+//            NSLog(@"Error with fetching songs from server 208");
         }
         
     }];
@@ -294,7 +294,7 @@
             
         } else {
             
-            NSLog(@"Songs didn not save locally 252.)");
+//            NSLog(@"Songs didn not save locally 252.)");
             
         }
         
@@ -450,7 +450,7 @@
 //                [self deleteSongInLocal:deleteSong forRowAtIndexPath:indexPath];
                 
             } else {
-                NSLog(@"Error in deleting song 456");
+//                NSLog(@"Error in deleting song 456");
                 
             }
             
@@ -489,7 +489,7 @@
             
             
         } else {
-            NSLog(@"Did not update playlist after delete 484");
+//            NSLog(@"Did not update playlist after delete 484");
         }
         
     }];
@@ -514,7 +514,7 @@
             
         } else {
             
-            NSLog(@"The playlist did not update 509.)");
+//            NSLog(@"The playlist did not update 509.)");
         }
         
     }];
@@ -537,7 +537,7 @@
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
         } else {
-            NSLog(@"Couldn't delete song in local: 534.)");
+//            NSLog(@"Couldn't delete song in local: 534.)");
         }
         
         
@@ -595,7 +595,7 @@
    
   
         } else {
-            NSLog(@"Error 653 %@", error);
+//            NSLog(@"Error 653 %@", error);
         }
 
     }];

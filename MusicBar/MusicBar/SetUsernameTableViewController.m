@@ -20,6 +20,9 @@
 
 #import <Parse/Parse.h>
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 @interface SetUsernameTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -181,7 +184,7 @@
             
             [self createUserData:user];
         } else {
-            NSLog(@"184.) %@",error);
+//            NSLog(@"184.) %@",error);
         }
         
     }];
@@ -232,7 +235,6 @@
                 // saving user's name, phone number, and email onto core data
                 currentUser.name = self.usernameTextField.text;
 
-                
                 // setting data for current user illist and friend list onto core data
                 currentUserFriendList.hostId = [[PFUser currentUser] objectId];
                 currentUserFriendList.objectId = userFriendList.objectId;
@@ -243,15 +245,23 @@
                 
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     
+                    PFUser *currentUser = [PFUser currentUser];
+                    [Answers logSignUpWithMethod:@"MusicLounge"
+                                         success:@YES
+                                customAttributes:@{@"username": currentUser[@"name"],
+                                                   @"userId" :currentUser.objectId
+                                                   
+                                                   }];
+                    
                     [self.doneButton setEnabled:YES];
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicBar!"];
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicLounge!"];
                     
                 }];
                 
             }];
             
         } else {
-            NSLog(@"Error in saving: createUserData %@", error);
+//            NSLog(@"Error in saving: createUserData %@", error);
         }
     }];
 }
