@@ -548,25 +548,28 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)playButton:(id)sender {
     
-
-    [audioController pause];
-    
-    // playbutton tag: 0 = paused, 1 = playing
-    if (self.playButton.tag == 1) {
-        self.playButton.tag = 0;
-        UIImage *buttonImage = [UIImage imageNamed:@"playbutton.png"];
-        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+    if (self.playButton.enabled) {
+        [audioController pause];
         
-        [self.musicSlider setEnabled:NO];
+        // playbutton tag: 0 = paused, 1 = playing
+        if (self.playButton.tag == 1) {
+            self.playButton.tag = 0;
+            UIImage *buttonImage = [UIImage imageNamed:@"playbutton.png"];
+            [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+            
+            [self.musicSlider setEnabled:NO];
+            
+        } else {
+            self.playButton.tag = 1;
+            UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
+            [self.playButton setImage:buttonImage forState:UIControlStateNormal];
+            
+            [self.musicSlider setEnabled:YES];
+        }
+        
 
-    } else {
-        self.playButton.tag = 1;
-        UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
-        [self.playButton setImage:buttonImage forState:UIControlStateNormal];
-      
-        [self.musicSlider setEnabled:YES];
     }
-   
+
     
 }
 
