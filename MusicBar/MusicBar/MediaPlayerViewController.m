@@ -689,12 +689,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
-//    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork];
+    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]]];
     NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
                             MPMediaItemPropertyAlbumTitle: @"",
                             MPMediaItemPropertyTitle: self.songTitle.text,
                             MPMediaItemPropertyPlaybackDuration:totalSecondsString,
-                            MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+                            MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
+                            MPMediaItemPropertyArtwork: artwork
                             };
     
     [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
