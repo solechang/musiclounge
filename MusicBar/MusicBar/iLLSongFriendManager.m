@@ -257,7 +257,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             // Notify the user that the song has been added
             NSDictionary* songInfo = @{@"song": song};
             

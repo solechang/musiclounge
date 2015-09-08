@@ -141,10 +141,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 
         if ([[notification name] isEqualToString:@"NextSong"]) {
-             [self nextButton:self];
+            if (self.nextButton.enabled)  {
+                [self nextButton:self];
+            }
+            
             
         } else if ([[notification name] isEqualToString:@"BackSong"]) {
-             [self backButton:self];
+            if (self.backButton.enabled)  {
+                
+                [self backButton:self];
+            }
+            
             
         } else if ([[notification name] isEqualToString:@"PlayAndPause"]) {
             [self playButton:self];
@@ -191,7 +198,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     [self.playButton setEnabled:NO];
     self.playButton.alpha = 0.5;
-
     
 //    FSStreamPosition pos = {0};
     
@@ -432,7 +438,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     } else {
         self.startTime.text = @"";
-        self.songTitle.text = @"Please choose a song to play in a lounge";
+        self.songTitle.text = @"Please choose a song in a lounge";
     }
     [self.playButton setEnabled:yesOrNo];
     [self.nextButton setEnabled:yesOrNo];
@@ -575,6 +581,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)nextButton:(id)sender {
     
+    
+    
     [self.playButton setEnabled:NO];
     self.playButton.alpha = 0.5;
     
@@ -584,7 +592,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:localContext];
-        
+
         int nowPlayingIndex = [nowPlaying.songIndex intValue];
         //         if index is end of currentPlayList, set index to 0, if not increment index
         if (nowPlayingIndex == currentPlayList.count - 1 ) {
@@ -595,12 +603,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             
         }
         
-        nowPlaying.songIndex = [NSNumber numberWithInt:nowPlayingIndex];
         
+        nowPlaying.songIndex = [NSNumber numberWithInt:nowPlayingIndex];
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             [self playSong];
             
         } else {
@@ -689,13 +697,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
-    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]]];
+//    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]]];
+    
     NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
                             MPMediaItemPropertyAlbumTitle: @"",
                             MPMediaItemPropertyTitle: self.songTitle.text,
                             MPMediaItemPropertyPlaybackDuration:totalSecondsString,
-                            MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
-                            MPMediaItemPropertyArtwork: artwork
+                            MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+//                            MPMediaItemPropertyArtwork: artwork
                             };
     
     [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
@@ -730,7 +739,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             [self playSong];
             
         } else {

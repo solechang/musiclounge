@@ -275,7 +275,7 @@
     } completion:^(BOOL success, NSError *error) {
         
         
-        if (success) {
+        if (!error) {
             
             // User's Friends exist in the database
             CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:defaultContext];
@@ -447,7 +447,7 @@
     } completion:^(BOOL success, NSError *error) {
         
         
-        if (success) {
+        if (!error) {
             
             // User's Friends exist in the database
             CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:defaultContext];

@@ -144,7 +144,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             NSArray *playlistArray = [PlaylistFriend MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
          
             myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
@@ -862,6 +862,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 #pragma mark - Anthony - Add Friend
 - (IBAction)addFriendButtonPushed:(id)sender {
     
+    self.addFriendButton.enabled = NO;
+    
     PFACL *acl = [PFACL ACL];
     [acl setReadAccess:YES forUser:[PFUser currentUser]];
     [acl setWriteAccess:YES forUser:[PFUser currentUser]];
@@ -893,8 +895,11 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 
             } completion:^(BOOL success, NSError *error){
                 if(!error){
-                    self.addFriendButton.enabled = NO;
+                    
                     [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"%@ is now your friend :)",hostName]];
+                } else {
+                    [SVProgressHUD showErrorWithStatus:@"There is an error adding your friend :("];
+                    self.addFriendButton.enabled = YES;
                 }
             }];
         }

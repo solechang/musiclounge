@@ -253,7 +253,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             NSArray *playlistArray = [Playlist MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
             
@@ -884,7 +884,7 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                         
                     } completion:^(BOOL success, NSError *error) {
                         
-                        if (success) {
+                        if (!error) {
                             
                             [myiLListArray removeObjectAtIndex:[swipedIndexPath row]];
                             NSArray* indexPathsToRemove = [NSArray arrayWithObject:swipedIndexPath];

@@ -215,7 +215,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             [self fetchSongsFromServer];
         } else {
@@ -284,7 +284,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
             
@@ -509,7 +509,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             [self deleteSongInLocal:deleteSongInLocal forRowAtIndexPath:indexPath];
             
         } else {
@@ -531,7 +531,7 @@
         
     } completion:^(BOOL success, NSError *error) {
        
-        if (success) {
+        if (!error) {
             [iLListTracks removeObjectAtIndex:indexPath.row];
             
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
