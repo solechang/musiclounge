@@ -12,6 +12,6 @@
 
 #import "UIScrollView+EmptyDataSet.h"
 
-@interface FriendsTableViewController : UITableViewController <DZNEmptyDataSetSource, DZNEmptyDataSetDelegate, UISearchBarDelegate, UISearchControllerDelegate>
+@interface FriendsTableViewController : UITableViewController <UISearchBarDelegate, UISearchControllerDelegate>
 
 @end
