@@ -36,6 +36,10 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)backButtonPressed:(id)sender {
+    
+    if ( self.feedbackTextView.text > 0 ) {
+        // alert user are you sure do you want go back
+    }
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
         
     }];
