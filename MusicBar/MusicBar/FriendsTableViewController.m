@@ -35,6 +35,8 @@
     
     UINavigationController *navController;
     FindFriendsTableViewController *vc;
+    
+    NSMutableArray *others;
 
 }
 
@@ -172,7 +174,7 @@
     
     friendsFacebookIDDictionary = [[NSMutableDictionary alloc] init];
     friendsPhonenumberDictionary = [[NSMutableDictionary alloc] init];
-    
+    others = [[NSMutableArray alloc] init];
 //    self.refreshButton ];
     
 }
@@ -507,6 +509,8 @@
     // Return the number of rows in the section.
     if (section == 0) {
         return [friendsWhoExistsOniLList count];
+    } else if (section == 1) {
+        
     }
     
     return 0;
@@ -548,38 +552,38 @@
 
 
 
-#pragma mark - DZN Table view when empty
-
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    
-    NSString *text = @"Your friend list is empty :(";
-    
-    // dark blue
-    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0],
-                                 NSForegroundColorAttributeName: myColor};
-    
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    
-    NSString *text = @"Search 'solechang' as your first friend!";
-    
-    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
-    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraph.alignment = NSTextAlignmentCenter;
-    
-    // cardinal color?
-    UIColor *myColor = [UIColor colorWithRed:250.0f/255.0f green:65.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0],
-                                 NSForegroundColorAttributeName: myColor,
-                                 NSParagraphStyleAttributeName: paragraph};
-    
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
+//#pragma mark - DZN Table view when empty
+//
+//- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+//    
+//    NSString *text = @"Your friend list is empty :(";
+//    
+//    // dark blue
+//    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
+//    
+//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0],
+//                                 NSForegroundColorAttributeName: myColor};
+//    
+//    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+//}
+//
+//- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+//    
+//    NSString *text = @"Search 'solechang' as your first friend!";
+//    
+//    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+//    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+//    paragraph.alignment = NSTextAlignmentCenter;
+//    
+//    // cardinal color?
+//    UIColor *myColor = [UIColor colorWithRed:250.0f/255.0f green:65.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
+//    
+//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0],
+//                                 NSForegroundColorAttributeName: myColor,
+//                                 NSParagraphStyleAttributeName: paragraph};
+//    
+//    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+//}
 
 #pragma mark - Navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
