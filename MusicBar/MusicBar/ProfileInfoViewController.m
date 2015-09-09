@@ -53,7 +53,7 @@
                 currentUser.info = self.infoTextView.text;
 
                 } completion:^(BOOL success, NSError *error) {
-                    if(success){
+                    if(!error){
                     
                         [SVProgressHUD showSuccessWithStatus:@"Your description has been updated successfully!"];
                         [self.navigationController dismissViewControllerAnimated:YES completion:^{

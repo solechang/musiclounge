@@ -249,7 +249,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
 
             // Show Success
             NSString *successString = [[ NSString alloc] initWithFormat:@"Added %@", self.iLListName.text];

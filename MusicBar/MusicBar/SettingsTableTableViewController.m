@@ -211,7 +211,7 @@ heightForHeaderInSection:(NSInteger)section {
 
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             
             // Need to delete pinned PFObjects!
