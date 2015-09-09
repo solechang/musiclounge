@@ -358,6 +358,13 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
+		B95DB5151BA0EED000A034BF /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		B967733D1B32331A00C01AAF = {
 			isa = PBXGroup;
 			children = (
@@ -468,6 +475,7 @@
 		B9B76F261B37E8D300F63AC4 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				B95DB5151BA0EED000A034BF /* New Group */,
 				445FCFFB1B87E03A00C6D042 /* Info */,
 				B9B76F2A1B37E8EE00F63AC4 /* Profile PIcture */,
 				B9B76F271B37E8E400F63AC4 /* SettingsTableTableViewController.h */,

@@ -164,11 +164,11 @@
 
 #pragma mark - Set up table view
 - (void) setUpTableView {
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
-    
-    // A little trick for removing the cell separators
-    self.tableView.tableFooterView = [UIView new];
+//    self.tableView.emptyDataSetSource = self;
+//    self.tableView.emptyDataSetDelegate = self;
+//    
+//    // A little trick for removing the cell separators
+//    self.tableView.tableFooterView = [UIView new];
     
     [self.tableView setRowHeight:46.0];
     
@@ -526,11 +526,10 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell" forIndexPath:indexPath];
-    
-    //dark blue?
-    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
+     UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
     
     if (indexPath.section == 0) {
+        
         // Friends who exist on MusicLounge
         Friend *friendWhoExist = [friendsWhoExistsOniLList objectAtIndex:indexPath.row];
         
@@ -543,7 +542,13 @@
         Friend *friendWhoExist = [others objectAtIndex:indexPath.row];
         
         cell.textLabel.text = friendWhoExist.name;
-        cell.textLabel.textColor = myColor;
+        
+        if (friendWhoExist.friend_exists != NULL) {
+            cell.textLabel.textColor = myColor;
+        } else {
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
+
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
     return cell;
@@ -567,6 +572,7 @@
     
     PFQuery *query = [PFUser query];
     [query selectKeys:@[@"name"]];
+    query.limit = 1000;
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
@@ -595,7 +601,7 @@
                 }
             }
             
-            // Filter the array using NSPredicate
+            
             
             [self.tableView reloadData];
             
@@ -712,6 +718,8 @@
     
     PFQuery *query = [PFUser query];
     [query selectKeys:@[@"name"]];
+    query.limit = 1000;
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSString *errorString = [error userInfo][@"error"];
