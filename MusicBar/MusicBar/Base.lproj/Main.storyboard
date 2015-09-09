@@ -919,7 +919,26 @@
                     <view key="view" contentMode="scaleToFill" id="9C6-8p-DZD">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zz9-Tm-oHx">
+                                <rect key="frame" x="42" y="81" width="517" height="209"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="209" id="HpB-fg-J0t"/>
+                                    <constraint firstAttribute="width" constant="517" id="YLT-cj-j9I"/>
+                                </constraints>
+                                <mutableString key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</mutableString>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
                         <color key="backgroundColor" red="0.19215686269999999" green="0.066666666669999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="Uwb-AZ-v04" firstAttribute="top" secondItem="zz9-Tm-oHx" secondAttribute="bottom" constant="310" id="LsU-NR-KXv"/>
+                            <constraint firstItem="zz9-Tm-oHx" firstAttribute="centerX" secondItem="9C6-8p-DZD" secondAttribute="centerX" id="MUh-kv-hi9"/>
+                            <constraint firstAttribute="centerY" secondItem="zz9-Tm-oHx" secondAttribute="centerY" constant="114.5" id="RC8-dv-9ML"/>
+                            <constraint firstItem="zz9-Tm-oHx" firstAttribute="top" secondItem="IHr-q1-0mn" secondAttribute="bottom" constant="17" id="yBb-YU-dYs"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="Feedback" id="OTX-bA-gQl">
                         <barButtonItem key="leftBarButtonItem" title="Back" id="1Xr-wa-aXL">
@@ -937,6 +956,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="backButton" destination="1Xr-wa-aXL" id="bA3-qQ-BC3"/>
+                        <outlet property="feedbackTextView" destination="zz9-Tm-oHx" id="jMj-Ci-gp5"/>
                         <outlet property="sendButton" destination="WIl-Qo-dzH" id="Mz0-3J-xVR"/>
                     </connections>
                 </viewController>

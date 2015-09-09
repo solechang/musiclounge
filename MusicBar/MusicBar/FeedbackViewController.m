@@ -11,6 +11,7 @@
 @interface FeedbackViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *backButton;
+@property (weak, nonatomic) IBOutlet UITextView *feedbackTextView;
 
 @end
 
@@ -26,6 +27,8 @@
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
     
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
 }
 
 - (void)didReceiveMemoryWarning {
@@ -33,6 +36,9 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)backButtonPressed:(id)sender {
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 - (IBAction)sendButtonPressed:(id)sender {
 }
