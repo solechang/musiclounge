@@ -36,6 +36,7 @@
 		B93D901C1B32521100A2947C /* CSParallaxHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = B93D901B1B32521100A2947C /* CSParallaxHeader.xib */; };
 		B93D901F1B32523500A2947C /* MyProfileCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D901E1B32523500A2947C /* MyProfileCollectionViewController.m */; };
 		B93D90221B3270FD00A2947C /* CSParallaxHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90211B3270FD00A2947C /* CSParallaxHeader.m */; };
+		B95DB51B1BA0F1B000A034BF /* FeedbackViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B95DB51A1BA0F1B000A034BF /* FeedbackViewController.m */; };
 		B967734C1B32331A00C01AAF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B967734B1B32331A00C01AAF /* main.m */; };
 		B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B967734E1B32331A00C01AAF /* AppDelegate.m */; };
 		B96773551B32331A00C01AAF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B96773531B32331A00C01AAF /* Main.storyboard */; };
@@ -129,6 +130,8 @@
 		B93D90211B3270FD00A2947C /* CSParallaxHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSParallaxHeader.m; sourceTree = "<group>"; };
 		B93D90231B32713A00A2947C /* MyPlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPlaylistCollectionViewCell.h; sourceTree = "<group>"; };
 		B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPlaylistCollectionViewCell.m; sourceTree = "<group>"; };
+		B95DB5191BA0F1B000A034BF /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
+		B95DB51A1BA0F1B000A034BF /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		B96773461B32331A00C01AAF /* MusicLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B967734A1B32331A00C01AAF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B967734B1B32331A00C01AAF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -358,11 +361,13 @@
 			name = Cell;
 			sourceTree = "<group>";
 		};
-		B95DB5151BA0EED000A034BF /* New Group */ = {
+		B95DB5151BA0EED000A034BF /* Feedback */ = {
 			isa = PBXGroup;
 			children = (
+				B95DB5191BA0F1B000A034BF /* FeedbackViewController.h */,
+				B95DB51A1BA0F1B000A034BF /* FeedbackViewController.m */,
 			);
-			name = "New Group";
+			name = Feedback;
 			sourceTree = "<group>";
 		};
 		B967733D1B32331A00C01AAF = {
@@ -475,7 +480,7 @@
 		B9B76F261B37E8D300F63AC4 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				B95DB5151BA0EED000A034BF /* New Group */,
+				B95DB5151BA0EED000A034BF /* Feedback */,
 				445FCFFB1B87E03A00C6D042 /* Info */,
 				B9B76F2A1B37E8EE00F63AC4 /* Profile PIcture */,
 				B9B76F271B37E8E400F63AC4 /* SettingsTableTableViewController.h */,
@@ -733,6 +738,7 @@
 				B93D8FFC1B3242FC00A2947C /* NowPlaying.m in Sources */,
 				445FCFFA1B87E02100C6D042 /* ProfileInfoViewController.m in Sources */,
 				B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */,
+				B95DB51B1BA0F1B000A034BF /* FeedbackViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
