@@ -7,6 +7,11 @@
 //
 
 #import "FeedbackViewController.h"
+#import <Parse/Parse.h>
+#import <SVProgressHUD/SVProgressHUD.h>
+
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface FeedbackViewController ()
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *sendButton;
@@ -46,20 +51,83 @@
 }
 - (IBAction)backButtonPressed:(id)sender {
     
-    if ( self.feedbackTextView.text > 0 ) {
-        
         // alert user are you sure do you want go back
         UIAlertView *backAlert = [[UIAlertView alloc]
                                     initWithTitle:@"MusicLounge?"
-                                    message:@"Are you sure you want to cancel this feedback submission?"
+                                    message:@"Are you sure you want to cancel this feedback?"
                                     delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
         [backAlert show];
-    }
+   
     
 }
 
 
 - (IBAction)sendButtonPressed:(id)sender {
+    if (self.feedbackTextView.text.length > 4) {
+           [self sendFeedback];
+        
+        
+    } else {
+        
+        
+        [SVProgressHUD showErrorWithStatus:@"Please enter more than 5 characters"];
+    }
+ 
+}
+
+- (void) feedbackAnswersEvent {
+    
+    [Answers logCustomEventWithName:@"FeedbackEvent"
+                   customAttributes:@{
+                                      @"userId" : [PFUser currentUser].objectId
+                                      
+                                      }];
+    
+    
+}
+- (void) sendFeedback {
+    
+    [self feedbackAnswersEvent];
+    
+    self.sendButton.enabled = NO;
+    self.backButton.enabled = NO;
+    [self.feedbackTextView resignFirstResponder];
+    
+    PFObject *feedback = [PFObject objectWithClassName:@"Feedback"];
+    feedback[@"description"] = self.feedbackTextView.text;
+    feedback[@"userId"] = [PFUser currentUser].objectId;
+
+    PFACL *defaultACL = [PFACL ACL];
+    
+    [defaultACL setReadAccess:YES forUser:[PFUser currentUser]];
+    
+    [defaultACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    
+    feedback.ACL = defaultACL;
+    
+    [feedback saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
+        
+        if (!error) {
+            
+            [SVProgressHUD showSuccessWithStatus:@"Thank you for your feedback :)"];
+            [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                self.sendButton.enabled = YES;
+                self.backButton.enabled = YES;
+                
+            }];
+            
+        } else {
+            // Show error
+            NSString *errorString = [[NSString alloc] initWithFormat:@"%@", error.localizedDescription];
+            [SVProgressHUD showErrorWithStatus:errorString];
+            
+            self.sendButton.enabled = YES;
+            self.backButton.enabled = YES;
+        }
+        
+    }];
+    
+
 }
 
 

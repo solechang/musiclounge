@@ -557,9 +557,9 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0 ) {
-        return @"Friends on MusicLounge";
+        return @"Friends in MusicLounge";
     } else if (section == 1) {
-        return @"Others";
+        return @"Others Chillin' in MusicLounge";
     }
     return @"";
 }
