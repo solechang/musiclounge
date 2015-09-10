@@ -19,6 +19,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.feedbackTextView.delegate = self;
+    
     // Do any additional setup after loading the view.
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -35,16 +38,39 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+- (void) viewDidAppear:(BOOL)animated {
+    
+    [self.feedbackTextView becomeFirstResponder];
+    
+}
 - (IBAction)backButtonPressed:(id)sender {
     
     if ( self.feedbackTextView.text > 0 ) {
-        // alert user are you sure do you want go back
-    }
-    [self.navigationController dismissViewControllerAnimated:YES completion:^{
         
-    }];
+        // alert user are you sure do you want go back
+        UIAlertView *backAlert = [[UIAlertView alloc]
+                                    initWithTitle:@"MusicLounge?"
+                                    message:@"Are you sure you want to cancel this feedback submission?"
+                                    delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+        [backAlert show];
+    }
+    
 }
+
+
 - (IBAction)sendButtonPressed:(id)sender {
+}
+
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+ 
+    if (buttonIndex == 1) {
+        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+            [self.feedbackTextView resignFirstResponder];
+        }];
+    }
 }
 
 /*

@@ -618,7 +618,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Feedback" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayl-VU-lT1">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Contact Us" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ayl-VU-lT1">
                                                     <rect key="frame" x="15" y="4" width="290" height="35"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="1" green="0.34303585419999999" blue="0.36245291819999997" alpha="1" colorSpace="calibratedRGB"/>
@@ -910,7 +910,7 @@
             </objects>
             <point key="canvasLocation" x="3059" y="1368"/>
         </scene>
-        <!--Feedback-->
+        <!--Contact Us-->
         <scene sceneID="KQQ-9A-ov6">
             <objects>
                 <viewController id="jI9-4t-e3H" customClass="FeedbackViewController" sceneMemberID="viewController">
@@ -928,8 +928,8 @@
                                 <fontDescription key="fontDescription" name="TimesNewRomanPSMT" family="Times New Roman" pointSize="13"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please write us a feedback:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBE-UX-4wL">
-                                <rect key="frame" x="21" y="82" width="211" height="21"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Please write us back a feedback:" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YBE-UX-4wL">
+                                <rect key="frame" x="21" y="82" width="226" height="18"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -943,8 +943,8 @@
                             <constraint firstItem="zz9-Tm-oHx" firstAttribute="leading" secondItem="9C6-8p-DZD" secondAttribute="leadingMargin" constant="5" id="kw6-WW-8be"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Feedback" id="OTX-bA-gQl">
-                        <barButtonItem key="leftBarButtonItem" title="Back" id="1Xr-wa-aXL">
+                    <navigationItem key="navigationItem" title="Contact Us" id="OTX-bA-gQl">
+                        <barButtonItem key="leftBarButtonItem" title="Cancel" id="1Xr-wa-aXL">
                             <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             <connections>
                                 <action selector="backButtonPressed:" destination="jI9-4t-e3H" id="tmi-bg-3Nk"/>
