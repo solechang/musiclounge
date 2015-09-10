@@ -60,6 +60,8 @@
 @property (nonatomic, strong) NSArray *menuItems;
 @property (nonatomic, retain) UIImage *profilePictureImage;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addPlaylistButton;
 
 
 @end
@@ -68,7 +70,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    [self disableButtons];
     
     [self setUpMediaPlayerLockScreen];
     [self setUpNotifications];
@@ -84,6 +86,17 @@
     
     [self control];
     
+}
+- (void)disableButtons {
+    self.tabBarController.tabBar.userInteractionEnabled = NO;
+    self.addPlaylistButton.enabled = NO;
+    self.settingsButton.enabled = NO;
+}
+
+- (void)enableButtons {
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
+    self.addPlaylistButton.enabled = YES;
+    self.settingsButton.enabled = YES;
 }
 
 - (void) setUpNotifications {
@@ -152,7 +165,7 @@
     
     // Check if user is logged in
     if (currentPFUser) {
-        
+        [self enableButtons];
         [self userPlaylistLogic];
         
     } else {

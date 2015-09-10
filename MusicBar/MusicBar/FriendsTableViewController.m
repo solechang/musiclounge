@@ -35,6 +35,8 @@
     
     UINavigationController *navController;
     FindFriendsTableViewController *vc;
+    
+    NSMutableArray *others;
 
 }
 
@@ -106,6 +108,9 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     
+    [others removeAllObjects];
+    [self.tableView reloadData];
+    
     NSArray *viewControllers = self.navigationController.viewControllers;
     
     if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
@@ -147,7 +152,7 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
-
+    [self queryOthers];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -155,13 +160,15 @@
     // Dispose of any resources that can be recreated.
 }
 
+
+
 #pragma mark - Set up table view
 - (void) setUpTableView {
-    self.tableView.emptyDataSetSource = self;
-    self.tableView.emptyDataSetDelegate = self;
-    
-    // A little trick for removing the cell separators
-    self.tableView.tableFooterView = [UIView new];
+//    self.tableView.emptyDataSetSource = self;
+//    self.tableView.emptyDataSetDelegate = self;
+//    
+//    // A little trick for removing the cell separators
+//    self.tableView.tableFooterView = [UIView new];
     
     [self.tableView setRowHeight:46.0];
     
@@ -172,7 +179,7 @@
     
     friendsFacebookIDDictionary = [[NSMutableDictionary alloc] init];
     friendsPhonenumberDictionary = [[NSMutableDictionary alloc] init];
-    
+    others = [[NSMutableArray alloc] init];
 //    self.refreshButton ];
     
 }
@@ -499,7 +506,7 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -507,6 +514,8 @@
     // Return the number of rows in the section.
     if (section == 0) {
         return [friendsWhoExistsOniLList count];
+    } else if (section == 1) {
+        return [others count];
     }
     
     return 0;
@@ -517,29 +526,91 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"friendCell" forIndexPath:indexPath];
-    
-    //dark blue?
-    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
+     UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
     
     if (indexPath.section == 0) {
-        // Friends who exist on iLList
-        Friend *friendWhoExist =[friendsWhoExistsOniLList objectAtIndex:indexPath.row];
+        
+        // Friends who exist on MusicLounge
+        Friend *friendWhoExist = [friendsWhoExistsOniLList objectAtIndex:indexPath.row];
         
         cell.textLabel.text = friendWhoExist.name;
         cell.textLabel.textColor = myColor;
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
 
+    } else if (indexPath.section == 1) {
+        // Others
+        Friend *friendWhoExist = [others objectAtIndex:indexPath.row];
         
-    }
+        cell.textLabel.text = friendWhoExist.name;
+        
+        if (friendWhoExist.friend_exists != NULL) {
+            cell.textLabel.textColor = myColor;
+        } else {
+            cell.textLabel.textColor = [UIColor grayColor];
+        }
 
-        return cell;
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    }
+    return cell;
+    
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
     if (section == 0 ) {
-        return @"Friends on MusicLounge";
+        return @"Friends in MusicLounge";
+    } else if (section == 1) {
+        return @"Others Chillin' in MusicLounge";
     }
     return @"";
+}
+
+- (void) queryOthers {
+    
+    others = [[NSMutableArray alloc] init];
+    
+    [self deleteSearchedFriends];
+    
+    PFQuery *query = [PFUser query];
+    [query selectKeys:@[@"name"]];
+    query.limit = 1000;
+    
+    [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        if (error) {
+            NSString *errorString = [error userInfo][@"error"];
+            NSLog(@"935 Error: %@", errorString);
+            
+        } else {
+            // iterate through the objects array, which contains PFObjects for each Student
+            for(PFObject *pfUser in objects){
+                
+                Friend *friend = [Friend MR_findFirstByAttribute:@"userId" withValue:pfUser.objectId];
+                
+                if (friend) {
+                    
+                    [others addObject:friend];
+                    
+                } else {
+                    
+                    Friend *newFriend = [Friend MR_createEntity];
+                    newFriend.name = pfUser[@"name"];
+                    newFriend.userId = pfUser.objectId;
+                    newFriend.deleteSearch = @(YES);
+                    
+                    [others addObject:newFriend];
+                    
+                }
+            }
+            
+            
+            
+            [self.tableView reloadData];
+            
+        }
+        
+        [SVProgressHUD dismiss];
+    }];
+
+    
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
@@ -548,41 +619,42 @@
 
 
 
-#pragma mark - DZN Table view when empty
-
-- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
-    
-    NSString *text = @"Your friend list is empty :(";
-    
-    // dark blue
-    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0],
-                                 NSForegroundColorAttributeName: myColor};
-    
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
-
-- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
-    
-    NSString *text = @"Search 'solechang' as your first friend!";
-    
-    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
-    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
-    paragraph.alignment = NSTextAlignmentCenter;
-    
-    // cardinal color?
-    UIColor *myColor = [UIColor colorWithRed:250.0f/255.0f green:65.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
-    
-    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0],
-                                 NSForegroundColorAttributeName: myColor,
-                                 NSParagraphStyleAttributeName: paragraph};
-    
-    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
-}
+//#pragma mark - DZN Table view when empty
+//
+//- (NSAttributedString *)titleForEmptyDataSet:(UIScrollView *)scrollView {
+//    
+//    NSString *text = @"Your friend list is empty :(";
+//    
+//    // dark blue
+//    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
+//    
+//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont boldSystemFontOfSize:18.0],
+//                                 NSForegroundColorAttributeName: myColor};
+//    
+//    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+//}
+//
+//- (NSAttributedString *)descriptionForEmptyDataSet:(UIScrollView *)scrollView {
+//    
+//    NSString *text = @"Search 'solechang' as your first friend!";
+//    
+//    NSMutableParagraphStyle *paragraph = [NSMutableParagraphStyle new];
+//    paragraph.lineBreakMode = NSLineBreakByWordWrapping;
+//    paragraph.alignment = NSTextAlignmentCenter;
+//    
+//    // cardinal color?
+//    UIColor *myColor = [UIColor colorWithRed:250.0f/255.0f green:65.0f/255.0f blue:0.0f/255.0f alpha:1.0f];
+//    
+//    NSDictionary *attributes = @{NSFontAttributeName: [UIFont systemFontOfSize:14.0],
+//                                 NSForegroundColorAttributeName: myColor,
+//                                 NSParagraphStyleAttributeName: paragraph};
+//    
+//    return [[NSAttributedString alloc] initWithString:text attributes:attributes];
+//}
 
 #pragma mark - Navigation
  - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+     
      if ([segue.identifier isEqualToString:@"friendSegue"]){
          
          // Get destination view
@@ -590,10 +662,20 @@
          
          // Initializing indexpath for the friend cell
 
-         if (sender==nil) {
+         if (sender == nil) {
+             
              NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
-             Friend *selectedFriend =[friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
+             Friend *selectedFriend;
+             
+             if (selectedIndexPath.section == 0) {
+                 
+                selectedFriend = [friendsWhoExistsOniLList objectAtIndex:selectedIndexPath.row];
+                 
+             } else {
+                 
+                 selectedFriend = [others objectAtIndex:selectedIndexPath.row];
 
+             }
              controller.friendInfo = selectedFriend;
              
          } else if(sender == vc){
@@ -610,8 +692,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     if (indexPath.section == 0 ) {
-        // Only segue to FriendsDetailTVC if user exists on iLList server (friendsWhoExistsOniLList array)
+        // Only segue to FriendsDetailTVC if user exists on MusicLounge server (friendsWhoExistsOniLList array)
         [self performSegueWithIdentifier:@"friendSegue" sender:nil];
+        
+    } else if (indexPath.section == 1) {
+         [self performSegueWithIdentifier:@"friendSegue" sender:nil];
     }
     
 }
@@ -630,11 +715,11 @@
     [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching for %@", searchBar.text]];
     
     NSMutableArray *tempArray = [[NSMutableArray alloc] init];
-    PFQuery *query = [PFUser query];
-    //query = [PFQuery queryWithClassName:@"User"];
-    //[query whereKey:@"name" equalTo:self.searchController.searchBar.text];
     
+    PFQuery *query = [PFUser query];
     [query selectKeys:@[@"name"]];
+    query.limit = 1000;
+    
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
             NSString *errorString = [error userInfo][@"error"];
@@ -669,15 +754,10 @@
             NSPredicate *predicate = [NSPredicate predicateWithFormat:@"self.name contains[c] %@",self.searchController.searchBar.text];
             
             vc.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
-//            self.searchFriendsTableController.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
             
             vc.friendsTableViewController = self;
-//            self.searchFriendsTableController.friendsTableViewController = self;
-            
-//            [vc.friendsTableViewController.tableView reloadData];
             
             [vc.tableView reloadData];
-//            [self.searchFriendsTableController.tableView reloadData];
         
             [self.tableView reloadData];
  
