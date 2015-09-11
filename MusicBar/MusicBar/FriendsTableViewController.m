@@ -471,7 +471,7 @@
             [self queryOthers];
             // User's Friends doesn't exist in the database
             friendsList = [[NSMutableArray alloc] init];
-            NSLog( @"Error: 335.)");
+ 
             
         }
         
