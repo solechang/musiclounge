@@ -510,12 +510,11 @@
         NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
         
         int songCountUpdate = (int)songsInLocal.count ;
-        
-    
-        
+
         if (songCountUpdate > 0 ) {
               songCountUpdate--;
         }
+        
         playlist.songCount = [NSNumber numberWithInt:songCountUpdate];
         playlist.updatedAt = illistInServer.updatedAt;
         
