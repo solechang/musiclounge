@@ -152,7 +152,7 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated {
-    [self queryOthers];
+    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -214,7 +214,7 @@
         
         // Querying friends from local storage
         friendsList = [[NSMutableArray alloc] initWithArray:friendsCoreDataArray];
-        
+      
         // Sort existings friends on top of list
         [self sortFriendsWhoExistsOnIllist];
         
@@ -294,7 +294,7 @@
             [self sortFriendsWhoExistsOnIllist];
             
         } else {
-            
+            [self queryOthers];
             // User's Friends doesn't exist in the database
             friendsList = [[NSMutableArray alloc] init];
 //            NSLog( @"Error: 246.)");
@@ -322,6 +322,7 @@
         if (error) {
 //            NSString *errorString = [error userInfo][@"error"];
 //            NSLog(@"170.) Error: %@", errorString);
+            [self queryOthers];
             [SVProgressHUD dismiss];
             [self.refreshButton setEnabled:YES];
         } else {
@@ -365,6 +366,7 @@
         
             [self addFriendsFromFacebookToServer:friendsWhoExistOnApp];
         } else {
+            [self queryOthers];
             [SVProgressHUD dismiss];
             [self.refreshButton setEnabled:YES];
         }
@@ -413,7 +415,7 @@
             
 
         } else {
-            
+            [self queryOthers];
 //            NSLog(@"Error 275.)");
              [SVProgressHUD dismiss];
             [self.refreshButton setEnabled:YES];
@@ -466,7 +468,7 @@
             [self sortFriendsWhoExistsOnIllist];
             
         } else {
-            
+            [self queryOthers];
             // User's Friends doesn't exist in the database
             friendsList = [[NSMutableArray alloc] init];
             NSLog( @"Error: 335.)");
@@ -497,8 +499,11 @@
     }
     
     self.searchFriendsTableController.filteredFriendsWhoExists = [[NSMutableArray alloc] initWithCapacity:friendsWhoExistsOniLList.count];
+    
     [self.tableView reloadData];
     
+    [self queryOthers];
+
 }
 
 #pragma mark - Table view data source
