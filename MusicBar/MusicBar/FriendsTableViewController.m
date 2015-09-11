@@ -58,7 +58,7 @@
 
     
     [self setUpSearchController];
-        [self setUpSearchData];
+    [self setUpSearchData];
     [self setUpNavigationBar];
     
     [self setUpTableView];
@@ -410,7 +410,7 @@
     
     [PFObject saveAllInBackground:friendToSave block:^(BOOL succeeded, NSError *error) {
         
-        if (succeeded) {
+        if (!error) {
             
             [self addFriendsFromFacebookLocally:friendsWhoExistOnApp];
             
