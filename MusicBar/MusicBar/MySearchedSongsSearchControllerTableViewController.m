@@ -118,7 +118,7 @@
 -(IBAction)addToPlaylist:(id)sender {
     
     UIButton *buttonClicked = (UIButton *)sender;
-    buttonClicked.enabled = NO;
+    [buttonClicked setEnabled:NO];
     buttonClicked.backgroundColor = [UIColor lightGrayColor];
     
     UITableViewCell *clickedCell = (UITableViewCell *)[[sender superview] superview];

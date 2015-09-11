@@ -203,9 +203,13 @@
     PFObject *illistInServer = [PFObject objectWithoutDataWithClassName:@"Illist" objectId:song[@"iLListId"]];
     
     // Updating the playlist's song count
-    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
+//    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
 
-    int songCountUpdate = [playlistInLocal.songCount intValue];
+//    int songCountUpdate = [playlistInLocal.songCount intValue];
+    
+    NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:[NSManagedObjectContext MR_defaultContext]];
+    
+    int songCountUpdate = (int)songsInLocal.count;
 
     songCountUpdate++;
 
@@ -218,8 +222,8 @@
     
     [PFObject saveAllInBackground:sendObjectsToServer block:^(BOOL succeeded, NSError *error) {
         
-        if (succeeded) {
-//            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
+        if (!error) {
+            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
             [self saveSongToLocal:song];
             
         } else {
@@ -253,8 +257,15 @@
         songInLocal.createdAt = song.createdAt;
         
         [playlistInLocal addSongObject:songInLocal];
-        int songCountUpdate = [playlistInLocal.songCount intValue];
-        songCountUpdate++;
+        
+        
+        NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:localContext];
+        
+        int songCountUpdate = (int) songsInLocal.count;
+        //= [playlistInLocal.songCount intValue];
+        
+        
+//        songCountUpdate++;
         playlistInLocal.songCount = [NSNumber numberWithInt:songCountUpdate];
         playlistInLocal.updatedAt = song.updatedAt;
         
