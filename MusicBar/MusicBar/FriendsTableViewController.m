@@ -338,11 +338,12 @@
 - (void) filterFacebookID: (NSArray*) users {
 
     for (PFUser* user in users) {
-        if (user[@"facebookID"]) {
-           
+
+//        if (user[@"facebookID"]) {
+        
             [friendsFacebookIDDictionary setObject:user forKey:user[@"facebookID"]];
             
-        }
+//        }
 
     }
     [self getFriendsFromFacebook];
