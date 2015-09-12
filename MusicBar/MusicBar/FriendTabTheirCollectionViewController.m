@@ -164,14 +164,7 @@
 
     if (self.friendInfo.userId) {
         // Check if friend exists
-        Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
-//        NSLog(@"1.) %@ : %@ : %@", findFriend, findFriend.name, findFriend.friend_exists);
         
-        if (findFriend.friend_exists != NULL && findFriend.friend_exists && findFriend.friend_exists != nil){
-            self.addFriendButton.enabled = NO;
-        } else{
-            self.addFriendButton.enabled = YES;
-        }
         
         
         [self userPlaylistLogic];
@@ -329,6 +322,9 @@
         
         [self.collectionView reloadData];
         [SVProgressHUD dismiss];
+        
+        [self checkIfFriends];
+        
     } else {
         
         [self getUserName];
@@ -336,6 +332,16 @@
     }
 
     
+}
+
+- (void) checkIfFriends {
+    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
+    
+    if (findFriend.friend_exists != NULL && findFriend.friend_exists && findFriend.friend_exists != nil){
+        self.addFriendButton.enabled = NO;
+    } else{
+        self.addFriendButton.enabled = YES;
+    }
 }
 
 - (void) getUserName {
@@ -353,8 +359,12 @@
             self.navigationController.navigationBar.topItem.title = hostName;
             self.navigationController.navigationBar.titleTextAttributes = size;
             
+            [self checkIfFriends];
+            
             [self.collectionView reloadData];
+            
             [SVProgressHUD dismiss];
+           
         }
         
     }];

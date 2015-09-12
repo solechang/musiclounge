@@ -196,14 +196,13 @@
     PFObject *illistInServer = [PFObject objectWithoutDataWithClassName:@"Illist" objectId:song[@"iLListId"]];
     
     // Updating the playlist's song count
-    PlaylistFriend *playlistInLocal = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
+    NSArray *songsFriendInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:[NSManagedObjectContext MR_defaultContext]];
     
-    int songCountUpdate = [playlistInLocal.songCount intValue];
+    int songCountUpdate = (int)songsFriendInLocal.count;
     
     songCountUpdate++;
 //    NSLog(@"0.) %@", [NSNumber numberWithInt:songCountUpdate]);
     illistInServer[@"SongCount"] = [NSNumber numberWithInt:songCountUpdate];
-
     
     NSMutableArray *sendObjectsToServer = [[NSMutableArray alloc] init];
     
@@ -248,8 +247,10 @@
         
         [playlistInLocal addSongFriendObject:songInLocal];
         
-        int songCountUpdate = [playlistInLocal.songCount intValue];
-        songCountUpdate++;
+        NSArray *songsFriendInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:localContext];
+        
+        int songCountUpdate = (int) songsFriendInLocal.count;
+    
         
         playlistInLocal.songCount = [NSNumber numberWithInt:songCountUpdate];
         playlistInLocal.updatedAt = song.updatedAt;

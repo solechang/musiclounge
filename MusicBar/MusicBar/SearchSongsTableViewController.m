@@ -476,15 +476,21 @@
     PFObject *illistInServer = [PFObject objectWithoutDataWithClassName:@"Illist" objectId:self.playlistInfo.objectId];
     
     // Updating the playlist's song count
-    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
+//    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
     
-    int songCountUpdate = [playlistInLocal.songCount intValue];
-    songCountUpdate--;
+   NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    
+    int songCountUpdate = (int)songsInLocal.count ;
+    
+    if (songCountUpdate > 0 ) {
+        songCountUpdate--;
+    }
+
     illistInServer[@"SongCount"] = @(songCountUpdate);
     
     [illistInServer saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
        
-        if (succeeded) {
+        if (!error) {
             [self updatePlaylistInLocalAfterDelete:illistInServer songToDelete:deleteSongInLocal forRowAtIndexPath:indexPath];
             
             
@@ -501,9 +507,14 @@
         
         Playlist *playlist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:localContext];
         
-       
-        int songCountUpdate = [playlist.songCount intValue];
-        songCountUpdate--;
+        NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+        
+        int songCountUpdate = (int)songsInLocal.count ;
+
+        if (songCountUpdate > 0 ) {
+              songCountUpdate--;
+        }
+        
         playlist.songCount = [NSNumber numberWithInt:songCountUpdate];
         playlist.updatedAt = illistInServer.updatedAt;
         
