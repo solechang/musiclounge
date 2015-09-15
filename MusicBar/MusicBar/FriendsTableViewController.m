@@ -545,17 +545,21 @@
 
     } else if (indexPath.section == 1) {
         // Others
-        Friend *friendWhoExist = [others objectAtIndex:indexPath.row];
         
-        cell.textLabel.text = friendWhoExist.name;
-        
-        if (friendWhoExist.friend_exists != NULL) {
-            cell.textLabel.textColor = myColor;
-        } else {
-            cell.textLabel.textColor = [UIColor grayColor];
+        if (others.count != 0) {
+            Friend *friendWhoExist = [others objectAtIndex:indexPath.row];
+            
+            cell.textLabel.text = friendWhoExist.name;
+            
+            if (friendWhoExist.friend_exists != NULL) {
+                cell.textLabel.textColor = myColor;
+            } else {
+                cell.textLabel.textColor = [UIColor grayColor];
+            }
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
     }
     return cell;
     
@@ -582,8 +586,8 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
-            NSString *errorString = [error userInfo][@"error"];
-            NSLog(@"935 Error: %@", errorString);
+//            NSString *errorString = [error userInfo][@"error"];
+//            NSLog(@"935 Error: %@", errorString);
             
         } else {
             // iterate through the objects array, which contains PFObjects for each Student
@@ -727,9 +731,10 @@
     query.limit = 1000;
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
         if (error) {
-            NSString *errorString = [error userInfo][@"error"];
-            NSLog(@"935 Error: %@", errorString);
+//            NSString *errorString = [error userInfo][@"error"];
+//            NSLog(@"935 Error: %@", errorString);
             
         } else {
             // iterate through the objects array, which contains PFObjects for each Student

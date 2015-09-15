@@ -28,6 +28,8 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "UserFriendList.h"
 
+#import <SDWebImage/UIImageView+WebCache.h>
+
 @interface FriendTabTheirCollectionViewController ()   <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
     
     NSMutableArray* myiLListArray;
@@ -40,9 +42,11 @@
     UICollectionViewCell* swipedCell ;
     BOOL swipedCellPastHalfWay;
     
-        NSManagedObjectContext *defaultContext;
+    NSManagedObjectContext *defaultContext;
     
-        NSString *hostName;
+    NSString *profileURL;
+    
+    NSString *hostName;
 }
 
 
@@ -50,7 +54,7 @@
 @property (nonatomic, strong) UINib *headerNib;
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, strong) NSArray *menuItems;
-@property (nonatomic, retain) UIImage *profilePictureImage;
+@property (nonatomic, retain) UIImageView *profilePictureImage;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addFriendButton;
 
 @end
@@ -61,7 +65,7 @@
 {
     [super viewDidLoad];
     self.addFriendButton.enabled = NO;
-    self.profilePictureImage = [UIImage imageNamed: @"placeholder.png"];
+//    [self.profilePictureImage setImage:[UIImage imageNamed: @"placeholder.png"]];
     
 //    [self setUpNavigationBar];
     [self setUpCollectionView];
@@ -177,7 +181,7 @@
 - (void) userPlaylistLogic {
     
     [self getProfilePicture];
-
+    [self getPlaylistFromServer];
 
 }
 
@@ -194,14 +198,20 @@
         if (!error) {
             
             PFFile *file = (PFFile *)object[@"profilePic"];
+            NSLog(@"1.) HI");
             
-            [self getPhotoFile:file];
+            profileURL = [[NSString alloc] initWithString:file.url];
+            
+//            [self.profilePictureImage sd_setImageWithURL:[NSURL URLWithString:file.url] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+
+//            [self getPhotoFile:file];
             
         } else {
             
-            
-            [self getPlaylistFromServer];
         }
+        
+//        [self getPlaylistFromServer];
+
         
     }];
 
@@ -211,8 +221,9 @@
     [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
         
         if (!error) {
-            UIImage *image = [[UIImage alloc] initWithData:data];
-            self.profilePictureImage = image;
+//            UIImage *image = [[UIImage alloc] initWithData:data];
+//            self.profilePictureImage = image;
+//            [self.profilePictureImage sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
 
         } else {
             
@@ -652,9 +663,11 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         CSParallaxHeader* cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                     withReuseIdentifier:@"header"
                                                                            forIndexPath:indexPath];
-        
+        NSLog(@"0.) %@",profileURL);
         cell.textLabelName.text = hostName;
-        [cell.profileImage setImage: self.profilePictureImage];
+//        cell.profileImage = self.profilePictureImage;
+//        [cell.profileImage sd
+         [cell.profileImage sd_setImageWithURL:[NSURL URLWithString:profileURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
         cell.profileImage.contentMode = UIViewContentModeScaleAspectFill;
         
         
