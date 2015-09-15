@@ -198,42 +198,14 @@
         if (!error) {
             
             PFFile *file = (PFFile *)object[@"profilePic"];
-            NSLog(@"1.) HI");
             
             profileURL = [[NSString alloc] initWithString:file.url];
-            
-//            [self.profilePictureImage sd_setImageWithURL:[NSURL URLWithString:file.url] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
 
-//            [self getPhotoFile:file];
-            
-        } else {
             
         }
-        
-//        [self getPlaylistFromServer];
-
-        
     }];
 
     
-}
-- (void) getPhotoFile: (PFFile*)file {
-    [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        
-        if (!error) {
-//            UIImage *image = [[UIImage alloc] initWithData:data];
-//            self.profilePictureImage = image;
-//            [self.profilePictureImage sd_setImageWithURL:[NSURL URLWithString:[self setImageSize:nowplayingSong.artwork] ] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
-
-        } else {
-            
-        }
-        
-        [self getPlaylistFromServer];
-        
-
-       
-    }];
 }
 
 - (void) getPlaylistFromServer {
@@ -663,7 +635,6 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         CSParallaxHeader* cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                     withReuseIdentifier:@"header"
                                                                            forIndexPath:indexPath];
-        NSLog(@"0.) %@",profileURL);
         cell.textLabelName.text = hostName;
 //        cell.profileImage = self.profilePictureImage;
 //        [cell.profileImage sd
