@@ -419,7 +419,7 @@
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
    
     [vc.searchResults removeAllObjects];
- 
+    [SVProgressHUD dismiss];
     [vc.tableView reloadData];
     
     
@@ -442,9 +442,14 @@
         
         PFObject *deleteSong = [PFObject objectWithoutDataWithClassName:@"Song" objectId:deleteSongInLocal.objectId];
         
+        [iLListTracks removeObjectAtIndex:indexPath.row];
+        
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+        
         [deleteSong deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
             if (!error) {
+                
                 [self updatePlaylistAfterDelete:deleteSongInLocal forRowAtIndexPath:indexPath];
                 
 //                [self deleteSongInLocal:deleteSong forRowAtIndexPath:indexPath];
@@ -491,8 +496,9 @@
     [illistInServer saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
        
         if (!error) {
+      
             [self updatePlaylistInLocalAfterDelete:illistInServer songToDelete:deleteSongInLocal forRowAtIndexPath:indexPath];
-            
+
             
         } else {
 //            NSLog(@"Did not update playlist after delete 484");
@@ -543,9 +549,11 @@
     } completion:^(BOOL success, NSError *error) {
        
         if (!error) {
-            [iLListTracks removeObjectAtIndex:indexPath.row];
+//            [iLListTracks removeObjectAtIndex:indexPath.row];
+//            
+//            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadData];
 
         } else {
 //            NSLog(@"Couldn't delete song in local: 534.)");

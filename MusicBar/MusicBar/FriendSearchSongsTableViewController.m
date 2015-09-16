@@ -409,7 +409,7 @@
     [vc.searchResults removeAllObjects];
 
     [vc.tableView reloadData];
-    
+    [SVProgressHUD dismiss];
     
 }
 
@@ -444,6 +444,10 @@
         SongFriend *deleteSongInLocal = [iLListTracks objectAtIndex:indexPath.row];
         
         PFObject *deleteSong = [PFObject objectWithoutDataWithClassName:@"Song" objectId:deleteSongInLocal.objectId];
+        [iLListTracks removeObjectAtIndex:indexPath.row];
+        
+        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
         
         [deleteSong deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
@@ -533,9 +537,11 @@
     } completion:^(BOOL success, NSError *error) {
         
         if (!error) {
-            [iLListTracks removeObjectAtIndex:indexPath.row];
+//            [iLListTracks removeObjectAtIndex:indexPath.row];
+//            
+//            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadData];
             
         } else {
 //            NSLog(@"Couldn't delete song in local: 534.)");
