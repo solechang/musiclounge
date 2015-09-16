@@ -31,12 +31,12 @@ const float UI_CUES_MARGIN = 0.0f;
         [self.playlistNameLabel setTextAlignment:NSTextAlignmentLeft];
  //       [self.playlistNameLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.playlistNameLabel setTranslatesAutoresizingMaskIntoConstraints:false];
-        [self.contentView addSubview:self.playlistNameLabel];
-            
-
+    
+//         self.playlistNameLabel.backgroundColor = [UIColor blueColor];
+        
         self.songCountLabel = [[UILabel alloc] init];
         
-        [self.songCountLabel setFrame:CGRectMake(60.0f, 25.0f, 257.0f, 21.0f)];
+        [self.songCountLabel setFrame:CGRectMake(60.0f, 25.0f, 100.0f, 21.0f)];
 
         [self.songCountLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
         [self.songCountLabel setBackgroundColor:[UIColor clearColor]];
@@ -45,6 +45,38 @@ const float UI_CUES_MARGIN = 0.0f;
         
         //[self.songCountLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.songCountLabel setTranslatesAutoresizingMaskIntoConstraints:false];
+        
+//         self.songCountLabel.backgroundColor = [UIColor greenColor];
+        
+        NSLayoutConstraint *playlistCenterYconstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
+                                                                                     attribute:NSLayoutAttributeCenterY
+                                                                                     relatedBy:NSLayoutRelationEqual
+                                                                                        toItem:self.contentView
+                                                                                     attribute:NSLayoutAttributeCenterY
+                                                                                    multiplier:1.0
+                                                                                      constant:0];
+        NSLayoutConstraint *playlistWidthConstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
+                                                                                   attribute:NSLayoutAttributeWidth
+                                                                                   relatedBy:NSLayoutRelationEqual
+                                                                                      toItem:nil
+                                                                                   attribute:NSLayoutAttributeNotAnAttribute
+                                                                                  multiplier:1.0
+                                                                                    constant:257.0f];
+        NSLayoutConstraint *playlistHeightConstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
+                                                                                    attribute:NSLayoutAttributeHeight
+                                                                                    relatedBy:NSLayoutRelationEqual
+                                                                                       toItem:nil
+                                                                                    attribute:NSLayoutAttributeNotAnAttribute
+                                                                                   multiplier:1.0
+                                                                                     constant:21.0f];
+        NSLayoutConstraint *playlistLeadingConstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
+                                                                                     attribute:NSLayoutAttributeLeading
+                                                                                     relatedBy:NSLayoutRelationEqual
+                                                                                        toItem:self.contentView
+                                                                                     attribute:NSLayoutAttributeLeading
+                                                                                    multiplier:1.0
+                                                                                      constant:60];
+        
         
         NSLayoutConstraint *countCenterYconstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
                                                                              attribute:NSLayoutAttributeCenterY
@@ -59,7 +91,7 @@ const float UI_CUES_MARGIN = 0.0f;
                                                                               toItem:nil
                                                                            attribute:NSLayoutAttributeNotAnAttribute
                                                                           multiplier:1.0
-                                                                            constant:257.0f];
+                                                                            constant:100.0f];
         NSLayoutConstraint *countHeightConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
                                                                             attribute:NSLayoutAttributeHeight
                                                                             relatedBy:NSLayoutRelationEqual
@@ -74,35 +106,9 @@ const float UI_CUES_MARGIN = 0.0f;
                                                                            attribute:NSLayoutAttributeTrailing
                                                                           multiplier:1.0
                                                                             constant:-40];
-        NSLayoutConstraint *playlistCenterYconstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
-                                                                             attribute:NSLayoutAttributeCenterY
-                                                                             relatedBy:NSLayoutRelationEqual
-                                                                                toItem:self.contentView
-                                                                             attribute:NSLayoutAttributeCenterY
-                                                                            multiplier:1.0
-                                                                              constant:0];
-        NSLayoutConstraint *playlistWidthConstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
-                                                                           attribute:NSLayoutAttributeWidth
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:nil
-                                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                                          multiplier:1.0
-                                                                            constant:257.0f];
-        NSLayoutConstraint *playlistHeightConstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:nil
-                                                                            attribute:NSLayoutAttributeNotAnAttribute
-                                                                           multiplier:1.0
-                                                                             constant:21.0f];
-        NSLayoutConstraint *playlistLeadingConstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
-                                                                           attribute:NSLayoutAttributeLeading
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.contentView
-                                                                           attribute:NSLayoutAttributeLeading
-                                                                          multiplier:1.0
-                                                                            constant:60];
+       
 
+        [self.contentView addSubview:self.playlistNameLabel];
         [self.contentView addSubview:self.songCountLabel];
         [self.contentView addConstraints:@[countCenterYconstraint,countWidthConstraint,countHeightConstraint,countTrailingConstraint,playlistCenterYconstraint,playlistWidthConstraint,playlistHeightConstraint,playlistLeadingConstraint]];
         
@@ -138,7 +144,7 @@ const float UI_CUES_MARGIN = 0.0f;
 }
 
 - (void) setPlaylistNameAndSongCount:(NSString*)playlistName :(NSString*) songCount {
-    
+
     self.playlistNameLabel.text = playlistName;
     self.songCountLabel.text = songCount;
 
