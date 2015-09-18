@@ -144,7 +144,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             NSArray *playlistArray = [PlaylistFriend MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
          
             myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
@@ -161,17 +161,16 @@
 
 //added below
 - (void)viewDidAppear:(BOOL)animated {
-    
-    // Check if friend exists
-    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
 
-    if (findFriend.friend_exists){
-        self.addFriendButton.enabled = NO;
-    } else{
-        self.addFriendButton.enabled = YES;
+    if (self.friendInfo.userId) {
+        // Check if friend exists
+        
+        
+        
+        [self userPlaylistLogic];
     }
-
-    [self userPlaylistLogic];
+    
+    
     
 }
 
@@ -312,13 +311,20 @@
     
     
     if (playlistArray.count != 0 ) {
-        
         hostName = [[NSString alloc] initWithString:friendName.userName];
+        
+        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+        self.navigationController.navigationBar.topItem.title = hostName;
+        self.navigationController.navigationBar.titleTextAttributes = size;
+        
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
         [self setCountOnControl];
         
         [self.collectionView reloadData];
         [SVProgressHUD dismiss];
+        
+        [self checkIfFriends];
+        
     } else {
         
         [self getUserName];
@@ -326,6 +332,16 @@
     }
 
     
+}
+
+- (void) checkIfFriends {
+    Friend *findFriend = [Friend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
+    
+    if (findFriend.friend_exists != NULL && findFriend.friend_exists && findFriend.friend_exists != nil){
+        self.addFriendButton.enabled = NO;
+    } else{
+        self.addFriendButton.enabled = YES;
+    }
 }
 
 - (void) getUserName {
@@ -339,8 +355,16 @@
             
             hostName = [[NSString alloc] initWithString:userObject[@"name"]];
             
+            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+            self.navigationController.navigationBar.topItem.title = hostName;
+            self.navigationController.navigationBar.titleTextAttributes = size;
+            
+            [self checkIfFriends];
+            
             [self.collectionView reloadData];
+            
             [SVProgressHUD dismiss];
+           
         }
         
     }];
@@ -355,14 +379,6 @@
 
 - (void) setUpCollectionView {
     
-    //    CGRect screenBounds = [[UIScreen mainScreen] bounds];
-    //    CGFloat screenScale = [[UIScreen mainScreen] scale];
-    //    CGSize screenSize = CGSizeMake(screenBounds.size.width * screenScale, screenBounds.size.height * screenScale);
-
-    //    NSLog(@"%f", screenSize.height);
-    
-    //    self.collectionView.contentSize = screenSize;
-    
     self.collectionView.alwaysBounceVertical = YES;
     self.collectionView.bounces = YES;
     self.collectionView.delaysContentTouches = NO;
@@ -373,9 +389,9 @@
 
 -(void) setUpNavigationBar{
     
-    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
-    self.navigationController.navigationBar.topItem.title = @"MusicBar";
-    self.navigationController.navigationBar.titleTextAttributes = size;
+//    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+//    self.navigationController.navigationBar.topItem.title = @"MusicBar";
+//    self.navigationController.navigationBar.titleTextAttributes = size;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
@@ -387,8 +403,6 @@
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
 }
-
-
 
 -(void)setUpCell{
     //IK - registering custom cells into the collection view programmatically
@@ -857,6 +871,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
 
 #pragma mark - Anthony - Add Friend
 - (IBAction)addFriendButtonPushed:(id)sender {
+    
+    self.addFriendButton.enabled = NO;
+    
     PFACL *acl = [PFACL ACL];
     [acl setReadAccess:YES forUser:[PFUser currentUser]];
     [acl setWriteAccess:YES forUser:[PFUser currentUser]];
@@ -885,9 +902,14 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                 currentUserFriendList.updatedAt = [NSDate date];
                 // Finding current User in coredata and updating with the userfriendlist in coredata
                 currentUser.userFriendList = currentUserFriendList;
+                
             } completion:^(BOOL success, NSError *error){
                 if(!error){
-                    self.addFriendButton.enabled = NO;
+                    
+                    [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"%@ is now your friend :)",hostName]];
+                } else {
+                    [SVProgressHUD showErrorWithStatus:@"There is an error adding your friend :("];
+                    self.addFriendButton.enabled = YES;
                 }
             }];
         }

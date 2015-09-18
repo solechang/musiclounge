@@ -3,7 +3,7 @@
 
 inhibit_all_warnings!
 
-target 'MusicBar' do
+target 'MusicLounge' do
     pod 'CocoaSoundCloudAPI', :inhibit_warnings => true
     pod 'CocoaSoundCloudUI', :inhibit_warnings => true
     pod 'SDWebImage', '~>3.6'
@@ -24,7 +24,7 @@ target 'MusicBar' do
     pod 'FBSDKCoreKit'
 end
 
-target 'MusicBarTests' do
+target 'MusicLoungeTests' do
 
 end
 

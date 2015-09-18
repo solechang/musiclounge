@@ -22,11 +22,14 @@
 #import "NowPlaying.h"
 #import "NowPlayingSong.h"
 
+#import <SVProgressHUD/SVProgressHUD.h>
+
 
 @interface SettingsTableTableViewController ()
 
 
 
+@property (weak, nonatomic) IBOutlet UITableViewCell *termsOfUseCell;
 
 @property (nonatomic, weak) IBOutlet UITableViewCell *logoutCell;
 
@@ -75,24 +78,11 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return 4;
-}
-
-//IK - Gaps between sections
-
 - (CGFloat)tableView:(UITableView*)tableView
 heightForHeaderInSection:(NSInteger)section {
     
     return 35;
 }
-
-//- (CGFloat)tableView:(UITableView*)tableView
-//heightForFooterInSection:(NSInteger)section {
-//    
-//    return 0;
-//}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -100,119 +90,46 @@ heightForHeaderInSection:(NSInteger)section {
         
 }
 
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView* headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.frame.size.width, 35)];
+- (void)popAlertViewForLoggingOut{
+    UIAlertView *logOutAlert = [[UIAlertView alloc]
+                                initWithTitle:@"MusicLounge"
+                                message:@"Are you sure you want to leave MusicLounge? :("
+                                delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
+    [logOutAlert show];
     
-    //IK - Setting custom background color and a border
-    headerView.backgroundColor = self.tableView.backgroundColor;
-    headerView.layer.borderColor = [UIColor colorWithWhite:0.5 alpha:1.0].CGColor;
-    headerView.layer.borderWidth = 0.0;
-    
-    //IK - Adding label
-    UILabel* headerLabel = [[UILabel alloc] init];
-    headerLabel.frame = CGRectMake(15, 0, tableView.frame.size.width - 30, 44);
-    headerLabel.backgroundColor = [UIColor clearColor];
-    headerLabel.textColor = [UIColor grayColor];
-    headerLabel.font = [UIFont boldSystemFontOfSize:16.0];
-    headerLabel.textAlignment = NSTextAlignmentLeft;
-    
-    switch (section)
-    {
-        case 0:
-            headerLabel.text = @"Profile Picture";
-
-            break;
-        case 1:
-            headerLabel.text = @"Account Settings";
-            break;
-        case 2:
-            headerLabel.text = @"Support";
-            break;
-        case 3:
-            headerLabel.text = @"Log Out";
-            break;
-        default:
-            headerLabel.text = @"";
-            break;
-    }
-
-    [headerView addSubview:headerLabel];
-    
-    
-    return headerView;
-}
-
-//IK - Section header titles
-
-//- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
-//{
-//    NSString *sectionName;
-//    
-//    switch (section)
-//    {
-//        case 0:
-//            sectionName = NSLocalizedString(@"Profile Picture", @"Profile Picture");
-//
-//            break;
-//        case 1:
-//            sectionName = NSLocalizedString(@"Account Settings", @"Account Settings");
-//            break;
-//        case 2:
-//            sectionName = NSLocalizedString(@"Support", @"Support");
-//            break;
-//        case 3:
-//            sectionName = NSLocalizedString(@"Log out", @"Log Out");
-//            break;
-//        default:
-//            sectionName = @"";
-//            break;
-//    }
-//
-//    return sectionName;
-//}
-
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-
-    //IK - Reference the storyboard for the number of cells per section.
-    
-    if (section == 0){
-        return 1;
-    }
-    else if (section == 1){
-        return 2;
-    }
-    else if (section == 2){
-        return 1;
-    }
-    else if (section == 3){
-        return 1;
-    }
-    
-    return 0;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
-    UITableViewCell *cell = [super tableView:tableView cellForRowAtIndexPath:indexPath];
-    
-    return cell;
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];
     
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+
+    
+    UITableViewCell *theCellClicked = [self.tableView cellForRowAtIndexPath:indexPath];
+  
     if (theCellClicked == self.logoutCell) {
-//        RHAddressBook *addressBook = [[RHAddressBook alloc] init];
+        
+        [self popAlertViewForLoggingOut];
+
+    } else if (theCellClicked == self.termsOfUseCell) {
+    
+        [SVProgressHUD showInfoWithStatus:@"Dropping soon :)"];
+        
+    }
+
+    
+}
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    
+    if (buttonIndex == 1) {
         
         [self deleteUserDataAndLogout];
-
+        
     }
     
 }
+
+
 
 #pragma mark - Deleting core data
 - (void) deleteUserDataAndLogout {
@@ -294,19 +211,7 @@ heightForHeaderInSection:(NSInteger)section {
 
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
-            
-//            NSArray *friendsArray = [Friend MR_findAll];
-//            NSArray *userFriendList = [UserFriendList MR_findAll];
-//            NSArray *currentUser = [CurrentUser MR_findAll];
-//            NSArray *userfriendpn = [FriendPhonenumber MR_findAll];
-//            NSArray *userIllist = [UserIllist MR_findAll];
-//
-//            NSLog(@"1.) %@", friendsArray);
-//            NSLog(@"2.) %@", userFriendList);
-//            NSLog(@"3.) %@", currentUser);
-//            NSLog(@"4.) %@", userfriendpn);
-//            NSLog(@"5.) %@", userIllist);
+        if (!error) {
             
             
             // Need to delete pinned PFObjects!

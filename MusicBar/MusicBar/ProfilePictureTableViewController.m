@@ -156,12 +156,12 @@
                 
                 
             } else {
-                NSLog(@"Did not succeded 158");
+//                NSLog(@"Did not succeded 158");
             }
             
         } else {
             // Handle error
-            NSLog(@"156.)");
+//            NSLog(@"156.)");
         }
     }];
     
@@ -197,11 +197,11 @@
     [userImage saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
         if (succeeded) {
-            NSLog(@"3.)");
+ 
             [self savePictureToLocal:image];
 
         } else {
-            NSLog(@"193 Error)");
+//            NSLog(@"193 Error)");
         }
         
     }];
@@ -226,7 +226,7 @@
             [self savePictureToLocal:image];
             
         } else {
-            NSLog(@"Failed to save picture to CurrentUser in Server 180");
+//            NSLog(@"Failed to save picture to CurrentUser in Server 180");
         }
         
         
@@ -236,8 +236,7 @@
 }
 
 - (void) savePictureToLocal:(UIImage*) image {
-    
-      NSLog(@"4.)");
+
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:localContext];
@@ -251,7 +250,11 @@
         if (!error) {
             if (success) {
                 
-                 [SVProgressHUD showSuccessWithStatus:@"Successfully saved Profile Picture :)"];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"pictureChanged" object:self ];
+                
+                [SVProgressHUD showSuccessWithStatus:@"Successfully saved Profile Picture :)"];
+                
                
             } else {
                 

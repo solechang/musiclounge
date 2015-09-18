@@ -113,7 +113,7 @@
 
             
         } else {
-            NSLog(@"ERROR: %@", jsonError.localizedDescription);
+//            NSLog(@"ERROR: %@", jsonError.localizedDescription);
             return nil;
         }
     }
@@ -203,9 +203,13 @@
     PFObject *illistInServer = [PFObject objectWithoutDataWithClassName:@"Illist" objectId:song[@"iLListId"]];
     
     // Updating the playlist's song count
-    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
+//    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
 
-    int songCountUpdate = [playlistInLocal.songCount intValue];
+//    int songCountUpdate = [playlistInLocal.songCount intValue];
+    
+    NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:[NSManagedObjectContext MR_defaultContext]];
+    
+    int songCountUpdate = (int)songsInLocal.count;
 
     songCountUpdate++;
 
@@ -218,12 +222,12 @@
     
     [PFObject saveAllInBackground:sendObjectsToServer block:^(BOOL succeeded, NSError *error) {
         
-        if (succeeded) {
-            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
+        if (!error) {
+//            NSLog(@"Illist: %@, Song: %@", illistInServer.updatedAt, song.updatedAt);
             [self saveSongToLocal:song];
             
         } else {
-            NSLog(@"221.)");
+//            NSLog(@"221.)");
             [[NSNotificationCenter defaultCenter] postNotificationName:@"FailedToAddSong" object:self ];
         }
         
@@ -253,15 +257,19 @@
         songInLocal.createdAt = song.createdAt;
         
         [playlistInLocal addSongObject:songInLocal];
-        int songCountUpdate = [playlistInLocal.songCount intValue];
-        songCountUpdate++;
+        
+        
+        NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:localContext];
+        
+        int songCountUpdate = (int) songsInLocal.count;
+
         playlistInLocal.songCount = [NSNumber numberWithInt:songCountUpdate];
         playlistInLocal.updatedAt = song.updatedAt;
         
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             // Notify the user that the song has been added
             NSDictionary* songInfo = @{@"song": song};
             
@@ -269,7 +277,7 @@
             
         } else {
             
-            NSLog(@"Error: %@ 267", error.localizedDescription);
+//            NSLog(@"Error: %@ 267", error.localizedDescription);
             [[NSNotificationCenter defaultCenter] postNotificationName:@"FailedToAddSong" object:self ];
 
             

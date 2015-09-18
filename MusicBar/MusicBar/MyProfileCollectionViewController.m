@@ -47,6 +47,7 @@
     BOOL swipedCellPastHalfWay;
     
     NSString *hostName;
+    NSString *userInfo;
     
     NSManagedObjectContext *defaultContext;
     
@@ -59,6 +60,8 @@
 @property (nonatomic, strong) NSArray *menuItems;
 @property (nonatomic, retain) UIImage *profilePictureImage;
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *settingsButton;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *addPlaylistButton;
 
 
 @end
@@ -67,10 +70,10 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    [self disableButtons];
     
     [self setUpMediaPlayerLockScreen];
-    
+    [self setUpNotifications];
     [self setUpNavigationBar];
     [self setUpCollectionView];
     [self setUpHeaderFlowLayout];
@@ -82,6 +85,34 @@
     [self setNSManagedObjectContext];
     
     [self control];
+    
+}
+- (void)disableButtons {
+    self.tabBarController.tabBar.userInteractionEnabled = NO;
+    self.addPlaylistButton.enabled = NO;
+    self.settingsButton.enabled = NO;
+}
+
+- (void)enableButtons {
+    self.tabBarController.tabBar.userInteractionEnabled = YES;
+    self.addPlaylistButton.enabled = YES;
+    self.settingsButton.enabled = YES;
+}
+
+- (void) setUpNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"pictureChanged" object:nil];
+}
+
+- (void) activityNotifications:(NSNotification *)notification {
+    
+        if ([[notification name] isEqualToString:@"pictureChanged"]) {
+
+            [self getProfilePicture];
+            [self.collectionView reloadData];
+            
+        }
+        
+    
     
 }
 
@@ -111,7 +142,6 @@
         layout.parallaxHeaderMinimumReferenceSize = CGSizeMake(self.view.frame.size.width, 0);
         
         layout.itemSize = CGSizeMake(self.view.frame.size.width, layout.itemSize.height);
-        
         layout.parallaxHeaderAlwaysOnTop = YES;
         
         // If we want to disable the sticky header effect
@@ -135,7 +165,7 @@
     
     // Check if user is logged in
     if (currentPFUser) {
-        
+        [self enableButtons];
         [self userPlaylistLogic];
         
     } else {
@@ -165,7 +195,7 @@
     
     myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
     
-    [self setCountOnControl];
+
     
     [self.collectionView reloadData];
     
@@ -236,17 +266,17 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             NSArray *playlistArray = [Playlist MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
             
             myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
-            
+            [self setCountOnControl];
             [self.collectionView reloadData];
             
         } else {
             
-            NSLog(@"No playlist changes 234");
+//            NSLog(@"No playlist changes 234");
         }
         
     }];
@@ -259,6 +289,7 @@
     
     [self getUserName];
     [self getProfilePicture];
+//    [self getUserInfo];
 }
 
 - (void) setUpCollectionView {
@@ -273,7 +304,7 @@
 -(void) setUpNavigationBar{
     
     NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
-    self.navigationController.navigationBar.topItem.title = @"MusicBar";
+    self.navigationController.navigationBar.topItem.title = @"MusicLounge";
     self.navigationController.navigationBar.titleTextAttributes = size;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
@@ -285,7 +316,22 @@
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
 }
+- (void) getUserInfo {
+    
+    CurrentUser *user = [CurrentUser MR_findFirstInContext:defaultContext];
+    
+    if (user.info != nil) {
+        
+        userInfo = [[NSString alloc] initWithString:user.info];
+        
+        [self.collectionView reloadData];
+        
+    } else {
+        userInfo = [[NSString alloc] init];
+        [self.collectionView reloadData];
+    }
 
+}
 - (void) getUserName {
     
     CurrentUser *user = [CurrentUser MR_findFirstInContext:defaultContext];
@@ -613,6 +659,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
                                                                            forIndexPath:indexPath];
         
         cell.textLabelName.text = hostName;
+        cell.descriptionLabel.text = userInfo;
         [cell.profileImage setImage: self.profilePictureImage];
         cell.profileImage.contentMode = UIViewContentModeScaleAspectFill;
         
@@ -758,7 +805,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     
     if(swipedCell.frame.origin.x < -swipedCell.frame.size.width / 4){
         
-        swipedCellPastHalfWay = YES;
+//        swipedCellPastHalfWay = YES;
         
         if (_control.selectedSegmentIndex == 0){
             
@@ -775,13 +822,14 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
          ];
     }
     
+    
     [UIView animateWithDuration:0.2
                      animations:^{
                          swipedCell.frame = originalFrame;
                      }
      ];
-    
-    swipedCellPastHalfWay = NO;
+//
+//    swipedCellPastHalfWay = NO;
     
     self.collectionView.scrollEnabled = YES;
     
@@ -789,7 +837,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 
 - (void)popAlertViewForMyLoungeDelete{
     UIAlertView *deleteAlert = [[UIAlertView alloc]
-                                initWithTitle:@"MusicBar"
+                                initWithTitle:@"MusicLounge"
                                 message:@"Are you sure you want to delete this playlist?"
                                 delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
     [deleteAlert show];
@@ -802,9 +850,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
     if (buttonIndex == 1) {
         
         [self deletePlaylist];
-    }
-    
-    else if (buttonIndex == 0) {
+        
+    } else if (buttonIndex == 0) {
         CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
                                           swipedCell.bounds.size.width, swipedCell.bounds.size.height);
         [UIView animateWithDuration:0.2
@@ -850,21 +897,21 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                         
                     } completion:^(BOOL success, NSError *error) {
                         
-                        if (success) {
+                        if (!error) {
                             
                             [myiLListArray removeObjectAtIndex:[swipedIndexPath row]];
                             NSArray* indexPathsToRemove = [NSArray arrayWithObject:swipedIndexPath];
                             [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
                             
                         } else {
-                            NSLog(@"861");
+//                            NSLog(@"861");
                         }
                         
                         
                     }];
                     
                 } else {
-                    NSLog(@"Error in delete: clickedButtonAtIndex");
+//                    NSLog(@"Error in delete: clickedButtonAtIndex");
                     
                 }
                 

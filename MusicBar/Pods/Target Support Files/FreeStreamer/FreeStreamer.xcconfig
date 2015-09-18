@@ -1,0 +1,2 @@
+FREESTREAMER_HEADER_SEARCH_PATHS = $(SDKROOT)/usr/include/libxml2
+FREESTREAMER_OTHER_LDFLAGS = -l"stdc++" -l"xml2" -framework "AVFoundation" -framework "AudioToolbox" -framework "CFNetwork" -framework "MediaPlayer"

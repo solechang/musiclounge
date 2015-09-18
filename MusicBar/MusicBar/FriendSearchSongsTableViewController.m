@@ -22,6 +22,9 @@
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
     int counter;
+    UINavigationController *navController;
+    FriendSearchControllerTableViewController *vc;
+
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -47,6 +50,13 @@
     [self setupTableView];
     [self setUpNotifications];
     
+}
+
+- (void) setUpData {
+    navController = (UINavigationController *)self.searchController.searchResultsController;
+    
+    
+    vc = (FriendSearchControllerTableViewController *)navController.topViewController;
 }
 
 - (void) setUpSearchController {
@@ -178,7 +188,7 @@
     } completion:^(BOOL success, NSError *error) {
         
         
-        if (success) {
+        if (!error) {
             NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
             
             iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
@@ -200,72 +210,19 @@
     
     [self getSongsFromLocal];
     
-    
-    
 }
 
 - (void) getSongsFromLocal {
-    
-    
-//    NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-//    
-//    iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
-//    [self.tableView reloadData];
-//    
-    [self fetchSongsFromServer];
 
     
+    if (self.playlistInfo.objectId) {
+         [self fetchSongsFromServer];
+    }
+
     
 }
 
-- (void) checkIfPlaylistUpdated {
-    
-    // Checking if the iLList updated in the server
-    PFQuery *updatedIllistQuery = [PFQuery queryWithClassName:@"Illist"];
-    
-    [updatedIllistQuery getObjectInBackgroundWithId:self.playlistInfo.objectId block:^(PFObject *updatedIllistObject, NSError *error) {
-        
-        if (!error) {
-            
-            PlaylistFriend *playlist = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:defaultContext];
-            
-            // Update if updatedAt dates do not equal
-            if (![updatedIllistObject.updatedAt isEqual: playlist.updatedAt]) {
-                
-                [self updatePlaylistInLocal:updatedIllistObject];
-                
-            } else {
-                // No need to update playlist since it is not updated
-                NSLog(@"No need to update playlist 163.)");
-            }
-        }
-        
-        
-    }];
-    
-}
 
-- (void) updatePlaylistInLocal:(PFObject*) updatedIllistObject {
-    
-    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        
-        PlaylistFriend *playlist = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:localContext];
-        
-        playlist.updatedAt = updatedIllistObject.updatedAt;
-        
-    } completion:^(BOOL success, NSError *error) {
-        
-        if (success) {
-            
-            [self fetchSongsFromServer];
-        } else {
-            
-            NSLog(@"The playlist is not updated 247.)");
-        }
-        
-    }];
-    
-}
 
 - (void ) fetchSongsFromServer {
     PFQuery *updatedQuery = [PFQuery queryWithClassName:@"Song"];
@@ -277,15 +234,21 @@
     [SVProgressHUD showWithStatus:@"Loading Playlist"];
     
     [updatedQuery findObjectsInBackgroundWithBlock:^(NSArray *songsInServer, NSError *error) {
-        
+
         if (!error) {
+            
+
             if (counter<1) {
+   
                 [self saveSongsToLocal: songsInServer];
                 counter++;
+            } else {
+                [SVProgressHUD dismiss];
             }
             
         } else {
-            NSLog(@"Error with fetching songs from server 271");
+//             NSLog(@"1.3)");
+//            NSLog(@"Error with fetching songs from server 235");
         }
         
     }];
@@ -325,7 +288,7 @@
 
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
             
@@ -335,7 +298,7 @@
             
         } else {
             
-            NSLog(@"Songs didnt not save locally 252.)");
+//            NSLog(@"Songs didnt not save locally 285.)");
             
         }
         [SVProgressHUD dismiss];
@@ -375,6 +338,9 @@
         
         // iLList tableview
         
+        cell.titleLabel.numberOfLines = 3;
+        cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        
         /* May need to change the code below for code efficiency like how it is written for searchdisplaycontroller
          * by using iLLSong
          */
@@ -413,10 +379,10 @@
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
-                UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
-                self.searchResult = [songMangerSearchedText parseTrackData:data];
+               
                 
-                FriendSearchControllerTableViewController *vc = (FriendSearchControllerTableViewController *)navController.topViewController;
+                [self setUpData];
+                self.searchResult = [songMangerSearchedText parseTrackData:data];
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
@@ -435,6 +401,15 @@
           sendingProgressHandler:nil
                  responseHandler:handler];
     }
+    
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    
+    [vc.searchResults removeAllObjects];
+
+    [vc.tableView reloadData];
+    
     
 }
 
@@ -478,7 +453,7 @@
                 //                [self deleteSongInLocal:deleteSong forRowAtIndexPath:indexPath];
                 
             } else {
-                NSLog(@"Error in deleting song 456");
+//                NSLog(@"Error in deleting song 456");
                 
             }
             
@@ -493,10 +468,14 @@
     PFObject *illistInServer = [PFObject objectWithoutDataWithClassName:@"Illist" objectId:self.playlistInfo.objectId];
     
     // Updating the playlist's song count
-    PlaylistFriend *playlistInLocal = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
+    NSArray *songsFriendInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
     
-    int songCountUpdate = [playlistInLocal.songCount intValue];
-    songCountUpdate--;
+    int songCountUpdate = (int)songsFriendInLocal.count ;
+    
+    if (songCountUpdate > 0 ) {
+        songCountUpdate--;
+    }
+
     illistInServer[@"SongCount"] = @(songCountUpdate);
     
     [illistInServer saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
@@ -506,7 +485,7 @@
             
             
         } else {
-            NSLog(@"Did not update playlist after delete 484");
+//            NSLog(@"Did not update playlist after delete 484");
         }
         
     }];
@@ -518,20 +497,25 @@
         
         PlaylistFriend *playlist = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:localContext];
         
+        NSArray *songsFriendInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
         
-        int songCountUpdate = [playlist.songCount intValue];
-        songCountUpdate--;
+        int songCountUpdate = (int)songsFriendInLocal.count ;
+        
+        if (songCountUpdate > 0 ) {
+            songCountUpdate--;
+        }
+      
         playlist.songCount = [NSNumber numberWithInt:songCountUpdate];
         playlist.updatedAt = illistInServer.updatedAt;
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             [self deleteSongInLocal:deleteSongInLocal forRowAtIndexPath:indexPath];
             
         } else {
             
-            NSLog(@"The playlist did not update 509.)");
+//            NSLog(@"The playlist did not update 509.)");
         }
         
     }];
@@ -548,13 +532,13 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             [iLListTracks removeObjectAtIndex:indexPath.row];
             
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
         } else {
-            NSLog(@"Couldn't delete song in local: 534.)");
+//            NSLog(@"Couldn't delete song in local: 534.)");
         }
         
         
@@ -642,20 +626,21 @@
         if (!error) {
   
         } else {
-            NSLog(@"Error 653 %@", error);
+//            NSLog(@"Error 653 %@", error);
         }
         
         
-        
+    
         if(self.tabBarController.selectedIndex == 0) {
             [self backButton:self];
+            
             // Change to media player from me tab
-            [self.tabBarController setSelectedIndex:3];
+            [self.tabBarController setSelectedIndex:2];
             
         } else if(self.tabBarController.selectedIndex == 1) {
-            
+ 
             // Change to media player from Friend tab
-            [self.tabBarController setSelectedIndex:3];
+            [self.tabBarController setSelectedIndex:2];
             
         }
         

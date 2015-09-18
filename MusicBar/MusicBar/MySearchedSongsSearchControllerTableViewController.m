@@ -24,7 +24,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self.tableView setRowHeight:90];
     
 }
@@ -53,15 +53,18 @@
 //    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"searchedSongCell" forIndexPath:indexPath];
     
     static NSString *CellIdentifier = @"searchedSongCell";
-
-    CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
     CustomSong *song = nil;
     if (cell == nil) {
         cell = [[CustomSearchedSongTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
+    
+    cell.titleLabel.numberOfLines = 3;
+    cell.titleLabel.adjustsFontSizeToFitWidth = YES;
     
     // Searched song table view
     song = [self.searchResults objectAtIndex:indexPath.row];
@@ -115,7 +118,7 @@
 -(IBAction)addToPlaylist:(id)sender {
     
     UIButton *buttonClicked = (UIButton *)sender;
-    buttonClicked.enabled = NO;
+    [buttonClicked setEnabled:NO];
     buttonClicked.backgroundColor = [UIColor lightGrayColor];
     
     UITableViewCell *clickedCell = (UITableViewCell *)[[sender superview] superview];
@@ -153,7 +156,7 @@
     button.layer.borderWidth=1.0f;
    
     if (song.stream_url == nil) {
-        button.enabled = NO;
+        [button setEnabled:NO];
    
         button.backgroundColor = [UIColor lightGrayColor];
     }
@@ -162,8 +165,8 @@
     for (Song *checkIfSongExistsInPlaylist in self.iLListTracks) {
 
         if ([song.stream_url isEqualToString:checkIfSongExistsInPlaylist.stream_url]) {
-      
-            button.enabled = NO;
+
+            [button setEnabled:NO];
         
             button.backgroundColor = [UIColor lightGrayColor];
             
@@ -174,55 +177,6 @@
     return button;
     
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    //Change the selected background view of the cell.
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
 
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -37,7 +37,7 @@
 
     [self setNSManagedObjectContext];
     self.iLListName.delegate = self;
-    
+   
 }
 
 -(void) setUpNavigationBar{
@@ -51,6 +51,12 @@
     
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
+}
+
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+     [self.iLListName becomeFirstResponder];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -243,7 +249,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
 
             // Show Success
             NSString *successString = [[ NSString alloc] initWithFormat:@"Added %@", self.iLListName.text];

@@ -2,7 +2,7 @@
 //  Friend.h
 //  MusicBar
 //
-//  Created by Jake Choi on 6/17/15.
+//  Created by Jake Choi on 8/31/15.
 //  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
@@ -18,6 +18,7 @@
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSString * objectId;
 @property (nonatomic, retain) NSString * userId;
+@property (nonatomic, retain) NSNumber * deleteSearch;
 @property (nonatomic, retain) NSSet *friendPhonenumber;
 @property (nonatomic, retain) UserFriendList *userFriendList;
 @end

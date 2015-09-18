@@ -21,6 +21,8 @@
     
     NSMutableArray *iLListTracks;
     NSManagedObjectContext *defaultContext;
+    UINavigationController *navController;
+    MySearchedSongsSearchControllerTableViewController *vc;
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -48,6 +50,13 @@
 
 }
 
+- (void) setUpData {
+    navController = (UINavigationController *)self.searchController.searchResultsController;
+    
+    
+    vc = (MySearchedSongsSearchControllerTableViewController *)navController.topViewController;
+}
+
 - (void) setNSManagedObjectContext {
     
 
@@ -65,8 +74,6 @@
     [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
 
     self.searchController.searchBar.delegate = self;
-    
-//    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
     
@@ -188,7 +195,7 @@
                 
             } else {
                 // No need to update playlist since it is not updated
-                NSLog(@"No need to update playlist 163.)");
+//                NSLog(@"No need to update playlist 163.)");
             }
         }
  
@@ -208,12 +215,12 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             [self fetchSongsFromServer];
         } else {
             
-            NSLog(@"The playlist is not updated 187.)");
+//            NSLog(@"The playlist is not updated 187.)");
         }
         
     }];
@@ -235,7 +242,7 @@
             [self saveSongsToLocal: songsInServer];
             
         } else {
-            NSLog(@"Error with fetching songs from server 208");
+//            NSLog(@"Error with fetching songs from server 208");
         }
         
     }];
@@ -277,7 +284,7 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             
             NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
             
@@ -287,7 +294,7 @@
             
         } else {
             
-            NSLog(@"Songs didn not save locally 252.)");
+//            NSLog(@"Songs didn not save locally 252.)");
             
         }
         
@@ -328,6 +335,10 @@
         /* May need to change the code below for code efficiency like how it is written for searchdisplaycontroller
          * by using iLLSong
          */
+        
+        cell.titleLabel.numberOfLines = 3;
+        cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        
         Song *song = [iLListTracks objectAtIndex:indexPath.row];
         cell.titleLabel.text = song.title;
         cell.uploadingUserLabel.text = song.uploadingUser;
@@ -359,9 +370,11 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
 
+
     NSString *searchString = searchBar.text;
     
     if (searchString.length != 0 ) {
+        
         NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
         
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
@@ -376,10 +389,10 @@
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
-                UINavigationController *navController = (UINavigationController *)self.searchController.searchResultsController;
+
+                [self setUpData];
                 self.searchResult = [songMangerSearchedText parseTrackData:data];
                 
-                MySearchedSongsSearchControllerTableViewController *vc = (MySearchedSongsSearchControllerTableViewController *)navController.topViewController;
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
@@ -399,6 +412,15 @@
                  responseHandler:handler];
     }
 
+    
+    
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+   
+    [vc.searchResults removeAllObjects];
+ 
+    [vc.tableView reloadData];
     
     
 }
@@ -428,7 +450,7 @@
 //                [self deleteSongInLocal:deleteSong forRowAtIndexPath:indexPath];
                 
             } else {
-                NSLog(@"Error in deleting song 456");
+//                NSLog(@"Error in deleting song 456");
                 
             }
             
@@ -454,20 +476,26 @@
     PFObject *illistInServer = [PFObject objectWithoutDataWithClassName:@"Illist" objectId:self.playlistInfo.objectId];
     
     // Updating the playlist's song count
-    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
+//    Playlist *playlistInLocal = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:[NSManagedObjectContext MR_defaultContext]];
     
-    int songCountUpdate = [playlistInLocal.songCount intValue];
-    songCountUpdate--;
+   NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    
+    int songCountUpdate = (int)songsInLocal.count ;
+    
+    if (songCountUpdate > 0 ) {
+        songCountUpdate--;
+    }
+
     illistInServer[@"SongCount"] = @(songCountUpdate);
     
     [illistInServer saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
        
-        if (succeeded) {
+        if (!error) {
             [self updatePlaylistInLocalAfterDelete:illistInServer songToDelete:deleteSongInLocal forRowAtIndexPath:indexPath];
             
             
         } else {
-            NSLog(@"Did not update playlist after delete 484");
+//            NSLog(@"Did not update playlist after delete 484");
         }
         
     }];
@@ -479,20 +507,25 @@
         
         Playlist *playlist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:localContext];
         
-       
-        int songCountUpdate = [playlist.songCount intValue];
-        songCountUpdate--;
+        NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+        
+        int songCountUpdate = (int)songsInLocal.count ;
+
+        if (songCountUpdate > 0 ) {
+              songCountUpdate--;
+        }
+        
         playlist.songCount = [NSNumber numberWithInt:songCountUpdate];
         playlist.updatedAt = illistInServer.updatedAt;
         
     } completion:^(BOOL success, NSError *error) {
         
-        if (success) {
+        if (!error) {
             [self deleteSongInLocal:deleteSongInLocal forRowAtIndexPath:indexPath];
             
         } else {
             
-            NSLog(@"The playlist did not update 509.)");
+//            NSLog(@"The playlist did not update 509.)");
         }
         
     }];
@@ -509,13 +542,13 @@
         
     } completion:^(BOOL success, NSError *error) {
        
-        if (success) {
+        if (!error) {
             [iLListTracks removeObjectAtIndex:indexPath.row];
             
             [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
 
         } else {
-            NSLog(@"Couldn't delete song in local: 534.)");
+//            NSLog(@"Couldn't delete song in local: 534.)");
         }
         
         
@@ -573,7 +606,7 @@
    
   
         } else {
-            NSLog(@"Error 653 %@", error);
+//            NSLog(@"Error 653 %@", error);
         }
 
     }];

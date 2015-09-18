@@ -44,9 +44,74 @@
     // For audio to play in background
     NSError* error;
     [[AVAudioSession sharedInstance] setCategory:AVAudioSessionCategoryPlayback error:&error];
+    
+    [AVAudioSession sharedInstance];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(audioRouteChangeListenerCallback:)
+                                                 name:AVAudioSessionRouteChangeNotification
+                                               object:nil];
 
     
     return YES;
+}
+
+- (void)remoteControlReceivedWithEvent:(UIEvent *)receivedEvent {
+    
+    if (receivedEvent.type == UIEventTypeRemoteControl) {
+        
+        switch (receivedEvent.subtype) {
+                
+            case UIEventSubtypeRemoteControlPreviousTrack:
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"BackSong" object:self ];
+                break;
+                
+            case UIEventSubtypeRemoteControlNextTrack:
+                
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"NextSong" object:self ];
+                break;
+                
+            case UIEventSubtypeRemoteControlPlay:
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayAndPause" object:self ];
+                
+                break;
+                
+            case UIEventSubtypeRemoteControlPause:
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"PlayAndPause" object:self ];
+                
+                break;
+                
+            default:
+                break;
+        }
+    }
+}
+
+// If the user pulls out he headphone jack, stop playing.
+- (void)audioRouteChangeListenerCallback:(NSNotification*)notification
+{
+    NSDictionary *interuptionDict = notification.userInfo;
+    
+    NSInteger routeChangeReason = [[interuptionDict valueForKey:AVAudioSessionRouteChangeReasonKey] integerValue];
+    
+    switch (routeChangeReason) {
+            
+        case AVAudioSessionRouteChangeReasonNewDeviceAvailable:
+//            NSLog(@"AVAudioSessionRouteChangeReasonNewDeviceAvailable");
+//            NSLog(@"Headphone/Line plugged in");
+            break;
+            
+        case AVAudioSessionRouteChangeReasonOldDeviceUnavailable:
+//            NSLog(@"AVAudioSessionRouteChangeReasonOldDeviceUnavailable");
+//            NSLog(@"Headphone/Line was pulled. Stopping player....");
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"StopPlayer" object:self];
+            break;
+            
+        case AVAudioSessionRouteChangeReasonCategoryChange:
+            // called at start - also when other audio wants to play
+//            NSLog(@"AVAudioSessionRouteChangeReasonCategoryChange");
+            break;
+    }
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application {

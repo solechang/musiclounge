@@ -21,6 +21,9 @@
 #import <ParseFacebookUtilsV4/PFFacebookUtils.h>
 #import <FBSDKCoreKit/FBSDKCoreKit.h>
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 @interface LoginViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
@@ -47,8 +50,8 @@
     self.subView.layer.cornerRadius = 10;
     self.subView.layer.masksToBounds = YES;
     
-    [self.titleLabel setFont:[UIFont fontWithName:@"Wisdom Script" size:56.0]];
-    self.titleLabel.text = @"MusicBar";
+    [self.titleLabel setFont:[UIFont fontWithName:@"Wisdom Script" size:44.0]];
+    self.titleLabel.text = @"MusicLounge";
     
     
     self.loginButton.layer.cornerRadius = 10;
@@ -109,11 +112,14 @@
     [self.facebookLoginButton setEnabled:NO];
     NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"read_custom_friendlists"];
     
+    [SVProgressHUD showWithStatus:@"Loading :)"];
+    
     // Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
         if (!user) {
-            
-            NSLog(@"1.1.) Uh oh. The user cancelled the Facebook login.");
+            [SVProgressHUD dismiss];
+            [SVProgressHUD showErrorWithStatus:@"You have canceled Facebook login :("];
+//            NSLog(@"1.1.) Uh oh. The user cancelled the Facebook login.");
         } else {
             
 //            NSLog(@"1.3.) %@", user);
@@ -206,7 +212,7 @@
                                           id result,
                                           NSError *error) {
         // Handle the result
-        NSLog(@"1.) %@", result);
+
         NSString *facebookID = result[@"id"];
         
         
@@ -235,16 +241,25 @@
                 
                 
             } else {
-                
+         
                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
                     
+                    PFUser *currentUser = [PFUser currentUser];
+                    [Answers logLoginWithMethod:@"MusicLounge"
+                                        success:@YES
+                               customAttributes:@{@"username": currentUser[@"name"],
+                                                  @"userID" : currentUser.objectId
+                                                  
+                                                  }];
+                    
                     // Display success to log in
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to MusicBar!"];
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to MusicLounge!"];
                     
                     
                 }];
                 
             }
+            [SVProgressHUD dismiss];
             
         }
         
@@ -276,7 +291,7 @@
                                                 //The login failed. Check error to see why.
                                                 
                                                 NSString *errorString = [error userInfo][@"error"];
-                                                NSLog(@"ERROR: %@", errorString);
+//                                                NSLog(@"ERROR: %@", errorString);
                                                 [SVProgressHUD showErrorWithStatus:errorString];
                                             }
                                         }];

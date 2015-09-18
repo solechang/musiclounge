@@ -1,0 +1,1 @@
+COCOASOUNDCLOUDUI_OTHER_LDFLAGS = -framework "CoreLocation"

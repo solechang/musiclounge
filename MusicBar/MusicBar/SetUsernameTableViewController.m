@@ -20,6 +20,9 @@
 
 #import <Parse/Parse.h>
 
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
+
 @interface SetUsernameTableViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
@@ -174,14 +177,15 @@
     [defaultACL setPublicReadAccess:YES];
     [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
     
-    
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
        
         if (succeeded) {
             
             [self createUserData:user];
         } else {
-            NSLog(@"184.) %@",error);
+//            NSLog(@"184.) %@",error);
+            [self.doneButton setEnabled:YES];
+            [SVProgressHUD dismiss];
         }
         
     }];
@@ -215,7 +219,7 @@
     // Save data in parse
     [PFObject saveAllInBackground:userData block:^(BOOL succeeded, NSError *error) {
         
-        if(succeeded) {
+        if(!error) {
             
             // Save data in local
             [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
@@ -232,7 +236,6 @@
                 // saving user's name, phone number, and email onto core data
                 currentUser.name = self.usernameTextField.text;
 
-                
                 // setting data for current user illist and friend list onto core data
                 currentUserFriendList.hostId = [[PFUser currentUser] objectId];
                 currentUserFriendList.objectId = userFriendList.objectId;
@@ -241,17 +244,35 @@
                 
             } completion:^(BOOL success, NSError *error) {
                 
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                    
+                if (!error) {
+                    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                        
+                        PFUser *currentUser = [PFUser currentUser];
+                        [Answers logSignUpWithMethod:@"MusicLounge"
+                                             success:@YES
+                                    customAttributes:@{@"username": currentUser[@"name"],
+                                                       @"userId" :currentUser.objectId
+                                                       
+                                                       }];
+                        
+                        [self.doneButton setEnabled:YES];
+                        [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicLounge!"];
+                        
+                    }];
+                } else {
                     [self.doneButton setEnabled:YES];
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicBar!"];
+                    [SVProgressHUD showErrorWithStatus:@"Please try again. The username could not be set"];
                     
-                }];
+                }
+                
+               
                 
             }];
             
         } else {
-            NSLog(@"Error in saving: createUserData %@", error);
+            [self.doneButton setEnabled:YES];
+            [SVProgressHUD dismiss];
+//            NSLog(@"Error in saving: createUserData %@", error);
         }
     }];
 }

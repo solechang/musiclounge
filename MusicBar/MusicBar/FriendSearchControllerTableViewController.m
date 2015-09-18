@@ -63,12 +63,17 @@
     
     CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     CustomSong *song = nil;
     if (cell == nil) {
         cell = [[CustomSearchedSongTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
+    
+    cell.titleLabel.numberOfLines = 3;
+    cell.titleLabel.adjustsFontSizeToFitWidth = YES;
     
     // Searched song table view
     song = [self.searchResults objectAtIndex:indexPath.row];
@@ -160,7 +165,7 @@
     button.layer.borderWidth=1.0f;
     
     if (song.stream_url == nil) {
-        button.enabled = NO;
+        [button setEnabled:NO];
         
         button.backgroundColor = [UIColor lightGrayColor];
     }
@@ -170,7 +175,7 @@
         
         if ([song.stream_url isEqualToString:checkIfSongExistsInPlaylist.stream_url]) {
             
-            button.enabled = NO;
+           [button setEnabled:NO];
             
             button.backgroundColor = [UIColor lightGrayColor];
             

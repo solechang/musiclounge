@@ -24,11 +24,14 @@
     // Initialization code
     
     CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = self.mainView.bounds;
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+//    CGFloat screenHeight = screenRect.size.height;
+    
+    gradient.frame = screenRect;
     
     UIColor *topColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0) blue:(65/255.0) alpha:0] ;
-    UIColor *bottomColor = [UIColor colorWithRed:(75/255.0) green:(31/255.0) blue:(83/255.0) alpha:1] ;
-
+    UIColor *bottomColor = [UIColor colorWithRed:(125/255.0) green:(44/255.0) blue:(67/255.0) alpha:1] ;
+//
     gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[bottomColor CGColor], nil];
     [self.mainView.layer insertSublayer:gradient atIndex:0];
     
@@ -47,6 +50,8 @@
     self.profileImage.layer.masksToBounds = YES;
     self.profileImage.layer.cornerRadius = self.profileImage.frame.size.height /2;
 
+    self.descriptionLabel.text = @"Hello";
+    
 }
 
 
