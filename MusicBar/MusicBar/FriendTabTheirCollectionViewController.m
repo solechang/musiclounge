@@ -168,9 +168,7 @@
 
     if (self.friendInfo.userId) {
         // Check if friend exists
-        
-        
-        
+
         [self userPlaylistLogic];
     }
     

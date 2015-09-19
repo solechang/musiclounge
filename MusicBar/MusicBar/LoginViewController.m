@@ -213,17 +213,17 @@
                                           NSError *error) {
         // Handle the result
 
-        NSString *facebookID = result[@"id"];
-        
-        
-        if (![facebookID isEqualToString:@""]) {
-            [self saveUserFacebookID: facebookID :user];
+        if (!error) {
+            
+            
+            NSString *facebookID = result[@"id"];
+            
+            
+            if (![facebookID isEqualToString:@""]) {
+                [self saveUserFacebookID: facebookID :user];
+            }
         }
 
-        
-        
-        
-   
     }];
     
 }
@@ -235,8 +235,12 @@
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     
         if (succeeded) {
+            NSString *userName = user[@"name"];
             
-            if (user.isNew) {
+            
+            // Checks if the username is set correctly
+            if (user.isNew || userName.length == 0) {
+                
                 [self performSegueWithIdentifier:@"usernameSegue" sender:self];
                 
                 

@@ -164,7 +164,7 @@
     iLListInfo = [[NSMutableDictionary alloc] init];
     
     // Check if user is logged in
-    if (currentPFUser) {
+    if (currentPFUser && currentPFUser[@"name"] ) {
         [self enableButtons];
         [self userPlaylistLogic];
         
