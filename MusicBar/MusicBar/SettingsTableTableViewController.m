@@ -7,7 +7,6 @@
 //
 
 #import "SettingsTableTableViewController.h"
-#import <RHAddressBook/AddressBook.h>
 
 // Core Data
 #import <MagicalRecord/MagicalRecord.h>

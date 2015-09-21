@@ -7,7 +7,7 @@
 //
 
 #import "FriendsTableViewController.h"
-#import <RHAddressBook/AddressBook.h>
+
 #import <SVProgressHUD/SVProgressHUD.h>
 
 // Core Data
