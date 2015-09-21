@@ -235,11 +235,9 @@
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     
         if (succeeded) {
-            NSString *userName = user[@"name"];
-            
             
             // Checks if the username is set correctly
-            if (user.isNew || userName.length == 0) {
+            if (user.isNew || !user[@"name"]) {
                 
                 [self performSegueWithIdentifier:@"usernameSegue" sender:self];
                 

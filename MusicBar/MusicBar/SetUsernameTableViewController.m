@@ -131,7 +131,24 @@
         }
     } else {
         
-        // Find if username is in use or not.
+        [self checkIllegalCharactersForUsername];
+        
+        
+        
+    }// end else
+
+}
+
+- (void) checkIllegalCharactersForUsername {
+    
+    NSString *myRegex = @"[A-Z0-9a-z_]*";
+    NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", myRegex];
+    NSString *string = self.usernameTextField.text;
+    BOOL valid = [myTest evaluateWithObject:string];
+    
+    
+    if (valid) {
+        // Check if username is valid use or not.
         PFQuery *query = [PFUser query];
         
         [query whereKey:@"name" equalTo:self.usernameTextField.text];
@@ -145,17 +162,21 @@
             } else {
                 [self setUsernameTextFieldRed];
                 [SVProgressHUD showErrorWithStatus:@"Please use another username."];
+                [self.doneButton setEnabled:YES];
                 
             }
         }];
-        
-        
-        
-        
-        
-    }// end else
 
+        
+        
+    } else {
+        [self.doneButton setEnabled:YES];
+        [self setUsernameTextFieldRed];
+        [SVProgressHUD showErrorWithStatus:@"Your username can only contain alphabetic, numeric, '-', and '_' characters."];
+    }
+    
 }
+
 - (void) setUsernameTextFieldRed {
     self.usernameTextField.layer.cornerRadius=1.0f;
     self.usernameTextField.layer.masksToBounds=YES;

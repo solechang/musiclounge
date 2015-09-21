@@ -195,8 +195,6 @@
     
     myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
     
-
-    
     [self.collectionView reloadData];
     
     [self getPlaylistFromServer];
