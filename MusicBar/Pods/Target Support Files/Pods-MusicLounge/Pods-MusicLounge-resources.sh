@@ -61,13 +61,11 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_resource "CocoaSoundCloudUI/SoundCloud.bundle"
   install_resource "Parse/Parse/Resources/en.lproj"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
-  install_resource "libPhoneNumber-iOS/libPhoneNumber/NBPhoneNumberMetadata.plist"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_resource "CocoaSoundCloudUI/SoundCloud.bundle"
   install_resource "Parse/Parse/Resources/en.lproj"
   install_resource "SVProgressHUD/SVProgressHUD/SVProgressHUD.bundle"
-  install_resource "libPhoneNumber-iOS/libPhoneNumber/NBPhoneNumberMetadata.plist"
 fi
 
 mkdir -p "${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}"
