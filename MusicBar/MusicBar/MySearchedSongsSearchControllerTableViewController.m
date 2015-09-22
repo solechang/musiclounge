@@ -25,9 +25,37 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    [self setUpViewController];
+    [self setupTitle];
+    
     self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     
     [self.tableView setRowHeight:90];
+    
+}
+- (void) setupTitle {
+    
+    UILabel *label = [[UILabel alloc] init];
+    [label setFrame:CGRectMake(0,5,100,20)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17.0];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"Search Songs";
+    self.navigationItem.titleView = label;
+    
+}
+
+
+- (void)setUpViewController{
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];
+
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
+    
     
 }
 

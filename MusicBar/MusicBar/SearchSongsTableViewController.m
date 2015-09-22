@@ -51,6 +51,7 @@
 
 }
 
+
 - (void) setUpData {
     
     navController = (UINavigationController *)self.searchController.searchResultsController;
