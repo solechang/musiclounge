@@ -25,6 +25,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    self.definesPresentationContext = true;
     [self.tableView setRowHeight:90];
     
 }

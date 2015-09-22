@@ -51,7 +51,7 @@
 - (NSString *) getResourceURL {
     
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
-    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/tracks?q=%@&client_id=%@&format=json", self.trackName, clientID];
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/tracks?q=%@&client_id=%@&format=json&limit=50", self.trackName, clientID];
     
     return resourceURL;
     
