@@ -56,15 +56,16 @@
 
     [self initializeData];
 
-    
     [self setUpSearchController];
     [self setUpSearchData];
     [self setUpNavigationBar];
     
     [self setUpTableView];
     
-    
+}
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (void) setUpSearchData {

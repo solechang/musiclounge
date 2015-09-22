@@ -32,9 +32,6 @@
      self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     
 }
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleLightContent;
-}
 
 -(void) setUpNavigationBar{
     
