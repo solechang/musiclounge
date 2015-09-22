@@ -32,7 +32,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     [self.tableView setRowHeight:90];
     
 }

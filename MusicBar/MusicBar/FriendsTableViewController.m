@@ -625,6 +625,8 @@
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [vc.filteredFriendsWhoExists removeAllObjects];
+    [vc.tableView reloadData];
     [SVProgressHUD dismiss];
 }
 
