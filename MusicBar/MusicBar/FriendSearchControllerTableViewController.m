@@ -36,7 +36,12 @@
     [self.tableView setRowHeight:90];
     
 }
-
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.searchController setActive:NO];
+    
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -29,9 +29,15 @@
     [self setUpViewController];
     [self setupTitle];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 44, 0);
     
     [self.tableView setRowHeight:90];
+    
+}
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
+    [self.searchController setActive:NO];
     
 }
 - (void) setupTitle {
@@ -54,8 +60,6 @@
 
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
-    
-    
     
 }
 

@@ -53,20 +53,24 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+    
+    [self.searchController setActive:NO];
+    [self.filteredFriendsWhoExists removeAllObjects];
+    [self.tableView reloadData];
 
     NSArray *viewControllers = self.navigationController.viewControllers;
     
     if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
         
         // View is disappearing because a new view controller was pushed onto the stack
-        self.searchController.active = NO;
+      [self.searchController setActive:NO];
         
     } else if ([viewControllers indexOfObject:self] == NSNotFound) {
         
         // View is disappearing because it was popped from the stackd
 //        self.searchController.searchBar.hidden = NO;
-        [self.filteredFriendsWhoExists removeAllObjects];
-        [self.tableView reloadData];
+//        [self.filteredFriendsWhoExists removeAllObjects];
+//        [self.tableView reloadData];
 //        [self deleteSearchedFriends];
     
         

@@ -109,9 +109,12 @@
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    
+    [super viewWillDisappear:animated];
+
+//    [self.searchController setActive:NO];
     [others removeAllObjects];
     [self.tableView reloadData];
+    
     
     NSArray *viewControllers = self.navigationController.viewControllers;
     
@@ -698,6 +701,7 @@
              Friend *selectedFriend = [vc.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;
              
+             
              [vc.filteredFriendsWhoExists removeAllObjects];
              [self.searchController setActive:NO];
              
@@ -774,6 +778,8 @@
             vc.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
             
             vc.friendsTableViewController = self;
+            
+            vc.searchController = self.searchController;
             
             [vc.tableView reloadData];
         

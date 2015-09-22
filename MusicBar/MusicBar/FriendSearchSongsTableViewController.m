@@ -383,6 +383,7 @@
                 
                 [self setUpData];
                 self.searchResult = [songMangerSearchedText parseTrackData:data];
+                vc.searchController = self.searchController;
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
