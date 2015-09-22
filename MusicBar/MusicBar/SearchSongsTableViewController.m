@@ -23,6 +23,7 @@
     NSManagedObjectContext *defaultContext;
     UINavigationController *navController;
     MySearchedSongsSearchControllerTableViewController *vc;
+    
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -51,14 +52,14 @@
 }
 
 - (void) setUpData {
+    
     navController = (UINavigationController *)self.searchController.searchResultsController;
     
-    
     vc = (MySearchedSongsSearchControllerTableViewController *)navController.topViewController;
+    
 }
 
 - (void) setNSManagedObjectContext {
-    
 
     defaultContext = [NSManagedObjectContext MR_defaultContext];
 }
@@ -76,8 +77,8 @@
     self.searchController.searchBar.delegate = self;
     
     self.tableView.tableHeaderView = self.searchController.searchBar;
-    
-    self.definesPresentationContext = YES;
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+//    self.definesPresentationContext = NO;
     
 }
 
@@ -396,7 +397,7 @@
 
                 [self setUpData];
                 self.searchResult = [songMangerSearchedText parseTrackData:data];
-                
+                vc.searchController = self.searchController;
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;

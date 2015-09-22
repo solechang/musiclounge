@@ -25,30 +25,33 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-//    self.definesPresentationContext = YES;
-//    [self setUpNavigationBar];
+
+    [self setUpNavigationBar];
     
-//    [self.tableView registerNib:[UINib nibWithNibName:@"searchFriendsCell" bundle:nil] forCellReuseIdentifier:@"cellID"];
     [self.tableView setRowHeight:50];
+     self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
     
+}
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 -(void) setUpNavigationBar{
     
-    //    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
-    //    self.navigationController.navigationBar.topItem.title = @"MusicBar";
-    //    self.navigationController.navigationBar.titleTextAttributes = size;
+    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+    self.navigationController.navigationBar.topItem.title = @"Friends";
+    self.navigationController.navigationBar.titleTextAttributes = size;
     self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     
-    
-    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
-    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-    
-    
+//    [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
+//    [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+//    
 //    [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
 }
+
+
 
 
 - (void) viewWillDisappear:(BOOL)animated {

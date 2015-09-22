@@ -93,8 +93,8 @@
     
     self.searchController.delegate = self;
     self.searchController.searchBar.delegate = self;
-    self.definesPresentationContext = YES;
-
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+//    self.definesPresentationContext = YES;
     
 }
 
@@ -103,6 +103,7 @@
 //    self.searchController.searchBar.hidden = NO;
 
     [self retrieveFriendsFromLocal];
+
     [self.searchFriendsTableController.tableView reloadData];
 }
 
@@ -114,8 +115,8 @@
     NSArray *viewControllers = self.navigationController.viewControllers;
     
     if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
-        [vc.filteredFriendsWhoExists removeAllObjects];
-        [self.searchController setActive:NO];
+//        [vc.filteredFriendsWhoExists removeAllObjects];
+//        [self.searchController setActive:NO];
         // View is disappearing because a new view controller was pushed onto the stack
         //        NSLog(@"New view controller was pushed");
         
@@ -693,7 +694,10 @@
              NSIndexPath *selectedIndexPath = [vc.tableView indexPathForSelectedRow];
              Friend *selectedFriend = [vc.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;
-        
+             
+             [vc.filteredFriendsWhoExists removeAllObjects];
+             [self.searchController setActive:NO];
+             
 
          }
          

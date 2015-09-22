@@ -23,9 +23,10 @@
 @implementation MySearchedSongsSearchControllerTableViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
-
-    self.definesPresentationContext = true;
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    
     [self.tableView setRowHeight:90];
     
 }
@@ -57,6 +58,7 @@
     
     CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     CustomSong *song = nil;
     if (cell == nil) {
         cell = [[CustomSearchedSongTableViewCell alloc]
