@@ -90,13 +90,7 @@ heightForHeaderInSection:(NSInteger)section {
 }
 
 - (void)popAlertViewForLoggingOut{
-    
-////    UIAlertControllerStyle *logoutAlert = [[UIa]]
-//    UIAlertView *logOutAlert = [[UIAlertView alloc]
-//                                initWithTitle:@"MusicLounge"
-//                                message:@"Are you sure you want to leave MusicLounge? :("
-//                                delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-//    [logOutAlert show];
+
     
     
     UIAlertController * alert=   [UIAlertController
@@ -151,15 +145,7 @@ heightForHeaderInSection:(NSInteger)section {
 
 }
 
-//- (void)alertView:(UIAlertController *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    
-//    if (buttonIndex == 1) {
-//        
-//        [self deleteUserDataAndLogout];
-//        
-//    }
-//    
-//}
+
 
 
 
