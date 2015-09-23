@@ -104,6 +104,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
+//    self.currentPlaylistButton.a = YES;
+    
     
 //    [self.playButton buttonWithType:UIButtonTypeSystem];
     [self.playButton setTintColor:[UIColor whiteColor]];
@@ -704,16 +706,34 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]]];
+//    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork.image] ;
     
-    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
-                            MPMediaItemPropertyAlbumTitle: @"",
-                            MPMediaItemPropertyTitle: self.songTitle.text,
-                            MPMediaItemPropertyPlaybackDuration:totalSecondsString,
-                            MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
-//                            MPMediaItemPropertyArtwork: artwork
-                            };
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        
+        NSMutableDictionary *songInfo = [NSMutableDictionary dictionary];
+        UIImage *artworkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]];
+        MPMediaItemArtwork *albumArt;
+        if(artworkImage)
+        {
+            albumArt = [[MPMediaItemArtwork alloc] initWithImage: artworkImage];
+            [songInfo setValue:albumArt forKey:MPMediaItemPropertyArtwork];
+        }
+//        MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
+//        infoCenter.nowPlayingInfo = songInfo;
+        
+        NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+                                MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+                                MPMediaItemPropertyTitle: self.songTitle.text,
+                                MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+                                MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
+                                MPMediaItemPropertyArtwork: albumArt
+                                };
+        
+        [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
+    });
     
-    [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
+
 }
 
 - (IBAction)backButton:(id)sender {

@@ -45,7 +45,6 @@
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
-    NSLog(@"0.)");
     return UIStatusBarStyleLightContent;
 }
 

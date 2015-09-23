@@ -219,7 +219,7 @@
             NSString *facebookID = result[@"id"];
             
             
-            if (![facebookID isEqualToString:@""]) {
+            if (![facebookID isEqualToString:@""] && result[@"id"]) {
                 [self saveUserFacebookID: facebookID :user];
             }
         }
