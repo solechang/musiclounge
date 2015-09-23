@@ -51,6 +51,7 @@
 }
 - (IBAction)backButtonPressed:(id)sender {
     
+    [self.feedbackTextView resignFirstResponder];
         // alert user are you sure do you want go back
         UIAlertView *backAlert = [[UIAlertView alloc]
                                     initWithTitle:@"MusicLounge?"
@@ -135,9 +136,12 @@
     
  
     if (buttonIndex == 1) {
+        
         [self.navigationController dismissViewControllerAnimated:YES completion:^{
-            [self.feedbackTextView resignFirstResponder];
+            
         }];
+    } else {
+        [self.feedbackTextView becomeFirstResponder];
     }
 }
 
