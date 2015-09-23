@@ -288,7 +288,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             case kFsAudioStreamPlaybackCompleted:
 //                NSLog(@"1.7.)");
 //                [weakSelf toggleNextPreviousButtons];
-                [weakSelf nextButton:nil];
+                if (weakSelf.playButton.enabled) {
+                    [weakSelf nextButton:nil];
+                }
+    
                 break;
                 
             case kFsAudioStreamRetryingStarted:
@@ -306,7 +309,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamRetryingFailed:
 //                NSLog(@"1.10.)");
-                [weakSelf nextButton:nil];
+                if (weakSelf.playButton.enabled) {
+                    [weakSelf nextButton:nil];
+                }
+                
                 break;
                 
             default:
