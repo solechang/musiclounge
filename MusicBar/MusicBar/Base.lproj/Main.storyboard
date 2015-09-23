@@ -1440,8 +1440,11 @@
                         <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <slider opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ciz-Ba-yfu">
+                            <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="Ciz-Ba-yfu">
                                 <rect key="frame" x="93.5" y="328" width="397" height="31"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="393" id="tc3-aG-bz5"/>
+                                </constraints>
                                 <connections>
                                     <action selector="musicSlider:" destination="YFn-IZ-gpz" eventType="valueChanged" id="exD-Os-FBA"/>
                                 </connections>
@@ -1477,6 +1480,9 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="endTime" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Rej-7G-VKF">
                                 <rect key="frame" x="530" y="335" width="49.5" height="14.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="49.5" id="R9H-0Q-HYM"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
@@ -1508,6 +1514,9 @@
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KK2-c1-xcv">
                                 <rect key="frame" x="20" y="335" width="42.5" height="14.5"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="42.5" id="Qi1-RV-yn7"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
