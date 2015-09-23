@@ -32,7 +32,8 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    [self setupTitle];
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 44, 0);
     [self.tableView setRowHeight:90];
     
 }
@@ -42,6 +43,20 @@
     [self.searchController setActive:NO];
     
 }
+
+- (void) setupTitle {
+    
+    UILabel *label = [[UILabel alloc] init];
+    [label setFrame:CGRectMake(0,5,100,20)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17.0];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"Search Songs";
+    self.navigationItem.titleView = label;
+    
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

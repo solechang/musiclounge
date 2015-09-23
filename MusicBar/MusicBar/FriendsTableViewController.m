@@ -606,13 +606,15 @@
                     
                 } else {
                     
-                    Friend *newFriend = [Friend MR_createEntity];
-                    newFriend.name = pfUser[@"name"];
-                    newFriend.userId = pfUser.objectId;
-                    newFriend.deleteSearch = @(YES);
-                    
-                    [others addObject:newFriend];
-                    
+                    if (pfUser[@"name"]) {
+                        Friend *newFriend = [Friend MR_createEntity];
+                        newFriend.name = pfUser[@"name"];
+                        newFriend.userId = pfUser.objectId;
+                        newFriend.deleteSearch = @(YES);
+                        
+                        [others addObject:newFriend];
+                    }
+
                 }
             }
             

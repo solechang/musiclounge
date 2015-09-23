@@ -29,7 +29,7 @@
     [self setUpNavigationBar];
     
     [self.tableView setRowHeight:50];
-     self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+     self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 44, 0);
     
 }
 

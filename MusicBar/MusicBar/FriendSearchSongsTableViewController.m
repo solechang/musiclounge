@@ -49,9 +49,21 @@
     [self setNSManagedObjectContext];
     [self setupTableView];
     [self setUpNotifications];
-    
+    [self setupTitle];
 }
 
+- (void) setupTitle {
+    
+    UILabel *label = [[UILabel alloc] init];
+    [label setFrame:CGRectMake(0,5,100,20)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17.0];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = self.playlistInfo.name;
+    self.navigationItem.titleView = label;
+    
+}
 - (void) setUpData {
     navController = (UINavigationController *)self.searchController.searchResultsController;
     
@@ -88,6 +100,9 @@
 
 - (void) setupTableView {
     
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     
@@ -95,15 +110,6 @@
     self.tableView.tableFooterView = [UIView new];
     
     [self.tableView setRowHeight:90];
-    
-    UILabel *label = [[UILabel alloc] init];
-    [label setFrame:CGRectMake(0,5,100,20)];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize:17.0];
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = self.playlistInfo.name;
-    self.navigationItem.titleView = label;
     
 }
 
