@@ -160,19 +160,6 @@
 }
 
 
-//- (void)alertView:(UIAlertController *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    
-// 
-//    if (buttonIndex == 1) {
-//        
-//        [self.navigationController dismissViewControllerAnimated:YES completion:^{
-//            
-//        }];
-//    } else {
-//        [self.feedbackTextView becomeFirstResponder];
-//    }
-//}
-
 /*
 #pragma mark - Navigation
 

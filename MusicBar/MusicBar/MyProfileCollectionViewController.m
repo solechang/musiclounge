@@ -31,6 +31,7 @@
 #import "Playlist.h"
 #import "Song.h"
 
+#import <SVProgressHUD/SVProgressHUD.h>
 
 
 @interface MyProfileCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
@@ -834,41 +835,92 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 }
 
 - (void)popAlertViewForMyLoungeDelete{
-    UIAlertView *deleteAlert = [[UIAlertView alloc]
-                                initWithTitle:@"MusicLounge"
-                                message:@"Are you sure you want to delete this playlist?"
-                                delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-    [deleteAlert show];
+//    UIAlertView *deleteAlert = [[UIAlertView alloc]
+//                                initWithTitle:@"MusicLounge"
+//                                message:@"Are you sure you want to delete this playlist?"
+//                                delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
+//    [deleteAlert show];
+    
+    Playlist *playlistToDelete = [myiLListArray objectAtIndex:[swipedIndexPath row]];
+    NSString *playlistDeleteName = playlistToDelete.name;
+    NSString *deleteAlertString = [NSString stringWithFormat:@"Are you sure you want to delete %@", playlistDeleteName];
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"MusicLounge"
+                                  message:deleteAlertString
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* noAlert = [UIAlertAction
+                              actionWithTitle:@"No"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  
+                                  CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
+                                                                    swipedCell.bounds.size.width, swipedCell.bounds.size.height);
+                                  [UIView animateWithDuration:0.2
+                                                   animations:^{
+                                                       swipedCell.frame = originalFrame;
+                                                   }
+                                   ];
+                                  [alert dismissViewControllerAnimated:YES completion:nil];
+                                  
+                              }];
+    UIAlertAction* yesAlert = [UIAlertAction
+                               actionWithTitle:@"Yes"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   [self deletePlaylist];
+                                   
+                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                   
+                               }];
+    
+    [alert addAction:noAlert];
+    [alert addAction:yesAlert];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
     
 }
-- (void)alertView:(UIAlertController *)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    //IK - if user presses "YES" in the alert view
-    if (buttonIndex == 1) {
-        
-        [self deletePlaylist];
-        
-    } else if (buttonIndex == 0) {
-        CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
-                                          swipedCell.bounds.size.width, swipedCell.bounds.size.height);
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             swipedCell.frame = originalFrame;
-                         }
-         ];
-        
-    }
-    
-}
+//- (void)alertView:(UIAlertController *)alertView
+//clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    
+//    //IK - if user presses "YES" in the alert view
+//    if (buttonIndex == 1) {
+//        
+//        [self deletePlaylist];
+//        
+//    } else if (buttonIndex == 0) {
+//        CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
+//                                          swipedCell.bounds.size.width, swipedCell.bounds.size.height);
+//        [UIView animateWithDuration:0.2
+//                         animations:^{
+//                             swipedCell.frame = originalFrame;
+//                         }
+//         ];
+//        
+//    }
+//    
+//}
 
 - (void) deletePlaylist {
     
     Playlist *playlistToDelete = [myiLListArray objectAtIndex:[swipedIndexPath row]];
     
-    NSString* playlistObjectID = playlistToDelete.objectId;
-    PFQuery *deleteQuery = [PFQuery queryWithClassName:@"Illist"];
+    NSString *playlistDeleteName = playlistToDelete.name;
     
+    NSString *deletedString = [NSString stringWithFormat:@"You have succesfully deleted %@", playlistDeleteName];
+    [SVProgressHUD showSuccessWithStatus:deletedString];
+    [myiLListArray removeObjectAtIndex:[swipedIndexPath row]];
+    NSArray* indexPathsToRemove = [NSArray arrayWithObject:swipedIndexPath];
+    [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
+    
+    NSString* playlistObjectID = playlistToDelete.objectId;
+
+    PFQuery *deleteQuery = [PFQuery queryWithClassName:@"Illist"];
+
     [deleteQuery getObjectInBackgroundWithId:playlistObjectID block:^(PFObject *object, NSError *error) {
         // deleted illist in server
         if (!error) {
@@ -896,10 +948,8 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                     } completion:^(BOOL success, NSError *error) {
                         
                         if (!error) {
-                            
-                            [myiLListArray removeObjectAtIndex:[swipedIndexPath row]];
-                            NSArray* indexPathsToRemove = [NSArray arrayWithObject:swipedIndexPath];
-                            [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
+                           
+                           
                             
                         } else {
 //                            NSLog(@"861");
