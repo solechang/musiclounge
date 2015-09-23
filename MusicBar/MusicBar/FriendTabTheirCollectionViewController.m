@@ -799,7 +799,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
             originalFrame = CGRectMake(-swipedCell.bounds.size.width, swipedCell.frame.origin.y,
                                        swipedCell.bounds.size.width, swipedCell.bounds.size.height);
             
-            //                [self popAlertViewForMyLoungeDelete];
+            
         }
         
         [UIView animateWithDuration:0.2
@@ -821,35 +821,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 
 }
 
-- (void)popAlertViewForMyLoungeDelete{
-    UIAlertView *deleteAlert = [[UIAlertView alloc]
-                                initWithTitle:@"Delete?"
-                                message:@"Are you sure you want to delete this playlist?"
-                                delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    [deleteAlert show];
-    
-}
-- (void)alertView:(UIAlertView *)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    //IK - if user presses "YES" in the alert view
-    if (buttonIndex == 1) {
-        
-//        [self deletePlaylist];
-    }
-    
-    else if (buttonIndex == 0) {
-        CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
-                                          swipedCell.bounds.size.width, swipedCell.bounds.size.height);
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             swipedCell.frame = originalFrame;
-                         }
-         ];
-        
-    }
-    
-}
+
 
 #pragma mark - Anthony - Add Friend
 - (IBAction)addFriendButtonPushed:(id)sender {
