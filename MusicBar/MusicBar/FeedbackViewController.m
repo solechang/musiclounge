@@ -53,11 +53,39 @@
     
     [self.feedbackTextView resignFirstResponder];
         // alert user are you sure do you want go back
-        UIAlertView *backAlert = [[UIAlertView alloc]
-                                    initWithTitle:@"MusicLounge?"
-                                    message:@"Are you sure you want to cancel this feedback?"
-                                    delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-        [backAlert show];
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"MusicLounge"
+                                  message:@"Are you sure you want to cancel this feedback?"
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* noAlert = [UIAlertAction
+                         actionWithTitle:@"No"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             [self.feedbackTextView becomeFirstResponder];
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    UIAlertAction* yesAlert = [UIAlertAction
+                             actionWithTitle:@"Yes"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                                     
+                                 }];
+
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+    
+    [alert addAction:noAlert];
+    [alert addAction:yesAlert];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
    
     
 }
@@ -132,18 +160,18 @@
 }
 
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
- 
-    if (buttonIndex == 1) {
-        
-        [self.navigationController dismissViewControllerAnimated:YES completion:^{
-            
-        }];
-    } else {
-        [self.feedbackTextView becomeFirstResponder];
-    }
-}
+//- (void)alertView:(UIAlertController *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+//    
+// 
+//    if (buttonIndex == 1) {
+//        
+//        [self.navigationController dismissViewControllerAnimated:YES completion:^{
+//            
+//        }];
+//    } else {
+//        [self.feedbackTextView becomeFirstResponder];
+//    }
+//}
 
 /*
 #pragma mark - Navigation

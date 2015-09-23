@@ -841,7 +841,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     [deleteAlert show];
     
 }
-- (void)alertView:(UIAlertView *)alertView
+- (void)alertView:(UIAlertController *)alertView
 clickedButtonAtIndex:(NSInteger)buttonIndex {
     
     //IK - if user presses "YES" in the alert view
