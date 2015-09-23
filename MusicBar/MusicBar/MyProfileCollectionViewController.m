@@ -514,6 +514,7 @@
 
 - (void) setCountOnControl {
     NSArray *playlistArray = [Playlist MR_findAllInContext:defaultContext];
+    
     [_control setCount:[NSNumber numberWithUnsignedInteger:playlistArray.count] forSegmentAtIndex:0];
     
 }
@@ -676,6 +677,8 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     if (self.control.selectedSegmentIndex == 0) {
         
         [self performSegueWithIdentifier:@"iLListSegue" sender:self];
+      
+
         
     }
     
@@ -835,11 +838,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 }
 
 - (void)popAlertViewForMyLoungeDelete{
-//    UIAlertView *deleteAlert = [[UIAlertView alloc]
-//                                initWithTitle:@"MusicLounge"
-//                                message:@"Are you sure you want to delete this playlist?"
-//                                delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-//    [deleteAlert show];
+
     
     Playlist *playlistToDelete = [myiLListArray objectAtIndex:[swipedIndexPath row]];
     NSString *playlistDeleteName = playlistToDelete.name;
@@ -884,26 +883,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     
     
 }
-//- (void)alertView:(UIAlertController *)alertView
-//clickedButtonAtIndex:(NSInteger)buttonIndex {
-//    
-//    //IK - if user presses "YES" in the alert view
-//    if (buttonIndex == 1) {
-//        
-//        [self deletePlaylist];
-//        
-//    } else if (buttonIndex == 0) {
-//        CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
-//                                          swipedCell.bounds.size.width, swipedCell.bounds.size.height);
-//        [UIView animateWithDuration:0.2
-//                         animations:^{
-//                             swipedCell.frame = originalFrame;
-//                         }
-//         ];
-//        
-//    }
-//    
-//}
+
 
 - (void) deletePlaylist {
     
@@ -917,24 +897,25 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
     NSArray* indexPathsToRemove = [NSArray arrayWithObject:swipedIndexPath];
     [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
     
+
     NSString* playlistObjectID = playlistToDelete.objectId;
 
     PFQuery *deleteQuery = [PFQuery queryWithClassName:@"Illist"];
 
     [deleteQuery getObjectInBackgroundWithId:playlistObjectID block:^(PFObject *object, NSError *error) {
-        // deleted illist in server
+        // deleted lounge in server
         if (!error) {
             
             [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
-                if( succeeded ) {
+                if( !error ) {
 
                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                         
                         Playlist *deletePlaylist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:playlistObjectID inContext:localContext];
                         NSArray *deleteSongArray = [Song MR_findByAttribute:@"playlistId" withValue:playlistObjectID inContext:localContext];
                         
-                        for( Song *deleteSong in deleteSongArray) {
+                        for( Song *deleteSong in deleteSongArray ) {
                             // TODO: Check for deleting songs after setting core data for searchsongsTVC
                             if( deleteSong.playlist == deletePlaylist ) {
                                 
@@ -949,7 +930,8 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
                         
                         if (!error) {
                            
-                           
+                            [self setCountOnControl];
+                            [self deletePlaylistSongs:playlistObjectID];
                             
                         } else {
 //                            NSLog(@"861");
@@ -967,6 +949,33 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
             
         }
 
+    }];
+}
+
+- (void)deletePlaylistSongs: (NSString*) playlistId {
+    PFQuery *query = [PFQuery queryWithClassName:@"Song"];
+    [query whereKey:@"iLListId" equalTo:playlistId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *deleteSongs, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            
+            [PFObject deleteAllInBackground:deleteSongs block:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                if (!error) {
+         
+                } else {
+                    
+                }
+                
+                
+            }];
+       
+
+
+        } else {
+//            // Log details of the failure
+//            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
     }];
 }
 
