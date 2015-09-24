@@ -714,21 +714,31 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         NSMutableDictionary *songInfo = [NSMutableDictionary dictionary];
         UIImage *artworkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]];
         MPMediaItemArtwork *albumArt;
+        NSDictionary * info;
         if(artworkImage)
         {
             albumArt = [[MPMediaItemArtwork alloc] initWithImage: artworkImage];
             [songInfo setValue:albumArt forKey:MPMediaItemPropertyArtwork];
+            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+                                    MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+                                    MPMediaItemPropertyTitle: self.songTitle.text,
+                                    MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+                                    MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
+                                    MPMediaItemPropertyArtwork: albumArt
+                                    };
+        } else {
+
+            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+                      MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+                      MPMediaItemPropertyTitle: self.songTitle.text,
+                      MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+                      MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+                      };
         }
 //        MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
 //        infoCenter.nowPlayingInfo = songInfo;
         
-        NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
-                                MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
-                                MPMediaItemPropertyTitle: self.songTitle.text,
-                                MPMediaItemPropertyPlaybackDuration:totalSecondsString,
-                                MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
-                                MPMediaItemPropertyArtwork: albumArt
-                                };
+
         
         [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
     });

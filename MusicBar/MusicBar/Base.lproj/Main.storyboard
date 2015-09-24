@@ -1209,7 +1209,7 @@
             <objects>
                 <tableViewController id="Y6W-Yv-iX5" customClass="FriendSearchSongsTableViewController" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="4VP-mB-3rf">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="551"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -1533,6 +1533,10 @@
                             </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="poweredBySoundCloud.png" translatesAutoresizingMaskIntoConstraints="NO" id="DcR-F9-Ytx">
                                 <rect key="frame" x="346" y="288" width="104" height="32"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="104" id="vz9-Md-iXr"/>
+                                    <constraint firstAttribute="height" constant="32" id="zlv-Aa-9Wn"/>
+                                </constraints>
                             </imageView>
                         </subviews>
                         <color key="backgroundColor" red="0.19215686274509805" green="0.066666666666666666" blue="0.25490196078431371" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -1744,6 +1748,6 @@
         <image name="realdj" width="37" height="37"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="C4C-G5-Ws6"/>
+        <segue reference="kMa-Xu-FBY"/>
     </inferredMetricsTieBreakers>
 </document>

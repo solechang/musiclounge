@@ -80,6 +80,15 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+            <key>a1.sndcdn.com</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+                <key>NSExceptionMinimumTLSVersion</key>
+                <string>TLSv1.1</string>
+                <key>NSIncludesSubdomains</key>
+                <true/>
+            </dict>
 			<key>soundcloud.com</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>
