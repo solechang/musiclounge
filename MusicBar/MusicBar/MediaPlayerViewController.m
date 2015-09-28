@@ -311,9 +311,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamRetryingFailed:
 //                NSLog(@"1.10.)");
-                if (weakSelf.playButton.enabled) {
+//                if (weakSelf.playButton.enabled) {
                     [weakSelf nextButton:nil];
-                }
+//                }
                 
                 break;
                 
