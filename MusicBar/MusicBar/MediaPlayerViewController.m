@@ -705,43 +705,63 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
+    NSDictionary * info;
+
+    
+    info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+              MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+              MPMediaItemPropertyTitle: self.songTitle.text,
+              MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+              MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+              };
+    
+    
+    [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
+
+    
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]]];
 //    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork.image] ;
     
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(queue, ^{
-        
-        NSMutableDictionary *songInfo = [NSMutableDictionary dictionary];
-        UIImage *artworkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]];
-        MPMediaItemArtwork *albumArt;
-        NSDictionary * info;
-        if(artworkImage)
-        {
-            albumArt = [[MPMediaItemArtwork alloc] initWithImage: artworkImage];
-            [songInfo setValue:albumArt forKey:MPMediaItemPropertyArtwork];
-            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
-                                    MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
-                                    MPMediaItemPropertyTitle: self.songTitle.text,
-                                    MPMediaItemPropertyPlaybackDuration:totalSecondsString,
-                                    MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
-                                    MPMediaItemPropertyArtwork: albumArt
-                                    };
-        } else {
-
-            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
-                      MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
-                      MPMediaItemPropertyTitle: self.songTitle.text,
-                      MPMediaItemPropertyPlaybackDuration:totalSecondsString,
-                      MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
-                      };
-        }
-//        MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
-//        infoCenter.nowPlayingInfo = songInfo;
-        
-
-        
-        [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
-    });
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//    dispatch_async(queue, ^{
+//        
+//        NSMutableDictionary *songInfo = [NSMutableDictionary dictionary];
+//        UIImage *artworkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]];
+//        MPMediaItemArtwork *albumArt;
+//        NSDictionary * info;
+//        
+//        
+//        
+//        
+//        if(artworkImage)
+//        {
+//            albumArt = [[MPMediaItemArtwork alloc] initWithImage: artworkImage];
+//            [songInfo setValue:albumArt forKey:MPMediaItemPropertyArtwork];
+//            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+//                                    MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+//                                    MPMediaItemPropertyTitle: self.songTitle.text,
+//                                    MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+//                                    MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
+//                                    MPMediaItemPropertyArtwork: albumArt
+//                                    };
+//        } else {
+//
+//            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+//                      MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+//                      MPMediaItemPropertyTitle: self.songTitle.text,
+//                      MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+//                      MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+//                      };
+//        }
+////        MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
+////        infoCenter.nowPlayingInfo = songInfo;
+//        
+//
+//
+//
+//        [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
+//
+//    });
     
 
 }
