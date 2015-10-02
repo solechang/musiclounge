@@ -134,7 +134,7 @@
                                                                           toItem:cell.contentView
                                                                        attribute:NSLayoutAttributeTrailing
                                                                       multiplier:1.0
-                                                                        constant:-10];
+                                                                        constant:-15];
 
     [cell.contentView addSubview:button];
     [cell.contentView bringSubviewToFront:button];
