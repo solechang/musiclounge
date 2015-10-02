@@ -85,6 +85,7 @@
 
 - (void) setupTableView {
     
+    
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
@@ -344,6 +345,7 @@
         
         cell.titleLabel.numberOfLines = 3;
         cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        cell.addedByLabel.adjustsFontSizeToFitWidth = YES;
         
         Song *song = [iLListTracks objectAtIndex:indexPath.row];
         cell.titleLabel.text = song.title;

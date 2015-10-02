@@ -113,7 +113,7 @@
                                                                             toItem:cell.contentView
                                                                          attribute:NSLayoutAttributeCenterY
                                                                         multiplier:1.0
-                                                                          constant:0];
+                                                                          constant:-15];
     NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:button
                                                                        attribute:NSLayoutAttributeWidth
                                                                        relatedBy:NSLayoutRelationEqual

@@ -101,6 +101,7 @@
     cell.titleLabel.numberOfLines = 3;
     cell.titleLabel.adjustsFontSizeToFitWidth = YES;
     
+    
     // Searched song table view
     song = [self.searchResults objectAtIndex:indexPath.row];
     cell.titleLabel.text = song.title;
@@ -119,7 +120,7 @@
                                                                            toItem:cell.contentView
                                                                         attribute:NSLayoutAttributeCenterY
                                                                        multiplier:1.0
-                                                                         constant:0];
+                                                                         constant:-15];
     NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:button
                                                                        attribute:NSLayoutAttributeWidth
                                                                        relatedBy:NSLayoutRelationEqual
