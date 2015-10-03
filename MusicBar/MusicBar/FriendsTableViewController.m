@@ -204,7 +204,7 @@
 #pragma mark - Retrieve contacts from local
 - (void) retrieveFriendsFromLocal {
     
-    NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES];
+    NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES ];
     
     if (friendsCoreDataArray.count == 0) {
         
@@ -463,11 +463,11 @@
         
         
         if (!error) {
-            
             // User's Friends exist in the database
             CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:defaultContext];
             
             NSArray *friends = [currentUser.userFriendList.friend allObjects];
+
             
             friendsList = [[NSMutableArray alloc] initWithArray:friends];
             
@@ -503,7 +503,7 @@
             [friendsWhoExistsOniLList addObject:[friendsList objectAtIndex:i]];
         }
     }
-    
+
     self.searchFriendsTableController.filteredFriendsWhoExists = [[NSMutableArray alloc] initWithCapacity:friendsWhoExistsOniLList.count];
     
     [self.tableView reloadData];
