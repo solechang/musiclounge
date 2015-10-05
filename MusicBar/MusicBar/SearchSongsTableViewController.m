@@ -398,39 +398,52 @@
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
         
         SongManager *songMangerSearchedText;
+        NSString *resourceURL;
         
         if (searchBar.selectedScopeButtonIndex == 0) {
+            
             songMangerSearchedText = [[SongManager alloc] initWithTrackName:trackName];
+            resourceURL = [songMangerSearchedText getSongResourceURL];
 
         } else {
             
-            
-            
+            // getting soundcloud user info (public songs liked on SoundCloud, playlists)
+            songMangerSearchedText = [[SongManager alloc] initWithSoundCloudUsername:trackName];
+            resourceURL = [songMangerSearchedText getUserResourceURL];
+
         }
         
         
-        NSString *resourceURL = [songMangerSearchedText getResourceURL];
         
-        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@",searchBar.text]];
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@", searchBar.text]];
         
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
+            
             if (self.searchController.searchResultsController) {
                 
                 [self setUpData];
+                
+                if (searchBar.selectedScopeButtonIndex == 0) {
+                    
+                    self.searchResult = [songMangerSearchedText parseTrackData:data];
+                    vc.searchController = self.searchController;
+                    vc.iLListTracks = iLListTracks;
+                    vc.searchResults = self.searchResult;
+                    vc.playlistInfo = self.playlistInfo;
+                    
+                } else if (searchBar.selectedScopeButtonIndex == 1) {
+                    NSLog(@"0.)");
+                    self.searchResult = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    
+                }
         
-                self.searchResult = [songMangerSearchedText parseTrackData:data];
-                vc.searchController = self.searchController;
-                vc.iLListTracks = iLListTracks;
-                vc.searchResults = self.searchResult;
-                vc.playlistInfo = self.playlistInfo;
                 [vc.tableView reloadData];
                 
             }
             
             [self.tableView reloadData];
-            
 
         };
         

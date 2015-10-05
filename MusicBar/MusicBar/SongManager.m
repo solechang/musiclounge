@@ -60,7 +60,18 @@
     
 }
 
-- (NSString *) getResourceURL {
+- (NSString *) getUserResourceURL {
+    
+    NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@.json?client_id=%@", self.soundCloudUsername, clientID];
+    NSLog(@"0.) %@", resourceURL);
+    return resourceURL;
+    
+    
+    
+}
+
+- (NSString *) getSongResourceURL {
     
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/tracks?q=%@&client_id=%@&format=json&limit=50", self.trackName, clientID];
@@ -69,8 +80,57 @@
     
 }
 
--(NSMutableArray* )parseTrackData:(NSData *) trackData{
+- (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData {
     
+    NSMutableArray *userDescriptionArray = [[NSMutableArray alloc] init];
+    NSError *jsonError = nil;
+    
+    if ( userData != nil) {
+        
+        NSJSONSerialization *jsonResponse = [NSJSONSerialization
+                                             JSONObjectWithData:userData
+                                             options:NSJSONReadingMutableContainers | NSJSONReadingAllowFragments
+                                             error:&jsonError];
+        
+
+        if (!jsonError) {
+            
+            NSLog(@"1.1) %@" , jsonResponse);
+            
+            NSDictionary *jsonResponseDictionary = [[NSDictionary alloc] initWithDictionary:(NSDictionary*)jsonResponse];
+
+            
+            CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
+            
+            soundCloudUserInfo.title = jsonResponseDictionary[@"username"];
+            
+            if (jsonResponseDictionary[@"avatar_url"]) {
+                soundCloudUserInfo.image = jsonResponseDictionary[@"avatar_url"];
+            } else {
+                soundCloudUserInfo.image = nil;
+            }
+            
+            
+            
+            
+            
+            
+            
+            
+            [userDescriptionArray addObject:soundCloudUserInfo];
+
+            
+  
+        }
+        
+    }
+    
+    
+    return userDescriptionArray;
+}
+
+-(NSMutableArray* )parseTrackData:(NSData *) trackData{
+
     NSError *jsonError = nil;
     
     if ( trackData != nil) {

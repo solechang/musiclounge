@@ -52,7 +52,7 @@
     label.font = [UIFont boldSystemFontOfSize:17.0];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"Search Songs";
+    label.text = @"Search";
     self.navigationItem.titleView = label;
     
 }

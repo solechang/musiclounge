@@ -21,10 +21,12 @@
 
 -(id)initWithTrackName:(NSString *)trackName;
 -(id)initWithSong:(CustomSong *)song;
+-(id) initWithSoundCloudUsername: (NSString*)username;
 
-- (NSString *) getResourceURL;
--(NSMutableArray*)parseTrackData:(NSData *) trackData;
-
+- (NSString *) getUserResourceURL;
+- (NSString *) getSongResourceURL;
+- (NSMutableArray*)parseTrackData:(NSData *) trackData;
+- (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData;
 
 // Songs
 - (void) addSongToPlaylist: (CustomSong*) songAtCell playlistInfo:(Playlist*)iLListInfo playlistTracks: (NSMutableArray*) iLListTracks;
