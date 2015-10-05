@@ -397,7 +397,17 @@
         
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
         
-        SongManager *songMangerSearchedText = [[SongManager alloc] initWithTrackName:trackName] ;
+        SongManager *songMangerSearchedText;
+        
+        if (searchBar.selectedScopeButtonIndex == 0) {
+            songMangerSearchedText = [[SongManager alloc] initWithTrackName:trackName];
+
+        } else {
+            
+            
+            
+        }
+        
         
         NSString *resourceURL = [songMangerSearchedText getResourceURL];
         
@@ -407,14 +417,16 @@
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
-
+                
                 [self setUpData];
+        
                 self.searchResult = [songMangerSearchedText parseTrackData:data];
                 vc.searchController = self.searchController;
                 vc.iLListTracks = iLListTracks;
                 vc.searchResults = self.searchResult;
                 vc.playlistInfo = self.playlistInfo;
                 [vc.tableView reloadData];
+                
             }
             
             [self.tableView reloadData];
@@ -434,6 +446,16 @@
     
 }
 
+#pragma mark - Scope bar
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    
+    
+    
+    
+}
+
+#pragma mark - Search bar canceled
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
 
     [vc.searchResults removeAllObjects];
@@ -604,6 +626,7 @@
 
 
 }
+
 
 #pragma mark - Setting now playhing object
 

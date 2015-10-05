@@ -15,6 +15,18 @@
     
 }
 
+-(id) initWithSoundCloudUsername: (NSString*)username {
+    
+    
+    self = [super init];
+    
+    if(self)
+    {
+        self.soundCloudUsername = username;
+    }
+    return self;
+    
+}
 
 -(id)initWithTrackName:(NSString *)trackName {
     
@@ -36,7 +48,7 @@
     
     if(self)
     {
-        self.song= song;
+        self.song = song;
         [self setUpData];
     }
     return self;

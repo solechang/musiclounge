@@ -32,6 +32,8 @@
 @property (nonatomic) NSString *trackName;
 @property (nonatomic) CustomSong *song;
 
+@property (nonatomic) NSString *soundCloudUsername;
+
 @property (nonatomic, retain) Playlist *playlistInfo;
 
 
