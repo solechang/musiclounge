@@ -71,16 +71,24 @@
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     
 //    self.searchController.searchResultsUpdater = self;
-    
-    [self.searchController.searchBar sizeToFit];
-    [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
 
-    self.searchController.searchBar.delegate = self;
+    [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
     
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.searchController.searchBar.scopeButtonTitles = [NSArray arrayWithObjects:@"All", @"SoundCloud User", nil];
+    
+    [self adjustSearchBarToShowScopeBar];
+    
+    self.searchController.searchBar.delegate = self;
+ 
     self.searchController.hidesNavigationBarDuringPresentation = NO;
 //    self.definesPresentationContext = NO;
     
+}
+
+- (void)adjustSearchBarToShowScopeBar {
+    
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 - (void) setupTableView {
@@ -154,7 +162,7 @@
 }
 
 - (void) viewWillAppear:(BOOL)animated {
-
+    
     [self playlistLogic];
 
 }
@@ -360,7 +368,6 @@
     return cell;
 }
 
-
 #pragma mark - Getting artwork of the song
 
 - (UIImage *)getArtWork: (NSString* ) imageURL{
@@ -425,7 +432,7 @@
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
-   
+
     [vc.searchResults removeAllObjects];
     [SVProgressHUD dismiss];
     [vc.tableView reloadData];

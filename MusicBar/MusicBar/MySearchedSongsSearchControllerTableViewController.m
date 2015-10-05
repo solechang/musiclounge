@@ -29,17 +29,21 @@
     [self setUpViewController];
     [self setupTitle];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 44, 0);
-    
+    self.tableView.contentInset = UIEdgeInsetsMake(88, 0, 44, 0);
+
     [self.tableView setRowHeight:90];
     
 }
+
+
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
     [self.searchController setActive:NO];
+
     
 }
+
 - (void) setupTitle {
     
     UILabel *label = [[UILabel alloc] init];
