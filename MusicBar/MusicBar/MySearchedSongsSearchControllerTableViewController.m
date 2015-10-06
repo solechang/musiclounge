@@ -33,6 +33,8 @@
 
     [self.tableView setRowHeight:90];
     
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
 }
 
 
@@ -93,7 +95,9 @@
     static NSString *CellIdentifier = @"searchedSongCell";
     
     CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     
     CustomSong *song = nil;
     if (cell == nil) {
@@ -105,52 +109,69 @@
     cell.titleLabel.numberOfLines = 3;
     cell.titleLabel.adjustsFontSizeToFitWidth = YES;
     
-    
     // Searched song table view
     song = [self.searchResults objectAtIndex:indexPath.row];
     cell.titleLabel.text = song.title;
     cell.uploadingUserLabel.text = song.uploadingUser;
     cell.timeLabel.text = song.time;
     cell.addedByLabel.text = @"";
+    
+    [[cell.contentView viewWithTag:1] performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
 
     [cell.albumImage sd_setImageWithURL:[NSURL URLWithString:song.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+
+    if (![song.addedBy isEqualToString:@"noButtonForSoundCloudUser"]) {
+
+        cell.accessoryType = UITableViewCellAccessoryNone;
+        
+        //IK - Link adding song function here
+        UIButton* button = [self addSongButtonPressed:song];
+        
+        button.tag = 1;
+        
+        [button setTranslatesAutoresizingMaskIntoConstraints:false];
+        NSLayoutConstraint *centerYconstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                             attribute:NSLayoutAttributeCenterY
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:cell.contentView
+                                                                             attribute:NSLayoutAttributeCenterY
+                                                                            multiplier:1.0
+                                                                              constant:-15];
+        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                           attribute:NSLayoutAttributeWidth
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:nil
+                                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                                          multiplier:1.0
+                                                                            constant:30.0f];
+        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                            attribute:NSLayoutAttributeHeight
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:nil
+                                                                            attribute:NSLayoutAttributeNotAnAttribute
+                                                                           multiplier:1.0
+                                                                             constant:30.0f];
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:cell.contentView
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                          multiplier:1.0
+                                                                            constant:-15];
+        
+        [cell.contentView addSubview:button];
+        [cell.contentView bringSubviewToFront:button];
+        [cell.contentView addConstraints:@[centerYconstraint,widthConstraint,heightConstraint,rightConstraint]];
+        
+        
+    } else {
+        NSLog(@"5.) %@", [cell.contentView viewWithTag:1]);
     
-    //IK - Link adding song function here
-    UIButton* button = [self addSongButtonPressed:song];
-    [button setTranslatesAutoresizingMaskIntoConstraints:false];
-    NSLayoutConstraint *centerYconstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:cell.contentView
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
-                                                                         constant:-15];
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:1.0
-                                                                        constant:30.0f];
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                       attribute:NSLayoutAttributeHeight
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:1.0
-                                                                        constant:30.0f];
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                       attribute:NSLayoutAttributeTrailing
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:cell.contentView
-                                                                       attribute:NSLayoutAttributeTrailing
-                                                                      multiplier:1.0
-                                                                        constant:-15];
+        
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
+    }
     
-    [cell.contentView addSubview:button];
-    [cell.contentView bringSubviewToFront:button];
-    [cell.contentView addConstraints:@[centerYconstraint,widthConstraint,heightConstraint,rightConstraint]];
-    // Configure the cell...
     
     return cell;
 }

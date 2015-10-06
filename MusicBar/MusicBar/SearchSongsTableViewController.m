@@ -31,7 +31,8 @@
 @property (nonatomic, strong) NSArray *tracks;
 @property (nonatomic, strong) NSDictionary *userTracks;
 
-@property (nonatomic, strong) NSMutableArray *searchResult;
+@property (nonatomic, strong) NSMutableArray *searchResultSongs;
+@property (nonatomic, strong) NSMutableArray *searchResultSCUser;
 
 @end
 
@@ -388,7 +389,7 @@
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
 
-
+    
     NSString *searchString = searchBar.text;
     
     if (searchString.length != 0 ) {
@@ -427,19 +428,17 @@
                 
                 if (searchBar.selectedScopeButtonIndex == 0) {
                     
-                    self.searchResult = [songMangerSearchedText parseTrackData:data];
-                    
-                    
-                   
+                    self.searchResultSongs = [songMangerSearchedText parseTrackData:data];
+                    vc.searchResults = self.searchResultSongs;
                     
                 } else if (searchBar.selectedScopeButtonIndex == 1) {
         
-                    self.searchResult = [songMangerSearchedText getUserSoundCloudInfo:data];
-                    
+                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    vc.searchResults = self.searchResultSCUser;
                 }
                 vc.iLListTracks = iLListTracks;
                 vc.searchController = self.searchController;
-                vc.searchResults = self.searchResult;
+                
                 vc.playlistInfo = self.playlistInfo;
         
                 [vc.tableView reloadData];
@@ -466,7 +465,14 @@
 
 - (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
     
-    
+    if (selectedScope == 0) {
+        vc.searchResults = self.searchResultSongs;
+        
+    } else if (selectedScope == 1) {
+        vc.searchResults = self.searchResultSCUser;
+        
+    }
+    [vc.tableView reloadData];
     
     
 }
