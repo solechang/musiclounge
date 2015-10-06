@@ -95,6 +95,11 @@
     cell.titleLabel.numberOfLines = 3;
     cell.titleLabel.adjustsFontSizeToFitWidth = YES;
     
+    // album image to framed in a circle
+    cell.albumImage.layer.cornerRadius = cell.albumImage.frame.size.height /2;
+    cell.albumImage.layer.masksToBounds = YES;
+    cell.albumImage.layer.borderWidth = 0;
+    
     // Searched song table view
     song = [self.searchResults objectAtIndex:indexPath.row];
     cell.titleLabel.text = song.title;

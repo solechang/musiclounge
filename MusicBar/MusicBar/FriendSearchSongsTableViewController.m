@@ -342,8 +342,13 @@
     }
     if (tableView == self.tableView) {
         
-        // iLList tableview
+        // album image to framed in a circle
+        cell.albumImage.layer.cornerRadius = cell.albumImage.frame.size.height /2;
+        cell.albumImage.layer.masksToBounds = YES;
+        cell.albumImage.layer.borderWidth = 0;
         
+        
+        // Songs tableview
         cell.titleLabel.numberOfLines = 3;
         cell.titleLabel.adjustsFontSizeToFitWidth = YES;
         cell.addedByLabel.adjustsFontSizeToFitWidth = YES;
