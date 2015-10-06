@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "Playlist.h"
 
-@interface MySearchedSongsSearchControllerTableViewController : UITableViewController
+@interface MySearchedSongsSearchControllerTableViewController : UITableViewController 
 
 @property (nonatomic, strong) NSMutableArray *searchResults;
 @property (nonatomic, strong) NSMutableArray *iLListTracks;

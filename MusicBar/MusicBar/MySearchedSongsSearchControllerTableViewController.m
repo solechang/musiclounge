@@ -16,6 +16,8 @@
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#import "SoundCloudUserInfoTableViewController.h"
+
 @interface MySearchedSongsSearchControllerTableViewController ()
 
 @end
@@ -35,14 +37,15 @@
     
     self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     
+    
 }
 
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.searchController setActive:NO];
 
+    [self.searchController setActive:NO];
     
 }
 
@@ -246,8 +249,35 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (self.searchController.searchBar.selectedScopeButtonIndex == 1) {
     
+        [self performSegueWithIdentifier:@"SoundCloudUserSegue" sender:nil];
+
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if ([[segue identifier] isEqualToString:@"SoundCloudUserSegue"]) {
+        
+        // Get destination view
+        SoundCloudUserInfoTableViewController *ssc = [segue destinationViewController];
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        
+        
+            CustomSong *soundCloudUser = [self.searchResults objectAtIndex:selectedIndexPath.row];
+            
+            NSLog(@"1.) %@", soundCloudUser.title);
+            
+        
+        
+       
+        
+        
+    }
     
 }
 

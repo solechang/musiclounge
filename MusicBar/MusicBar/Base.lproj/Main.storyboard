@@ -1521,7 +1521,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="wNZ-al-6AU">
             <objects>
-                <tabBarController id="YK6-xh-7z4" sceneMemberID="viewController">
+                <tabBarController id="YK6-xh-7z4" customClass="TabBarController" sceneMemberID="viewController">
                     <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="scd-v7-Wwx">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="49"/>

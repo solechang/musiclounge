@@ -97,7 +97,7 @@
             if (!jsonResponseDictionary[@"errors"]) {
                 
                 CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
-                NSLog(@"1.) %@", jsonResponseDictionary);
+                NSLog(@"0.) %@", jsonResponseDictionary);
                 
                 soundCloudUserInfo.title = jsonResponseDictionary[@"username"];
                 
