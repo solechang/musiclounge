@@ -365,6 +365,10 @@
         cell.timeLabel.text = song.time;
         cell.addedByLabel.text = song.hostName;
         
+        cell.albumImage.layer.cornerRadius = cell.albumImage.frame.size.height /2;
+        cell.albumImage.layer.masksToBounds = YES;
+        cell.albumImage.layer.borderWidth = 0;
+        
         [cell.albumImage sd_setImageWithURL:[NSURL URLWithString:song.artwork] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
 
     }

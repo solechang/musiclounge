@@ -99,6 +99,8 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     
     
+    
+    
     CustomSong *song = nil;
     if (cell == nil) {
         cell = [[CustomSearchedSongTableViewCell alloc]
@@ -165,11 +167,9 @@
         
         
     } else {
-        NSLog(@"5.) %@", [cell.contentView viewWithTag:1]);
-    
         
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
     }
     
     
@@ -239,5 +239,11 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
 
 @end

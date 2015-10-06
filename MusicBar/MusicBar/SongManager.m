@@ -64,6 +64,7 @@
     
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@.json?client_id=%@", self.soundCloudUsername, clientID];
+
     return resourceURL;
  
 }
@@ -89,15 +90,14 @@
                                              options:NSJSONReadingMutableContainers | NSJSONReadingAllowFragments
                                              error:&jsonError];
         
-
         if (!jsonError) {
-  
             
             NSDictionary *jsonResponseDictionary = [[NSDictionary alloc] initWithDictionary:(NSDictionary*)jsonResponse];
             
             if (!jsonResponseDictionary[@"errors"]) {
                 
                 CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
+                NSLog(@"1.) %@", jsonResponseDictionary);
                 
                 soundCloudUserInfo.title = jsonResponseDictionary[@"username"];
                 
@@ -107,6 +107,11 @@
                     soundCloudUserInfo.image = nil;
                 }
                 soundCloudUserInfo.addedBy = @"noButtonForSoundCloudUser";
+                
+                soundCloudUserInfo.userSoundCloudID = jsonResponseDictionary[@"id"];
+                
+                NSString *likes = [NSString stringWithFormat:@"Likes: %@ songs", jsonResponseDictionary[@"public_favorites_count"]];
+                soundCloudUserInfo.uploadingUser = likes;
                 
                 [userDescriptionArray addObject:soundCloudUserInfo];
 
