@@ -119,7 +119,10 @@
                 
                 CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
                 
-                NSString *noUserFound = [NSString stringWithFormat:@"%@ is not found :(", self.soundCloudUsername];
+                NSString *userNameSC = [self.soundCloudUsername stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
+                
+                NSString *noUserFound = [NSString stringWithFormat:@"%@ is not found :(", userNameSC];
+                
                 soundCloudUserInfo.title = noUserFound;
                 soundCloudUserInfo.addedBy = @"noButtonForSoundCloudUser";
                 
