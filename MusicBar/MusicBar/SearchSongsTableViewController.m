@@ -419,7 +419,6 @@
         }
         
         
-        
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@", searchBar.text]];
         
         SCRequestResponseHandler handler;

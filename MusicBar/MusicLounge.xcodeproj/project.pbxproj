@@ -12,6 +12,7 @@
 		445D7D411B6865BB009C7784 /* FindFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445D7D401B6865BB009C7784 /* FindFriendsTableViewController.m */; };
 		445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445D7D421B68671C009C7784 /* searchFriendsCell.xib */; };
 		445FCFFA1B87E02100C6D042 /* ProfileInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445FCFF91B87E02100C6D042 /* ProfileInfoViewController.m */; };
+		B911079B1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B911079A1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m */; settings = {ASSET_TAGS = (); }; };
 		B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */; };
 		B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */; };
 		B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */; };
@@ -90,6 +91,8 @@
 		445FCFF91B87E02100C6D042 /* ProfileInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ProfileInfoViewController.m; sourceTree = "<group>"; };
 		4B5ED06E82D5FAD7225C3F0E /* Pods-MusicLounge.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MusicLounge.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MusicLounge/Pods-MusicLounge.debug.xcconfig"; sourceTree = "<group>"; };
 		5742B19EFD321AA85C521995 /* libPods-MusicLounge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicLounge.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B91107991BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloudUserSongsTableViewController.h; sourceTree = "<group>"; };
+		B911079A1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudUserSongsTableViewController.m; sourceTree = "<group>"; };
 		B9200BDD1B393EC4001372C0 /* FriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewController.h; sourceTree = "<group>"; };
 		B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewController.m; sourceTree = "<group>"; };
 		B9200BE01B393ED2001372C0 /* FriendTabTheirCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTabTheirCollectionViewController.h; sourceTree = "<group>"; };
@@ -545,6 +548,8 @@
 				B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */,
 				B985C7DA1BC4732D008B845D /* SoundCloudUserInfoTableViewController.h */,
 				B985C7DB1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m */,
+				B91107991BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.h */,
+				B911079A1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m */,
 			);
 			name = "Search Controller";
 			sourceTree = "<group>";
@@ -750,6 +755,7 @@
 				B93D90051B3242FD00A2947C /* FriendPhonenumber.m in Sources */,
 				445D7D411B6865BB009C7784 /* FindFriendsTableViewController.m in Sources */,
 				B9B76F371B37E93000F63AC4 /* CustomSearchedSongTableViewCell.m in Sources */,
+				B911079B1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m in Sources */,
 				B985C7DC1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m in Sources */,
 				B9B76F2D1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m in Sources */,
 				B9B76F461B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m in Sources */,

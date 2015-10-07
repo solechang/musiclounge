@@ -8,6 +8,7 @@
 
 #import "SoundCloudUserInfoTableViewController.h"
 #import <SDWebImage/UIImageView+WebCache.h>
+#import "SoundCloudUserSongsTableViewController.h"
 
 @interface SoundCloudUserInfoTableViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *scUserImage;
@@ -32,14 +33,14 @@
     
     [self setUpInfo];
 }
--(void) viewWillDisappear:(BOOL)animated {
-//    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
-//        // back button was pressed.  We know this is true because self is no longer
-//        // in the navigation stack.
-//        [self.searchController setActive:NO];
-//    }
 
-    [self.searchController setActive:NO];
+-(void) viewWillDisappear:(BOOL)animated {
+    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+        // back button was pressed.  We know this is true because self is no longer
+        // in the navigation stack.
+        [self.searchController setActive:NO];
+    }
+
     [super viewWillDisappear:animated];
 }
 
@@ -66,7 +67,7 @@
 }
 
 - (void) setUpUserFullName {
-    self.usernameLabel.text = self.scUserInfo.uploadingUser;
+    self.usernameLabel.text = self.scUserInfo.title;
 }
 
 - (void) setUpInfo {
@@ -99,15 +100,60 @@
 
 }
 
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
     
-    // Configure the cell...
+    if (indexPath.section == 1) {
+        // soundcloud user tracks
+        [self performSegueWithIdentifier:@"soundCloudUserSongsSegue" sender:nil];
+        
+    } else if (indexPath.section == 2) {
+        // soundcloud user likes
+        [self performSegueWithIdentifier:@"soundCloudUserSongsSegue" sender:nil];
+        
+    } else if (indexPath.section == 3) {
+        //  soundcloud user playlists
+        
+    }
     
-    return cell;
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
 }
-*/
+
+#pragma mark - Navigation
+
+// In a storyboard-based application, you will often want to do a little preparation before navigation
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    // Get the new view controller using [segue destinationViewController].
+    // Pass the selected object to the new view controller.
+    if ([[segue identifier] isEqualToString:@"soundCloudUserSongsSegue"]) {
+        
+         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        SoundCloudUserSongsTableViewController *controller = [segue destinationViewController];
+        controller.playlistInfo = self.playlistInfo;
+        controller.soundCloudUserID = self.soundCloudUserID;
+        
+        controller.scUserInfo = self.scUserInfo;
+
+        
+        if (selectedIndexPath.section == 2) {
+            // user liked songs
+            controller.tracksOrLikes = 2;
+        }
+        
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+}
+
+
+
 
 /*
 // Override to support conditional editing of the table view.
@@ -143,14 +189,7 @@
 }
 */
 
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+
 
 @end

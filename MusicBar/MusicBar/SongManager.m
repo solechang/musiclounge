@@ -15,6 +15,17 @@
     
 }
 
+-(id) initWithSoundCloudUserID: (NSString*)userID {
+    self = [super init];
+    
+    if(self)
+    {
+        self.soundCloudUserID = userID;
+    }
+    return self;
+
+}
+
 -(id) initWithSoundCloudUsername: (NSString*)username {
     
     
@@ -60,6 +71,15 @@
     
 }
 
+- (NSString *) getUserLikesURL: (NSString*) userID {
+
+    NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@", userID, clientID];
+    
+    return resourceURL;
+    
+}
+
 - (NSString *) getUserResourceURL {
     
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
@@ -77,6 +97,73 @@
     return resourceURL;
     
 }
+
+-(NSMutableArray* )getUserLikedSongs:(NSData *) trackData{
+    
+    NSError *jsonError = nil;
+    
+    if ( trackData != nil) {
+        
+        NSJSONSerialization *jsonResponse = [NSJSONSerialization
+                                             JSONObjectWithData:trackData
+                                             options:NSJSONReadingMutableContainers | NSJSONReadingAllowFragments
+                                             error:&jsonError];
+        
+        if (!jsonError && [jsonResponse isKindOfClass:[NSArray class]]) {
+            
+            NSArray *tracks = [[NSArray alloc] initWithArray:(NSArray *)jsonResponse];
+            //            self.tracks = (NSArray *)jsonResponse;
+            
+            
+            NSLog(@"1.) %@", tracks);
+            NSDictionary *track = [[NSDictionary alloc] init];
+            NSMutableArray *trackDescription = [[NSMutableArray alloc] init];
+            
+            // This loop below will extract the json into a dictionary to parse the title and other info of the searched songs.
+            for (int i = 0; i < tracks.count; i++ ) {
+                
+                CustomSong *song = [CustomSong new];
+                track = [tracks objectAtIndex:i];
+                
+                
+                if (![track isEqual: [NSNull null]]) {
+                    
+                    if (track[@"stream_url"] != nil && ![track[@"stream_url"] isEqual: [NSNull null]] ) {
+                        
+                        song.title = track[@"title"];
+                        song.stream_url = track[@"stream_url"];
+                        song.time = [self formatInterval:[track[@"duration"] doubleValue]];
+                        NSDictionary *uploadingUserInfo = track[@"user"];
+                        song.uploadingUser = uploadingUserInfo[@"username"];
+                        
+                        if (![track[@"artwork_url"] isEqual:[NSNull null]]) {
+                            
+                            song.image = track[@"artwork_url"];
+                            
+                        } else {
+                            // User's avatar picture if there is not artwork for the track
+                            song.image = uploadingUserInfo[@"avatar_url"];
+                        }
+                        [trackDescription addObject:song];
+                        
+                    }
+                    
+                }
+                
+            }
+            
+            return trackDescription;
+            
+            
+        } else {
+            //            NSLog(@"ERROR: %@", jsonError.localizedDescription);
+            return nil;
+        }
+    }
+    return nil;
+}
+
+
 
 - (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData {
     

@@ -42,16 +42,18 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.searchController setActive:YES];
-     [self.searchController.searchBar setHidden:NO];
+//    [self.searchController setActive:YES];
+//     [self.searchController.searchBar setHidden:NO];
     
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
    
-//     NSArray *viewControllers = self.navigationController.viewControllers;
     [self.searchController setActive:NO];
+    
+//     NSArray *viewControllers = self.navigationController.viewControllers;
+
     
 //    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
 ////        [self.searchController.searchBar.t]
@@ -299,7 +301,8 @@
         CustomSong *soundCloudUser = [self.searchResults objectAtIndex:selectedIndexPath.row];
         ssc.scUserInfo = soundCloudUser;
         ssc.searchController = self.searchController;
-
+        
+//        [self.searchController setActive:NO];
 //        [ssc.s setScUserName:soundCloudUser.title];
         
        

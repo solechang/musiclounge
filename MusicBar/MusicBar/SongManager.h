@@ -22,11 +22,18 @@
 -(id)initWithTrackName:(NSString *)trackName;
 -(id)initWithSong:(CustomSong *)song;
 -(id) initWithSoundCloudUsername: (NSString*)username;
+-(id) initWithSoundCloudUserID: (NSString*)userID;
+
+
 
 - (NSString *) getUserResourceURL;
 - (NSString *) getSongResourceURL;
+- (NSString *) getUserLikesURL: (NSString*) userID;
+
 - (NSMutableArray*)parseTrackData:(NSData *) trackData;
 - (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData;
+
+
 
 // Songs
 - (void) addSongToPlaylist: (CustomSong*) songAtCell playlistInfo:(Playlist*)iLListInfo playlistTracks: (NSMutableArray*) iLListTracks;
@@ -37,6 +44,8 @@
 @property (nonatomic) NSString *soundCloudUsername;
 
 @property (nonatomic, retain) Playlist *playlistInfo;
+
+@property (nonatomic) NSString *soundCloudUserID;
 
 
 
