@@ -40,12 +40,31 @@
     
 }
 
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+     [self.searchController.searchBar setHidden:NO];
+    
+}
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-
-    [self.searchController setActive:NO];
+     NSArray *viewControllers = self.navigationController.viewControllers;
+    
+    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
+//        [self.searchController.searchBar.t]
+        [self.searchController.searchBar resignFirstResponder];
+        [self.searchController.searchBar setHidden:YES];
+        
+    } else if ([viewControllers indexOfObject:self] == NSNotFound) {
+        
+        // View is disappearing because it was popped from the stackd
+        
+        
+        
+        [self.searchController setActive:NO];
+    }
     
 }
 
@@ -176,8 +195,11 @@
         
     } else {
         
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        if (![song.title containsString:@"is not found :("]) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        }
+        
     }
     
     
@@ -251,7 +273,13 @@
 {
     if (self.searchController.searchBar.selectedScopeButtonIndex == 1) {
     
-        [self performSegueWithIdentifier:@"SoundCloudUserSegue" sender:nil];
+        CustomSong *soundCloudUser = [self.searchResults objectAtIndex:indexPath.row];
+        
+        
+        if ( ![soundCloudUser.title  containsString:@"is not found :("]) {
+            [self performSegueWithIdentifier:@"SoundCloudUserSegue" sender:nil];
+        }
+        
 
     }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -263,16 +291,14 @@
     
     if ([[segue identifier] isEqualToString:@"SoundCloudUserSegue"]) {
         
-        // Get destination view
-        SoundCloudUserInfoTableViewController *ssc = [segue destinationViewController];
+        SoundCloudUserInfoTableViewController *ssc = (SoundCloudUserInfoTableViewController*)segue.destinationViewController;
+
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
-        
-            CustomSong *soundCloudUser = [self.searchResults objectAtIndex:selectedIndexPath.row];
-            
-            NSLog(@"1.) %@", soundCloudUser.title);
-            
-        
+        CustomSong *soundCloudUser = [self.searchResults objectAtIndex:selectedIndexPath.row];
+        ssc.scUserName = soundCloudUser.title;
+
+//        [ssc.s setScUserName:soundCloudUser.title];
         
        
         

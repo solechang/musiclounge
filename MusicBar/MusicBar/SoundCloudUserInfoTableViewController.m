@@ -9,6 +9,10 @@
 #import "SoundCloudUserInfoTableViewController.h"
 
 @interface SoundCloudUserInfoTableViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *scUserImage;
+@property (weak, nonatomic) IBOutlet UIView *tracksLabel;
+@property (weak, nonatomic) IBOutlet UILabel *likesLabel;
+@property (weak, nonatomic) IBOutlet UILabel *playlistsLabel;
 
 @end
 
@@ -22,7 +26,35 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    
+    
+    [self setupTitle];
 }
+
+- (void) setUpImage {
+    // album image to framed in a circle
+    self.scUserImage.layer.cornerRadius = self.scUserImage.frame.size.height /2;
+    self.scUserImage.layer.masksToBounds = YES;
+    self.scUserImage.layer.borderWidth = 0;
+    
+    [self.scUserImage sd_setImageWithURL:[NSURL URLWithString:] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+}
+
+- (void) setupTitle {
+    
+    UILabel *label = [[UILabel alloc] init];
+    [label setFrame:CGRectMake(0,5,100,20)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17.0];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = self.scUserName;
+    self.navigationItem.titleView = label;
+    
+}
+
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -32,13 +64,13 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-#warning Incomplete implementation, return the number of sections
-    return 0;
+
+    return 3;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-#warning Incomplete implementation, return the number of rows
-    return 0;
+
+    return 1;
 }
 
 /*
