@@ -7,12 +7,16 @@
 //
 
 #import "SoundCloudUserInfoTableViewController.h"
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface SoundCloudUserInfoTableViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *scUserImage;
-@property (weak, nonatomic) IBOutlet UIView *tracksLabel;
+@property (weak, nonatomic) IBOutlet UILabel *tracksLabel;
+
 @property (weak, nonatomic) IBOutlet UILabel *likesLabel;
 @property (weak, nonatomic) IBOutlet UILabel *playlistsLabel;
+@property (weak, nonatomic) IBOutlet UILabel *usernameLabel;
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
 
 @end
 
@@ -21,15 +25,22 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
     
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    
-    
-    
+    [self setUpImage];
     [self setupTitle];
+    [self setUpUserFullName];
+    
+    [self setUpInfo];
+}
+-(void) viewWillDisappear:(BOOL)animated {
+//    if ([self.navigationController.viewControllers indexOfObject:self]==NSNotFound) {
+//        // back button was pressed.  We know this is true because self is no longer
+//        // in the navigation stack.
+//        [self.searchController setActive:NO];
+//    }
+
+    [self.searchController setActive:NO];
+    [super viewWillDisappear:animated];
 }
 
 - (void) setUpImage {
@@ -37,8 +48,8 @@
     self.scUserImage.layer.cornerRadius = self.scUserImage.frame.size.height /2;
     self.scUserImage.layer.masksToBounds = YES;
     self.scUserImage.layer.borderWidth = 0;
-    
-    [self.scUserImage sd_setImageWithURL:[NSURL URLWithString:] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+
+    [self.scUserImage sd_setImageWithURL:[NSURL URLWithString:self.scUserInfo.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
 }
 
 - (void) setupTitle {
@@ -46,15 +57,24 @@
     UILabel *label = [[UILabel alloc] init];
     [label setFrame:CGRectMake(0,5,100,20)];
     label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize:17.0];
+    label.font = [UIFont boldSystemFontOfSize:16.0];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = self.scUserName;
+    label.text = self.scUserInfo.title;
     self.navigationItem.titleView = label;
     
 }
 
+- (void) setUpUserFullName {
+    self.usernameLabel.text = self.scUserInfo.uploadingUser;
+}
 
+- (void) setUpInfo {
+    
+    self.tracksLabel.text = [NSString stringWithFormat:@"Tracks: %@", self.scUserInfo.tracksCount];
+    self.likesLabel.text = [NSString stringWithFormat:@"Likes: %@", self.scUserInfo.likesCount];
+    self.playlistsLabel.text = [NSString stringWithFormat:@"Playlists: %@", self.scUserInfo.playlistsCount];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -65,12 +85,18 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return 3;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     return 1;
+}
+- (IBAction)doneButtonPressed:(id)sender {
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+
 }
 
 /*

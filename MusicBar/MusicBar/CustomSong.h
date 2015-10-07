@@ -16,5 +16,7 @@
 @property (nonatomic, strong) NSString *stream_url;
 @property (nonatomic, strong) NSString *addedBy;
 @property (nonatomic, strong) NSString *userSoundCloudID;
-
+@property (nonatomic, strong) NSString *likesCount;
+@property (nonatomic, strong) NSString *playlistsCount;
+@property (nonatomic, strong) NSString *tracksCount;
 @end

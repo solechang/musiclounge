@@ -90,7 +90,7 @@
                                              options:NSJSONReadingMutableContainers | NSJSONReadingAllowFragments
                                              error:&jsonError];
         
-        if (!jsonError) {
+        if (!jsonError && [jsonResponse isKindOfClass:[NSDictionary class]]) {
             
             NSDictionary *jsonResponseDictionary = [[NSDictionary alloc] initWithDictionary:(NSDictionary*)jsonResponse];
             
@@ -109,8 +109,11 @@
                 soundCloudUserInfo.addedBy = @"noButtonForSoundCloudUser";
                 
                 soundCloudUserInfo.userSoundCloudID = jsonResponseDictionary[@"id"];
+                soundCloudUserInfo.likesCount = jsonResponseDictionary[@"public_favorites_count"];
+                soundCloudUserInfo.playlistsCount = jsonResponseDictionary[@"playlist_count"];
+                soundCloudUserInfo.tracksCount = jsonResponseDictionary[@"track_count"];
                 
-                NSString *likes = [NSString stringWithFormat:@"Likes: %@ songs", jsonResponseDictionary[@"public_favorites_count"]];
+                NSString *likes = [NSString stringWithFormat:@"%@", jsonResponseDictionary[@"full_name"]];
                 soundCloudUserInfo.uploadingUser = likes;
                 
                 [userDescriptionArray addObject:soundCloudUserInfo];

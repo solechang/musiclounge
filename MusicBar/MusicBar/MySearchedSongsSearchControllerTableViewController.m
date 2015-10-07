@@ -42,29 +42,30 @@
 
 - (void) viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    
+    [self.searchController setActive:YES];
      [self.searchController.searchBar setHidden:NO];
     
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
+   
+//     NSArray *viewControllers = self.navigationController.viewControllers;
+    [self.searchController setActive:NO];
     
-     NSArray *viewControllers = self.navigationController.viewControllers;
-    
-    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
-//        [self.searchController.searchBar.t]
-        [self.searchController.searchBar resignFirstResponder];
-        [self.searchController.searchBar setHidden:YES];
-        
-    } else if ([viewControllers indexOfObject:self] == NSNotFound) {
-        
-        // View is disappearing because it was popped from the stackd
-        
-        
-        
-        [self.searchController setActive:NO];
-    }
+//    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
+////        [self.searchController.searchBar.t]
+//        [self.searchController.searchBar resignFirstResponder];
+//        [self.searchController.searchBar setHidden:YES];
+//        
+//    } else if ([viewControllers indexOfObject:self] == NSNotFound) {
+//        
+//        // View is disappearing because it was popped from the stackd
+//        NSLog(@"5.)");
+//        
+//        
+//        
+//    }
     
 }
 
@@ -119,10 +120,9 @@
     CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
-    
-    
-    
+
     CustomSong *song = nil;
     if (cell == nil) {
         cell = [[CustomSearchedSongTableViewCell alloc]
@@ -151,7 +151,7 @@
 
     if (![song.addedBy isEqualToString:@"noButtonForSoundCloudUser"]) {
 
-        cell.accessoryType = UITableViewCellAccessoryNone;
+        
         
         //IK - Link adding song function here
         UIButton* button = [self addSongButtonPressed:song];
@@ -291,12 +291,14 @@
     
     if ([[segue identifier] isEqualToString:@"SoundCloudUserSegue"]) {
         
-        SoundCloudUserInfoTableViewController *ssc = (SoundCloudUserInfoTableViewController*)segue.destinationViewController;
-
+        UINavigationController *navController = [segue destinationViewController];
+        SoundCloudUserInfoTableViewController *ssc = (SoundCloudUserInfoTableViewController*)navController.topViewController;
+    
         NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         
         CustomSong *soundCloudUser = [self.searchResults objectAtIndex:selectedIndexPath.row];
-        ssc.scUserName = soundCloudUser.title;
+        ssc.scUserInfo = soundCloudUser;
+        ssc.searchController = self.searchController;
 
 //        [ssc.s setScUserName:soundCloudUser.title];
         
