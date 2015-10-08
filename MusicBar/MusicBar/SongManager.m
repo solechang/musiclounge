@@ -11,6 +11,7 @@
 
 
 @implementation SongManager {
+    
     NSMutableArray *playlistTracks;
     
 }
@@ -74,7 +75,7 @@
 - (NSString *) getUserLikesURL: (NSString*) userID {
 
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
-    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@&limit=50&offset=50", userID, clientID];
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@&limit=50&offset=0", userID, clientID];
     
     return resourceURL;
     
@@ -134,7 +135,7 @@
                         song.stream_url = track[@"stream_url"];
                         song.time = [self formatInterval:[track[@"duration"] doubleValue]];
                         NSDictionary *uploadingUserInfo = track[@"user"];
-                        song.uploadingUser = uploadingUserInfo[@"username"];
+                        song.uploadingUser = uploadingUserInfo[@"permalink"];
                         
                         if (![track[@"artwork_url"] isEqual:[NSNull null]]) {
                             
@@ -186,7 +187,7 @@
                 CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
             
                 
-                soundCloudUserInfo.title = jsonResponseDictionary[@"username"];
+                soundCloudUserInfo.title = jsonResponseDictionary[@"permalink"];
                 
                 if (jsonResponseDictionary[@"avatar_url"]) {
                     soundCloudUserInfo.image = jsonResponseDictionary[@"avatar_url"];
@@ -263,7 +264,7 @@
                         song.stream_url = track[@"stream_url"];
                         song.time = [self formatInterval:[track[@"duration"] doubleValue]];
                         NSDictionary *uploadingUserInfo = track[@"user"];
-                        song.uploadingUser = uploadingUserInfo[@"username"];
+                        song.uploadingUser = uploadingUserInfo[@"permalink"];
                         
                         if (![track[@"artwork_url"] isEqual:[NSNull null]]) {
                             

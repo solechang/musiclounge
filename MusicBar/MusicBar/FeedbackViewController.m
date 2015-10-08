@@ -138,7 +138,7 @@
         
         if (!error) {
             
-            [SVProgressHUD showSuccessWithStatus:@"Thank you for your feedback :)"];
+            [SVProgressHUD showSuccessWithStatus:@"Thank you for your feedback \xF0\x9F\x98\x81"];
             [self.navigationController dismissViewControllerAnimated:YES completion:^{
                 self.sendButton.enabled = YES;
                 self.backButton.enabled = YES;

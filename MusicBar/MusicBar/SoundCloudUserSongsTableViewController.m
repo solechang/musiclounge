@@ -37,6 +37,7 @@
 }
 
 - (void) setUpData {
+    
     songManager = [[SongManager alloc] initWithSoundCloudUserID:self.soundCloudUserID];
 
 }
@@ -81,7 +82,7 @@
         
         resourceURL = [songManager getUserLikesURL:self.scUserInfo.userSoundCloudID];
     }
-    
+    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
     SCRequestResponseHandler handler;
     handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
         [SVProgressHUD dismiss];
@@ -160,10 +161,7 @@
     
     [cell.albumImage sd_setImageWithURL:[NSURL URLWithString:song.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
     
-    if (![song.addedBy isEqualToString:@"noButtonForSoundCloudUser"]) {
-        
-        
-        
+    
         //IK - Link adding song function here
         UIButton* button = [self addSongButtonPressed:song];
         
@@ -204,14 +202,7 @@
         [cell.contentView addConstraints:@[centerYconstraint,widthConstraint,heightConstraint,rightConstraint]];
         
         
-    } else {
-        
-        if (![song.title containsString:@"is not found :("]) {
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-        }
-        
-    }
+  
     
     
     return cell;

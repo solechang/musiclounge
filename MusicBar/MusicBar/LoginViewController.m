@@ -112,7 +112,7 @@
     [self.facebookLoginButton setEnabled:NO];
     NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"read_custom_friendlists"];
     
-    [SVProgressHUD showWithStatus:@"Loading :)"];
+    [SVProgressHUD showWithStatus:@"Loading \xF0\x9F\x98\x84"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {

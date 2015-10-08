@@ -139,7 +139,7 @@ heightForHeaderInSection:(NSInteger)section {
 
     } else if (theCellClicked == self.termsOfUseCell) {
     
-        [SVProgressHUD showInfoWithStatus:@"Dropping soon :)"];
+        [SVProgressHUD showInfoWithStatus:@"Dropping soon \xF0\x9F\x98\x8F"];
         
     }
 

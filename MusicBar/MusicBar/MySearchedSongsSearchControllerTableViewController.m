@@ -303,6 +303,7 @@
         ssc.scUserInfo = soundCloudUser;
         ssc.searchController = self.searchController;
         ssc.playlistInfo = self.playlistInfo;
+        ssc.iLListTracks = self.iLListTracks;
         
 //        [self.searchController setActive:NO];
 //        [ssc.s setScUserName:soundCloudUser.title];
