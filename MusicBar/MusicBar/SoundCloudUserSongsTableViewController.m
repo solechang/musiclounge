@@ -30,13 +30,24 @@
 
     [self.tableView setRowHeight:90];
     
+    [self setUpViewController];
     [self setupTitle];
     [self setUpData];
+    
 }
 
 - (void) setUpData {
     songManager = [[SongManager alloc] initWithSoundCloudUserID:self.soundCloudUserID];
 
+}
+
+- (void)setUpViewController{
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];
+    
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+    
 }
 
 - (void) setupTitle {
@@ -47,7 +58,8 @@
     label.font = [UIFont boldSystemFontOfSize:17.0];
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
-    label.text = @"Search";
+    
+    label.text = @"Liked Songs";
     self.navigationItem.titleView = label;
     
 }
@@ -123,6 +135,9 @@
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
+    
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
     
     CustomSong *song = nil;
     
