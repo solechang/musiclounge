@@ -105,7 +105,7 @@
     
     if (indexPath.section == 1) {
         // soundcloud user tracks
-        [self performSegueWithIdentifier:@"soundCloudUserSongsSegue" sender:nil];
+//        [self performSegueWithIdentifier:@"soundCloudUserSongsSegue" sender:nil];
         
     } else if (indexPath.section == 2) {
         // soundcloud user likes
@@ -130,22 +130,20 @@
         
          NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
         SoundCloudUserSongsTableViewController *controller = [segue destinationViewController];
+        
         controller.playlistInfo = self.playlistInfo;
         controller.soundCloudUserID = self.soundCloudUserID;
-        
+        controller.iLListTracks = self.iLListTracks;
         controller.scUserInfo = self.scUserInfo;
 
-        
-        if (selectedIndexPath.section == 2) {
+        if (selectedIndexPath.section == 1) {
             // user liked songs
-            controller.tracksOrLikes = 2;
+            controller.tracksOrLikes = 0;
+        } else if (selectedIndexPath.section == 2) {
+            // user liked songs
+            controller.tracksOrLikes = 1;
         }
-        
-        
-        
-        
-        
-        
+
         
     }
     

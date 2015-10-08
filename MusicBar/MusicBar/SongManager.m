@@ -74,7 +74,7 @@
 - (NSString *) getUserLikesURL: (NSString*) userID {
 
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
-    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@", userID, clientID];
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@&limit=50&offset=50", userID, clientID];
     
     return resourceURL;
     
@@ -101,7 +101,7 @@
 -(NSMutableArray* )getUserLikedSongs:(NSData *) trackData{
     
     NSError *jsonError = nil;
-    
+
     if ( trackData != nil) {
         
         NSJSONSerialization *jsonResponse = [NSJSONSerialization
@@ -114,8 +114,8 @@
             NSArray *tracks = [[NSArray alloc] initWithArray:(NSArray *)jsonResponse];
             //            self.tracks = (NSArray *)jsonResponse;
             
-            
-            NSLog(@"1.) %@", tracks);
+             NSLog(@"1.0) %@", tracks);
+            NSLog(@"1.1) %lu", (unsigned long)tracks.count);
             NSDictionary *track = [[NSDictionary alloc] init];
             NSMutableArray *trackDescription = [[NSMutableArray alloc] init];
             
@@ -184,7 +184,7 @@
             if (!jsonResponseDictionary[@"errors"]) {
                 
                 CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
-                NSLog(@"0.) %@", jsonResponseDictionary);
+            
                 
                 soundCloudUserInfo.title = jsonResponseDictionary[@"username"];
                 

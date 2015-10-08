@@ -284,6 +284,7 @@
         
 
     }
+    [self.searchController.searchBar resignFirstResponder];
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
@@ -301,6 +302,7 @@
         CustomSong *soundCloudUser = [self.searchResults objectAtIndex:selectedIndexPath.row];
         ssc.scUserInfo = soundCloudUser;
         ssc.searchController = self.searchController;
+        ssc.playlistInfo = self.playlistInfo;
         
 //        [self.searchController setActive:NO];
 //        [ssc.s setScUserName:soundCloudUser.title];

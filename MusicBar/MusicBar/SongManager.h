@@ -30,8 +30,9 @@
 - (NSString *) getSongResourceURL;
 - (NSString *) getUserLikesURL: (NSString*) userID;
 
-- (NSMutableArray*)parseTrackData:(NSData *) trackData;
+- (NSMutableArray*) parseTrackData:(NSData *) trackData;
 - (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData;
+- (NSMutableArray* )getUserLikedSongs:(NSData *) trackData;
 
 
 
