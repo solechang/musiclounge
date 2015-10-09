@@ -159,9 +159,11 @@
     // GOTTA SAVE SONGS IN PLAYLIST!
     iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     
+ 
     [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Added %@!", songTitle] ];
     
-    
+    vc.iLListTracks = iLListTracks;
+    [vc.tableView reloadData];
     [self.tableView reloadData];
 }
 
