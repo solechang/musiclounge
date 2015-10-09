@@ -19,6 +19,7 @@
 
 @interface SoundCloudUserSongsTableViewController () {
     SongManager *songManager;
+     NSManagedObjectContext *defaultContext;
 }
 
 @end
@@ -30,10 +31,47 @@
 
     [self.tableView setRowHeight:90];
     
+    [self setUpNotifications];
+    
+    [self setNSManagedObjectContext];
+    
     [self setUpViewController];
     [self setupTitle];
     [self setUpData];
     
+}
+
+- (void) setNSManagedObjectContext {
+    
+    defaultContext = [NSManagedObjectContext MR_defaultContext];
+}
+
+- (void) setUpNotifications {
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(activityNotifications:) name:@"SongAdded" object:nil];
+}
+- (void) activityNotifications:(NSNotification *)notification {
+    
+    if ([[notification object] isKindOfClass:[SongManager class]]) {
+        
+        if ([[notification name] isEqualToString:@"SongAdded"]) {
+            
+            [self songAddedNotification:notification.userInfo];
+            
+        }
+        
+    }
+    
+}
+
+- (void) songAddedNotification: (NSDictionary*) userInfo {
+    
+    
+    NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    
+    // GOTTA SAVE SONGS IN PLAYLIST!
+    self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+    
+    [self.tableView reloadData];
 }
 
 - (void) setUpData {
