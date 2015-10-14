@@ -320,8 +320,14 @@
         result = [NSString stringWithFormat:@"%@0%@:",result,minute];
     } else {
         //        [result appendFormat: @"%2lu:", minutes];
-        result = [NSString stringWithFormat:@"%@%lu:",result,minutes];
-                NSLog(@"minutes:%lu", minutes);
+        if ( minutes == 0) {
+            result = [NSString stringWithFormat:@"%@%lu0:",result,minutes];
+            NSLog(@"minutes:%lu", minutes);
+        } else {
+            result = [NSString stringWithFormat:@"%@%lu:",result,minutes];
+            NSLog(@"minutes:%lu", minutes);
+        }
+        
     }
     
     
