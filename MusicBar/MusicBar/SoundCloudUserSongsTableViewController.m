@@ -177,18 +177,15 @@
         searchResultsCountOffset = [NSString stringWithFormat:@"%lu", (unsigned long)self.searchResults.count+1];
         
         searchResultsCountForLimit = [NSString stringWithFormat:@"%lu", (unsigned long)searchCountPlusFifty];
-        
-       
+
 
         resourceURL = [songManager getUserLikesURL:self.scUserInfo.userSoundCloudID limit:searchResultsCountForLimit offset:searchResultsCountOffset];
     }
-    
-    NSLog(@"1.) limit:%@ offset:%@", searchResultsCountForLimit,searchResultsCountOffset);
+
     NSInteger userLikesLimit = [self.scUserInfo.likesCount integerValue];
     
     if ( (searchCountPlusFifty < userLikesLimit) && overLimit) {
-        
-        NSLog(@"2.)userLikesLimit: %ld, searchCountPlusFifty: %ld, overLimit: %d", (long)userLikesLimit, (long)searchCountPlusFifty, overLimit);
+userLikesLimit, (long)searchCountPlusFifty, overLimit);
         
      
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
