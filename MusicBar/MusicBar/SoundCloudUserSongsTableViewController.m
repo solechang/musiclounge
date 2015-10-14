@@ -110,6 +110,11 @@
     [self getUserTracks];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [SVProgressHUD dismiss];
+    
+    [super viewWillDisappear:animated];
+}
 - (void) getUserTracks {
     
 
@@ -185,9 +190,7 @@
     NSInteger userLikesLimit = [self.scUserInfo.likesCount integerValue];
     
     if ( (searchCountPlusFifty < userLikesLimit) && overLimit) {
-userLikesLimit, (long)searchCountPlusFifty, overLimit);
         
-     
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
