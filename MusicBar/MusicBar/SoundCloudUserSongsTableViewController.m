@@ -20,6 +20,7 @@
 @interface SoundCloudUserSongsTableViewController () {
     SongManager *songManager;
      NSManagedObjectContext *defaultContext;
+    BOOL overLimit;
 }
 
 @end
@@ -75,7 +76,7 @@
 }
 
 - (void) setUpData {
-    
+    overLimit = YES;
     songManager = [[SongManager alloc] initWithSoundCloudUserID:self.soundCloudUserID];
 
 }
@@ -118,8 +119,9 @@
         
     } else if (self.tracksOrLikes == 1){
         
-        resourceURL = [songManager getUserLikesURL:self.scUserInfo.userSoundCloudID];
+        resourceURL = [songManager getUserLikesURL:self.scUserInfo.userSoundCloudID limit:@"50" offset:@"0"];
     }
+    
     [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
     SCRequestResponseHandler handler;
     handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -159,11 +161,74 @@
     return [self.searchResults count];
 }
 
+- (void) loadMoreTracks {
+    
+    NSString *resourceURL;
+    NSString *searchResultsCountOffset;
+    NSString *searchResultsCountForLimit;
+    
+    NSInteger searchCountPlusFifty = self.searchResults.count + 50;
+    
+    if (self.tracksOrLikes == 0) {
+        
+    } else if (self.tracksOrLikes == 1) {
+        
+        //since array count starts at 0 need to plus 1 so duplicate songs do not show up
+        searchResultsCountOffset = [NSString stringWithFormat:@"%lu", (unsigned long)self.searchResults.count+1];
+        
+        searchResultsCountForLimit = [NSString stringWithFormat:@"%lu", (unsigned long)searchCountPlusFifty];
+        
+       
+
+        resourceURL = [songManager getUserLikesURL:self.scUserInfo.userSoundCloudID limit:searchResultsCountForLimit offset:searchResultsCountOffset];
+    }
+    
+    NSLog(@"1.) limit:%@ offset:%@", searchResultsCountForLimit,searchResultsCountOffset);
+    NSInteger userLikesLimit = [self.scUserInfo.likesCount integerValue];
+    
+    if ( (searchCountPlusFifty < userLikesLimit) && overLimit) {
+        
+        NSLog(@"2.)userLikesLimit: %ld, searchCountPlusFifty: %ld, overLimit: %d", (long)userLikesLimit, (long)searchCountPlusFifty, overLimit);
+        
+     
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
+        SCRequestResponseHandler handler;
+        handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+            [SVProgressHUD dismiss];
+            
+            [self.searchResults addObjectsFromArray: [songManager getUserLikedSongs:data]];
+            [self.tableView reloadData];
+            
+        };
+        
+        
+        
+        [SCRequest performMethod:SCRequestMethodGET
+                      onResource:[NSURL URLWithString:resourceURL]
+                 usingParameters:nil
+                     withAccount:nil
+          sendingProgressHandler:nil
+                 responseHandler:handler];
+
+    } else {
+       overLimit = NO;
+    }
+    
+   
+    
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    // check if indexPath.row is last row
-    // Perform operation to load new Cell's.
-}
+    // Last cell to load more
+    NSInteger lastSectionIndex = [tableView numberOfSections] - 1;
+    NSInteger lastRowIndex = [tableView numberOfRowsInSection:lastSectionIndex] - 1;
+    if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
+        
+        // This is the last cell
+        [self loadMoreTracks];
+    }}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"searchedSongCell";
@@ -309,6 +374,7 @@
     return button;
     
 }
+
 
 /*
 // Override to support conditional editing of the table view.

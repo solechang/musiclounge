@@ -72,10 +72,10 @@
     
 }
 
-- (NSString *) getUserLikesURL: (NSString*) userID {
+- (NSString *) getUserLikesURL: (NSString*) userID limit:(NSString*)limit offset:(NSString*)offset {
 
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
-    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@&limit=50&offset=0", userID, clientID];
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@&limit=%@&offset=%@", userID, clientID, limit, offset];
     
     return resourceURL;
     
@@ -113,10 +113,7 @@
         if (!jsonError && [jsonResponse isKindOfClass:[NSArray class]]) {
             
             NSArray *tracks = [[NSArray alloc] initWithArray:(NSArray *)jsonResponse];
-            //            self.tracks = (NSArray *)jsonResponse;
-            
-             NSLog(@"1.0) %@", tracks);
-            NSLog(@"1.1) %lu", (unsigned long)tracks.count);
+      
             NSDictionary *track = [[NSDictionary alloc] init];
             NSMutableArray *trackDescription = [[NSMutableArray alloc] init];
             
