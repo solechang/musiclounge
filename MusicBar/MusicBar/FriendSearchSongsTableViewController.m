@@ -78,17 +78,28 @@
     
 //    self.searchController.searchResultsUpdater = self;
     
-    [self.searchController.searchBar sizeToFit];
     [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
     
+    self.searchController.searchBar.scopeButtonTitles = [NSArray arrayWithObjects:@"All", @"SoundCloud User", nil];
+    
+    [self.searchController.searchBar setScopeBarButtonTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+    [self.searchController.searchBar setScopeBarButtonTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    
+    [self adjustSearchBarToShowScopeBar];
+    
     self.searchController.searchBar.delegate = self;
-    
-    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
-    
-    self.tableView.tableHeaderView = self.searchController.searchBar;
+
     self.searchController.hidesNavigationBarDuringPresentation = NO;
+    
+    self.definesPresentationContext = YES;
 
     
+}
+
+- (void)adjustSearchBarToShowScopeBar {
+    
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 

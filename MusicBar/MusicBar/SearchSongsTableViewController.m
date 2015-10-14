@@ -86,6 +86,7 @@
  
     self.searchController.hidesNavigationBarDuringPresentation = NO;
 //    self.definesPresentationContext = NO;
+    self.definesPresentationContext = YES;
     
 }
 

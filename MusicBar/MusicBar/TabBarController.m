@@ -35,12 +35,15 @@
 }
 */
 
-- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
-{
+//- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+//{
+//    
+////    if (viewController.navigation)
 //    NSLog(@"1.) %lu", tabBarController.selectedViewController.childViewControllers.count);
-    
-    return (viewController != tabBarController.selectedViewController);
-}
+//    NSLog(@"2.) %@", viewController.childViewControllers.description);
+//    
+//    return (viewController != tabBarController.selectedViewController);
+//}
 
 
 @end

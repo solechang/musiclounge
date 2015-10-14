@@ -31,7 +31,7 @@
     [self setUpViewController];
     [self setupTitle];
     
-    self.tableView.contentInset = UIEdgeInsetsMake(88, 0, 44, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 
     [self.tableView setRowHeight:90];
     

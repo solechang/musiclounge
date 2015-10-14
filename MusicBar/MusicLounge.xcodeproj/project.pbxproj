@@ -248,6 +248,17 @@
 			name = Info;
 			sourceTree = "<group>";
 		};
+		B90D1ECE1BCF1D60009988FF /* FriendSearchController */ = {
+			isa = PBXGroup;
+			children = (
+				B9200BE21B393ED2001372C0 /* FriendSearchSongsTableViewController.h */,
+				B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */,
+				B9200BE41B393ED2001372C0 /* FriendSearchControllerTableViewController.h */,
+				B9200BE51B393ED2001372C0 /* FriendSearchControllerTableViewController.m */,
+			);
+			name = FriendSearchController;
+			sourceTree = "<group>";
+		};
 		B9200BDA1B393D78001372C0 /* Friends Tab */ = {
 			isa = PBXGroup;
 			children = (
@@ -260,13 +271,10 @@
 		B9200BDB1B393EA7001372C0 /* Friends Profile */ = {
 			isa = PBXGroup;
 			children = (
+				B90D1ECE1BCF1D60009988FF /* FriendSearchController */,
 				B9200BE91B393EE6001372C0 /* Friend Song Manager */,
 				B9200BE01B393ED2001372C0 /* FriendTabTheirCollectionViewController.h */,
 				B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */,
-				B9200BE21B393ED2001372C0 /* FriendSearchSongsTableViewController.h */,
-				B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */,
-				B9200BE41B393ED2001372C0 /* FriendSearchControllerTableViewController.h */,
-				B9200BE51B393ED2001372C0 /* FriendSearchControllerTableViewController.m */,
 			);
 			name = "Friends Profile";
 			sourceTree = "<group>";
