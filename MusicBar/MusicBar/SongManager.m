@@ -72,10 +72,10 @@
     
 }
 
-- (NSString *) getUserLikesURL: (NSString*) userID limit:(NSString*)limit offset:(NSString*)offset {
+- (NSString *) getSoundCloudUserSongsURL:(NSString*)type userID:(NSString*)userID limit:(NSString*)limit offset:(NSString*)offset {
 
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
-    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/favorites.json?client_id=%@&limit=%@&offset=%@", userID, clientID, limit, offset];
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/%@.json?client_id=%@&limit=%@&offset=%@", userID, type, clientID, limit, offset];
     
     return resourceURL;
     
@@ -99,7 +99,9 @@
     
 }
 
--(NSMutableArray* )getUserLikedSongs:(NSData *) trackData{
+
+
+-(NSMutableArray* )getSoundCloudUserSongs:(NSData *) trackData{
     
     NSError *jsonError = nil;
 
@@ -130,7 +132,9 @@
                         
                         song.title = track[@"title"];
                         song.stream_url = track[@"stream_url"];
-                        song.time = [self formatInterval:[track[@"duration"] doubleValue]];
+                        
+                    
+                        song.time = [self formatInterval:[track[@"duration"] intValue]];
                         NSDictionary *uploadingUserInfo = track[@"user"];
                         song.uploadingUser = uploadingUserInfo[@"permalink"];
                         
@@ -259,7 +263,7 @@
                         
                         song.title = track[@"title"];
                         song.stream_url = track[@"stream_url"];
-                        song.time = [self formatInterval:[track[@"duration"] doubleValue]];
+                        song.time = [self formatInterval:[track[@"duration"] intValue]];
                         NSDictionary *uploadingUserInfo = track[@"user"];
                         song.uploadingUser = uploadingUserInfo[@"permalink"];
                         
@@ -290,6 +294,8 @@
     return nil;
 }
 
+
+
 #pragma mark - duration of song
 - (NSString *) formatInterval: (NSTimeInterval) interval{
     unsigned long milliseconds = interval;
@@ -315,7 +321,7 @@
     } else {
         //        [result appendFormat: @"%2lu:", minutes];
         result = [NSString stringWithFormat:@"%@%lu:",result,minutes];
-        //        NSLog(@"minutes:%lu", minutes);
+                NSLog(@"minutes:%lu", minutes);
     }
     
     

@@ -19,7 +19,7 @@
 
 @interface SoundCloudUserSongsTableViewController () {
     SongManager *songManager;
-     NSManagedObjectContext *defaultContext;
+    NSManagedObjectContext *defaultContext;
     BOOL overLimit;
 }
 
@@ -99,13 +99,23 @@
     label.textColor = [UIColor whiteColor];
     label.textAlignment = NSTextAlignmentCenter;
     
-    label.text = @"Liked Songs";
+    if (self.tracksOrLikes == 0) {
+        
+         label.text = @"Tracks";
+        
+    } else if (self.tracksOrLikes == 1){
+        label.text = @"Liked Songs";
+    }
+    
+   
     self.navigationItem.titleView = label;
     
 }
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
+    
+    [self loadCurrentTracksInLounge];
     
     [self getUserTracks];
 }
@@ -115,16 +125,29 @@
     
     [super viewWillDisappear:animated];
 }
-- (void) getUserTracks {
+
+- (void) loadCurrentTracksInLounge {
     
+    NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    
+    // GOTTA SAVE SONGS IN PLAYLIST!
+    self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+}
+
+- (void) getUserTracks {
+
 
      NSString *resourceURL;
     
     if (self.tracksOrLikes == 0) {
         
+        resourceURL = [songManager getSoundCloudUserSongsURL:@"tracks" userID:self.scUserInfo.userSoundCloudID limit:@"50" offset:@"0"];
+        
+        
     } else if (self.tracksOrLikes == 1){
         
-        resourceURL = [songManager getUserLikesURL:self.scUserInfo.userSoundCloudID limit:@"50" offset:@"0"];
+        resourceURL = [songManager getSoundCloudUserSongsURL:@"favorites" userID:self.scUserInfo.userSoundCloudID limit:@"50" offset:@"0"];
+        
     }
     
     [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
@@ -132,7 +155,7 @@
     handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
         [SVProgressHUD dismiss];
         
-        self.searchResults = [songManager getUserLikedSongs:data];
+        self.searchResults = [songManager getSoundCloudUserSongs:data];
         [self.tableView reloadData];
         
     };
@@ -174,35 +197,40 @@
     
     NSInteger searchCountPlusFifty = self.searchResults.count + 50;
     
+    NSInteger userSongsLimit;
+    
+    //since array count starts at 0 need to plus 1 so duplicate songs do not show up
+    searchResultsCountOffset = [NSString stringWithFormat:@"%lu", (unsigned long)self.searchResults.count+1];
+    
+    searchResultsCountForLimit = [NSString stringWithFormat:@"%lu", (unsigned long)searchCountPlusFifty];
+    
     if (self.tracksOrLikes == 0) {
         
+        resourceURL = [songManager getSoundCloudUserSongsURL:@"tracks" userID:self.scUserInfo.userSoundCloudID limit:searchResultsCountForLimit offset:searchResultsCountOffset];
+        userSongsLimit = [self.scUserInfo.tracksCount integerValue];
+        
     } else if (self.tracksOrLikes == 1) {
-        
-        //since array count starts at 0 need to plus 1 so duplicate songs do not show up
-        searchResultsCountOffset = [NSString stringWithFormat:@"%lu", (unsigned long)self.searchResults.count+1];
-        
-        searchResultsCountForLimit = [NSString stringWithFormat:@"%lu", (unsigned long)searchCountPlusFifty];
 
-
-        resourceURL = [songManager getUserLikesURL:self.scUserInfo.userSoundCloudID limit:searchResultsCountForLimit offset:searchResultsCountOffset];
+        resourceURL = [songManager getSoundCloudUserSongsURL:@"favorites" userID:self.scUserInfo.userSoundCloudID limit:searchResultsCountForLimit offset:searchResultsCountOffset];
+        userSongsLimit = [self.scUserInfo.likesCount integerValue];
     }
 
-    NSInteger userLikesLimit = [self.scUserInfo.likesCount integerValue];
+   
     
-    if ( (searchCountPlusFifty < userLikesLimit) && overLimit) {
+    if ( (searchCountPlusFifty < userSongsLimit) && overLimit) {
         
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
             [SVProgressHUD dismiss];
             
-            [self.searchResults addObjectsFromArray: [songManager getUserLikedSongs:data]];
+            
+            [self.searchResults addObjectsFromArray: [songManager getSoundCloudUserSongs:data]];
             [self.tableView reloadData];
             
         };
         
-        
-        
+
         [SCRequest performMethod:SCRequestMethodGET
                       onResource:[NSURL URLWithString:resourceURL]
                  usingParameters:nil
@@ -211,6 +239,7 @@
                  responseHandler:handler];
 
     } else {
+
        overLimit = NO;
     }
     

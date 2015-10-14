@@ -28,11 +28,11 @@
 
 - (NSString *) getUserResourceURL;
 - (NSString *) getSongResourceURL;
-- (NSString *) getUserLikesURL: (NSString*) userID limit:(NSString*)limit offset:(NSString*)offset;
+- (NSString *) getSoundCloudUserSongsURL:(NSString*)type userID:(NSString*)userID limit:(NSString*)limit offset:(NSString*)offset;
 
 - (NSMutableArray*) parseTrackData:(NSData *) trackData;
 - (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData;
-- (NSMutableArray* )getUserLikedSongs:(NSData *) trackData;
+-(NSMutableArray* )getSoundCloudUserSongs:(NSData *) trackData;
 
 
 

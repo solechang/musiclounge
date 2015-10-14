@@ -105,7 +105,7 @@
     
     if (indexPath.section == 1) {
         // soundcloud user tracks
-//        [self performSegueWithIdentifier:@"soundCloudUserSongsSegue" sender:nil];
+        [self performSegueWithIdentifier:@"soundCloudUserSongsSegue" sender:nil];
         
     } else if (indexPath.section == 2) {
         // soundcloud user likes
