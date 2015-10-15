@@ -8,12 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "Playlist.h"
+#import "PlaylistFriend.h"
 #import "CustomSong.h"
 
 @interface SoundCloudUserSongsTableViewController : UITableViewController
 @property (nonatomic, strong) NSMutableArray *searchResults;
 @property (nonatomic, strong) NSMutableArray *iLListTracks;
 @property (nonatomic, retain) Playlist *playlistInfo;
+@property (nonatomic, retain) PlaylistFriend *playlistFriendInfo;
+
 @property (nonatomic, strong) UISearchController *searchController;
 @property (nonatomic, strong) NSString *soundCloudUserID;
 

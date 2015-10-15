@@ -141,7 +141,7 @@
 
 - (void) checkIllegalCharactersForUsername {
     
-    NSString *myRegex = @"[A-Z0-9a-z_]*";
+    NSString *myRegex = @"[0-9a-z_]*";
     NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", myRegex];
     NSString *string = self.usernameTextField.text;
     BOOL valid = [myTest evaluateWithObject:string];
