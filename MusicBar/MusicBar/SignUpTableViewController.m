@@ -330,7 +330,7 @@
                 
                 currentUser.userId = user.objectId;
                 // saving user's name, phone number, and email onto core data
-                currentUser.name = self.usernameTextField.text;
+                currentUser.name = [self.usernameTextField.text lowercaseString];
                 currentUser.email = self.emailTextField.text;
                 
                 // setting data for current user illist and friend list onto core data

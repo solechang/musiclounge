@@ -90,7 +90,8 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == self.usernameTextField) {
-        self.usernameTextField.text = [self.usernameTextField.text lowercaseString];
+        NSString* username = [self.usernameTextField.text lowercaseString];
+        self.usernameTextField.text = username;
         [self doneButtonPressed:self];
         [textField resignFirstResponder];
         
@@ -151,7 +152,7 @@
         // Check if username is valid use or not.
         PFQuery *query = [PFUser query];
         
-        [query whereKey:@"name" equalTo:[self.usernameTextField.text lowercaseString]];
+        [query whereKey:@"name" equalTo:string];
         
         [query getFirstObjectInBackgroundWithBlock:^(PFObject *foundUsername, NSError *error) {
             
@@ -191,7 +192,8 @@
 - (void)setUpSignUpUserName {
     
     PFUser *user = [PFUser currentUser];
-    user[@"name"] = self.usernameTextField.text;
+    NSString *username =[self.usernameTextField.text lowercaseString];
+    user[@"name"] = username;
     
     // Setting privacy for the PrivateUserData PFObject
     PFACL *defaultACL = [PFACL ACL];
@@ -254,8 +256,11 @@
                 nowPlaying.playlistId = @"";
                 
                 currentUser.userId = user.objectId;
+                
+                NSString *username =[self.usernameTextField.text lowercaseString];
+                
                 // saving user's name, phone number, and email onto core data
-                currentUser.name = self.usernameTextField.text;
+                currentUser.name = username;
 
                 // setting data for current user illist and friend list onto core data
                 currentUserFriendList.hostId = [[PFUser currentUser] objectId];
