@@ -54,7 +54,7 @@
 - (void) viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     
-    [self.searchController setActive:NO];
+//    [self.searchController setActive:NO];
     [self.filteredFriendsWhoExists removeAllObjects];
     [self.tableView reloadData];
 
@@ -63,7 +63,7 @@
     if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
         
         // View is disappearing because a new view controller was pushed onto the stack
-      [self.searchController setActive:NO];
+//      [self.searchController setActive:NO];
         
     } else if ([viewControllers indexOfObject:self] == NSNotFound) {
         
@@ -112,7 +112,7 @@
      UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"findFriendsCell" forIndexPath:indexPath];
     
     //dark blue?
-    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
+//    UIColor *myColor = [UIColor colorWithRed:51.0f/255.0f green:102.0f/255.0f blue:153.0f/255.0f alpha:1.0f];
     
     if (indexPath.section == 0) {
         // Friends who exist on iLList
@@ -120,7 +120,7 @@
         //Friend *friendWhoExist =[self.filteredFriendsWhoExistsOniLList objectAtIndex:indexPath.row];
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.textLabel.text = [[self.filteredFriendsWhoExists objectAtIndex:indexPath.row] name];
-        cell.textLabel.textColor = myColor;
+//        cell.textLabel.textColor = myColor;
         
     }
     
