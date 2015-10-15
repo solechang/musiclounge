@@ -204,7 +204,7 @@
 #pragma mark - Retrieve contacts from local
 - (void) retrieveFriendsFromLocal {
     
-    NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES ];
+    NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES inContext:defaultContext];
     
     if (friendsCoreDataArray.count == 0) {
         
@@ -423,7 +423,7 @@
         } else {
             [self queryOthers];
 //            NSLog(@"Error 275.)");
-             [SVProgressHUD dismiss];
+            [SVProgressHUD dismiss];
             [self.refreshButton setEnabled:YES];
         }
         
@@ -463,13 +463,10 @@
         
         
         if (!error) {
-            // User's Friends exist in the database
-            CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:defaultContext];
             
-            NSArray *friends = [currentUser.userFriendList.friend allObjects];
-
+            NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES inContext:defaultContext];
             
-            friendsList = [[NSMutableArray alloc] initWithArray:friends];
+            friendsList = [[NSMutableArray alloc] initWithArray:friendsCoreDataArray];
             
             [self sortFriendsWhoExistsOnIllist];
             
@@ -496,7 +493,6 @@
         
         // For friends who exist on the server
         Friend *friend = [friendsList objectAtIndex:i];
-        
         
         if ([friend.friend_exists isEqual:@(YES) ]) {
          

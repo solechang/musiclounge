@@ -200,13 +200,13 @@ heightForHeaderInSection:(NSInteger)section {
             [deleteFriend MR_deleteEntityInContext:localContext];
         }
         
-        // Delete FriendPhonenumber
-        NSArray *deleteFriendPhonenumberArray = [FriendPhonenumber MR_findAllInContext:localContext];
-        
-        for (FriendPhonenumber *deleteFriendPhonenumber in deleteFriendPhonenumberArray) {
-            
-            [deleteFriendPhonenumber MR_deleteEntityInContext:localContext];
-        }
+//        // Delete FriendPhonenumber
+//        NSArray *deleteFriendPhonenumberArray = [FriendPhonenumber MR_findAllInContext:localContext];
+//        
+//        for (FriendPhonenumber *deleteFriendPhonenumber in deleteFriendPhonenumberArray) {
+//            
+//            [deleteFriendPhonenumber MR_deleteEntityInContext:localContext];
+//        }
         
         // Delete UserFriendList
         NSArray *deleteUserFriendList = [UserFriendList MR_findAllInContext:localContext];
