@@ -141,9 +141,9 @@
 
 - (void) checkIllegalCharactersForUsername {
     
-    NSString *myRegex = @"[0-9a-z_]*";
+    NSString *myRegex = @"[A-Z0-9a-z_-]*";
     NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", myRegex];
-    NSString *string = self.usernameTextField.text;
+    NSString *string = [self.usernameTextField.text lowercaseString];
     BOOL valid = [myTest evaluateWithObject:string];
     
     
@@ -151,7 +151,7 @@
         // Check if username is valid use or not.
         PFQuery *query = [PFUser query];
         
-        [query whereKey:@"name" equalTo:self.usernameTextField.text];
+        [query whereKey:@"name" equalTo:[self.usernameTextField.text lowercaseString]];
         
         [query getFirstObjectInBackgroundWithBlock:^(PFObject *foundUsername, NSError *error) {
             
