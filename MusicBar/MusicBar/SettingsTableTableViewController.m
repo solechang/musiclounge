@@ -95,7 +95,7 @@ heightForHeaderInSection:(NSInteger)section {
     
     UIAlertController * alert=   [UIAlertController
                                   alertControllerWithTitle:@"MusicLounge"
-                                  message:@"Are you sure you want to leave MusicLounge? :("
+                                  message:@"Are you sure you want to leave MusicLounge? \xF0\x9F\x98\xAD"
                                   preferredStyle:UIAlertControllerStyleAlert];
     
     UIAlertAction* noAlert = [UIAlertAction

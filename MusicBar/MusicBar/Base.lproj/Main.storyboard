@@ -1235,7 +1235,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dzV-d2-G1c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4416" y="2166"/>
+            <point key="canvasLocation" x="5760" y="2166"/>
         </scene>
         <!--Sound Cloud User Songs Table View Controller-->
         <scene sceneID="3hm-S1-J0M">
@@ -1331,7 +1331,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iNg-MF-Qfd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5095" y="2174"/>
+            <point key="canvasLocation" x="6439" y="2174"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="fk4-sB-mYh">
@@ -1686,6 +1686,9 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" id="h2O-YQ-DoO"/>
+                    <connections>
+                        <segue destination="8QU-my-iVA" kind="presentation" identifier="SoundCloudUserSegue" id="0Hp-SG-NCe"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="tBx-wa-aOC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -2096,7 +2099,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XBU-GP-Poc" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3732" y="2174"/>
+            <point key="canvasLocation" x="5076" y="2174"/>
         </scene>
     </scenes>
     <resources>
@@ -2110,5 +2113,6 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="kMa-Xu-FBY"/>
+        <segue reference="0Hp-SG-NCe"/>
     </inferredMetricsTieBreakers>
 </document>
