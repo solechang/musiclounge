@@ -55,7 +55,7 @@
 - (void) setupTitle {
     
     UILabel *label = [[UILabel alloc] init];
-    [label setFrame:CGRectMake(0,5,100,20)];
+    [label setFrame:CGRectMake(0,0,100,20)];
     label.backgroundColor = [UIColor clearColor];
     label.font = [UIFont boldSystemFontOfSize:17.0];
     label.textColor = [UIColor whiteColor];

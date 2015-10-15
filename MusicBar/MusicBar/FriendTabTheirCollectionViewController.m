@@ -65,16 +65,19 @@
 {
     [super viewDidLoad];
     self.addFriendButton.enabled = NO;
-
+//    [self.profilePictureImage setImage:[UIImage imageNamed: @"placeholder.png"]];
+    
+//    [self setUpNavigationBar];
     [self setUpCollectionView];
     [self setUpHeaderFlowLayout];
     
     [self setUpCell];
     
+//    [self setUpGesture];
+    
     [self setNSManagedObjectContext];
     
     [self control];
-    [self setUpTitle];
     
     
     //IK - Offset the text on the back button
@@ -83,12 +86,6 @@
     
 }
 
-- (void) setUpTitle {
-    NSLog(@"HI");
-    NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
-    self.navigationController.navigationBar.topItem.title = @"Friends";
-    self.navigationController.navigationBar.titleTextAttributes = size;
-}
 - (void) setNSManagedObjectContext {
     
     defaultContext = [NSManagedObjectContext MR_defaultContext];
@@ -297,7 +294,10 @@
     if (playlistArray.count != 0 ) {
         hostName = [[NSString alloc] initWithString:friendName.userName];
         
-   
+        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:20.0],NSFontAttributeName, nil];
+        self.navigationController.navigationBar.topItem.title = hostName;
+        self.navigationController.navigationBar.titleTextAttributes = size;
+
         
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
         [self setCountOnControl];
@@ -337,7 +337,10 @@
             
             hostName = [[NSString alloc] initWithString:userObject[@"name"]];
             
-           
+            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:20.0],NSFontAttributeName, nil];
+            self.navigationController.navigationBar.topItem.title = hostName;
+            self.navigationController.navigationBar.titleTextAttributes = size;
+            
             [self checkIfFriends];
             
             [self.collectionView reloadData];
@@ -700,6 +703,11 @@ didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
         
         // Get destination view
         FriendSearchSongsTableViewController *ssc = [segue destinationViewController];
+        
+        if (hostName.length > 10) {
+            self.navigationController.navigationBar.topItem.title = @"";
+        }
+        
         
         // Initializing indexpath for the playlist cell
         NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
