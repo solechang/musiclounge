@@ -19,11 +19,11 @@
 
 @interface SongFriendManager : NSObject
 
--(id)initWithTrackName:(NSString *)trackName;
--(id)initWithSong:(CustomSong *)song;
+- (id)initWithTrackName:(NSString *)trackName;
+- (id)initWithSong:(CustomSong *)song;
 
 - (NSString *) getResourceURL;
--(NSMutableArray*)parseTrackData:(NSData *) trackData;
+- (NSMutableArray*)parseTrackData:(NSData *) trackData;
 
 
 // Songs
@@ -33,5 +33,8 @@
 @property (nonatomic) CustomSong *song;
 
 @property (nonatomic, retain) PlaylistFriend *playlistInfo;
+
+@property (nonatomic) NSString *soundCloudUserID;
+
 
 @end

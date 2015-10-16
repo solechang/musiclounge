@@ -209,7 +209,7 @@
     if (song.stream_url == nil) {
         [button setEnabled:NO];
         
-        button.backgroundColor = [UIColor lightGrayColor];
+        button.backgroundColor = [UIColor greenColor];
     }
     
     // Disable button if the song exists in current playlist
@@ -219,7 +219,7 @@
             
            [button setEnabled:NO];
             
-            button.backgroundColor = [UIColor lightGrayColor];
+            button.backgroundColor = [UIColor greenColor];
             
         }
     }

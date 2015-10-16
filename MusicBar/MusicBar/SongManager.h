@@ -32,7 +32,7 @@
 
 - (NSMutableArray*) parseTrackData:(NSData *) trackData;
 - (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData;
--(NSMutableArray* )getSoundCloudUserSongs:(NSData *) trackData;
+- (NSMutableArray* )getSoundCloudUserSongs:(NSData *) trackData;
 
 
 

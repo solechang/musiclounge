@@ -34,6 +34,8 @@
 
 @property (nonatomic, strong) NSMutableArray *searchResult;
 
+@property (nonatomic, strong) NSMutableArray *searchResultSongs;
+@property (nonatomic, strong) NSMutableArray *searchResultSCUser;
 
 
 @end
@@ -405,13 +407,26 @@
                
                 
                 [self setUpData];
-                self.searchResult = [songMangerSearchedText parseTrackData:data];
-                vc.searchController = self.searchController;
+                
+                if (searchBar.selectedScopeButtonIndex == 0) {
+                    
+                    self.searchResultSongs = [songMangerSearchedText parseTrackData:data];
+                    vc.searchResults = self.searchResultSongs;
+                    
+                } else if (searchBar.selectedScopeButtonIndex == 1) {
+                    
+//                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    vc.searchResults = self.searchResultSCUser;
+                }
                 vc.iLListTracks = iLListTracks;
-                vc.searchResults = self.searchResult;
+                vc.searchController = self.searchController;
+                
                 vc.playlistInfo = self.playlistInfo;
-
+                
                 [vc.tableView reloadData];
+                
+                
+
             }
             
             [self.tableView reloadData];
