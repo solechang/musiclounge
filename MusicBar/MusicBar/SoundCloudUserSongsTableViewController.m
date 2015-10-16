@@ -8,6 +8,7 @@
 
 #import "SoundCloudUserSongsTableViewController.h"
 #import "SongManager.h"
+#import "Song"
 
 #import "SCUI.h"
 
@@ -53,6 +54,14 @@
 - (void) activityNotifications:(NSNotification *)notification {
     
     if ([[notification object] isKindOfClass:[SongManager class]]) {
+        
+        if ([[notification name] isEqualToString:@"SongAdded"]) {
+            
+            [self songAddedNotification:notification.userInfo];
+            
+        }
+        
+    } else if ([[notification object] isKindOfClass:[ class]]) {
         
         if ([[notification name] isEqualToString:@"SongAdded"]) {
             

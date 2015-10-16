@@ -132,6 +132,7 @@
         SoundCloudUserSongsTableViewController *controller = [segue destinationViewController];
         
         controller.playlistInfo = self.playlistInfo;
+        controller.playlistFriendInfo = self.playlistFriendInfo;
         controller.soundCloudUserID = self.soundCloudUserID;
         controller.iLListTracks = self.iLListTracks;
         controller.scUserInfo = self.scUserInfo;

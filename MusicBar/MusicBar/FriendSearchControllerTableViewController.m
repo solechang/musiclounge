@@ -260,7 +260,9 @@
         ssc.scUserInfo = soundCloudUser;
         ssc.searchController = self.searchController;
         
-        ssc.playlistInfo = self.playlistInfo;
+//        ssc.playlistInfo = self.playlistInfo;
+        ssc.playlistFriendInfo = self.playlistInfo;
+        
         
         ssc.iLListTracks = self.iLListTracks;
         
