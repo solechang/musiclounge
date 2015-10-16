@@ -14,7 +14,7 @@
 
 #import "SoundCloudUserInfoTableViewController.h"
 
-#import "iLLSongFriendManager.h"
+#import "SongFriendManager.h"
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
@@ -183,7 +183,7 @@
     
     songAtCell = [self.searchResults objectAtIndex:indexPath.row];
     
-    iLLSongFriendManager *songManagerAddSong = [[iLLSongFriendManager alloc] initWithSong:songAtCell];
+    SongFriendManager *songManagerAddSong = [[SongFriendManager alloc] initWithSong:songAtCell];
     
     [songManagerAddSong addSongToPlaylist:songAtCell playlistInfo:self.playlistInfo playlistTracks:self.iLListTracks];
     

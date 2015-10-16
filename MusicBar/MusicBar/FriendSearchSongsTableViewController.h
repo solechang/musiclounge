@@ -19,7 +19,7 @@
 
 #import "NowPlaying.h"
 #import "NowPlayingSong.h"
-#import "iLLSongFriendManager.h"
+#import "SongFriendManager.h"
 
 @interface FriendSearchSongsTableViewController : UITableViewController  <UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 

@@ -17,7 +17,7 @@
 		B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */; };
 		B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */; };
 		B9200BE81B393ED2001372C0 /* FriendSearchControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE51B393ED2001372C0 /* FriendSearchControllerTableViewController.m */; };
-		B9200BEC1B393EF4001372C0 /* iLLSongFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BEB1B393EF4001372C0 /* iLLSongFriendManager.m */; };
+		B9200BEC1B393EF4001372C0 /* SongFriendManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BEB1B393EF4001372C0 /* SongFriendManager.m */; };
 		B922D7141B94F84500697006 /* poweredBySoundCloud.png in Resources */ = {isa = PBXBuildFile; fileRef = B922D7131B94F84500697006 /* poweredBySoundCloud.png */; };
 		B922D7171B951D7600697006 /* Friend.m in Sources */ = {isa = PBXBuildFile; fileRef = B922D7161B951D7600697006 /* Friend.m */; };
 		B93D8FCD1B32411600A2947C /* MusicBarModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B93D8FCB1B32411600A2947C /* MusicBarModel.xcdatamodeld */; };
@@ -101,8 +101,8 @@
 		B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSearchSongsTableViewController.m; sourceTree = "<group>"; };
 		B9200BE41B393ED2001372C0 /* FriendSearchControllerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendSearchControllerTableViewController.h; sourceTree = "<group>"; };
 		B9200BE51B393ED2001372C0 /* FriendSearchControllerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendSearchControllerTableViewController.m; sourceTree = "<group>"; };
-		B9200BEA1B393EF4001372C0 /* iLLSongFriendManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iLLSongFriendManager.h; sourceTree = "<group>"; };
-		B9200BEB1B393EF4001372C0 /* iLLSongFriendManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = iLLSongFriendManager.m; sourceTree = "<group>"; };
+		B9200BEA1B393EF4001372C0 /* SongFriendManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SongFriendManager.h; sourceTree = "<group>"; };
+		B9200BEB1B393EF4001372C0 /* SongFriendManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SongFriendManager.m; sourceTree = "<group>"; };
 		B922D7131B94F84500697006 /* poweredBySoundCloud.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = poweredBySoundCloud.png; sourceTree = "<group>"; };
 		B922D7151B951D7600697006 /* Friend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Friend.h; sourceTree = "<group>"; };
 		B922D7161B951D7600697006 /* Friend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Friend.m; sourceTree = "<group>"; };
@@ -294,8 +294,8 @@
 		B9200BE91B393EE6001372C0 /* Friend Song Manager */ = {
 			isa = PBXGroup;
 			children = (
-				B9200BEA1B393EF4001372C0 /* iLLSongFriendManager.h */,
-				B9200BEB1B393EF4001372C0 /* iLLSongFriendManager.m */,
+				B9200BEA1B393EF4001372C0 /* SongFriendManager.h */,
+				B9200BEB1B393EF4001372C0 /* SongFriendManager.m */,
 			);
 			name = "Friend Song Manager";
 			sourceTree = "<group>";
@@ -747,7 +747,7 @@
 				B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */,
 				B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */,
 				44103B271B87EE0F006808F3 /* CurrentUser.m in Sources */,
-				B9200BEC1B393EF4001372C0 /* iLLSongFriendManager.m in Sources */,
+				B9200BEC1B393EF4001372C0 /* SongFriendManager.m in Sources */,
 				B93D8FCD1B32411600A2947C /* MusicBarModel.xcdatamodeld in Sources */,
 				B9B76F361B37E93000F63AC4 /* CustomSong.m in Sources */,
 				B9B76F411B37E98A00F63AC4 /* MediaPlayerViewController.m in Sources */,

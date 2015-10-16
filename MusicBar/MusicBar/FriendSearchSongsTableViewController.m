@@ -130,7 +130,7 @@
 
 - (void) activityNotifications:(NSNotification *)notification {
     
-    if ([[notification object] isKindOfClass:[iLLSongFriendManager class]]) {
+    if ([[notification object] isKindOfClass:[SongFriendManager class]]) {
         
         if ([[notification name] isEqualToString:@"SongAdded"]) {
             
@@ -392,7 +392,7 @@
         
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
         
-        iLLSongFriendManager *songMangerSearchedText = [[iLLSongFriendManager alloc] initWithTrackName:trackName] ;
+        SongFriendManager *songMangerSearchedText = [[SongFriendManager alloc] initWithTrackName:trackName] ;
         
         NSString *resourceURL = [songMangerSearchedText getResourceURL];
         

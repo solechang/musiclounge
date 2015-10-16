@@ -17,7 +17,7 @@
 
 #import "CustomSong.h"
 
-@interface iLLSongFriendManager : NSObject
+@interface SongFriendManager : NSObject
 
 -(id)initWithTrackName:(NSString *)trackName;
 -(id)initWithSong:(CustomSong *)song;

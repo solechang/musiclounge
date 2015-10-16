@@ -6,10 +6,10 @@
 //  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
-#import "iLLSongFriendManager.h"
+#import "SongFriendManager.h"
 #import <Parse/Parse.h>
 
-@implementation iLLSongFriendManager{
+@implementation SongFriendManager{
     NSMutableArray *playlistTracks;
 
 }

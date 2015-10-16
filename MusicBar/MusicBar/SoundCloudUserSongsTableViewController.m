@@ -8,7 +8,8 @@
 
 #import "SoundCloudUserSongsTableViewController.h"
 #import "SongManager.h"
-#import "Song"
+#import "SongFriendManager.h"
+#import "SongFriend.h"
 
 #import "SCUI.h"
 
@@ -61,11 +62,11 @@
             
         }
         
-    } else if ([[notification object] isKindOfClass:[ class]]) {
+    } else if ([[notification object] isKindOfClass:[SongFriendManager class]]) {
         
-        if ([[notification name] isEqualToString:@"SongAdded"]) {
+        if ([[notification name] isEqualToString:@"SongFriendAdded"]) {
             
-            [self songAddedNotification:notification.userInfo];
+//            [self songAddedNotification:notification.userInfo];
             
         }
         
@@ -136,11 +137,24 @@
 }
 
 - (void) loadCurrentTracksInLounge {
+
+    // for me tab
+    if (self.playlistInfo) {
+        NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+        
+        // GOTTA SAVE SONGS IN PLAYLIST!
+        self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+        
+    } else {
+        // for friends tab
+        NSArray *songsFriendInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+        
+        // GOTTA SAVE SONGS IN PLAYLIST!
+        self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsFriendInLocal];
+
+    }
     
-    NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-    
-    // GOTTA SAVE SONGS IN PLAYLIST!
-    self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+   
 }
 
 - (void) getUserTracks {
