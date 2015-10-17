@@ -14,6 +14,30 @@
 
 }
 
+-(id) initWithSoundCloudUserID: (NSString*)userID {
+    self = [super init];
+    
+    if(self)
+    {
+        self.soundCloudUserID = userID;
+    }
+    return self;
+    
+}
+
+-(id) initWithSoundCloudUsername: (NSString*)username {
+    
+    
+    self = [super init];
+    
+    if(self)
+    {
+        self.soundCloudUsername = username;
+    }
+    return self;
+    
+}
+
 
 -(id)initWithTrackName:(NSString *)trackName {
     
@@ -47,13 +71,163 @@
     
 }
 
-- (NSString *) getResourceURL {
+- (NSString *) getSoundCloudUserSongsURL:(NSString*)type userID:(NSString*)userID limit:(NSString*)limit offset:(NSString*)offset {
+    
+    NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@/%@.json?client_id=%@&limit=%@&offset=%@", userID, type, clientID, limit, offset];
+    
+    return resourceURL;
+    
+}
+
+- (NSString *) getUserResourceURL {
+    
+    NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
+    NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/users/%@.json?client_id=%@", self.soundCloudUsername, clientID];
+    
+    return resourceURL;
+    
+}
+
+- (NSString *) getSongResourceURL {
     
     NSString *clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *resourceURL = [NSString stringWithFormat:@"https://api.soundcloud.com/tracks?q=%@&client_id=%@&format=json&limit=50", self.trackName, clientID];
     
     return resourceURL;
     
+}
+
+
+
+-(NSMutableArray* )getSoundCloudUserSongs:(NSData *) trackData{
+    
+    NSError *jsonError = nil;
+    
+    if ( trackData != nil) {
+        
+        NSJSONSerialization *jsonResponse = [NSJSONSerialization
+                                             JSONObjectWithData:trackData
+                                             options:NSJSONReadingMutableContainers | NSJSONReadingAllowFragments
+                                             error:&jsonError];
+        
+        if (!jsonError && [jsonResponse isKindOfClass:[NSArray class]]) {
+            
+            NSArray *tracks = [[NSArray alloc] initWithArray:(NSArray *)jsonResponse];
+            
+            NSDictionary *track = [[NSDictionary alloc] init];
+            NSMutableArray *trackDescription = [[NSMutableArray alloc] init];
+            
+            // This loop below will extract the json into a dictionary to parse the title and other info of the searched songs.
+            for (int i = 0; i < tracks.count; i++ ) {
+                
+                CustomSong *song = [CustomSong new];
+                track = [tracks objectAtIndex:i];
+                
+                
+                if (![track isEqual: [NSNull null]]) {
+                    
+                    if (track[@"stream_url"] != nil && ![track[@"stream_url"] isEqual: [NSNull null]] ) {
+                        
+                        song.title = track[@"title"];
+                        song.stream_url = track[@"stream_url"];
+                        
+                        
+                        song.time = [self formatInterval:[track[@"duration"] intValue]];
+                        NSDictionary *uploadingUserInfo = track[@"user"];
+                        song.uploadingUser = uploadingUserInfo[@"permalink"];
+                        
+                        if (![track[@"artwork_url"] isEqual:[NSNull null]]) {
+                            
+                            song.image = track[@"artwork_url"];
+                            
+                        } else {
+                            // User's avatar picture if there is not artwork for the track
+                            song.image = uploadingUserInfo[@"avatar_url"];
+                        }
+                        [trackDescription addObject:song];
+                        
+                    }
+                    
+                }
+                
+            }
+            
+            return trackDescription;
+            
+            
+        } else {
+            //            NSLog(@"ERROR: %@", jsonError.localizedDescription);
+            return nil;
+        }
+    }
+    return nil;
+}
+
+
+
+- (NSMutableArray *) getUserSoundCloudInfo: (NSData *) userData {
+    
+    NSMutableArray *userDescriptionArray = [[NSMutableArray alloc] init];
+    NSError *jsonError = nil;
+    
+    if ( userData != nil) {
+        
+        NSJSONSerialization *jsonResponse = [NSJSONSerialization
+                                             JSONObjectWithData:userData
+                                             options:NSJSONReadingMutableContainers | NSJSONReadingAllowFragments
+                                             error:&jsonError];
+        
+        if (!jsonError && [jsonResponse isKindOfClass:[NSDictionary class]]) {
+            
+            NSDictionary *jsonResponseDictionary = [[NSDictionary alloc] initWithDictionary:(NSDictionary*)jsonResponse];
+            
+            if (!jsonResponseDictionary[@"errors"]) {
+                
+                CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
+                
+                
+                soundCloudUserInfo.title = jsonResponseDictionary[@"permalink"];
+                
+                if (jsonResponseDictionary[@"avatar_url"]) {
+                    soundCloudUserInfo.image = jsonResponseDictionary[@"avatar_url"];
+                } else {
+                    soundCloudUserInfo.image = nil;
+                }
+                soundCloudUserInfo.addedBy = @"noButtonForSoundCloudUser";
+                
+                soundCloudUserInfo.userSoundCloudID = jsonResponseDictionary[@"id"];
+                soundCloudUserInfo.likesCount = jsonResponseDictionary[@"public_favorites_count"];
+                soundCloudUserInfo.playlistsCount = jsonResponseDictionary[@"playlist_count"];
+                soundCloudUserInfo.tracksCount = jsonResponseDictionary[@"track_count"];
+                
+                NSString *likes = [NSString stringWithFormat:@"%@", jsonResponseDictionary[@"full_name"]];
+                soundCloudUserInfo.uploadingUser = likes;
+                
+                [userDescriptionArray addObject:soundCloudUserInfo];
+                
+            } else {
+                
+                CustomSong *soundCloudUserInfo = [[CustomSong alloc] init];
+                
+                NSString *userNameSC = [self.soundCloudUsername stringByReplacingOccurrencesOfString:@"%20" withString:@" "];
+                
+                NSString *noUserFound = [NSString stringWithFormat:@"%@ is not found :(", userNameSC];
+                
+                soundCloudUserInfo.title = noUserFound;
+                soundCloudUserInfo.addedBy = @"noButtonForSoundCloudUser";
+                
+                [userDescriptionArray addObject:soundCloudUserInfo];
+            }
+            
+            
+            
+        }
+        
+    }
+    
+    
+    return userDescriptionArray;
 }
 
 -(NSMutableArray* )parseTrackData:(NSData *) trackData{
@@ -81,23 +255,28 @@
                 CustomSong *song = [CustomSong new];
                 track = [tracks objectAtIndex:i];
                 
-                if (track[@"stream_url"] != nil ) {
+                
+                if (![track isEqual: [NSNull null]]) {
                     
-                    song.title = track[@"title"];
-                    song.stream_url = track[@"stream_url"];
-                    song.time = [self formatInterval:[track[@"duration"] doubleValue]];
-                    NSDictionary *uploadingUserInfo = track[@"user"];
-                    song.uploadingUser = uploadingUserInfo[@"username"];
-                    
-                    if (![track[@"artwork_url"] isEqual:[NSNull null]]) {
+                    if (track[@"stream_url"] != nil && ![track[@"stream_url"] isEqual: [NSNull null]] ) {
                         
-                        song.image = track[@"artwork_url"];
+                        song.title = track[@"title"];
+                        song.stream_url = track[@"stream_url"];
+                        song.time = [self formatInterval:[track[@"duration"] intValue]];
+                        NSDictionary *uploadingUserInfo = track[@"user"];
+                        song.uploadingUser = uploadingUserInfo[@"permalink"];
                         
-                    } else {
-                        // User's avatar picture if there is not artwork for the track
-                        song.image = uploadingUserInfo[@"avatar_url"];
+                        if (![track[@"artwork_url"] isEqual:[NSNull null]]) {
+                            
+                            song.image = track[@"artwork_url"];
+                            
+                        } else {
+                            // User's avatar picture if there is not artwork for the track
+                            song.image = uploadingUserInfo[@"avatar_url"];
+                        }
+                        [trackDescription addObject:song];
+                        
                     }
-                    [trackDescription addObject:song];
                     
                 }
                 
@@ -107,12 +286,14 @@
             
             
         } else {
-            NSLog(@"ERROR: %@", jsonError.localizedDescription);
+            //            NSLog(@"ERROR: %@", jsonError.localizedDescription);
             return nil;
         }
     }
     return nil;
 }
+
+
 
 #pragma mark - duration of song
 - (NSString *) formatInterval: (NSTimeInterval) interval{
@@ -138,8 +319,14 @@
         result = [NSString stringWithFormat:@"%@0%@:",result,minute];
     } else {
         //        [result appendFormat: @"%2lu:", minutes];
-        result = [NSString stringWithFormat:@"%@%lu:",result,minutes];
-        //        NSLog(@"minutes:%lu", minutes);
+        if ( minutes == 0) {
+            result = [NSString stringWithFormat:@"%@%lu0:",result,minutes];
+            NSLog(@"minutes:%lu", minutes);
+        } else {
+            result = [NSString stringWithFormat:@"%@%lu:",result,minutes];
+            NSLog(@"minutes:%lu", minutes);
+        }
+        
     }
     
     
@@ -159,7 +346,6 @@
     
     return result;
 }
-
 - (void) addSongToPlaylist:(CustomSong*)songAtCell playlistInfo:(PlaylistFriend*)playlist playlistTracks:(NSMutableArray*) iLListTracks {
     
     // Creating a song PFObject in the server
