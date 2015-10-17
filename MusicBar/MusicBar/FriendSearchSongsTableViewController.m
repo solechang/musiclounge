@@ -393,10 +393,22 @@
         NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
         
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+     
+        SongFriendManager *songMangerSearchedText;
+        NSString *resourceURL;
         
-        SongFriendManager *songMangerSearchedText = [[SongFriendManager alloc] initWithTrackName:trackName] ;
-        
-        NSString *resourceURL = [songMangerSearchedText getResourceURL];
+        if (searchBar.selectedScopeButtonIndex == 0) {
+            
+            songMangerSearchedText = [[SongFriendManager alloc] initWithTrackName:trackName];
+            resourceURL = [songMangerSearchedText getSongResourceURL];
+            
+        } else {
+            
+            // getting soundcloud user info (public songs liked on SoundCloud, playlists)
+            songMangerSearchedText = [[SongFriendManager alloc] initWithSoundCloudUsername:trackName];
+            resourceURL = [songMangerSearchedText getUserResourceURL];
+            
+        }
         
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@",searchBar.text]];
         
@@ -411,11 +423,12 @@
                 if (searchBar.selectedScopeButtonIndex == 0) {
                     
                     self.searchResultSongs = [songMangerSearchedText parseTrackData:data];
+     
                     vc.searchResults = self.searchResultSongs;
                     
                 } else if (searchBar.selectedScopeButtonIndex == 1) {
                     
-//                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
                     vc.searchResults = self.searchResultSCUser;
                 }
                 vc.iLListTracks = iLListTracks;
@@ -451,6 +464,23 @@
     [SVProgressHUD dismiss];
     
 }
+
+#pragma mark - Scope bar
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    
+    if (selectedScope == 0) {
+        vc.searchResults = self.searchResultSongs;
+        
+    } else if (selectedScope == 1) {
+        vc.searchResults = self.searchResultSCUser;
+        
+    }
+    [vc.tableView reloadData];
+    
+    
+}
+
 
 #pragma mark - Getting artwork of the song
 
