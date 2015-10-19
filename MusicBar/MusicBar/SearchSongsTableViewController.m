@@ -84,6 +84,8 @@
     
     self.searchController.searchBar.delegate = self;
  
+    self.searchController.searchResultsUpdater = self;
+
     self.searchController.hidesNavigationBarDuringPresentation = NO;
 //    self.definesPresentationContext = NO;
     self.definesPresentationContext = YES;
@@ -393,6 +395,74 @@
     UIImage *image = [UIImage imageWithData:imageData];
 
     return image;
+}
+
+-(void) updateSearchResultsForSearchController:(UISearchController *)searchController {
+    NSString *searchString = searchController.searchBar.text;
+    
+    if (searchString.length != 0 ) {
+        
+        NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
+        
+        trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+        
+        SongManager *songMangerSearchedText;
+        NSString *resourceURL;
+        
+        if (searchController.searchBar.selectedScopeButtonIndex == 0) {
+            
+            songMangerSearchedText = [[SongManager alloc] initWithTrackName:trackName];
+            resourceURL = [songMangerSearchedText getSongResourceURL];
+            
+        } else {
+            
+            // getting soundcloud user info (public songs liked on SoundCloud, playlists)
+            songMangerSearchedText = [[SongManager alloc] initWithSoundCloudUsername:trackName];
+            resourceURL = [songMangerSearchedText getUserResourceURL];
+            
+        }
+        
+        
+        
+        SCRequestResponseHandler handler;
+        handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+            [SVProgressHUD dismiss];
+            
+            if (self.searchController.searchResultsController) {
+                
+                [self setUpData];
+                
+                if (searchController.searchBar.selectedScopeButtonIndex == 0) {
+                    
+                    self.searchResultSongs = [songMangerSearchedText parseTrackData:data];
+                    vc.searchResults = self.searchResultSongs;
+                    
+                } else if (searchController.searchBar.selectedScopeButtonIndex == 1) {
+                    
+                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    vc.searchResults = self.searchResultSCUser;
+                }
+                vc.iLListTracks = iLListTracks;
+                vc.searchController = self.searchController;
+                
+                vc.playlistInfo = self.playlistInfo;
+                
+                [vc.tableView reloadData];
+                
+            }
+            
+            [self.tableView reloadData];
+            
+        };
+        
+        [SCRequest performMethod:SCRequestMethodGET
+                      onResource:[NSURL URLWithString:resourceURL]
+                 usingParameters:nil
+                     withAccount:nil
+          sendingProgressHandler:nil
+                 responseHandler:handler];
+    }
+    
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {

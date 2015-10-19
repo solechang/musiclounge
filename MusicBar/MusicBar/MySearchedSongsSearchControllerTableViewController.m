@@ -277,7 +277,7 @@
     
         CustomSong *soundCloudUser = [self.searchResults objectAtIndex:indexPath.row];
         
-        
+
         if ( ![soundCloudUser.title  containsString:@"is not found :("]) {
             [self performSegueWithIdentifier:@"SoundCloudUserSegue" sender:nil];
         }

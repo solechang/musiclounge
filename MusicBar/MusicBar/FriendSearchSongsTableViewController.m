@@ -78,7 +78,7 @@
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     
-//    self.searchController.searchResultsUpdater = self;
+    self.searchController.searchResultsUpdater = self;
     
     [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
     
@@ -92,6 +92,7 @@
     self.searchController.searchBar.delegate = self;
 
     self.searchController.hidesNavigationBarDuringPresentation = NO;
+    
     
     self.definesPresentationContext = YES;
 
@@ -161,6 +162,11 @@
     iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     
     [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Added %@!", songTitle] ];
+    
+    vc.iLListTracks = iLListTracks;
+    
+    [vc.tableView reloadData];
+    [self.tableView reloadData];
     
 
     [self.tableView reloadData];
@@ -310,7 +316,7 @@
         if (!error) {
             
             NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-            NSLog(@"0.) %lu", (unsigned long)songsInLocal.count);
+           
             iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
             
             [self.tableView reloadData];
@@ -381,6 +387,77 @@
     
     return cell;
 }
+
+-(void) updateSearchResultsForSearchController:(UISearchController *)searchController {
+    
+    NSString *searchString = searchController.searchBar.text;
+    
+    if (searchString.length != 0 ) {
+        NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
+        
+        trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+        
+        SongFriendManager *songMangerSearchedText;
+        NSString *resourceURL;
+        
+        if (searchController.searchBar.selectedScopeButtonIndex == 0) {
+            
+            songMangerSearchedText = [[SongFriendManager alloc] initWithTrackName:trackName];
+            resourceURL = [songMangerSearchedText getSongResourceURL];
+            
+        } else {
+            
+            // getting soundcloud user info (public songs liked on SoundCloud, playlists)
+            songMangerSearchedText = [[SongFriendManager alloc] initWithSoundCloudUsername:trackName];
+            resourceURL = [songMangerSearchedText getUserResourceURL];
+            
+        }
+        
+        SCRequestResponseHandler handler;
+        handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+            [SVProgressHUD dismiss];
+            if (self.searchController.searchResultsController) {
+                
+                
+                [self setUpData];
+                
+                if (searchController.searchBar.selectedScopeButtonIndex == 0) {
+                    
+                    self.searchResultSongs = [songMangerSearchedText parseTrackData:data];
+                    
+                    vc.searchResults = self.searchResultSongs;
+                    
+                } else if (searchController.searchBar.selectedScopeButtonIndex == 1) {
+                    
+                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    vc.searchResults = self.searchResultSCUser;
+                }
+                vc.iLListTracks = iLListTracks;
+                vc.searchController = self.searchController;
+                
+                vc.playlistInfo = self.playlistInfo;
+                
+                [vc.tableView reloadData];
+                
+                
+                
+            }
+            
+            [self.tableView reloadData];
+            
+        };
+        
+        [SCRequest performMethod:SCRequestMethodGET
+                      onResource:[NSURL URLWithString:resourceURL]
+                 usingParameters:nil
+                     withAccount:nil
+          sendingProgressHandler:nil
+                 responseHandler:handler];
+    }
+
+    
+}
+
 
 
 

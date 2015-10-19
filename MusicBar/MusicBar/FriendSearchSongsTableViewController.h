@@ -21,7 +21,7 @@
 #import "NowPlayingSong.h"
 #import "SongFriendManager.h"
 
-@interface FriendSearchSongsTableViewController : UITableViewController  <UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface FriendSearchSongsTableViewController : UITableViewController  < UISearchResultsUpdating, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, retain) PlaylistFriend* playlistInfo;
 
