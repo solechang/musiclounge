@@ -21,6 +21,8 @@
 
 @interface SoundCloudUserSongsTableViewController () {
     SongManager *songManager;
+    SongFriendManager *songFriendManager;
+    
     NSManagedObjectContext *defaultContext;
     BOOL overLimit;
 }
@@ -64,9 +66,9 @@
         
     } else if ([[notification object] isKindOfClass:[SongFriendManager class]]) {
         
-        if ([[notification name] isEqualToString:@"SongFriendAdded"]) {
-            
-//            [self songAddedNotification:notification.userInfo];
+        if ([[notification name] isEqualToString:@"SongAdded"]) {
+
+            [self songFriendAddedNotification:notification.userInfo];
             
         }
         
@@ -78,6 +80,19 @@
     
     
     NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+
+    // GOTTA SAVE SONGS IN PLAYLIST!
+    self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+    
+    [self.tableView reloadData];
+}
+
+- (void) songFriendAddedNotification: (NSDictionary*) userInfo {
+    
+    
+    NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistFriendInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+    
+    NSLog(@"1.)%lu", (unsigned long)songsInLocal.count);
     
     // GOTTA SAVE SONGS IN PLAYLIST!
     self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
@@ -87,8 +102,14 @@
 
 - (void) setUpData {
     overLimit = YES;
-    songManager = [[SongManager alloc] initWithSoundCloudUserID:self.soundCloudUserID];
+    if (self.playlistInfo) {
+        songManager = [[SongManager alloc] initWithSoundCloudUserID:self.soundCloudUserID];
 
+    } else {
+        songFriendManager = [[SongFriendManager alloc]initWithSoundCloudUserID:self.soundCloudUserID];
+        
+    }
+  
 }
 
 - (void)setUpViewController{
@@ -127,7 +148,7 @@
     
     [self loadCurrentTracksInLounge];
     
-    [self getUserTracks];
+//    [self getUserTracks];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
@@ -140,27 +161,32 @@
 
     // for me tab
     if (self.playlistInfo) {
+ 
         NSArray *songsInLocal = [Song MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-        
+
         // GOTTA SAVE SONGS IN PLAYLIST!
         self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
         
+        [self getUserTracksForSongManager];
+        
     } else {
+    
         // for friends tab
-        NSArray *songsFriendInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+        NSArray *songsFriendInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistFriendInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
         
         // GOTTA SAVE SONGS IN PLAYLIST!
         self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsFriendInLocal];
-
+      
+        [self getUserTracksForSongFriendManager];
     }
     
    
 }
 
-- (void) getUserTracks {
-
-
-     NSString *resourceURL;
+- (void) getUserTracksForSongManager {
+    
+    
+    NSString *resourceURL;
     
     if (self.tracksOrLikes == 0) {
         
@@ -191,7 +217,44 @@
                  withAccount:nil
       sendingProgressHandler:nil
              responseHandler:handler];
+    
+}
 
+- (void) getUserTracksForSongFriendManager {
+    
+    
+    NSString *resourceURL;
+    
+    if (self.tracksOrLikes == 0) {
+        
+        resourceURL = [songFriendManager getSoundCloudUserSongsURL:@"tracks" userID:self.scUserInfo.userSoundCloudID limit:@"50" offset:@"0"];
+        
+        
+    } else if (self.tracksOrLikes == 1){
+        
+        resourceURL = [songFriendManager getSoundCloudUserSongsURL:@"favorites" userID:self.scUserInfo.userSoundCloudID limit:@"50" offset:@"0"];
+        
+    }
+    
+    [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
+    SCRequestResponseHandler handler;
+    handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+        [SVProgressHUD dismiss];
+        
+        self.searchResults = [songFriendManager getSoundCloudUserSongs:data];
+        [self.tableView reloadData];
+        
+    };
+    
+    
+    
+    [SCRequest performMethod:SCRequestMethodGET
+                  onResource:[NSURL URLWithString:resourceURL]
+             usingParameters:nil
+                 withAccount:nil
+      sendingProgressHandler:nil
+             responseHandler:handler];
+    
 }
 
 
@@ -212,7 +275,7 @@
     return [self.searchResults count];
 }
 
-- (void) loadMoreTracks {
+- (void) loadMoreTracksForSongManager {
     
     NSString *resourceURL;
     NSString *searchResultsCountOffset;
@@ -270,6 +333,64 @@
     
 }
 
+- (void) loadMoreTracksForSongFriendManager {
+    
+    NSString *resourceURL;
+    NSString *searchResultsCountOffset;
+    NSString *searchResultsCountForLimit;
+    
+    NSInteger searchCountPlusFifty = self.searchResults.count + 50;
+    
+    NSInteger userSongsLimit;
+    
+    //since array count starts at 0 need to plus 1 so duplicate songs do not show up
+    searchResultsCountOffset = [NSString stringWithFormat:@"%lu", (unsigned long)self.searchResults.count+1];
+    
+    searchResultsCountForLimit = [NSString stringWithFormat:@"%lu", (unsigned long)searchCountPlusFifty];
+    
+    if (self.tracksOrLikes == 0) {
+        
+        resourceURL = [songFriendManager getSoundCloudUserSongsURL:@"tracks" userID:self.scUserInfo.userSoundCloudID limit:searchResultsCountForLimit offset:searchResultsCountOffset];
+        userSongsLimit = [self.scUserInfo.tracksCount integerValue];
+        
+    } else if (self.tracksOrLikes == 1) {
+        
+        resourceURL = [songFriendManager getSoundCloudUserSongsURL:@"favorites" userID:self.scUserInfo.userSoundCloudID limit:searchResultsCountForLimit offset:searchResultsCountOffset];
+        userSongsLimit = [self.scUserInfo.likesCount integerValue];
+    }
+    
+    
+    
+    if ( (searchCountPlusFifty < userSongsLimit) && overLimit) {
+        
+        [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Loading \xF0\x9F\x98\x8A"]];
+        SCRequestResponseHandler handler;
+        handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+            [SVProgressHUD dismiss];
+            
+            
+            [self.searchResults addObjectsFromArray: [songFriendManager getSoundCloudUserSongs:data]];
+            [self.tableView reloadData];
+            
+        };
+        
+        
+        [SCRequest performMethod:SCRequestMethodGET
+                      onResource:[NSURL URLWithString:resourceURL]
+                 usingParameters:nil
+                     withAccount:nil
+          sendingProgressHandler:nil
+                 responseHandler:handler];
+        
+    } else {
+        
+        overLimit = NO;
+    }
+    
+    
+    
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Last cell to load more
@@ -278,7 +399,14 @@
     if ((indexPath.section == lastSectionIndex) && (indexPath.row == lastRowIndex)) {
         
         // This is the last cell
-        [self loadMoreTracks];
+        if (self.playlistInfo) {
+            [self loadMoreTracksForSongManager];
+
+        } else {
+            [self loadMoreTracksForSongFriendManager];
+        }
+        
+    
     }}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -380,10 +508,23 @@
     CustomSong *songAtCell = nil;
     
     songAtCell = [self.searchResults objectAtIndex:indexPath.row];
-
-    SongManager *songManagerAddSong = [[SongManager alloc] initWithSong:songAtCell];
     
-    [songManagerAddSong addSongToPlaylist:songAtCell playlistInfo:self.playlistInfo playlistTracks:self.iLListTracks];
+    if (self.playlistInfo) {
+        
+        SongManager *songManagerAddSong = [[SongManager alloc] initWithSong:songAtCell];
+        
+        [songManagerAddSong addSongToPlaylist:songAtCell playlistInfo:self.playlistInfo playlistTracks:self.iLListTracks];
+        
+    } else {
+        
+        SongFriendManager *songManagerAddSong = [[SongFriendManager alloc] initWithSong:songAtCell];
+        
+        [songManagerAddSong addSongToPlaylist:songAtCell playlistInfo:self.playlistFriendInfo playlistTracks:self.iLListTracks];
+
+        
+    }
+
+    
     
 }
 

@@ -310,7 +310,7 @@
         if (!error) {
             
             NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-            
+            NSLog(@"0.) %lu", (unsigned long)songsInLocal.count);
             iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
             
             [self.tableView reloadData];
