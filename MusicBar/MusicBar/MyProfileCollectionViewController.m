@@ -27,9 +27,15 @@
 // CoreData
 #import <MagicalRecord/MagicalRecord.h>
 #import "CurrentUser.h"
-
+#import "UserFriendList.h"
+#import "Friend.h"
+#import "FriendPhonenumber.h"
 #import "Playlist.h"
 #import "Song.h"
+#import "PlaylistFriend.h"
+#import "SongFriend.h"
+#import "NowPlaying.h"
+#import "NowPlayingSong.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
@@ -155,30 +161,136 @@
     NSArray *playlistArray = [Playlist MR_findAllInContext:defaultContext];
     NSLog(@"playlist.count: %lu", (unsigned long)playlistArray.count);
 }
-
-//added below
-- (void)viewDidAppear:(BOOL)animated {
+- (void) deleteUserDataAndLogout {
     
+    // Delete Core data
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        // Delete Current User
+        NSArray *deleteCurrentUserArray = [CurrentUser MR_findAllInContext:localContext];
+        
+        for ( CurrentUser *deleteCurrentUser in deleteCurrentUserArray ) {
+            [deleteCurrentUser MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete playlists in core data
+        NSArray *deletePlaylists = [Playlist MR_findAllInContext:localContext];
+        
+        for (Playlist *deletePlaylist in deletePlaylists) {
+            
+            [deletePlaylist MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete songs in core data
+        NSArray *deleteSongs = [Song MR_findAllInContext:localContext];
+        
+        for (Song *deleteSong in deleteSongs) {
+            [deleteSong MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete playlists in core data
+        NSArray *deletePlaylistsFriend = [PlaylistFriend MR_findAllInContext:localContext];
+        
+        for (PlaylistFriend *deletePlaylistFriend in deletePlaylistsFriend) {
+            
+            [deletePlaylistFriend MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete songs in core data
+        NSArray *deleteSongsFriend = [SongFriend MR_findAllInContext:localContext];
+        
+        for (SongFriend *deleteSongFriend in deleteSongsFriend) {
+            [deleteSongFriend MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete Friend
+        NSArray *friendsDeleteArray = [Friend MR_findAllInContext:localContext];
+        
+        for ( Friend *deleteFriend in friendsDeleteArray) {
+            
+            [deleteFriend MR_deleteEntityInContext:localContext];
+        }
+        
+        //        // Delete FriendPhonenumber
+        //        NSArray *deleteFriendPhonenumberArray = [FriendPhonenumber MR_findAllInContext:localContext];
+        //
+        //        for (FriendPhonenumber *deleteFriendPhonenumber in deleteFriendPhonenumberArray) {
+        //
+        //            [deleteFriendPhonenumber MR_deleteEntityInContext:localContext];
+        //        }
+        
+        // Delete UserFriendList
+        NSArray *deleteUserFriendList = [UserFriendList MR_findAllInContext:localContext];
+        
+        for (UserFriendList *deleteFriendList in deleteUserFriendList) {
+            
+            [deleteFriendList MR_deleteEntityInContext:localContext];
+            
+        }
+        
+        NowPlaying *deleteNowPlaying = [NowPlaying MR_findFirstInContext:localContext];
+        [deleteNowPlaying MR_deleteEntityInContext:localContext];
+        
+        NSArray *deleteNowPlayingSongArray = [NowPlayingSong MR_findAllInContext:localContext];
+        
+        for (NowPlayingSong *deleteNPS in deleteNowPlayingSongArray) {
+            [deleteNPS MR_deleteEntityInContext:localContext];
+        }
+        
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        if (!error) {
+            
+            
+            // Need to delete pinned PFObjects!
+            [PFUser logOut];
+            [self showLoginScreen];
+        }
+    }];
+    
+    
+}
+
+- (void) checkUpdateLoggedIn {
     PFUser *currentPFUser = [PFUser currentUser];
     
     myiLListArray = [[NSMutableArray alloc] init];
     iLListInfo = [[NSMutableDictionary alloc] init];
     
-    // Check if user is logged in
-    if (currentPFUser && currentPFUser[@"name"] ) {
-        [self enableButtons];
-        [self userPlaylistLogic];
+    if (!currentPFUser[@"updateCheck"]) {
+        
+        [self deleteUserDataAndLogout];
+
         
     } else {
-        
-        // show the signup or login screen since user is not logged in
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        
-        LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        
-        UINavigationController *loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
-        [self.navigationController presentViewController:loginNavigationController animated:YES completion:nil];
+        // Check if user is logged in
+        if (currentPFUser && currentPFUser[@"name"] && currentPFUser[@"updateCheck"]) {
+            [self enableButtons];
+            [self userPlaylistLogic];
+            
+        } else {
+            [self showLoginScreen];
+            
+        }
     }
+
+}
+
+- (void) showLoginScreen {
+    // show the signup or login screen since user is not logged in
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    
+    UINavigationController *loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    [self.navigationController presentViewController:loginNavigationController animated:YES completion:nil];
+}
+
+//added below
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [self checkUpdateLoggedIn];
     
 }
 

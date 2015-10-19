@@ -194,6 +194,7 @@
     PFUser *user = [PFUser currentUser];
     NSString *username =[self.usernameTextField.text lowercaseString];
     user[@"name"] = username;
+    user[@"updateCheck"] = @(YES);
     
     // Setting privacy for the PrivateUserData PFObject
     PFACL *defaultACL = [PFACL ACL];
@@ -202,7 +203,7 @@
     
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
        
-        if (succeeded) {
+        if (!error) {
             
             [self createUserData:user];
         } else {

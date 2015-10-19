@@ -92,8 +92,6 @@
     
     NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistFriendInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
     
-    NSLog(@"1.)%lu", (unsigned long)songsInLocal.count);
-    
     // GOTTA SAVE SONGS IN PLAYLIST!
     self.iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     
