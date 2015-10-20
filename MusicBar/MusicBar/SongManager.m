@@ -365,7 +365,8 @@
     
     PFACL *defaultACL = [PFACL ACL];
     
-    [defaultACL setPublicWriteAccess:YES];
+    [defaultACL setWriteAccess:YES forUser:[PFUser currentUser]];
+//    [defaultACL setPublicWriteAccess:YES];
     
     [defaultACL setPublicReadAccess:YES];
     

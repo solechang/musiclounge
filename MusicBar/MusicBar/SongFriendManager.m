@@ -362,8 +362,11 @@
     song[@"hostName"] = [PFUser currentUser][@"name"];
     
     PFACL *defaultACL = [PFACL ACL];
-
-    [defaultACL setPublicWriteAccess:YES];
+    
+    [defaultACL setWriteAccess:YES forUser:[PFUser currentUser]];
+    [defaultACL setWriteAccess:YES forUserId:playlist.userId];
+//    [defaultACL setWr]
+//    [defaultACL setPublicWriteAccess:YES];
 
     [defaultACL setPublicReadAccess:YES];
     
