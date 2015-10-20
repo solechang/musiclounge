@@ -22,31 +22,51 @@ const float UI_CUES_MARGIN = 0.0f;
     self = [super initWithFrame:frame];
     if (self) {
 //         Initialization code
+        
+        // playlistNameLabel
         self.playlistNameLabel = [[UILabel alloc] init];
         
-        [self.playlistNameLabel setFrame:CGRectMake(40.0f, 20.0f, 257.0f, 21.0f)];
+        [self.playlistNameLabel setFrame:CGRectMake(20.0f, 10.0f, 257.0f, 21.0f)];
         [self.playlistNameLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
         [self.playlistNameLabel setBackgroundColor:[UIColor clearColor]];
-        [self.playlistNameLabel  setFont:[UIFont fontWithName: @"Helvetica" size: 12.0f]];
+        [self.playlistNameLabel  setFont:[UIFont fontWithName: @"Helvetica" size: 14.0f]];
         [self.playlistNameLabel setTextAlignment:NSTextAlignmentLeft];
  //       [self.playlistNameLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.playlistNameLabel setTranslatesAutoresizingMaskIntoConstraints:false];
     
-//         self.playlistNameLabel.backgroundColor = [UIColor blueColor];
+        self.playlistNameLabel.backgroundColor = [UIColor blueColor];
         
+        
+        // songCountLabel
         self.songCountLabel = [[UILabel alloc] init];
         
-        [self.songCountLabel setFrame:CGRectMake(60.0f, 25.0f, 100.0f, 21.0f)];
+        [self.songCountLabel setFrame:CGRectMake(20.0f, 25.0f, 100.0f, 21.0f)];
 
         [self.songCountLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
         [self.songCountLabel setBackgroundColor:[UIColor clearColor]];
         [self.songCountLabel  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
-        [self.songCountLabel setTextAlignment:NSTextAlignmentRight];
+        [self.songCountLabel setTextAlignment:NSTextAlignmentLeft];
         
         //[self.songCountLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.songCountLabel setTranslatesAutoresizingMaskIntoConstraints:false];
         
-//         self.songCountLabel.backgroundColor = [UIColor greenColor];
+        self.songCountLabel.backgroundColor = [UIColor greenColor];
+        
+        // updatedAtLabel
+        self.updatedAtLabel = [[UILabel alloc] init];
+        
+        [self.updatedAtLabel setFrame:CGRectMake(60.0f, 25.0f, 100.0f, 21.0f)];
+        
+        [self.updatedAtLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
+        [self.updatedAtLabel setBackgroundColor:[UIColor clearColor]];
+        [self.updatedAtLabel  setFont:[UIFont fontWithName: @"Helvetica" size: 10.0f]];
+        [self.updatedAtLabel setTextAlignment:NSTextAlignmentRight];
+        
+        //[self.updatedAtLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
+        [self.updatedAtLabel setTranslatesAutoresizingMaskIntoConstraints:false];
+        
+        self.updatedAtLabel.backgroundColor = [UIColor redColor];
+
         
         NSLayoutConstraint *playlistCenterYconstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
                                                                                      attribute:NSLayoutAttributeCenterY
@@ -54,7 +74,7 @@ const float UI_CUES_MARGIN = 0.0f;
                                                                                         toItem:self.contentView
                                                                                      attribute:NSLayoutAttributeCenterY
                                                                                     multiplier:1.0
-                                                                                      constant:0];
+                                                                                      constant:-10];
         NSLayoutConstraint *playlistWidthConstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
                                                                                    attribute:NSLayoutAttributeWidth
                                                                                    relatedBy:NSLayoutRelationEqual
@@ -75,42 +95,72 @@ const float UI_CUES_MARGIN = 0.0f;
                                                                                         toItem:self.contentView
                                                                                      attribute:NSLayoutAttributeLeading
                                                                                     multiplier:1.0
-                                                                                      constant:60];
+                                                                                      constant:20];
         
         
         NSLayoutConstraint *countCenterYconstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
-                                                                             attribute:NSLayoutAttributeCenterY
-                                                                             relatedBy:NSLayoutRelationEqual
-                                                                                toItem:self.contentView
-                                                                             attribute:NSLayoutAttributeCenterY
-                                                                            multiplier:1.0
-                                                                              constant:0];
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:self.contentView
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                 multiplier:1.0
+                                                                                   constant:11];
         NSLayoutConstraint *countWidthConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
-                                                                           attribute:NSLayoutAttributeWidth
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:nil
-                                                                           attribute:NSLayoutAttributeNotAnAttribute
-                                                                          multiplier:1.0
-                                                                            constant:100.0f];
+                                                                                attribute:NSLayoutAttributeWidth
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:nil
+                                                                                attribute:NSLayoutAttributeNotAnAttribute
+                                                                               multiplier:1.0
+                                                                                 constant:100.0f];
         NSLayoutConstraint *countHeightConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
-                                                                            attribute:NSLayoutAttributeHeight
-                                                                            relatedBy:NSLayoutRelationEqual
-                                                                               toItem:nil
-                                                                            attribute:NSLayoutAttributeNotAnAttribute
-                                                                           multiplier:1.0
-                                                                             constant:21.0f];
-        NSLayoutConstraint *countTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
-                                                                           attribute:NSLayoutAttributeTrailing
-                                                                           relatedBy:NSLayoutRelationEqual
-                                                                              toItem:self.contentView
-                                                                           attribute:NSLayoutAttributeTrailing
-                                                                          multiplier:1.0
-                                                                            constant:-40];
+                                                                                 attribute:NSLayoutAttributeHeight
+                                                                                 relatedBy:NSLayoutRelationEqual
+                                                                                    toItem:nil
+                                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                                multiplier:1.0
+                                                                                  constant:21.0f];
+        NSLayoutConstraint *countLeadingConstraint = [NSLayoutConstraint constraintWithItem:self.songCountLabel
+                                                                                  attribute:NSLayoutAttributeLeading
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:self.contentView
+                                                                                  attribute:NSLayoutAttributeLeading
+                                                                                 multiplier:1.0
+                                                                                   constant:20];
+        
+        NSLayoutConstraint *updatedAtLabelCenterYconstraint = [NSLayoutConstraint constraintWithItem:self.updatedAtLabel
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:self.contentView
+                                                                                  attribute:NSLayoutAttributeCenterY
+                                                                                 multiplier:1.0
+                                                                                   constant:11];
+        NSLayoutConstraint *updatedAtLabelWidthConstraint = [NSLayoutConstraint constraintWithItem:self.updatedAtLabel
+                                                                                attribute:NSLayoutAttributeWidth
+                                                                                relatedBy:NSLayoutRelationEqual
+                                                                                   toItem:nil
+                                                                                attribute:NSLayoutAttributeNotAnAttribute
+                                                                               multiplier:1.0
+                                                                                 constant:100.0f];
+        NSLayoutConstraint *updatedAtLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:self.updatedAtLabel
+                                                                                 attribute:NSLayoutAttributeHeight
+                                                                                 relatedBy:NSLayoutRelationEqual
+                                                                                    toItem:nil
+                                                                                 attribute:NSLayoutAttributeNotAnAttribute
+                                                                                multiplier:1.0
+                                                                                  constant:21.0f];
+        NSLayoutConstraint *updatedAtLabelTrailingConstraint = [NSLayoutConstraint constraintWithItem:self.updatedAtLabel
+                                                                                  attribute:NSLayoutAttributeTrailing
+                                                                                  relatedBy:NSLayoutRelationEqual
+                                                                                     toItem:self.contentView
+                                                                                  attribute:NSLayoutAttributeTrailing
+                                                                                 multiplier:1.0
+                                                                                   constant:20];
        
 
         [self.contentView addSubview:self.playlistNameLabel];
         [self.contentView addSubview:self.songCountLabel];
-        [self.contentView addConstraints:@[countCenterYconstraint,countWidthConstraint,countHeightConstraint,countTrailingConstraint,playlistCenterYconstraint,playlistWidthConstraint,playlistHeightConstraint,playlistLeadingConstraint]];
+        [self.contentView addSubview:self.updatedAtLabel];
+        [self.contentView addConstraints:@[countCenterYconstraint,countWidthConstraint,countHeightConstraint,countLeadingConstraint,playlistCenterYconstraint,playlistWidthConstraint,playlistHeightConstraint,playlistLeadingConstraint, updatedAtLabelCenterYconstraint,updatedAtLabelWidthConstraint,updatedAtLabelHeightConstraint,updatedAtLabelTrailingConstraint]];
         
         UILabel *_tickLabel;
         UILabel *_crossLabel;
@@ -133,7 +183,7 @@ const float UI_CUES_MARGIN = 0.0f;
                                        UI_CUES_WIDTH, self.bounds.size.height);
         
         
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(10, frame.size.height, frame.size.width, 0.5f)];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20, frame.size.height, frame.size.width, 0.5f)];
         
         CGFloat borderWidth = 0.1f;
         lineView.layer.borderWidth = borderWidth;
