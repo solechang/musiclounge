@@ -34,7 +34,7 @@ const float UI_CUES_MARGIN = 0.0f;
  //       [self.playlistNameLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.playlistNameLabel setTranslatesAutoresizingMaskIntoConstraints:false];
     
-        self.playlistNameLabel.backgroundColor = [UIColor blueColor];
+//        self.playlistNameLabel.backgroundColor = [UIColor blueColor];
         
         
         // songCountLabel
@@ -50,7 +50,7 @@ const float UI_CUES_MARGIN = 0.0f;
         //[self.songCountLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.songCountLabel setTranslatesAutoresizingMaskIntoConstraints:false];
         
-        self.songCountLabel.backgroundColor = [UIColor greenColor];
+//        self.songCountLabel.backgroundColor = [UIColor greenColor];
         
         // updatedAtLabel
         self.updatedAtLabel = [[UILabel alloc] init];
@@ -65,7 +65,7 @@ const float UI_CUES_MARGIN = 0.0f;
         //[self.updatedAtLabel setAutoresizingMask:UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight];
         [self.updatedAtLabel setTranslatesAutoresizingMaskIntoConstraints:false];
         
-        self.updatedAtLabel.backgroundColor = [UIColor redColor];
+//        self.updatedAtLabel.backgroundColor = [UIColor redColor];
 
         
         NSLayoutConstraint *playlistCenterYconstraint = [NSLayoutConstraint constraintWithItem:self.playlistNameLabel
@@ -154,7 +154,7 @@ const float UI_CUES_MARGIN = 0.0f;
                                                                                      toItem:self.contentView
                                                                                   attribute:NSLayoutAttributeTrailing
                                                                                  multiplier:1.0
-                                                                                   constant:-30];
+                                                                                   constant:-20];
        
 
         [self.contentView addSubview:self.playlistNameLabel];
@@ -205,7 +205,7 @@ const float UI_CUES_MARGIN = 0.0f;
 //    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
     
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"M/yyyy hh:mm"];
+    [formatter setDateFormat:@"M/dd/yyyy hh:mm a"];
     NSDate *now = updatedAt;
     NSString *formattedDate = [formatter stringFromDate:now];
     

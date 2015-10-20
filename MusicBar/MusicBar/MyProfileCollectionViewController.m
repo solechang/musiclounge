@@ -318,7 +318,7 @@
 
 - (void) getPlaylistFromServer {
     
-    /* If the local storage does not have the iLList, the PFObject of the iLList
+    /* If the local storage does not have the Lounge, the PFObject of the Lounge
      * is retrieved from Parse and saved into the local storage
      * For example, when the user deletes app, local storage will be empty, so we need
      * to fetch the playlists from the server of the current playlists and store the fetched objects
@@ -345,8 +345,6 @@
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
-        NSArray *playlistsArrayInLocal = [Playlist MR_findAllInContext:localContext];
-        
         for (PFObject *playlistObject in playlists) {
             
             Playlist *playlist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:playlistObject.objectId inContext:localContext];
@@ -362,16 +360,8 @@
             playlist.userName = playlistObject[@"userName"];
             playlist.createdAt = playlistObject.createdAt;
             playlist.songCount = playlistObject[@"SongCount"];
-            
-            for (Playlist *playlistToDelete in playlistsArrayInLocal) {
-                
-                if ([playlist.objectId isEqualToString:playlistToDelete.objectId]) {
-                    
-                    playlist.updatedAt = playlistToDelete.updatedAt;
-                    
-                }
-            }
-            
+            playlist.updatedAt = playlistObject.updatedAt;
+
             
         }
         
@@ -382,6 +372,7 @@
             NSArray *playlistArray = [Playlist MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
             
             myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
+            
             [self setCountOnControl];
             [self.collectionView reloadData];
             

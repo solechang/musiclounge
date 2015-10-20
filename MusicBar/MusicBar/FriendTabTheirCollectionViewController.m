@@ -251,15 +251,16 @@
             playlist.userName = playlistObject[@"userName"];
             playlist.createdAt = playlistObject.createdAt;
             playlist.songCount = playlistObject[@"SongCount"];
+            playlist.updatedAt = playlistObject.updatedAt;
             
-            for (PlaylistFriend *playlistToDelete in playlistsArrayInLocal) {
-                
-                if ([playlist.objectId isEqualToString:playlistToDelete.objectId]) {
-                    
-                    playlist.updatedAt = playlistToDelete.updatedAt;
-                    
-                }
-            }
+//            for (PlaylistFriend *playlistToDelete in playlistsArrayInLocal) {
+//                
+//                if ([playlist.objectId isEqualToString:playlistToDelete.objectId]) {
+//                    
+//                    playlist.updatedAt = playlistToDelete.updatedAt;
+//                    
+//                }
+//            }
 
         }
         for (PlaylistFriend *playlistToDelete in playlistsArrayInLocal) {
