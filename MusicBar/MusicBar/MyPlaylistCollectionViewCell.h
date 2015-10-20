@@ -13,6 +13,7 @@
 
 @property (nonatomic,readwrite) UILabel *playlistNameLabel;
 @property (nonatomic,readwrite) UILabel *songCountLabel;
+@property (nonatomic,readwrite) UILabel *updatedAt;
 
 - (void) setPlaylistNameAndSongCount:(NSString*)playlistName :(NSString*) songCount;
 

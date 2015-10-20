@@ -590,20 +590,25 @@
         SongFriend *deleteSongInLocal = [iLListTracks objectAtIndex:indexPath.row];
         
         PFObject *deleteSong = [PFObject objectWithoutDataWithClassName:@"Song" objectId:deleteSongInLocal.objectId];
-        [iLListTracks removeObjectAtIndex:indexPath.row];
-        
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+      
 
         
         [deleteSong deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
             if (!error) {
+                
+                [iLListTracks removeObjectAtIndex:indexPath.row];
+                
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                
                 [self updatePlaylistAfterDelete:deleteSongInLocal forRowAtIndexPath:indexPath];
                 
                 //                [self deleteSongInLocal:deleteSong forRowAtIndexPath:indexPath];
                 
             } else {
-//                NSLog(@"Error in deleting song 456");
+
+                NSString *deleteAlert = [NSString stringWithFormat:@"Cannot  delete '%@' because you did not add this song or you are not the playlist owner \xF0\x9F\x98\xB1", deleteSongInLocal.title];
+                [SVProgressHUD showErrorWithStatus:deleteAlert];
                 
             }
             
