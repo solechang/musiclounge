@@ -348,15 +348,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 errorCategory = @"Unknown error occurred: ";
                 break;
         }
-        
         NSString *errorStatus;
         if ([errorDescription containsString:@"404"]) {
-             errorStatus = [NSString stringWithFormat:@"SoundCloud has disabled %@ to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle];
+             errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
             
         } else {
             
-            errorStatus = [NSString stringWithFormat:@"There is a network error \xF0\x9F\x98\xA8 Please try playing %@ again", weakSelf.songTitle];
+            errorStatus = [[NSString alloc] initWithFormat:@"There is a network error \xF0\x9F\x98\xA8 Please try playing '%@' again", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
         
         }
