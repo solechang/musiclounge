@@ -210,6 +210,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     defaultContext = [NSManagedObjectContext MR_defaultContext];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [SVProgressHUD dismiss];
+    [super viewWillDisappear:animated];
+}
 - (void)viewWillAppear:(BOOL)animated {
     
     __weak typeof(self) weakSelf = self;
@@ -312,6 +316,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             case kFsAudioStreamRetryingFailed:
 //                NSLog(@"1.10.)");
 //                if (weakSelf.playButton.enabled) {
+                    [SVProgressHUD dismiss];
                     [weakSelf nextButton:nil];
 //                }
                 

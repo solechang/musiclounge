@@ -810,15 +810,15 @@
     
 }
 - (IBAction)backButton:(id)sender {
-    NSLog(@"5.)");
+//    NSLog(@"5.)");
     
     [self.playlistInfo MR_deleteEntityInContext:defaultContext];
     // Only when user checks out playlist from the mediaplayer
     [self.navigationController dismissViewControllerAnimated:YES
                                                   completion:^{
                                                     
-                                                      NSArray *playlist = [PlaylistFriend MR_findAllInContext:defaultContext];
-                                                      NSLog(@"6.) %lu", playlist.count);
+//                                                      NSArray *playlist = [PlaylistFriend MR_findAllInContext:defaultContext];
+//                                                      NSLog(@"6.) %lu", playlist.count);
                                                   }];
     
 }
