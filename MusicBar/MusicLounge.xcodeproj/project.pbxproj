@@ -52,7 +52,7 @@
 		B9978DC91B673996004203F1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC81B673996004203F1 /* AudioToolbox.framework */; };
 		B9978DCB1B67399D004203F1 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCA1B67399D004203F1 /* AVFoundation.framework */; };
 		B9978DCD1B6739B2004203F1 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DCC1B6739B2004203F1 /* libxml2.dylib */; };
-		B9978DCE1B674368004203F1 /* MyPlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */; };
+		B9978DCE1B674368004203F1 /* PlaylistCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90241B32713A00A2947C /* PlaylistCollectionViewCell.m */; };
 		B9B76F251B37E8D000F63AC4 /* AddiLListTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F241B37E8D000F63AC4 /* AddiLListTableViewController.m */; };
 		B9B76F291B37E8E400F63AC4 /* SettingsTableTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F281B37E8E400F63AC4 /* SettingsTableTableViewController.m */; };
 		B9B76F2D1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F2C1B37E8FD00F63AC4 /* ProfilePictureTableViewController.m */; };
@@ -133,8 +133,8 @@
 		B93D901E1B32523500A2947C /* MyProfileCollectionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyProfileCollectionViewController.m; sourceTree = "<group>"; };
 		B93D90201B3270FD00A2947C /* CSParallaxHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSParallaxHeader.h; sourceTree = "<group>"; };
 		B93D90211B3270FD00A2947C /* CSParallaxHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSParallaxHeader.m; sourceTree = "<group>"; };
-		B93D90231B32713A00A2947C /* MyPlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPlaylistCollectionViewCell.h; sourceTree = "<group>"; };
-		B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPlaylistCollectionViewCell.m; sourceTree = "<group>"; };
+		B93D90231B32713A00A2947C /* PlaylistCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistCollectionViewCell.h; sourceTree = "<group>"; };
+		B93D90241B32713A00A2947C /* PlaylistCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistCollectionViewCell.m; sourceTree = "<group>"; };
 		B95DB5191BA0F1B000A034BF /* FeedbackViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeedbackViewController.h; sourceTree = "<group>"; };
 		B95DB51A1BA0F1B000A034BF /* FeedbackViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeedbackViewController.m; sourceTree = "<group>"; };
 		B96773461B32331A00C01AAF /* MusicLounge.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MusicLounge.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -372,8 +372,8 @@
 				B93D901B1B32521100A2947C /* CSParallaxHeader.xib */,
 				B93D90201B3270FD00A2947C /* CSParallaxHeader.h */,
 				B93D90211B3270FD00A2947C /* CSParallaxHeader.m */,
-				B93D90231B32713A00A2947C /* MyPlaylistCollectionViewCell.h */,
-				B93D90241B32713A00A2947C /* MyPlaylistCollectionViewCell.m */,
+				B93D90231B32713A00A2947C /* PlaylistCollectionViewCell.h */,
+				B93D90241B32713A00A2947C /* PlaylistCollectionViewCell.m */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -734,7 +734,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B9978DCE1B674368004203F1 /* MyPlaylistCollectionViewCell.m in Sources */,
+				B9978DCE1B674368004203F1 /* PlaylistCollectionViewCell.m in Sources */,
 				B922D7171B951D7600697006 /* Friend.m in Sources */,
 				B9B76F291B37E8E400F63AC4 /* SettingsTableTableViewController.m in Sources */,
 				B9E3E4591BC47FE00008400E /* TabBarController.m in Sources */,

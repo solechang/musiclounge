@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MyPlaylistCollectionViewCell : UICollectionViewCell
+@interface PlaylistCollectionViewCell : UICollectionViewCell
 
 
 @property (nonatomic,readwrite) UILabel *playlistNameLabel;

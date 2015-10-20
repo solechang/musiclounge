@@ -18,7 +18,7 @@
 #import "DZNSegmentedControl.h"
 
 #import "CSParallaxHeader.h"
-#import "MyPlaylistCollectionViewCell.h"
+#import "PlaylistCollectionViewCell.h"
 //#import "iLLfollowingPlaylistCollectionViewCell.h"
 
 #import "AddiLListTableViewController.h"
@@ -564,7 +564,7 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"myProfileCollectionViewCell"];
+    [self.collectionView registerClass:[PlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"myProfileCollectionViewCell"];
     
 //    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
 //            forCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class])];
@@ -703,7 +703,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     if (self.control.selectedSegmentIndex == 0) {
         
         NSString *cellIdentifier = @"myProfileCollectionViewCell";
-        MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+        PlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         
         Playlist *playlist = [myiLListArray objectAtIndex:indexPath.row];
         

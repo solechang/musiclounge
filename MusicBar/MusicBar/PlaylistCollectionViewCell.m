@@ -6,17 +6,17 @@
 //  Copyright (c) 2015 Sole Chang. All rights reserved.
 //
 
-#import "MyPlaylistCollectionViewCell.h"
+#import "PlaylistCollectionViewCell.h"
 
 
-@interface MyPlaylistCollectionViewCell () 
+@interface PlaylistCollectionViewCell () 
 
 @end
 
 const float UI_CUES_MARGIN = 0.0f;
 //const float UI_CUES_WIDTH = [self superView].bounds.size.width;
 
-@implementation MyPlaylistCollectionViewCell
+@implementation PlaylistCollectionViewCell
 
 -(id) initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
@@ -154,7 +154,7 @@ const float UI_CUES_MARGIN = 0.0f;
                                                                                      toItem:self.contentView
                                                                                   attribute:NSLayoutAttributeTrailing
                                                                                  multiplier:1.0
-                                                                                   constant:20];
+                                                                                   constant:-30];
        
 
         [self.contentView addSubview:self.playlistNameLabel];

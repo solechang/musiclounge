@@ -15,7 +15,7 @@
 #import "DZNSegmentedControl.h"
 
 #import "CSParallaxHeader.h"
-#import "MyPlaylistCollectionViewCell.h"
+#import "PlaylistCollectionViewCell.h"
 //#import "iLLfollowingPlaylistCollectionViewCell.h"
 
 // CoreData
@@ -396,7 +396,7 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"friendCollectionViewCell"];
+    [self.collectionView registerClass:[PlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"friendCollectionViewCell"];
     
     
 //    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
@@ -538,7 +538,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         NSString *cellIdentifier = @"friendCollectionViewCell";
         
-        MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+        PlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         
         PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
 
