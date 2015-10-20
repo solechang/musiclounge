@@ -776,25 +776,27 @@
     } completion:^(BOOL success, NSError *error) {
         
         if (!error) {
+            
+            
+            if(self.tabBarController.selectedIndex == 0) {
+                [self backButton:self];
+                
+                // Change to media player from me tab
+                [self.tabBarController setSelectedIndex:2];
+                
+            } else if(self.tabBarController.selectedIndex == 1) {
+                
+                // Change to media player from Friend tab
+                [self.tabBarController setSelectedIndex:2];
+                
+            }
+
   
         } else {
 //            NSLog(@"Error 653 %@", error);
         }
         
         
-    
-        if(self.tabBarController.selectedIndex == 0) {
-            [self backButton:self];
-            
-            // Change to media player from me tab
-            [self.tabBarController setSelectedIndex:2];
-            
-        } else if(self.tabBarController.selectedIndex == 1) {
- 
-            // Change to media player from Friend tab
-            [self.tabBarController setSelectedIndex:2];
-            
-        }
         
         
     }];
