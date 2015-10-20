@@ -284,7 +284,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamFailed:
 //                NSLog(@"1.6.)");
-                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
+//                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
@@ -323,6 +323,45 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
                 
         }
+    };
+    
+    audioController.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
+        NSString *errorCategory;
+        
+        switch (error) {
+            case kFsAudioStreamErrorOpen:
+                errorCategory = @"Cannot open the audio stream: ";
+                break;
+            case kFsAudioStreamErrorStreamParse:
+                errorCategory = @"Cannot read the audio stream: ";
+                break;
+            case kFsAudioStreamErrorNetwork:
+                errorCategory = @"Network failed: cannot play the audio stream: ";
+                break;
+            case kFsAudioStreamErrorUnsupportedFormat:
+                errorCategory = @"Unsupported format: ";
+                break;
+            case kFsAudioStreamErrorStreamBouncing:
+                errorCategory = @"Network failed: cannot get enough data to play: ";
+                break;
+            default:
+                errorCategory = @"Unknown error occurred: ";
+                break;
+        }
+        
+        NSString *errorStatus;
+        if ([errorDescription containsString:@"404"]) {
+             errorStatus = [NSString stringWithFormat:@"SoundCloud has disabled %@ to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle];
+            [SVProgressHUD showErrorWithStatus:errorStatus];
+            
+        } else {
+            
+            errorStatus = [NSString stringWithFormat:@"There is a network error \xF0\x9F\x98\xA8 Please try playing %@ again", weakSelf.songTitle];
+            [SVProgressHUD showErrorWithStatus:errorStatus];
+        
+        }
+
+    
     };
     
 }
