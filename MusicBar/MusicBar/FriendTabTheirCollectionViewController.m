@@ -547,7 +547,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
         
-        [cell setPlaylistNameAndSongCount:playlistName :songCount];
+        [cell setPlaylistNameAndSongCount:playlistName :songCount: playlist.updatedAt];
 
         
 //        MyPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class]) forIndexPath:indexPath];

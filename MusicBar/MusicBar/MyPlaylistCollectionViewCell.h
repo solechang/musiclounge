@@ -15,6 +15,6 @@
 @property (nonatomic,readwrite) UILabel *songCountLabel;
 @property (nonatomic,readwrite) UILabel *updatedAtLabel;
 
-- (void) setPlaylistNameAndSongCount:(NSString*)playlistName :(NSString*) songCount;
+- (void) setPlaylistNameAndSongCount:(NSString*)playlistName :(NSString*) songCount :(NSDate*) updatedAt;
 
 @end

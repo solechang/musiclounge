@@ -193,10 +193,24 @@ const float UI_CUES_MARGIN = 0.0f;
     return self;
 }
 
-- (void) setPlaylistNameAndSongCount:(NSString*)playlistName :(NSString*) songCount {
+- (void) setPlaylistNameAndSongCount:(NSString*)playlistName :(NSString*) songCount :(NSDate*) updatedAt {
 
     self.playlistNameLabel.text = playlistName;
     self.songCountLabel.text = songCount;
+    
+//    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+//    
+//    [formatter setDateFormat: @"yyyy-MM-dd HH:mm:ss "];
+//    //Optionally for time zone conversions
+//    [formatter setTimeZone:[NSTimeZone timeZoneWithName:@"..."]];
+    
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    [formatter setDateFormat:@"M/yyyy hh:mm"];
+    NSDate *now = updatedAt;
+    NSString *formattedDate = [formatter stringFromDate:now];
+    
+//    NSString *stringFromDate = [formatter stringFromDate:myNSDateInstance];
+    self.updatedAtLabel.text = formattedDate;
 
 }
 
