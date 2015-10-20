@@ -1713,23 +1713,6 @@
             </objects>
             <point key="canvasLocation" x="3681" y="3043"/>
         </scene>
-        <!--Navigation Controller-->
-        <scene sceneID="8Rl-BN-oPg">
-            <objects>
-                <navigationController id="BSE-Kd-Qnp" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Bby-Q2-8Ul">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                        <color key="barTintColor" red="0.19215686269999999" green="0.066666666669999999" blue="0.25490196079999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </navigationBar>
-                    <connections>
-                        <segue destination="Y6W-Yv-iX5" kind="relationship" relationship="rootViewController" id="C4C-G5-Ws6"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="6Mt-15-jOU" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1495" y="4904"/>
-        </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="wNZ-al-6AU">
             <objects>
@@ -2053,7 +2036,6 @@
                         <outlet property="playButton" destination="f4f-hS-U5W" id="qad-Ek-ho8"/>
                         <outlet property="songTitle" destination="Xdc-Ls-8EB" id="RkA-Aj-aTQ"/>
                         <outlet property="startTime" destination="KK2-c1-xcv" id="hHo-PJ-nXO"/>
-                        <segue destination="BSE-Kd-Qnp" kind="presentation" identifier="currentPlaylistNowPlayingSegue" id="RXy-Pf-so1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aWt-84-EyC" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -2112,7 +2094,6 @@
         <image name="realdj" width="37" height="37"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="kMa-Xu-FBY"/>
         <segue reference="0Hp-SG-NCe"/>
     </inferredMetricsTieBreakers>
 </document>

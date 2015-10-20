@@ -962,8 +962,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
         
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-        PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
+        
+        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:defaultContext];
         playlist.objectId = nowPlaying.playlistId;
+        playlist.name = nowPlaying.playlistName;
         
         vc.playlistInfo = playlist;
 

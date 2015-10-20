@@ -784,7 +784,6 @@
             
             
             if(self.tabBarController.selectedIndex == 0) {
-                [self backButton:self];
                 
                 // Change to media player from me tab
                 [self.tabBarController setSelectedIndex:2];
@@ -794,6 +793,8 @@
                 // Change to media player from Friend tab
                 [self.tabBarController setSelectedIndex:2];
                 
+            } else if(self.tabBarController.selectedIndex == 2) {
+                [self backButton:self];
             }
 
   
@@ -809,11 +810,15 @@
     
 }
 - (IBAction)backButton:(id)sender {
+    NSLog(@"5.)");
     
+    [self.playlistInfo MR_deleteEntityInContext:defaultContext];
     // Only when user checks out playlist from the mediaplayer
     [self.navigationController dismissViewControllerAnimated:YES
                                                   completion:^{
-                                                      
+                                                    
+                                                      NSArray *playlist = [PlaylistFriend MR_findAllInContext:defaultContext];
+                                                      NSLog(@"6.) %lu", playlist.count);
                                                   }];
     
 }

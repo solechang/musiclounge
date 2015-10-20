@@ -803,7 +803,7 @@
         if (!error) {
             
             if(self.tabBarController.selectedIndex == 0) {
-                [self backButton:self];
+              
                 // Change to media player from me tab
                 [self.tabBarController setSelectedIndex:2];
                 
