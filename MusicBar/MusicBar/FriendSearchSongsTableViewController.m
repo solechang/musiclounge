@@ -59,6 +59,9 @@
 
 - (void) setUpRefreshControl{
     refreshControl = [[UIRefreshControl alloc]init];
+    UIColor *bgRefreshColor = [UIColor whiteColor];
+    [refreshControl setBackgroundColor:bgRefreshColor];
+    
     [self.tableView addSubview:refreshControl];
     [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
 }
