@@ -24,6 +24,8 @@
     int counter;
     UINavigationController *navController;
     FriendSearchControllerTableViewController *vc;
+    
+    UIRefreshControl *refreshControl;
 
 }
 
@@ -52,6 +54,18 @@
     [self setupTableView];
     [self setUpNotifications];
     [self setupTitle];
+    [self setUpRefreshControl];
+}
+
+- (void) setUpRefreshControl{
+    refreshControl = [[UIRefreshControl alloc]init];
+    [self.tableView addSubview:refreshControl];
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+}
+- (void)refreshTable {
+    //TODO: refresh your data
+    [self getSongsFromLocal];
+    
 }
 
 - (void) setupTitle {
@@ -242,6 +256,8 @@
     
     if (self.playlistInfo.objectId) {
          [self fetchSongsFromServer];
+    } else {
+        [refreshControl endRefreshing];
     }
 
     
@@ -262,16 +278,11 @@
 
         if (!error) {
             
+            [self saveSongsToLocal: songsInServer];
 
-            if (counter<1) {
-   
-                [self saveSongsToLocal: songsInServer];
-                counter++;
-            } else {
-                [SVProgressHUD dismiss];
-            }
             
         } else {
+            [refreshControl endRefreshing];
 //             NSLog(@"1.3)");
 //            NSLog(@"Error with fetching songs from server 235");
         }
@@ -318,11 +329,11 @@
             NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
            
             iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
-            
+            [refreshControl endRefreshing];
             [self.tableView reloadData];
             
         } else {
-            
+            [refreshControl endRefreshing];
 //            NSLog(@"Songs didnt not save locally 285.)");
             
         }

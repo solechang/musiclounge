@@ -24,6 +24,8 @@
     UINavigationController *navController;
     MySearchedSongsSearchControllerTableViewController *vc;
     
+    UIRefreshControl *refreshControl;
+    
 }
 
 @property (nonatomic, strong) UISearchController *searchController;
@@ -49,6 +51,20 @@
     
     [self setUpSearchController];
     [self setupTitle];
+    
+    [self setUpRefreshControl];
+    
+
+}
+
+- (void) setUpRefreshControl{
+    refreshControl = [[UIRefreshControl alloc]init];
+    [self.tableView addSubview:refreshControl];
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+}
+- (void)refreshTable {
+    //TODO: refresh your data
+    [self getSongsFromLocal];
 
 }
 
@@ -219,9 +235,12 @@
                 [self updatePlaylistInLocal:updatedIllistObject];
                 
             } else {
+                  [refreshControl endRefreshing];
                 // No need to update playlist since it is not updated
 //                NSLog(@"No need to update playlist 163.)");
             }
+        } else {
+              [refreshControl endRefreshing];
         }
  
         
@@ -244,7 +263,7 @@
             
             [self fetchSongsFromServer];
         } else {
-            
+              [refreshControl endRefreshing];
 //            NSLog(@"The playlist is not updated 187.)");
         }
         
@@ -268,6 +287,7 @@
             
         } else {
 //            NSLog(@"Error with fetching songs from server 208");
+              [refreshControl endRefreshing];
         }
         
     }];
@@ -316,9 +336,10 @@
             iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
             
             [self.tableView reloadData];
+            [refreshControl endRefreshing];
             
         } else {
-            
+              [refreshControl endRefreshing];
 //            NSLog(@"Songs didn not save locally 252.)");
             
         }
