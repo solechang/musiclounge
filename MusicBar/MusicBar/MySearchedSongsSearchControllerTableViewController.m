@@ -16,6 +16,8 @@
 
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#import "SoundCloudUserInfoTableViewController.h"
+
 @interface MySearchedSongsSearchControllerTableViewController ()
 
 @end
@@ -23,9 +25,72 @@
 @implementation MySearchedSongsSearchControllerTableViewController
 
 - (void)viewDidLoad {
+    
     [super viewDidLoad];
+    
+    [self setUpViewController];
+    [self setupTitle];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
 
     [self.tableView setRowHeight:90];
+    
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    
+}
+
+- (void) viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+//    [self.searchController setActive:YES];
+//     [self.searchController.searchBar setHidden:NO];
+    
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+   
+    [self.searchController setActive:NO];
+    
+//     NSArray *viewControllers = self.navigationController.viewControllers;
+
+    
+//    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
+////        [self.searchController.searchBar.t]
+//        [self.searchController.searchBar resignFirstResponder];
+//        [self.searchController.searchBar setHidden:YES];
+//        
+//    } else if ([viewControllers indexOfObject:self] == NSNotFound) {
+//        
+//        // View is disappearing because it was popped from the stackd
+//        NSLog(@"5.)");
+//        
+//        
+//        
+//    }
+    
+}
+
+- (void) setupTitle {
+    
+    UILabel *label = [[UILabel alloc] init];
+    [label setFrame:CGRectMake(0,5,100,20)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17.0];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = @"Search";
+    self.navigationItem.titleView = label;
+    
+}
+
+
+- (void)setUpViewController{
+    self.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];
+
+    self.navigationController.navigationBar.tintColor = [UIColor whiteColor];
+    self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
     
 }
 
@@ -55,13 +120,22 @@
     static NSString *CellIdentifier = @"searchedSongCell";
     
     CustomSearchedSongTableViewCell *cell = (CustomSearchedSongTableViewCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryNone;
+    
+
     CustomSong *song = nil;
     if (cell == nil) {
         cell = [[CustomSearchedSongTableViewCell alloc]
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
+    
+    // album image to framed in a circle
+    cell.albumImage.layer.cornerRadius = cell.albumImage.frame.size.height /2;
+    cell.albumImage.layer.masksToBounds = YES;
+    cell.albumImage.layer.borderWidth = 0;
     
     cell.titleLabel.numberOfLines = 3;
     cell.titleLabel.adjustsFontSizeToFitWidth = YES;
@@ -72,45 +146,64 @@
     cell.uploadingUserLabel.text = song.uploadingUser;
     cell.timeLabel.text = song.time;
     cell.addedByLabel.text = @"";
+    
+    [[cell.contentView viewWithTag:1] performSelectorOnMainThread:@selector(removeFromSuperview) withObject:nil waitUntilDone:NO];
 
     [cell.albumImage sd_setImageWithURL:[NSURL URLWithString:song.image] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
+
+    if (![song.addedBy isEqualToString:@"noButtonForSoundCloudUser"]) {
+
+        
+        
+        //IK - Link adding song function here
+        UIButton* button = [self addSongButtonPressed:song];
+        
+        button.tag = 1;
+        
+        [button setTranslatesAutoresizingMaskIntoConstraints:false];
+        NSLayoutConstraint *centerYconstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                             attribute:NSLayoutAttributeCenterY
+                                                                             relatedBy:NSLayoutRelationEqual
+                                                                                toItem:cell.contentView
+                                                                             attribute:NSLayoutAttributeCenterY
+                                                                            multiplier:1.0
+                                                                              constant:-15];
+        NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                           attribute:NSLayoutAttributeWidth
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:nil
+                                                                           attribute:NSLayoutAttributeNotAnAttribute
+                                                                          multiplier:1.0
+                                                                            constant:30.0f];
+        NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                            attribute:NSLayoutAttributeHeight
+                                                                            relatedBy:NSLayoutRelationEqual
+                                                                               toItem:nil
+                                                                            attribute:NSLayoutAttributeNotAnAttribute
+                                                                           multiplier:1.0
+                                                                             constant:30.0f];
+        NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:button
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                           relatedBy:NSLayoutRelationEqual
+                                                                              toItem:cell.contentView
+                                                                           attribute:NSLayoutAttributeTrailing
+                                                                          multiplier:1.0
+                                                                            constant:-15];
+        
+        [cell.contentView addSubview:button];
+        [cell.contentView bringSubviewToFront:button];
+        [cell.contentView addConstraints:@[centerYconstraint,widthConstraint,heightConstraint,rightConstraint]];
+        
+        
+    } else {
+        
+        if (![song.title containsString:@"is not found :("]) {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        }
+        
+    }
     
-    //IK - Link adding song function here
-    UIButton* button = [self addSongButtonPressed:song];
-    [button setTranslatesAutoresizingMaskIntoConstraints:false];
-    NSLayoutConstraint *centerYconstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                        relatedBy:NSLayoutRelationEqual
-                                                                           toItem:cell.contentView
-                                                                        attribute:NSLayoutAttributeCenterY
-                                                                       multiplier:1.0
-                                                                         constant:0];
-    NSLayoutConstraint *widthConstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                       attribute:NSLayoutAttributeWidth
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:1.0
-                                                                        constant:30.0f];
-    NSLayoutConstraint *heightConstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                       attribute:NSLayoutAttributeHeight
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:nil
-                                                                       attribute:NSLayoutAttributeNotAnAttribute
-                                                                      multiplier:1.0
-                                                                        constant:30.0f];
-    NSLayoutConstraint *rightConstraint = [NSLayoutConstraint constraintWithItem:button
-                                                                       attribute:NSLayoutAttributeTrailing
-                                                                       relatedBy:NSLayoutRelationEqual
-                                                                          toItem:cell.contentView
-                                                                       attribute:NSLayoutAttributeTrailing
-                                                                      multiplier:1.0
-                                                                        constant:-10];
-    
-    [cell.contentView addSubview:button];
-    [cell.contentView bringSubviewToFront:button];
-    [cell.contentView addConstraints:@[centerYconstraint,widthConstraint,heightConstraint,rightConstraint]];
-    // Configure the cell...
     
     return cell;
 }
@@ -158,7 +251,7 @@
     if (song.stream_url == nil) {
         [button setEnabled:NO];
    
-        button.backgroundColor = [UIColor lightGrayColor];
+        button.backgroundColor = [UIColor greenColor];
     }
     
     // Disable button if the song exists in current playlist
@@ -168,7 +261,7 @@
 
             [button setEnabled:NO];
         
-            button.backgroundColor = [UIColor lightGrayColor];
+            button.backgroundColor = [UIColor greenColor];
             
         }
     }
@@ -178,5 +271,48 @@
     
 }
 
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (self.searchController.searchBar.selectedScopeButtonIndex == 1) {
+    
+        CustomSong *soundCloudUser = [self.searchResults objectAtIndex:indexPath.row];
+        
+
+        if ( ![soundCloudUser.title  containsString:@"is not found :("]) {
+            [self performSegueWithIdentifier:@"SoundCloudUserSegue" sender:nil];
+        }
+        
+
+    }
+    [self.searchController.searchBar resignFirstResponder];
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if ([[segue identifier] isEqualToString:@"SoundCloudUserSegue"]) {
+        
+        UINavigationController *navController = [segue destinationViewController];
+        SoundCloudUserInfoTableViewController *ssc = (SoundCloudUserInfoTableViewController*)navController.topViewController;
+    
+        NSIndexPath *selectedIndexPath = [self.tableView indexPathForSelectedRow];
+        
+        CustomSong *soundCloudUser = [self.searchResults objectAtIndex:selectedIndexPath.row];
+        ssc.scUserInfo = soundCloudUser;
+        ssc.searchController = self.searchController;
+        ssc.playlistInfo = self.playlistInfo;
+        ssc.iLListTracks = self.iLListTracks;
+        
+//        [self.searchController setActive:NO];
+//        [ssc.s setScUserName:soundCloudUser.title];
+        
+       
+        
+        
+    }
+    
+}
 
 @end

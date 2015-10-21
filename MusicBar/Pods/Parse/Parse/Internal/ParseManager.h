@@ -9,9 +9,13 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Parse/PFConstants.h>
+
 #import "PFDataProvider.h"
 #import "PFOfflineStore.h"
+#import "PFMacros.h"
 
+@class BFTask PF_GENERIC(__covariant BFGenericType);
 @class PFAnalyticsController;
 @class PFCoreManager;
 @class PFInstallationIdentifierStore;
@@ -38,7 +42,7 @@ PFInstallationIdentifierStoreProvider>
 
 @property (nonatomic, strong) PFAnalyticsController *analyticsController;
 
-#if TARGET_OS_IPHONE
+#if TARGET_OS_IOS
 @property (nonatomic, strong) PFPurchaseController *purchaseController;
 #endif
 

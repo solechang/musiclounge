@@ -24,7 +24,9 @@
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
 
-@interface LoginViewController ()
+@interface LoginViewController () {
+      NSManagedObjectContext *defaultContext;
+}
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIButton *loginButton;
@@ -44,7 +46,7 @@
 {
     [super viewDidLoad];
 
-
+    [self setNSManagedObjectContext];
     [self gradientSetting];
     
     self.subView.layer.cornerRadius = 10;
@@ -73,6 +75,10 @@
     [self.view addGestureRecognizer:tap];
    
     
+}
+- (void) setNSManagedObjectContext {
+    
+    defaultContext = [NSManagedObjectContext MR_defaultContext];
 }
 
 -(void)gradientSetting {
@@ -112,7 +118,7 @@
     [self.facebookLoginButton setEnabled:NO];
     NSArray *permissionsArray = @[ @"user_about_me", @"user_friends", @"read_custom_friendlists"];
     
-    [SVProgressHUD showWithStatus:@"Loading :)"];
+    [SVProgressHUD showWithStatus:@"Loading \xF0\x9F\x98\x84"];
     
     // Login PFUser using Facebook
     [PFFacebookUtils logInInBackgroundWithReadPermissions:permissionsArray block:^(PFUser *user, NSError *error) {
@@ -162,12 +168,12 @@
 - (void) setUpCurrentUser: (PFUser*)user{
     
     // Delete local current user first
-    NSArray *deleteCurrentUserArray = [CurrentUser MR_findAll];
+    NSArray *deleteCurrentUserArray = [CurrentUser MR_findAllInContext:defaultContext];
     
     for ( CurrentUser *deleteCurrentUser in deleteCurrentUserArray ) {
-        [deleteCurrentUser.userFriendList MR_deleteEntity];
+        [deleteCurrentUser.userFriendList MR_deleteEntityInContext:defaultContext];
         //[deleteCurrentUser.userIllist MR_deleteEntity];
-        [deleteCurrentUser MR_deleteEntity];
+        [deleteCurrentUser MR_deleteEntityInContext:defaultContext];
     }
     
     
@@ -197,7 +203,10 @@
         
     } completion:^(BOOL success, NSError *error) {
         
-        [self setFacebookID:  user];
+        if (!error) {
+            [self setFacebookID:  user];
+        }
+        
 
     }];
 
@@ -213,17 +222,17 @@
                                           NSError *error) {
         // Handle the result
 
-        NSString *facebookID = result[@"id"];
-        
-        
-        if (![facebookID isEqualToString:@""]) {
-            [self saveUserFacebookID: facebookID :user];
+        if (!error) {
+            
+            
+            NSString *facebookID = result[@"id"];
+            
+            
+            if (![facebookID isEqualToString:@""] && result[@"id"]) {
+                [self saveUserFacebookID: facebookID :user];
+            }
         }
 
-        
-        
-        
-   
     }];
     
 }
@@ -231,12 +240,16 @@
 - (void) saveUserFacebookID :(NSString*) facebookID : (PFUser *) user{
 
     user[@"facebookID"] = facebookID;
+    user[@"updateCheck"] = @(YES);
+
     
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     
         if (succeeded) {
             
-            if (user.isNew) {
+            // Checks if the username is set correctly
+            if (user.isNew || !user[@"name"]) {
+                
                 [self performSegueWithIdentifier:@"usernameSegue" sender:self];
                 
                 

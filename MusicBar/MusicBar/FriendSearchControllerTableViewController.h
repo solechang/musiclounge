@@ -16,4 +16,6 @@
 @property (nonatomic, strong) NSMutableArray *iLListTracks;
 @property (nonatomic, retain) PlaylistFriend *playlistInfo;
 
+@property (nonatomic, strong) UISearchController *searchController;
+
 @end

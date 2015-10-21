@@ -11,14 +11,18 @@
 
 #import <Parse/PFConstants.h>
 
-@class BFTask;
+#import "PFMacros.h"
+
+@class BFTask PF_GENERIC(__covariant BFGenericType);
 @class PFFileManager;
 @class PFPaymentTransactionObserver;
+@class PFProductsRequestResult;
+
 @protocol PFCommandRunning;
 @class SKPaymentQueue;
 @class SKPaymentTransaction;
 
-@interface PFPurchaseController : NSObject
+PF_WATCH_UNAVAILABLE @interface PFPurchaseController : NSObject
 
 @property (nonatomic, strong, readonly) id<PFCommandRunning> commandRunner;
 @property (nonatomic, strong, readonly) PFFileManager *fileManager;

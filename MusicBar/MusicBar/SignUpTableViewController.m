@@ -7,7 +7,7 @@
 //
 
 #import "SignUpTableViewController.h"
-#import <RHAddressBook/AddressBook.h>
+
 #import <SVProgressHUD/SVProgressHUD.h>
 
 #import <QuartzCore/QuartzCore.h>
@@ -17,9 +17,6 @@
 #import "CurrentUser.h"
 #import "UserFriendList.h"
 #import "NowPlaying.h"
-
-#import "NBPhoneNumberUtil.h"
-#import "NBPhoneNumber.h"
 
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
@@ -113,25 +110,25 @@
 {
     if (textField == self.phonenumberTextField) {
         
-        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+//        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
         
-        NBPhoneNumberUtil *phoneUtil = [[NBPhoneNumberUtil alloc] init];
-        NSError *anError = nil;
-        NBPhoneNumber *myNumber = [phoneUtil parse:newString
-                                     defaultRegion:@"US" error:&anError];
-        
-
-        if ( [phoneUtil isValidNumber:myNumber] ) {
-            phoneFlag = YES;
-            self.phonenumberTextField.layer.borderColor=[[UIColor greenColor]CGColor];
-        } else {
-            phoneFlag = NO;
-            
-            self.phonenumberTextField.layer.cornerRadius=1.0f;
-            self.phonenumberTextField.layer.masksToBounds=YES;
-            self.phonenumberTextField.layer.borderColor=[[UIColor redColor]CGColor];
-            self.phonenumberTextField.layer.borderWidth= 1.0f;
-        }
+//        NBPhoneNumberUtil *phoneUtil = [[NBPhoneNumberUtil alloc] init];
+//        NSError *anError = nil;
+//        NBPhoneNumber *myNumber = [phoneUtil parse:newString
+//                                     defaultRegion:@"US" error:&anError];
+//        
+//
+//        if ( [phoneUtil isValidNumber:myNumber] ) {
+//            phoneFlag = YES;
+//            self.phonenumberTextField.layer.borderColor=[[UIColor greenColor]CGColor];
+//        } else {
+//            phoneFlag = NO;
+//            
+//            self.phonenumberTextField.layer.cornerRadius=1.0f;
+//            self.phonenumberTextField.layer.masksToBounds=YES;
+//            self.phonenumberTextField.layer.borderColor=[[UIColor redColor]CGColor];
+//            self.phonenumberTextField.layer.borderWidth= 1.0f;
+//        }
 
     }
     
@@ -333,7 +330,7 @@
                 
                 currentUser.userId = user.objectId;
                 // saving user's name, phone number, and email onto core data
-                currentUser.name = self.usernameTextField.text;
+                currentUser.name = [self.usernameTextField.text lowercaseString];
                 currentUser.email = self.emailTextField.text;
                 
                 // setting data for current user illist and friend list onto core data

@@ -104,6 +104,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
+//    self.currentPlaylistButton.a = YES;
+    
     
 //    [self.playButton buttonWithType:UIButtonTypeSystem];
     [self.playButton setTintColor:[UIColor whiteColor]];
@@ -208,6 +210,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     defaultContext = [NSManagedObjectContext MR_defaultContext];
 }
 
+- (void) viewWillDisappear:(BOOL)animated {
+    [SVProgressHUD dismiss];
+    [super viewWillDisappear:animated];
+}
 - (void)viewWillAppear:(BOOL)animated {
     
     __weak typeof(self) weakSelf = self;
@@ -282,13 +288,16 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamFailed:
 //                NSLog(@"1.6.)");
-                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
+//                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
 //                NSLog(@"1.7.)");
 //                [weakSelf toggleNextPreviousButtons];
-                [weakSelf nextButton:nil];
+                if (weakSelf.playButton.enabled) {
+                    [weakSelf nextButton:nil];
+                }
+    
                 break;
                 
             case kFsAudioStreamRetryingStarted:
@@ -306,7 +315,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamRetryingFailed:
 //                NSLog(@"1.10.)");
-                [weakSelf nextButton:nil];
+//                if (weakSelf.playButton.enabled) {
+                    [SVProgressHUD dismiss];
+                    [weakSelf nextButton:nil];
+//                }
+                
                 break;
                 
             default:
@@ -315,6 +328,44 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
                 
         }
+    };
+    
+    audioController.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
+        NSString *errorCategory;
+        
+        switch (error) {
+            case kFsAudioStreamErrorOpen:
+                errorCategory = @"Cannot open the audio stream: ";
+                break;
+            case kFsAudioStreamErrorStreamParse:
+                errorCategory = @"Cannot read the audio stream: ";
+                break;
+            case kFsAudioStreamErrorNetwork:
+                errorCategory = @"Network failed: cannot play the audio stream: ";
+                break;
+            case kFsAudioStreamErrorUnsupportedFormat:
+                errorCategory = @"Unsupported format: ";
+                break;
+            case kFsAudioStreamErrorStreamBouncing:
+                errorCategory = @"Network failed: cannot get enough data to play: ";
+                break;
+            default:
+                errorCategory = @"Unknown error occurred: ";
+                break;
+        }
+        NSString *errorStatus;
+        if ([errorDescription containsString:@"404"]) {
+             errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
+            [SVProgressHUD showErrorWithStatus:errorStatus];
+            
+        } else {
+            
+            errorStatus = [[NSString alloc] initWithFormat:@"There is a network error \xF0\x9F\x98\xA8 Please try playing '%@' again", weakSelf.songTitle.text];
+            [SVProgressHUD showErrorWithStatus:errorStatus];
+        
+        }
+
+    
     };
     
 }
@@ -697,17 +748,65 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSString *totalSecondsString = [NSString stringWithFormat:@"%d", totalSeconds];
     
-//    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]]];
+    NSDictionary * info;
+
     
-    NSDictionary *info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
-                            MPMediaItemPropertyAlbumTitle: @"",
-                            MPMediaItemPropertyTitle: self.songTitle.text,
-                            MPMediaItemPropertyPlaybackDuration:totalSecondsString,
-                            MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
-//                            MPMediaItemPropertyArtwork: artwork
-                            };
+    info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+              MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+              MPMediaItemPropertyTitle: self.songTitle.text,
+              MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+              MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+              };
+    
     
     [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
+
+    
+//    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:[UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]]];
+//    MPMediaItemArtwork *artwork = [[MPMediaItemArtwork alloc]initWithImage:self.currentSongArtwork.image] ;
+    
+//    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//    dispatch_async(queue, ^{
+//        
+//        NSMutableDictionary *songInfo = [NSMutableDictionary dictionary];
+//        UIImage *artworkImage = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:[self setImageSize:nowPlayingSong.artwork]]]];
+//        MPMediaItemArtwork *albumArt;
+//        NSDictionary * info;
+//        
+//        
+//        
+//        
+//        if(artworkImage)
+//        {
+//            albumArt = [[MPMediaItemArtwork alloc] initWithImage: artworkImage];
+//            [songInfo setValue:albumArt forKey:MPMediaItemPropertyArtwork];
+//            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+//                                    MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+//                                    MPMediaItemPropertyTitle: self.songTitle.text,
+//                                    MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+//                                    MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1],
+//                                    MPMediaItemPropertyArtwork: albumArt
+//                                    };
+//        } else {
+//
+//            info = @{ MPMediaItemPropertyArtist: @"MusicLounge",
+//                      MPMediaItemPropertyAlbumTitle: self.currentPlaylistButton.title,
+//                      MPMediaItemPropertyTitle: self.songTitle.text,
+//                      MPMediaItemPropertyPlaybackDuration:totalSecondsString,
+//                      MPNowPlayingInfoPropertyPlaybackRate: [NSNumber numberWithInt:1]
+//                      };
+//        }
+////        MPNowPlayingInfoCenter *infoCenter = [MPNowPlayingInfoCenter defaultCenter];
+////        infoCenter.nowPlayingInfo = songInfo;
+//        
+//
+//
+//
+//        [MPNowPlayingInfoCenter defaultCenter].nowPlayingInfo = info;
+//
+//    });
+    
+
 }
 
 - (IBAction)backButton:(id)sender {
@@ -868,11 +967,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
         
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-        PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
-        playlist.objectId = nowPlaying.playlistId;
         
-
-
+        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:defaultContext];
+        playlist.objectId = nowPlaying.playlistId;
+        playlist.name = nowPlaying.playlistName;
+        
         vc.playlistInfo = playlist;
 
     }

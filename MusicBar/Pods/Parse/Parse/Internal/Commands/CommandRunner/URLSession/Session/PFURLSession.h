@@ -12,7 +12,8 @@
 #import <Parse/PFConstants.h>
 
 @class BFCancellationToken;
-@class BFTask;
+
+@class BFTask PF_GENERIC(__covariant BFGenericType);
 @class PFRESTCommand;
 
 NS_ASSUME_NONNULL_BEGIN
@@ -22,7 +23,8 @@ NS_ASSUME_NONNULL_BEGIN
 @protocol PFURLSessionDelegate <NSObject>
 
 - (void)urlSession:(PFURLSession *)session willPerformURLRequest:(NSURLRequest *)request;
-- (void)urlSession:(PFURLSession *)session didPerformURLRequest:(NSURLRequest *)request withURLResponse:(nullable NSURLResponse *)response;
+
+- (void)urlSession:(PFURLSession *)session didPerformURLRequest:(NSURLRequest *)request withURLResponse:(nullable NSURLResponse *)response responseString:(nullable NSString *)string;
 
 @end
 

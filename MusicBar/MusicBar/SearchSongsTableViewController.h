@@ -20,7 +20,7 @@
 
 
 // Removed UISearchResultsUpdating
-@interface SearchSongsTableViewController : UITableViewController <UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
+@interface SearchSongsTableViewController : UITableViewController <UISearchResultsUpdating, UISearchBarDelegate, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate>
 
 @property (nonatomic, retain) Playlist* playlistInfo;
 

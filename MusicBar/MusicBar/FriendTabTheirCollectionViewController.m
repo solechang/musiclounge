@@ -15,7 +15,7 @@
 #import "DZNSegmentedControl.h"
 
 #import "CSParallaxHeader.h"
-#import "MyPlaylistCollectionViewCell.h"
+#import "PlaylistCollectionViewCell.h"
 //#import "iLLfollowingPlaylistCollectionViewCell.h"
 
 // CoreData
@@ -27,6 +27,8 @@
 
 #import <SVProgressHUD/SVProgressHUD.h>
 #import "UserFriendList.h"
+
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface FriendTabTheirCollectionViewController ()   <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
     
@@ -40,9 +42,11 @@
     UICollectionViewCell* swipedCell ;
     BOOL swipedCellPastHalfWay;
     
-        NSManagedObjectContext *defaultContext;
+    NSManagedObjectContext *defaultContext;
     
-        NSString *hostName;
+    NSString *profileURL;
+    
+    NSString *hostName;
 }
 
 
@@ -50,7 +54,7 @@
 @property (nonatomic, strong) UINib *headerNib;
 @property (nonatomic, strong) DZNSegmentedControl *control;
 @property (nonatomic, strong) NSArray *menuItems;
-@property (nonatomic, retain) UIImage *profilePictureImage;
+@property (nonatomic, retain) UIImageView *profilePictureImage;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *addFriendButton;
 
 @end
@@ -61,7 +65,7 @@
 {
     [super viewDidLoad];
     self.addFriendButton.enabled = NO;
-    self.profilePictureImage = [UIImage imageNamed: @"placeholder.png"];
+//    [self.profilePictureImage setImage:[UIImage imageNamed: @"placeholder.png"]];
     
 //    [self setUpNavigationBar];
     [self setUpCollectionView];
@@ -164,9 +168,7 @@
 
     if (self.friendInfo.userId) {
         // Check if friend exists
-        
-        
-        
+
         [self userPlaylistLogic];
     }
     
@@ -177,7 +179,7 @@
 - (void) userPlaylistLogic {
     
     [self getProfilePicture];
-
+    [self getPlaylistFromServer];
 
 }
 
@@ -195,34 +197,13 @@
             
             PFFile *file = (PFFile *)object[@"profilePic"];
             
-            [self getPhotoFile:file];
+            profileURL = [[NSString alloc] initWithString:file.url];
+
             
-        } else {
-            
-            
-            [self getPlaylistFromServer];
         }
-        
     }];
 
     
-}
-- (void) getPhotoFile: (PFFile*)file {
-    [file getDataInBackgroundWithBlock:^(NSData *data, NSError *error) {
-        
-        if (!error) {
-            UIImage *image = [[UIImage alloc] initWithData:data];
-            self.profilePictureImage = image;
-
-        } else {
-            
-        }
-        
-        [self getPlaylistFromServer];
-        
-
-       
-    }];
 }
 
 - (void) getPlaylistFromServer {
@@ -270,15 +251,16 @@
             playlist.userName = playlistObject[@"userName"];
             playlist.createdAt = playlistObject.createdAt;
             playlist.songCount = playlistObject[@"SongCount"];
+            playlist.updatedAt = playlistObject.updatedAt;
             
-            for (PlaylistFriend *playlistToDelete in playlistsArrayInLocal) {
-                
-                if ([playlist.objectId isEqualToString:playlistToDelete.objectId]) {
-                    
-                    playlist.updatedAt = playlistToDelete.updatedAt;
-                    
-                }
-            }
+//            for (PlaylistFriend *playlistToDelete in playlistsArrayInLocal) {
+//                
+//                if ([playlist.objectId isEqualToString:playlistToDelete.objectId]) {
+//                    
+//                    playlist.updatedAt = playlistToDelete.updatedAt;
+//                    
+//                }
+//            }
 
         }
         for (PlaylistFriend *playlistToDelete in playlistsArrayInLocal) {
@@ -313,9 +295,9 @@
     if (playlistArray.count != 0 ) {
         hostName = [[NSString alloc] initWithString:friendName.userName];
         
-        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+//        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:20.0],NSFontAttributeName, nil];
         self.navigationController.navigationBar.topItem.title = hostName;
-        self.navigationController.navigationBar.titleTextAttributes = size;
+//        self.navigationController.navigationBar.titleTextAttributes = size;
         
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
         [self setCountOnControl];
@@ -355,9 +337,9 @@
             
             hostName = [[NSString alloc] initWithString:userObject[@"name"]];
             
-            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:24.0],NSFontAttributeName, nil];
+//            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:20.0],NSFontAttributeName, nil];
             self.navigationController.navigationBar.topItem.title = hostName;
-            self.navigationController.navigationBar.titleTextAttributes = size;
+//            self.navigationController.navigationBar.titleTextAttributes = size;
             
             [self checkIfFriends];
             
@@ -415,7 +397,7 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"friendCollectionViewCell"];
+    [self.collectionView registerClass:[PlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"friendCollectionViewCell"];
     
     
 //    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
@@ -557,7 +539,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         NSString *cellIdentifier = @"friendCollectionViewCell";
         
-        MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+        PlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         
         PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
 
@@ -566,7 +548,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         NSString *songCount = [NSString stringWithFormat:@"Song count: %@", playlist.songCount];
         
-        [cell setPlaylistNameAndSongCount:playlistName :songCount];
+        [cell setPlaylistNameAndSongCount:playlistName :songCount: playlist.updatedAt];
 
         
 //        MyPlaylistCollectionViewCell *cell = [self.collectionView dequeueReusableCellWithReuseIdentifier:NSStringFromClass([MyPlaylistCollectionViewCell class]) forIndexPath:indexPath];
@@ -652,9 +634,10 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         CSParallaxHeader* cell = [collectionView dequeueReusableSupplementaryViewOfKind:kind
                                                                     withReuseIdentifier:@"header"
                                                                            forIndexPath:indexPath];
-        
         cell.textLabelName.text = hostName;
-        [cell.profileImage setImage: self.profilePictureImage];
+//        cell.profileImage = self.profilePictureImage;
+//        [cell.profileImage sd
+         [cell.profileImage sd_setImageWithURL:[NSURL URLWithString:profileURL] placeholderImage:[UIImage imageNamed:@"placeholder.png"] options:SDWebImageRefreshCached];
         cell.profileImage.contentMode = UIViewContentModeScaleAspectFill;
         
         
@@ -720,6 +703,11 @@ didUnhighlightItemAtIndexPath:(NSIndexPath *)indexPath {
         
         // Get destination view
         FriendSearchSongsTableViewController *ssc = [segue destinationViewController];
+        
+        if (hostName.length > 10) {
+            self.navigationController.navigationBar.topItem.title = @"";
+        }
+        
         
         // Initializing indexpath for the playlist cell
         NSIndexPath *selectedIndexPath = [[self.collectionView indexPathsForSelectedItems] objectAtIndex:0];
@@ -817,7 +805,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
             originalFrame = CGRectMake(-swipedCell.bounds.size.width, swipedCell.frame.origin.y,
                                        swipedCell.bounds.size.width, swipedCell.bounds.size.height);
             
-            //                [self popAlertViewForMyLoungeDelete];
+            
         }
         
         [UIView animateWithDuration:0.2
@@ -839,35 +827,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 
 }
 
-- (void)popAlertViewForMyLoungeDelete{
-    UIAlertView *deleteAlert = [[UIAlertView alloc]
-                                initWithTitle:@"Delete?"
-                                message:@"Are you sure you want to delete this playlist?"
-                                delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    [deleteAlert show];
-    
-}
-- (void)alertView:(UIAlertView *)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    //IK - if user presses "YES" in the alert view
-    if (buttonIndex == 1) {
-        
-//        [self deletePlaylist];
-    }
-    
-    else if (buttonIndex == 0) {
-        CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
-                                          swipedCell.bounds.size.width, swipedCell.bounds.size.height);
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             swipedCell.frame = originalFrame;
-                         }
-         ];
-        
-    }
-    
-}
+
 
 #pragma mark - Anthony - Add Friend
 - (IBAction)addFriendButtonPushed:(id)sender {

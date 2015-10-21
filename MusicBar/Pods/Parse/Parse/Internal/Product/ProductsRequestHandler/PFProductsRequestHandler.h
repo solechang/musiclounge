@@ -10,9 +10,11 @@
 #import <Foundation/Foundation.h>
 #import <StoreKit/StoreKit.h>
 
-@class BFTask;
+#import <Parse/PFConstants.h>
 
-@interface PFProductsRequestResult : NSObject
+@class BFTask PF_GENERIC(__covariant BFGenericType);
+
+PF_WATCH_UNAVAILABLE @interface PFProductsRequestResult : NSObject
 
 @property (nonatomic, copy, readonly) NSSet *validProducts;
 @property (nonatomic, copy, readonly) NSSet *invalidProductIdentifiers;

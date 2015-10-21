@@ -9,13 +9,15 @@
 
 #import <Foundation/Foundation.h>
 
+#import <Parse/PFConstants.h>
+
 #import "PFCoreDataProvider.h"
 
-@class BFTask;
+@class BFTask PF_GENERIC(__covariant BFGenericType);
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PFPushChannelsController : NSObject
+PF_WATCH_UNAVAILABLE @interface PFPushChannelsController : NSObject
 
 @property (nonatomic, weak, readonly) id<PFCurrentInstallationControllerProvider> dataSource;
 

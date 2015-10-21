@@ -18,7 +18,7 @@
 #import "DZNSegmentedControl.h"
 
 #import "CSParallaxHeader.h"
-#import "MyPlaylistCollectionViewCell.h"
+#import "PlaylistCollectionViewCell.h"
 //#import "iLLfollowingPlaylistCollectionViewCell.h"
 
 #import "AddiLListTableViewController.h"
@@ -27,10 +27,17 @@
 // CoreData
 #import <MagicalRecord/MagicalRecord.h>
 #import "CurrentUser.h"
-
+#import "UserFriendList.h"
+#import "Friend.h"
+#import "FriendPhonenumber.h"
 #import "Playlist.h"
 #import "Song.h"
+#import "PlaylistFriend.h"
+#import "SongFriend.h"
+#import "NowPlaying.h"
+#import "NowPlayingSong.h"
 
+#import <SVProgressHUD/SVProgressHUD.h>
 
 
 @interface MyProfileCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
@@ -154,30 +161,136 @@
     NSArray *playlistArray = [Playlist MR_findAllInContext:defaultContext];
     NSLog(@"playlist.count: %lu", (unsigned long)playlistArray.count);
 }
-
-//added below
-- (void)viewDidAppear:(BOOL)animated {
+- (void) deleteUserDataAndLogout {
     
+    // Delete Core data
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        // Delete Current User
+        NSArray *deleteCurrentUserArray = [CurrentUser MR_findAllInContext:localContext];
+        
+        for ( CurrentUser *deleteCurrentUser in deleteCurrentUserArray ) {
+            [deleteCurrentUser MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete playlists in core data
+        NSArray *deletePlaylists = [Playlist MR_findAllInContext:localContext];
+        
+        for (Playlist *deletePlaylist in deletePlaylists) {
+            
+            [deletePlaylist MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete songs in core data
+        NSArray *deleteSongs = [Song MR_findAllInContext:localContext];
+        
+        for (Song *deleteSong in deleteSongs) {
+            [deleteSong MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete playlists in core data
+        NSArray *deletePlaylistsFriend = [PlaylistFriend MR_findAllInContext:localContext];
+        
+        for (PlaylistFriend *deletePlaylistFriend in deletePlaylistsFriend) {
+            
+            [deletePlaylistFriend MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete songs in core data
+        NSArray *deleteSongsFriend = [SongFriend MR_findAllInContext:localContext];
+        
+        for (SongFriend *deleteSongFriend in deleteSongsFriend) {
+            [deleteSongFriend MR_deleteEntityInContext:localContext];
+        }
+        
+        // Delete Friend
+        NSArray *friendsDeleteArray = [Friend MR_findAllInContext:localContext];
+        
+        for ( Friend *deleteFriend in friendsDeleteArray) {
+            
+            [deleteFriend MR_deleteEntityInContext:localContext];
+        }
+        
+        //        // Delete FriendPhonenumber
+        //        NSArray *deleteFriendPhonenumberArray = [FriendPhonenumber MR_findAllInContext:localContext];
+        //
+        //        for (FriendPhonenumber *deleteFriendPhonenumber in deleteFriendPhonenumberArray) {
+        //
+        //            [deleteFriendPhonenumber MR_deleteEntityInContext:localContext];
+        //        }
+        
+        // Delete UserFriendList
+        NSArray *deleteUserFriendList = [UserFriendList MR_findAllInContext:localContext];
+        
+        for (UserFriendList *deleteFriendList in deleteUserFriendList) {
+            
+            [deleteFriendList MR_deleteEntityInContext:localContext];
+            
+        }
+        
+        NowPlaying *deleteNowPlaying = [NowPlaying MR_findFirstInContext:localContext];
+        [deleteNowPlaying MR_deleteEntityInContext:localContext];
+        
+        NSArray *deleteNowPlayingSongArray = [NowPlayingSong MR_findAllInContext:localContext];
+        
+        for (NowPlayingSong *deleteNPS in deleteNowPlayingSongArray) {
+            [deleteNPS MR_deleteEntityInContext:localContext];
+        }
+        
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        if (!error) {
+            
+            
+            // Need to delete pinned PFObjects!
+            [PFUser logOut];
+            [self showLoginScreen];
+        }
+    }];
+    
+    
+}
+
+- (void) checkUpdateLoggedIn {
     PFUser *currentPFUser = [PFUser currentUser];
     
     myiLListArray = [[NSMutableArray alloc] init];
     iLListInfo = [[NSMutableDictionary alloc] init];
     
-    // Check if user is logged in
-    if (currentPFUser) {
-        [self enableButtons];
-        [self userPlaylistLogic];
+    if (!currentPFUser[@"updateCheck"]) {
+        
+        [self deleteUserDataAndLogout];
+
         
     } else {
-        
-        // show the signup or login screen since user is not logged in
-        UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
-        
-        LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
-        
-        UINavigationController *loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
-        [self.navigationController presentViewController:loginNavigationController animated:YES completion:nil];
+        // Check if user is logged in
+        if (currentPFUser && currentPFUser[@"name"] && currentPFUser[@"updateCheck"]) {
+            [self enableButtons];
+            [self userPlaylistLogic];
+            
+        } else {
+            [self showLoginScreen];
+            
+        }
     }
+
+}
+
+- (void) showLoginScreen {
+    // show the signup or login screen since user is not logged in
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:[NSBundle mainBundle]];
+    
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    
+    UINavigationController *loginNavigationController = [[UINavigationController alloc] initWithRootViewController:loginViewController];
+    [self.navigationController presentViewController:loginNavigationController animated:YES completion:nil];
+}
+
+//added below
+- (void)viewDidAppear:(BOOL)animated {
+    
+    [self checkUpdateLoggedIn];
     
 }
 
@@ -195,8 +308,6 @@
     
     myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
     
-
-    
     [self.collectionView reloadData];
     
     [self getPlaylistFromServer];
@@ -207,7 +318,7 @@
 
 - (void) getPlaylistFromServer {
     
-    /* If the local storage does not have the iLList, the PFObject of the iLList
+    /* If the local storage does not have the Lounge, the PFObject of the Lounge
      * is retrieved from Parse and saved into the local storage
      * For example, when the user deletes app, local storage will be empty, so we need
      * to fetch the playlists from the server of the current playlists and store the fetched objects
@@ -234,8 +345,6 @@
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
-        NSArray *playlistsArrayInLocal = [Playlist MR_findAllInContext:localContext];
-        
         for (PFObject *playlistObject in playlists) {
             
             Playlist *playlist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:playlistObject.objectId inContext:localContext];
@@ -251,16 +360,8 @@
             playlist.userName = playlistObject[@"userName"];
             playlist.createdAt = playlistObject.createdAt;
             playlist.songCount = playlistObject[@"SongCount"];
-            
-            for (Playlist *playlistToDelete in playlistsArrayInLocal) {
-                
-                if ([playlist.objectId isEqualToString:playlistToDelete.objectId]) {
-                    
-                    playlist.updatedAt = playlistToDelete.updatedAt;
-                    
-                }
-            }
-            
+            playlist.updatedAt = playlistObject.updatedAt;
+
             
         }
         
@@ -271,6 +372,7 @@
             NSArray *playlistArray = [Playlist MR_findAllSortedBy:@"createdAt" ascending:NO inContext:defaultContext];
             
             myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
+            
             [self setCountOnControl];
             [self.collectionView reloadData];
             
@@ -312,9 +414,9 @@
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
     
-    
     [self.tabBarController.tabBar setTintColor:[UIColor whiteColor]];
     
+   
 }
 - (void) getUserInfo {
     
@@ -453,7 +555,7 @@
             forSupplementaryViewOfKind:UICollectionElementKindSectionHeader
                    withReuseIdentifier:@"HeaderView"];
     
-    [self.collectionView registerClass:[MyPlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"myProfileCollectionViewCell"];
+    [self.collectionView registerClass:[PlaylistCollectionViewCell class] forCellWithReuseIdentifier:@"myProfileCollectionViewCell"];
     
 //    [self.collectionView registerClass:[iLLfollowingPlaylistCollectionViewCell class]
 //            forCellWithReuseIdentifier:NSStringFromClass([iLLfollowingPlaylistCollectionViewCell class])];
@@ -515,6 +617,7 @@
 
 - (void) setCountOnControl {
     NSArray *playlistArray = [Playlist MR_findAllInContext:defaultContext];
+    
     [_control setCount:[NSNumber numberWithUnsignedInteger:playlistArray.count] forSegmentAtIndex:0];
     
 }
@@ -591,7 +694,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     if (self.control.selectedSegmentIndex == 0) {
         
         NSString *cellIdentifier = @"myProfileCollectionViewCell";
-        MyPlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+        PlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
         
         Playlist *playlist = [myiLListArray objectAtIndex:indexPath.row];
         
@@ -599,7 +702,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
 
         NSString *songCount = [NSString stringWithFormat:@"Songs: %@", playlist.songCount];
         
-        [cell setPlaylistNameAndSongCount:playlistName :songCount];
+        [cell setPlaylistNameAndSongCount:playlistName :songCount :playlist.updatedAt];
 
         return cell;
         
@@ -677,6 +780,8 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     if (self.control.selectedSegmentIndex == 0) {
         
         [self performSegueWithIdentifier:@"iLListSegue" sender:self];
+      
+
         
     }
     
@@ -836,55 +941,84 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 }
 
 - (void)popAlertViewForMyLoungeDelete{
-    UIAlertView *deleteAlert = [[UIAlertView alloc]
-                                initWithTitle:@"MusicLounge"
-                                message:@"Are you sure you want to delete this playlist?"
-                                delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Yes", nil];
-    [deleteAlert show];
+
+    
+    Playlist *playlistToDelete = [myiLListArray objectAtIndex:[swipedIndexPath row]];
+    NSString *playlistDeleteName = playlistToDelete.name;
+    NSString *deleteAlertString = [NSString stringWithFormat:@"Are you sure you want to delete %@", playlistDeleteName];
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"MusicLounge"
+                                  message:deleteAlertString
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* noAlert = [UIAlertAction
+                              actionWithTitle:@"No"
+                              style:UIAlertActionStyleDefault
+                              handler:^(UIAlertAction * action)
+                              {
+                                  
+                                  CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
+                                                                    swipedCell.bounds.size.width, swipedCell.bounds.size.height);
+                                  [UIView animateWithDuration:0.2
+                                                   animations:^{
+                                                       swipedCell.frame = originalFrame;
+                                                   }
+                                   ];
+                                  [alert dismissViewControllerAnimated:YES completion:nil];
+                                  
+                              }];
+    UIAlertAction* yesAlert = [UIAlertAction
+                               actionWithTitle:@"Yes"
+                               style:UIAlertActionStyleDefault
+                               handler:^(UIAlertAction * action)
+                               {
+                                   [self deletePlaylist];
+                                   
+                                   [alert dismissViewControllerAnimated:YES completion:nil];
+                                   
+                               }];
+    
+    [alert addAction:noAlert];
+    [alert addAction:yesAlert];
+    
+    [self presentViewController:alert animated:YES completion:nil];
+    
     
 }
-- (void)alertView:(UIAlertView *)alertView
-clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    //IK - if user presses "YES" in the alert view
-    if (buttonIndex == 1) {
-        
-        [self deletePlaylist];
-        
-    } else if (buttonIndex == 0) {
-        CGRect originalFrame = CGRectMake(0, swipedCell.frame.origin.y,
-                                          swipedCell.bounds.size.width, swipedCell.bounds.size.height);
-        [UIView animateWithDuration:0.2
-                         animations:^{
-                             swipedCell.frame = originalFrame;
-                         }
-         ];
-        
-    }
-    
-}
+
 
 - (void) deletePlaylist {
     
     Playlist *playlistToDelete = [myiLListArray objectAtIndex:[swipedIndexPath row]];
     
-    NSString* playlistObjectID = playlistToDelete.objectId;
-    PFQuery *deleteQuery = [PFQuery queryWithClassName:@"Illist"];
+    NSString *playlistDeleteName = playlistToDelete.name;
     
+    NSString *deletedString = [NSString stringWithFormat:@"You have succesfully deleted %@", playlistDeleteName];
+    [SVProgressHUD showSuccessWithStatus:deletedString];
+    [myiLListArray removeObjectAtIndex:[swipedIndexPath row]];
+    NSArray* indexPathsToRemove = [NSArray arrayWithObject:swipedIndexPath];
+    [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
+    
+
+    NSString* playlistObjectID = playlistToDelete.objectId;
+
+    PFQuery *deleteQuery = [PFQuery queryWithClassName:@"Illist"];
+
     [deleteQuery getObjectInBackgroundWithId:playlistObjectID block:^(PFObject *object, NSError *error) {
-        // deleted illist in server
+        // deleted lounge in server
         if (!error) {
             
             [object deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
                 
-                if( succeeded ) {
+                if( !error ) {
 
                     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
                         
                         Playlist *deletePlaylist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:playlistObjectID inContext:localContext];
                         NSArray *deleteSongArray = [Song MR_findByAttribute:@"playlistId" withValue:playlistObjectID inContext:localContext];
                         
-                        for( Song *deleteSong in deleteSongArray) {
+                        for( Song *deleteSong in deleteSongArray ) {
                             // TODO: Check for deleting songs after setting core data for searchsongsTVC
                             if( deleteSong.playlist == deletePlaylist ) {
                                 
@@ -898,10 +1032,9 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
                     } completion:^(BOOL success, NSError *error) {
                         
                         if (!error) {
-                            
-                            [myiLListArray removeObjectAtIndex:[swipedIndexPath row]];
-                            NSArray* indexPathsToRemove = [NSArray arrayWithObject:swipedIndexPath];
-                            [self.collectionView deleteItemsAtIndexPaths:indexPathsToRemove];
+                           
+                            [self setCountOnControl];
+                            [self deletePlaylistSongs:playlistObjectID];
                             
                         } else {
 //                            NSLog(@"861");
@@ -919,6 +1052,33 @@ clickedButtonAtIndex:(NSInteger)buttonIndex {
             
         }
 
+    }];
+}
+
+- (void)deletePlaylistSongs: (NSString*) playlistId {
+    PFQuery *query = [PFQuery queryWithClassName:@"Song"];
+    [query whereKey:@"iLListId" equalTo:playlistId];
+    [query findObjectsInBackgroundWithBlock:^(NSArray *deleteSongs, NSError *error) {
+        if (!error) {
+            // The find succeeded.
+            
+            [PFObject deleteAllInBackground:deleteSongs block:^(BOOL succeeded, NSError * _Nullable error) {
+                
+                if (!error) {
+         
+                } else {
+                    
+                }
+                
+                
+            }];
+       
+
+
+        } else {
+//            // Log details of the failure
+//            NSLog(@"Error: %@ %@", error, [error userInfo]);
+        }
     }];
 }
 

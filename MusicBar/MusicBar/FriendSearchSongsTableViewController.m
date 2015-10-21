@@ -24,6 +24,8 @@
     int counter;
     UINavigationController *navController;
     FriendSearchControllerTableViewController *vc;
+    
+    UIRefreshControl *refreshControl;
 
 }
 
@@ -34,6 +36,8 @@
 
 @property (nonatomic, strong) NSMutableArray *searchResult;
 
+@property (nonatomic, strong) NSMutableArray *searchResultSongs;
+@property (nonatomic, strong) NSMutableArray *searchResultSCUser;
 
 
 @end
@@ -49,9 +53,36 @@
     [self setNSManagedObjectContext];
     [self setupTableView];
     [self setUpNotifications];
+    [self setupTitle];
+    [self setUpRefreshControl];
+}
+
+- (void) setUpRefreshControl{
+    refreshControl = [[UIRefreshControl alloc]init];
+    UIColor *bgRefreshColor = [UIColor whiteColor];
+    [refreshControl setBackgroundColor:bgRefreshColor];
+    
+    [self.tableView addSubview:refreshControl];
+    [refreshControl addTarget:self action:@selector(refreshTable) forControlEvents:UIControlEventValueChanged];
+}
+- (void)refreshTable {
+    //TODO: refresh your data
+    [self getSongsFromLocal];
     
 }
 
+- (void) setupTitle {
+    
+    UILabel *label = [[UILabel alloc] init];
+    [label setFrame:CGRectMake(0,0,100,20)];
+    label.backgroundColor = [UIColor clearColor];
+    label.font = [UIFont boldSystemFontOfSize:17.0];
+    label.textColor = [UIColor whiteColor];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.text = self.playlistInfo.name;
+    self.navigationItem.titleView = label;
+    
+}
 - (void) setUpData {
     navController = (UINavigationController *)self.searchController.searchResultsController;
     
@@ -64,19 +95,31 @@
     
     self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
     
-//    self.searchController.searchResultsUpdater = self;
+    self.searchController.searchResultsUpdater = self;
     
-    [self.searchController.searchBar sizeToFit];
     [self.searchController.searchBar setPlaceholder:@"Find Your Groove :)"];
     
+    self.searchController.searchBar.scopeButtonTitles = [NSArray arrayWithObjects:@"All", @"SoundCloud User", nil];
+    
+    [self.searchController.searchBar setScopeBarButtonTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil] forState:UIControlStateNormal];
+    [self.searchController.searchBar setScopeBarButtonTitleTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIColor whiteColor], NSForegroundColorAttributeName, nil] forState:UIControlStateSelected];
+    
+    [self adjustSearchBarToShowScopeBar];
+    
     self.searchController.searchBar.delegate = self;
+
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
     
-    self.searchController.searchBar.frame = CGRectMake(self.searchController.searchBar.frame.origin.x, self.searchController.searchBar.frame.origin.y, self.searchController.searchBar.frame.size.width, 44.0);
-    
-    self.tableView.tableHeaderView = self.searchController.searchBar;
     
     self.definesPresentationContext = YES;
+
     
+}
+
+- (void)adjustSearchBarToShowScopeBar {
+    
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
 }
 
 
@@ -88,6 +131,9 @@
 
 - (void) setupTableView {
     
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
+                                                         forBarMetrics:UIBarMetricsDefault];
+    
     self.tableView.emptyDataSetSource = self;
     self.tableView.emptyDataSetDelegate = self;
     
@@ -95,15 +141,6 @@
     self.tableView.tableFooterView = [UIView new];
     
     [self.tableView setRowHeight:90];
-    
-    UILabel *label = [[UILabel alloc] init];
-    [label setFrame:CGRectMake(0,5,100,20)];
-    label.backgroundColor = [UIColor clearColor];
-    label.font = [UIFont boldSystemFontOfSize:17.0];
-    label.textColor = [UIColor whiteColor];
-    label.textAlignment = NSTextAlignmentCenter;
-    label.text = self.playlistInfo.name;
-    self.navigationItem.titleView = label;
     
 }
 
@@ -113,7 +150,7 @@
 
 - (void) activityNotifications:(NSNotification *)notification {
     
-    if ([[notification object] isKindOfClass:[iLLSongFriendManager class]]) {
+    if ([[notification object] isKindOfClass:[SongFriendManager class]]) {
         
         if ([[notification name] isEqualToString:@"SongAdded"]) {
             
@@ -142,6 +179,11 @@
     iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     
     [SVProgressHUD showSuccessWithStatus:[NSString stringWithFormat:@"Added %@!", songTitle] ];
+    
+    vc.iLListTracks = iLListTracks;
+    
+    [vc.tableView reloadData];
+    [self.tableView reloadData];
     
 
     [self.tableView reloadData];
@@ -217,6 +259,8 @@
     
     if (self.playlistInfo.objectId) {
          [self fetchSongsFromServer];
+    } else {
+        [refreshControl endRefreshing];
     }
 
     
@@ -237,16 +281,11 @@
 
         if (!error) {
             
+            [self saveSongsToLocal: songsInServer];
 
-            if (counter<1) {
-   
-                [self saveSongsToLocal: songsInServer];
-                counter++;
-            } else {
-                [SVProgressHUD dismiss];
-            }
             
         } else {
+            [refreshControl endRefreshing];
 //             NSLog(@"1.3)");
 //            NSLog(@"Error with fetching songs from server 235");
         }
@@ -291,13 +330,13 @@
         if (!error) {
             
             NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-            
+           
             iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
-            
+            [refreshControl endRefreshing];
             [self.tableView reloadData];
             
         } else {
-            
+            [refreshControl endRefreshing];
 //            NSLog(@"Songs didnt not save locally 285.)");
             
         }
@@ -336,10 +375,16 @@
     }
     if (tableView == self.tableView) {
         
-        // iLList tableview
+        // album image to framed in a circle
+        cell.albumImage.layer.cornerRadius = cell.albumImage.frame.size.height /2;
+        cell.albumImage.layer.masksToBounds = YES;
+        cell.albumImage.layer.borderWidth = 0;
         
+        
+        // Songs tableview
         cell.titleLabel.numberOfLines = 3;
         cell.titleLabel.adjustsFontSizeToFitWidth = YES;
+        cell.addedByLabel.adjustsFontSizeToFitWidth = YES;
         
         /* May need to change the code below for code efficiency like how it is written for searchdisplaycontroller
          * by using iLLSong
@@ -357,6 +402,77 @@
     return cell;
 }
 
+-(void) updateSearchResultsForSearchController:(UISearchController *)searchController {
+    
+    NSString *searchString = searchController.searchBar.text;
+    
+    if (searchString.length != 0 ) {
+        NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
+        
+        trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+        
+        SongFriendManager *songMangerSearchedText;
+        NSString *resourceURL;
+        
+        if (searchController.searchBar.selectedScopeButtonIndex == 0) {
+            
+            songMangerSearchedText = [[SongFriendManager alloc] initWithTrackName:trackName];
+            resourceURL = [songMangerSearchedText getSongResourceURL];
+            
+        } else {
+            
+            // getting soundcloud user info (public songs liked on SoundCloud, playlists)
+            songMangerSearchedText = [[SongFriendManager alloc] initWithSoundCloudUsername:trackName];
+            resourceURL = [songMangerSearchedText getUserResourceURL];
+            
+        }
+        
+        SCRequestResponseHandler handler;
+        handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
+            [SVProgressHUD dismiss];
+            if (self.searchController.searchResultsController) {
+                
+                
+                [self setUpData];
+                
+                if (searchController.searchBar.selectedScopeButtonIndex == 0) {
+                    
+                    self.searchResultSongs = [songMangerSearchedText parseTrackData:data];
+                    
+                    vc.searchResults = self.searchResultSongs;
+                    
+                } else if (searchController.searchBar.selectedScopeButtonIndex == 1) {
+                    
+                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    vc.searchResults = self.searchResultSCUser;
+                }
+                vc.iLListTracks = iLListTracks;
+                vc.searchController = self.searchController;
+                
+                vc.playlistInfo = self.playlistInfo;
+                
+                [vc.tableView reloadData];
+                
+                
+                
+            }
+            
+            [self.tableView reloadData];
+            
+        };
+        
+        [SCRequest performMethod:SCRequestMethodGET
+                      onResource:[NSURL URLWithString:resourceURL]
+                 usingParameters:nil
+                     withAccount:nil
+          sendingProgressHandler:nil
+                 responseHandler:handler];
+    }
+
+    
+}
+
+
 
 
 #pragma mark - Search Delegate Methods
@@ -368,10 +484,22 @@
         NSString *trackName = [NSString stringWithFormat:@"%@", searchString];
         
         trackName = [trackName stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+     
+        SongFriendManager *songMangerSearchedText;
+        NSString *resourceURL;
         
-        iLLSongFriendManager *songMangerSearchedText = [[iLLSongFriendManager alloc] initWithTrackName:trackName] ;
-        
-        NSString *resourceURL = [songMangerSearchedText getResourceURL];
+        if (searchBar.selectedScopeButtonIndex == 0) {
+            
+            songMangerSearchedText = [[SongFriendManager alloc] initWithTrackName:trackName];
+            resourceURL = [songMangerSearchedText getSongResourceURL];
+            
+        } else {
+            
+            // getting soundcloud user info (public songs liked on SoundCloud, playlists)
+            songMangerSearchedText = [[SongFriendManager alloc] initWithSoundCloudUsername:trackName];
+            resourceURL = [songMangerSearchedText getUserResourceURL];
+            
+        }
         
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@",searchBar.text]];
         
@@ -382,12 +510,27 @@
                
                 
                 [self setUpData];
-                self.searchResult = [songMangerSearchedText parseTrackData:data];
+                
+                if (searchBar.selectedScopeButtonIndex == 0) {
+                    
+                    self.searchResultSongs = [songMangerSearchedText parseTrackData:data];
+     
+                    vc.searchResults = self.searchResultSongs;
+                    
+                } else if (searchBar.selectedScopeButtonIndex == 1) {
+                    
+                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:data];
+                    vc.searchResults = self.searchResultSCUser;
+                }
                 vc.iLListTracks = iLListTracks;
-                vc.searchResults = self.searchResult;
+                vc.searchController = self.searchController;
+                
                 vc.playlistInfo = self.playlistInfo;
-
+                
                 [vc.tableView reloadData];
+                
+                
+
             }
             
             [self.tableView reloadData];
@@ -409,9 +552,26 @@
     [vc.searchResults removeAllObjects];
 
     [vc.tableView reloadData];
+    [SVProgressHUD dismiss];
+    
+}
+
+#pragma mark - Scope bar
+
+- (void)searchBar:(UISearchBar *)searchBar selectedScopeButtonIndexDidChange:(NSInteger)selectedScope {
+    
+    if (selectedScope == 0) {
+        vc.searchResults = self.searchResultSongs;
+        
+    } else if (selectedScope == 1) {
+        vc.searchResults = self.searchResultSCUser;
+        
+    }
+    [vc.tableView reloadData];
     
     
 }
+
 
 #pragma mark - Getting artwork of the song
 
@@ -444,16 +604,25 @@
         SongFriend *deleteSongInLocal = [iLListTracks objectAtIndex:indexPath.row];
         
         PFObject *deleteSong = [PFObject objectWithoutDataWithClassName:@"Song" objectId:deleteSongInLocal.objectId];
+      
+
         
         [deleteSong deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
             if (!error) {
+                
+                [iLListTracks removeObjectAtIndex:indexPath.row];
+                
+                [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+                
                 [self updatePlaylistAfterDelete:deleteSongInLocal forRowAtIndexPath:indexPath];
                 
                 //                [self deleteSongInLocal:deleteSong forRowAtIndexPath:indexPath];
                 
             } else {
-//                NSLog(@"Error in deleting song 456");
+
+                NSString *deleteAlert = [NSString stringWithFormat:@"Cannot  delete '%@' because you did not add this song or you are not the playlist owner \xF0\x9F\x98\xB1", deleteSongInLocal.title];
+                [SVProgressHUD showErrorWithStatus:deleteAlert];
                 
             }
             
@@ -533,9 +702,11 @@
     } completion:^(BOOL success, NSError *error) {
         
         if (!error) {
-            [iLListTracks removeObjectAtIndex:indexPath.row];
+//            [iLListTracks removeObjectAtIndex:indexPath.row];
+//            
+//            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
-            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadData];
             
         } else {
 //            NSLog(@"Couldn't delete song in local: 534.)");
@@ -624,25 +795,28 @@
     } completion:^(BOOL success, NSError *error) {
         
         if (!error) {
+            
+            
+            if(self.tabBarController.selectedIndex == 0) {
+                
+                // Change to media player from me tab
+                [self.tabBarController setSelectedIndex:2];
+                
+            } else if(self.tabBarController.selectedIndex == 1) {
+                
+                // Change to media player from Friend tab
+                [self.tabBarController setSelectedIndex:2];
+                
+            } else if(self.tabBarController.selectedIndex == 2) {
+                [self backButton:self];
+            }
+
   
         } else {
 //            NSLog(@"Error 653 %@", error);
         }
         
         
-    
-        if(self.tabBarController.selectedIndex == 0) {
-            [self backButton:self];
-            
-            // Change to media player from me tab
-            [self.tabBarController setSelectedIndex:2];
-            
-        } else if(self.tabBarController.selectedIndex == 1) {
- 
-            // Change to media player from Friend tab
-            [self.tabBarController setSelectedIndex:2];
-            
-        }
         
         
     }];
@@ -650,11 +824,15 @@
     
 }
 - (IBAction)backButton:(id)sender {
+//    NSLog(@"5.)");
     
+    [self.playlistInfo MR_deleteEntityInContext:defaultContext];
     // Only when user checks out playlist from the mediaplayer
     [self.navigationController dismissViewControllerAnimated:YES
                                                   completion:^{
-                                                      
+                                                    
+//                                                      NSArray *playlist = [PlaylistFriend MR_findAllInContext:defaultContext];
+//                                                      NSLog(@"6.) %lu", playlist.count);
                                                   }];
     
 }

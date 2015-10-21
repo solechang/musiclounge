@@ -7,7 +7,7 @@
 //
 
 #import "FriendsTableViewController.h"
-#import <RHAddressBook/AddressBook.h>
+
 #import <SVProgressHUD/SVProgressHUD.h>
 
 // Core Data
@@ -56,15 +56,16 @@
 
     [self initializeData];
 
-    
     [self setUpSearchController];
     [self setUpSearchData];
     [self setUpNavigationBar];
     
     [self setUpTableView];
     
-    
+}
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleLightContent;
 }
 
 - (void) setUpSearchData {
@@ -93,8 +94,8 @@
     
     self.searchController.delegate = self;
     self.searchController.searchBar.delegate = self;
-    self.definesPresentationContext = YES;
-
+    self.searchController.hidesNavigationBarDuringPresentation = NO;
+//    self.definesPresentationContext = YES;
     
 }
 
@@ -103,28 +104,32 @@
 //    self.searchController.searchBar.hidden = NO;
 
     [self retrieveFriendsFromLocal];
+
     [self.searchFriendsTableController.tableView reloadData];
 }
 
 - (void) viewWillDisappear:(BOOL)animated {
-    
+    [super viewWillDisappear:animated];
+
+//    [self.searchController setActive:NO];
     [others removeAllObjects];
     [self.tableView reloadData];
     
-    NSArray *viewControllers = self.navigationController.viewControllers;
     
-    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
-        [vc.filteredFriendsWhoExists removeAllObjects];
-        [self.searchController setActive:NO];
-        // View is disappearing because a new view controller was pushed onto the stack
-        //        NSLog(@"New view controller was pushed");
-        
-    } else if ([viewControllers indexOfObject:self] == NSNotFound) {
-        
-        // View is disappearing because it was popped from the stack
-        //        NSLog(@"View controller was popped");
-        
-    }
+//    NSArray *viewControllers = self.navigationController.viewControllers;
+//    
+//    if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
+////        [vc.filteredFriendsWhoExists removeAllObjects];
+////        [self.searchController setActive:NO];
+//        // View is disappearing because a new view controller was pushed onto the stack
+//        //        NSLog(@"New view controller was pushed");
+//        
+//    } else if ([viewControllers indexOfObject:self] == NSNotFound) {
+//        
+//        // View is disappearing because it was popped from the stack
+//        //        NSLog(@"View controller was popped");
+//        
+//    }
 
     [SVProgressHUD dismiss];
 }
@@ -199,7 +204,7 @@
 #pragma mark - Retrieve contacts from local
 - (void) retrieveFriendsFromLocal {
     
-    NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES];
+    NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES inContext:defaultContext];
     
     if (friendsCoreDataArray.count == 0) {
         
@@ -418,7 +423,7 @@
         } else {
             [self queryOthers];
 //            NSLog(@"Error 275.)");
-             [SVProgressHUD dismiss];
+            [SVProgressHUD dismiss];
             [self.refreshButton setEnabled:YES];
         }
         
@@ -459,12 +464,9 @@
         
         if (!error) {
             
-            // User's Friends exist in the database
-            CurrentUser *currentUser = [CurrentUser MR_findFirstInContext:defaultContext];
+            NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES inContext:defaultContext];
             
-            NSArray *friends = [currentUser.userFriendList.friend allObjects];
-            
-            friendsList = [[NSMutableArray alloc] initWithArray:friends];
+            friendsList = [[NSMutableArray alloc] initWithArray:friendsCoreDataArray];
             
             [self sortFriendsWhoExistsOnIllist];
             
@@ -492,13 +494,12 @@
         // For friends who exist on the server
         Friend *friend = [friendsList objectAtIndex:i];
         
-        
         if ([friend.friend_exists isEqual:@(YES) ]) {
          
             [friendsWhoExistsOniLList addObject:[friendsList objectAtIndex:i]];
         }
     }
-    
+
     self.searchFriendsTableController.filteredFriendsWhoExists = [[NSMutableArray alloc] initWithCapacity:friendsWhoExistsOniLList.count];
     
     [self.tableView reloadData];
@@ -545,17 +546,21 @@
 
     } else if (indexPath.section == 1) {
         // Others
-        Friend *friendWhoExist = [others objectAtIndex:indexPath.row];
         
-        cell.textLabel.text = friendWhoExist.name;
-        
-        if (friendWhoExist.friend_exists != NULL) {
-            cell.textLabel.textColor = myColor;
-        } else {
-            cell.textLabel.textColor = [UIColor grayColor];
+        if (others.count != 0) {
+            Friend *friendWhoExist = [others objectAtIndex:indexPath.row];
+            
+            cell.textLabel.text = friendWhoExist.name;
+            
+            if (friendWhoExist.friend_exists != NULL) {
+                cell.textLabel.textColor = myColor;
+            } else {
+                cell.textLabel.textColor = [UIColor grayColor];
+            }
+            
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         }
-
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        
     }
     return cell;
     
@@ -582,8 +587,8 @@
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
         if (error) {
-            NSString *errorString = [error userInfo][@"error"];
-            NSLog(@"935 Error: %@", errorString);
+//            NSString *errorString = [error userInfo][@"error"];
+//            NSLog(@"935 Error: %@", errorString);
             
         } else {
             // iterate through the objects array, which contains PFObjects for each Student
@@ -597,13 +602,15 @@
                     
                 } else {
                     
-                    Friend *newFriend = [Friend MR_createEntity];
-                    newFriend.name = pfUser[@"name"];
-                    newFriend.userId = pfUser.objectId;
-                    newFriend.deleteSearch = @(YES);
-                    
-                    [others addObject:newFriend];
-                    
+                    if (pfUser[@"name"]) {
+                        Friend *newFriend = [Friend MR_createEntity];
+                        newFriend.name = pfUser[@"name"];
+                        newFriend.userId = pfUser.objectId;
+                        newFriend.deleteSearch = @(YES);
+                        
+                        [others addObject:newFriend];
+                    }
+
                 }
             }
             
@@ -620,6 +627,8 @@
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar {
+    [vc.filteredFriendsWhoExists removeAllObjects];
+    [vc.tableView reloadData];
     [SVProgressHUD dismiss];
 }
 
@@ -689,7 +698,10 @@
              NSIndexPath *selectedIndexPath = [vc.tableView indexPathForSelectedRow];
              Friend *selectedFriend = [vc.filteredFriendsWhoExists objectAtIndex:selectedIndexPath.row];
              controller.friendInfo = selectedFriend;
-        
+             
+             [vc.filteredFriendsWhoExists removeAllObjects];
+             [self.searchController setActive:NO];
+             
 
          }
          
@@ -727,9 +739,10 @@
     query.limit = 1000;
     
     [query findObjectsInBackgroundWithBlock:^(NSArray *objects, NSError *error) {
+        
         if (error) {
-            NSString *errorString = [error userInfo][@"error"];
-            NSLog(@"935 Error: %@", errorString);
+//            NSString *errorString = [error userInfo][@"error"];
+//            NSLog(@"935 Error: %@", errorString);
             
         } else {
             // iterate through the objects array, which contains PFObjects for each Student
@@ -762,6 +775,8 @@
             vc.filteredFriendsWhoExists = [NSMutableArray arrayWithArray:[tempArray filteredArrayUsingPredicate:predicate]];
             
             vc.friendsTableViewController = self;
+            
+            vc.searchController = self.searchController;
             
             [vc.tableView reloadData];
         

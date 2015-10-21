@@ -14,8 +14,6 @@ target 'MusicLounge' do
     pod 'SWTableViewCell', '~> 0.3.7'
     pod "AFNetworking"
     pod 'MagicalRecord'
-    pod 'libPhoneNumber-iOS'
-    pod 'RHAddressBook'
     pod "CSStickyHeaderFlowLayout"
     pod 'FreeStreamer'
     pod 'Fabric'

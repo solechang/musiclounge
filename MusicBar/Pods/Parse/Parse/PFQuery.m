@@ -798,7 +798,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
     return [self _findObjectsAsyncForQueryState:state after:nil];
 }
 
-- (void)findObjectsInBackgroundWithBlock:(PFArrayResultBlock)block {
+- (void)findObjectsInBackgroundWithBlock:(PFQueryArrayResultBlock)block {
     @synchronized (self) {
         if (!self.state.queriesLocalDatastore && self.state.cachePolicy == kPFCachePolicyCacheThenNetwork) {
             PFQueryState *cacheQueryState = [self _queryStateCopyWithCachePolicy:kPFCachePolicyCacheOnly];
@@ -842,6 +842,9 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
                                                                         user:user];
     }] continueWithBlock:^id(BFTask *task) {
         @strongify(self);
+        if (!self) {
+            return task;
+        }
         @synchronized (self) {
             if (_cancellationTokenSource == cancellationTokenSource) {
                 _cancellationTokenSource = nil;

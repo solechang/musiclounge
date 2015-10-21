@@ -7,7 +7,6 @@
 //
 
 #import "SettingsTableTableViewController.h"
-#import <RHAddressBook/AddressBook.h>
 
 // Core Data
 #import <MagicalRecord/MagicalRecord.h>
@@ -91,11 +90,39 @@ heightForHeaderInSection:(NSInteger)section {
 }
 
 - (void)popAlertViewForLoggingOut{
-    UIAlertView *logOutAlert = [[UIAlertView alloc]
-                                initWithTitle:@"MusicLounge"
-                                message:@"Are you sure you want to leave MusicLounge? :("
-                                delegate:self cancelButtonTitle:@"No" otherButtonTitles:@"Yes", nil];
-    [logOutAlert show];
+
+    
+    
+    UIAlertController * alert=   [UIAlertController
+                                  alertControllerWithTitle:@"MusicLounge"
+                                  message:@"Are you sure you want to leave MusicLounge? \xF0\x9F\x98\xAD"
+                                  preferredStyle:UIAlertControllerStyleAlert];
+    
+    UIAlertAction* noAlert = [UIAlertAction
+                         actionWithTitle:@"No"
+                         style:UIAlertActionStyleDefault
+                         handler:^(UIAlertAction * action)
+                         {
+                             
+                             [alert dismissViewControllerAnimated:YES completion:nil];
+                             
+                         }];
+    
+    UIAlertAction* yesAlert = [UIAlertAction
+                             actionWithTitle:@"Yes"
+                             style:UIAlertActionStyleDefault
+                             handler:^(UIAlertAction * action)
+                             {
+                                 [self deleteUserDataAndLogout];
+                                 
+                                 [alert dismissViewControllerAnimated:YES completion:nil];
+                                 
+                             }];
+    
+    [alert addAction:noAlert];
+    [alert addAction:yesAlert];
+    
+    [self presentViewController:alert animated:YES completion:nil];
     
 }
 
@@ -112,22 +139,13 @@ heightForHeaderInSection:(NSInteger)section {
 
     } else if (theCellClicked == self.termsOfUseCell) {
     
-        [SVProgressHUD showInfoWithStatus:@"Dropping soon :)"];
+        [SVProgressHUD showInfoWithStatus:@"Dropping soon \xF0\x9F\x98\x8F"];
         
     }
 
-    
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
-    
-    if (buttonIndex == 1) {
-        
-        [self deleteUserDataAndLogout];
-        
-    }
-    
-}
+
 
 
 
@@ -182,13 +200,13 @@ heightForHeaderInSection:(NSInteger)section {
             [deleteFriend MR_deleteEntityInContext:localContext];
         }
         
-        // Delete FriendPhonenumber
-        NSArray *deleteFriendPhonenumberArray = [FriendPhonenumber MR_findAllInContext:localContext];
-        
-        for (FriendPhonenumber *deleteFriendPhonenumber in deleteFriendPhonenumberArray) {
-            
-            [deleteFriendPhonenumber MR_deleteEntityInContext:localContext];
-        }
+//        // Delete FriendPhonenumber
+//        NSArray *deleteFriendPhonenumberArray = [FriendPhonenumber MR_findAllInContext:localContext];
+//        
+//        for (FriendPhonenumber *deleteFriendPhonenumber in deleteFriendPhonenumberArray) {
+//            
+//            [deleteFriendPhonenumber MR_deleteEntityInContext:localContext];
+//        }
         
         // Delete UserFriendList
         NSArray *deleteUserFriendList = [UserFriendList MR_findAllInContext:localContext];

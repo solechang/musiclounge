@@ -9,13 +9,15 @@
 
 #import <Foundation/Foundation.h>
 
-@class BFTask;
+#import <Parse/PFConstants.h>
+
+@class BFTask PF_GENERIC(__covariant BFGenericType);
 @class PFPushState;
 @protocol PFCommandRunning;
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PFPushController : NSObject
+PF_WATCH_UNAVAILABLE @interface PFPushController : NSObject
 
 @property (nonatomic, strong, readonly) id<PFCommandRunning> commandRunner;
 

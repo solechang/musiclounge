@@ -90,7 +90,8 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
     if (textField == self.usernameTextField) {
-        self.usernameTextField.text = [self.usernameTextField.text lowercaseString];
+        NSString* username = [self.usernameTextField.text lowercaseString];
+        self.usernameTextField.text = username;
         [self doneButtonPressed:self];
         [textField resignFirstResponder];
         
@@ -131,10 +132,27 @@
         }
     } else {
         
-        // Find if username is in use or not.
+        [self checkIllegalCharactersForUsername];
+        
+        
+        
+    }// end else
+
+}
+
+- (void) checkIllegalCharactersForUsername {
+    
+    NSString *myRegex = @"[A-Z0-9a-z_-]*";
+    NSPredicate *myTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", myRegex];
+    NSString *string = [self.usernameTextField.text lowercaseString];
+    BOOL valid = [myTest evaluateWithObject:string];
+    
+    
+    if (valid) {
+        // Check if username is valid use or not.
         PFQuery *query = [PFUser query];
         
-        [query whereKey:@"name" equalTo:self.usernameTextField.text];
+        [query whereKey:@"name" equalTo:string];
         
         [query getFirstObjectInBackgroundWithBlock:^(PFObject *foundUsername, NSError *error) {
             
@@ -145,17 +163,21 @@
             } else {
                 [self setUsernameTextFieldRed];
                 [SVProgressHUD showErrorWithStatus:@"Please use another username."];
+                [self.doneButton setEnabled:YES];
                 
             }
         }];
-        
-        
-        
-        
-        
-    }// end else
 
+        
+        
+    } else {
+        [self.doneButton setEnabled:YES];
+        [self setUsernameTextFieldRed];
+        [SVProgressHUD showErrorWithStatus:@"Your username can only contain alphabetic, numeric, '-', and '_' characters."];
+    }
+    
 }
+
 - (void) setUsernameTextFieldRed {
     self.usernameTextField.layer.cornerRadius=1.0f;
     self.usernameTextField.layer.masksToBounds=YES;
@@ -170,7 +192,9 @@
 - (void)setUpSignUpUserName {
     
     PFUser *user = [PFUser currentUser];
-    user[@"name"] = self.usernameTextField.text;
+    NSString *username =[self.usernameTextField.text lowercaseString];
+    user[@"name"] = username;
+    user[@"updateCheck"] = @(YES);
     
     // Setting privacy for the PrivateUserData PFObject
     PFACL *defaultACL = [PFACL ACL];
@@ -179,7 +203,7 @@
     
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
        
-        if (succeeded) {
+        if (!error) {
             
             [self createUserData:user];
         } else {
@@ -233,8 +257,11 @@
                 nowPlaying.playlistId = @"";
                 
                 currentUser.userId = user.objectId;
+                
+                NSString *username =[self.usernameTextField.text lowercaseString];
+                
                 // saving user's name, phone number, and email onto core data
-                currentUser.name = self.usernameTextField.text;
+                currentUser.name = username;
 
                 // setting data for current user illist and friend list onto core data
                 currentUserFriendList.hostId = [[PFUser currentUser] objectId];
