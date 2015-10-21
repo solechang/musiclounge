@@ -55,7 +55,7 @@ const float UI_CUES_MARGIN = 0.0f;
         // updatedAtLabel
         self.updatedAtLabel = [[UILabel alloc] init];
         
-        [self.updatedAtLabel setFrame:CGRectMake(60.0f, 25.0f, 100.0f, 21.0f)];
+        [self.updatedAtLabel setFrame:CGRectMake(60.0f, 25.0f, 150.0f, 21.0f)];
         
         [self.updatedAtLabel setTextColor:[UIColor colorWithRed:49.0/255.0 green:17.0/255.0 blue:65.0/255.0 alpha:1.0]];
         [self.updatedAtLabel setBackgroundColor:[UIColor clearColor]];
@@ -140,7 +140,7 @@ const float UI_CUES_MARGIN = 0.0f;
                                                                                    toItem:nil
                                                                                 attribute:NSLayoutAttributeNotAnAttribute
                                                                                multiplier:1.0
-                                                                                 constant:100.0f];
+                                                                                 constant:150.0f];
         NSLayoutConstraint *updatedAtLabelHeightConstraint = [NSLayoutConstraint constraintWithItem:self.updatedAtLabel
                                                                                  attribute:NSLayoutAttributeHeight
                                                                                  relatedBy:NSLayoutRelationEqual
@@ -203,8 +203,9 @@ const float UI_CUES_MARGIN = 0.0f;
     NSDate *now = updatedAt;
     NSString *formattedDate = [formatter stringFromDate:now];
     
+    NSString *updateText = [NSString stringWithFormat:@"Updated: %@", formattedDate];
 
-    self.updatedAtLabel.text = formattedDate;
+    self.updatedAtLabel.text = updateText;
 
 }
 
