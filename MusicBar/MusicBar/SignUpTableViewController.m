@@ -130,170 +130,51 @@
             // Display error
             [SVProgressHUD showErrorWithStatus:@"Please enter all of the fields"];
 
-//        if (!phoneFlag) {
-//            [SVProgressHUD showErrorWithStatus:@"Your phone number is invalid. Please try again"];
-//        }
-        
+
     } else {
         
-        // Find if username is in use or not.
-        PFQuery *query = [PFUser query];
-        
-        [query whereKey:@"name" equalTo:self.usernameTextField.text];
-        
-        [query getFirstObjectInBackgroundWithBlock:^(PFObject *foundUsername, NSError *error) {
-            
-            if( !foundUsername ) {
-                [self setUsernameFieldGreen];
-                [self setUpSignUpUser];
-                
-            } else {
-                [self setUsernameTextFieldRed];
-                [SVProgressHUD showErrorWithStatus:@"Please use another username."];
-
-            }
-        }];
-        
-        
-
-        
-        
+        [self signUpUser];
+    
     }// end else
 
 }
 
-- (void) setUpSignUpUser {
-    
-    // Setting sign up User
+- (void) signUpUser {
     PFUser *user = [PFUser user];
-    user[@"name"] = self.usernameTextField.text;
-    user.username = self.emailTextField.text;
-    user.email = self.emailTextField.text;
-    user.password = self.passwordTextField.text;
     
-    // Setting privacy for the PrivateUserData PFObject
     PFACL *defaultACL = [PFACL ACL];
     [defaultACL setPublicReadAccess:YES];
     [PFACL setDefaultACL:defaultACL withAccessForCurrentUser:YES];
     
     // Setting User ACL
     user.ACL = defaultACL;
+    user.username = self.emailTextField.text;
+    user.email = self.emailTextField.text;
+    user.password = self.passwordTextField.text;
     
-    
-    NSMutableDictionary *phonenumberDictionary = [NSMutableDictionary new];
-    [phonenumberDictionary setObject:self.phonenumberTextField.text forKey:@"phone_number" ];
-    
-    [PFCloud callFunctionInBackground:@"checkPhonenumber" withParameters:phonenumberDictionary
-                                block:^(NSString *result, NSError *error) {
-                                    
-                                    if (!error ) {
-                                        // Need to change PFCloud if more than 1000 users register
-                                        [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
-                                            
-                                            if (!error) {
-                                                [self createUserData :user];
-                                                
-                                                
-                                            } else {
-                                                
-                                                NSString *errorString = [error userInfo][@"error"];
-//                                                NSLog(@"ERROR: %@", errorString);
-                                                
-                                                if ([errorString containsString:@"invalid email"]) {
-                                                    [SVProgressHUD showErrorWithStatus:@"Please use another email"];
-                                                    [self setEmailTextFieldRed];
-                                                    
-                                                    
-                                                }
-                                                if ( [errorString containsString:@"username"] ){
-                                                    [SVProgressHUD showErrorWithStatus:@"Please use another email"];
-                                                    [self setEmailTextFieldRed];
-                                                    
-                                                }
-                                                
-                                                [self.doneButton setEnabled:YES];
-                                            }
-                                            
-                                        }];
-                                        
-                                    } else {
-                                        [SVProgressHUD showErrorWithStatus:@"Please use another phone number"];
-                                        
-                                    }
-//                                    NSLog(@"%@", result);
-                                }];
-
-}
-
-
--(void) createUserData :(PFUser*)user{
-    PFACL *defaultACL = [PFACL ACL];
-    [defaultACL setReadAccess:YES forUser:[PFUser currentUser]];
-    [defaultACL setWriteAccess:NO forUser:[PFUser currentUser]];
-      
-    //Creating UserFriendList PFObject and setting ACL
-    PFObject *userFriendList = [PFObject objectWithClassName:@"UserFriendList"];
-    [userFriendList setObject:[[PFUser currentUser] objectId] forKey:@"host"];
-    userFriendList.ACL = defaultACL;
-    
-    // PFObject PrivateUserData
-//    PFObject *privateData = [PFObject objectWithClassName:@"PrivateUserData"];
-    
-    // When user signs up, their phone number has to be only numbers and US phone number. Need to include for international
-//    [privateData setObject:self.phonenumberTextField.text forKey:@"phone_number"];
-//    [privateData setObject:[[PFUser currentUser] objectId] forKey:@"host"];
-    
-//    privateData.ACL = defaultACL;
-    
-    NSMutableArray *userData = [[NSMutableArray alloc] init];
-//    [userData addObject:userIllists];
-    [userData addObject:userFriendList];
-//    [userData addObject:privateData];
-    
-    // Save data in parse
-    [PFObject saveAllInBackground:userData block:^(BOOL succeeded, NSError *error) {
+    [user signUpInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
         
-        if(succeeded) {
-     
-            // Save data in local
-            [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-
-                CurrentUser *currentUser = [CurrentUser MR_createEntityInContext:localContext];
-
-                UserFriendList *currentUserFriendList = [UserFriendList MR_createEntityInContext:localContext];
-                
-                NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
-                // @"1" = Nothing is played
-                nowPlaying.playlistId = @"";
-                
-                currentUser.userId = user.objectId;
-                // saving user's name, phone number, and email onto core data
-                currentUser.name = [self.usernameTextField.text lowercaseString];
-                currentUser.email = self.emailTextField.text;
-                
-                // setting data for current user illist and friend list onto core data
-                currentUserFriendList.hostId = [[PFUser currentUser] objectId];
-                currentUserFriendList.objectId = userFriendList.objectId;
-                
-                currentUser.userFriendList = currentUserFriendList;
-                
-            } completion:^(BOOL success, NSError *error) {
-                
-                [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                  
-                   
+        if (!error) {
+            [self performSegueWithIdentifier:@"usernameSegue" sender:self];
             
-                    [self.doneButton setEnabled:YES];
-                    [SVProgressHUD showSuccessWithStatus:@"Welcome to MusicLounge!"];
-                    
-                }];
-                
-            }];
-
         } else {
-//            NSLog(@"Error in saving: createUserData %@", error);
+
+            NSString *errorString = [error userInfo][@"error"];
+            // NSLog(@"ERROR: %@", errorString);
+
+            if ([errorString containsString:@"invalid email"]) {
+                [SVProgressHUD showErrorWithStatus:@"Please use another email"];
+                [self setEmailTextFieldRed];
+
+
+            }
+
+            
         }
+        [self.doneButton setEnabled:YES];
+        
     }];
+    
 }
 
 

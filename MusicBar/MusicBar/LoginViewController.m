@@ -62,6 +62,9 @@
     self.signUpButton.layer.cornerRadius = 10;
     self.signUpButton.clipsToBounds = YES;
     
+    self.facebookLoginButton.layer.cornerRadius = 10;
+    self.facebookLoginButton.clipsToBounds = YES;
+    
     
     self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
@@ -132,7 +135,7 @@
             
             if (user[@"name"] != nil) {
                 
-                [self setUpCurrentUser: user];
+                [self setUpCurrentUser: user :YES];
                 
             } else {
                 
@@ -165,7 +168,7 @@
     return YES;
 }
 
-- (void) setUpCurrentUser: (PFUser*)user{
+- (void) setUpCurrentUser: (PFUser*)user :(BOOL) faceBookCheck{
     
     // Delete local current user first
     NSArray *deleteCurrentUserArray = [CurrentUser MR_findAllInContext:defaultContext];
@@ -204,7 +207,34 @@
     } completion:^(BOOL success, NSError *error) {
         
         if (!error) {
-            [self setFacebookID:  user];
+            
+            // Checking where the login came from. From facebook login or email
+            if (faceBookCheck) {
+                
+                [self setFacebookID:  user];
+                
+            } else {
+                
+                [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                    
+                    
+                    [Answers logLoginWithMethod:@"MusicLounge"
+                                        success:@YES
+                               customAttributes:@{@"username": user[@"name"],
+                                                  @"userID" : user.objectId
+                                                  
+                                                  }];
+                    
+                    // Display success to log in
+                    [SVProgressHUD showSuccessWithStatus:@"Welcome back to MusicLounge!"];
+                    
+                    
+                }];
+                [SVProgressHUD dismiss];
+
+                
+            }
+            
         }
         
 
@@ -245,7 +275,7 @@
     
     [user saveInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
     
-        if (succeeded) {
+        if (!error) {
             
             // Checks if the username is set correctly
             if (user.isNew || !user[@"name"]) {
@@ -276,17 +306,13 @@
             
         }
         
-        
     }];
-    
-    
-    
-    
+
     
 }
 
 - (IBAction)loginButton:(id)sender {
-    
+
     if ([self.emailTextField.text isEqualToString:@""] || [self.passwordTextField.text isEqualToString:@""] ) {
         
         // Display error
@@ -296,10 +322,19 @@
         
         [PFUser logInWithUsernameInBackground:self.emailTextField.text password:self.passwordTextField.text
                                         block:^(PFUser *user, NSError *error) {
-                                            if (user) {
+                                            
+                                            if (!error) {
                                                 // Do stuff after successful login.
                                                 
-                                                [self setUpCurrentUser:user];
+                                                if (!user[@"name"]) {
+                                                    [self performSegueWithIdentifier:@"usernameSegue" sender:self];
+                                                } else {
+                                                    
+                                                    
+                                                    [self setUpCurrentUser:user :NO];
+                                                }
+                                                
+                                                
                                             } else {
                                                 //The login failed. Check error to see why.
                                                 

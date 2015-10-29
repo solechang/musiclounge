@@ -206,7 +206,7 @@
     
     NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES inContext:defaultContext];
     
-    if (friendsCoreDataArray.count == 0) {
+    if (friendsCoreDataArray.count == 0 ) {
         
         [SVProgressHUD showWithStatus:@"Loading Friends :)"];
         
@@ -249,7 +249,13 @@
                 
             } else {
                 
-                [self queryFacebookIDFromUsers];
+                if ( [PFUser currentUser][@"facebookID"]) {
+                    [self queryFacebookIDFromUsers];
+
+                } else {
+                    [self queryOthers];
+                    [SVProgressHUD dismiss];
+                }
             }
             
         }
