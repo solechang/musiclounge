@@ -63,6 +63,18 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear: animated];
+    [self.emailTextField becomeFirstResponder];
+}
+
+- (void) viewWillDisappear:(BOOL)animated {
+    [self.emailTextField resignFirstResponder];
+    [self.passwordTextField resignFirstResponder];
+    [super viewWillDisappear:animated];
+    
+}
+
 - (void)setUpViewController{
     self.navigationController.navigationBar.translucent = NO;
     self.navigationController.navigationBar.barTintColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0f) blue:(65/255.0f) alpha:1];

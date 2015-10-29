@@ -253,23 +253,27 @@
 }
 
 - (void) checkUpdateLoggedIn {
-    PFUser *currentPFUser = [PFUser currentUser];
+    
+    PFUser *currentPFUser = [PFUser currentUser] ;
     
     myiLListArray = [[NSMutableArray alloc] init];
     iLListInfo = [[NSMutableDictionary alloc] init];
     
     if (!currentPFUser[@"updateCheck"]) {
-        
+
         [self deleteUserDataAndLogout];
 
         
     } else {
         // Check if user is logged in
+       ;
         if (currentPFUser && currentPFUser[@"name"] && currentPFUser[@"updateCheck"]) {
+     
             [self enableButtons];
             [self userPlaylistLogic];
             
         } else {
+           
             [self showLoginScreen];
             
         }
