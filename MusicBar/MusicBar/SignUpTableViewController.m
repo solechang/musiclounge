@@ -25,8 +25,7 @@
 @interface SignUpTableViewController () {
     BOOL phoneFlag;
 }
-@property (weak, nonatomic) IBOutlet UITextField *usernameTextField;
-@property (weak, nonatomic) IBOutlet UITextField *phonenumberTextField;
+
 @property (weak, nonatomic) IBOutlet UITextField *emailTextField;
 @property (weak, nonatomic) IBOutlet UITextField *passwordTextField;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *doneButton;
@@ -53,8 +52,6 @@
 
     [self setUpViewController];
     
-    self.usernameTextField.delegate = self;
-    self.phonenumberTextField.delegate = self;
     self.emailTextField.delegate = self;
     self.passwordTextField.delegate = self;
 
@@ -94,7 +91,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     // Return the number of rows in the section.
-    return 4;
+    return 2;
 }
 
 
@@ -106,48 +103,10 @@
     
     return cell;
 }
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
-{
-    if (textField == self.phonenumberTextField) {
-        
-//        NSString *newString = [textField.text stringByReplacingCharactersInRange:range withString:string];
-        
-//        NBPhoneNumberUtil *phoneUtil = [[NBPhoneNumberUtil alloc] init];
-//        NSError *anError = nil;
-//        NBPhoneNumber *myNumber = [phoneUtil parse:newString
-//                                     defaultRegion:@"US" error:&anError];
-//        
-//
-//        if ( [phoneUtil isValidNumber:myNumber] ) {
-//            phoneFlag = YES;
-//            self.phonenumberTextField.layer.borderColor=[[UIColor greenColor]CGColor];
-//        } else {
-//            phoneFlag = NO;
-//            
-//            self.phonenumberTextField.layer.cornerRadius=1.0f;
-//            self.phonenumberTextField.layer.masksToBounds=YES;
-//            self.phonenumberTextField.layer.borderColor=[[UIColor redColor]CGColor];
-//            self.phonenumberTextField.layer.borderWidth= 1.0f;
-//        }
-
-    }
-    
-    return YES;
-}
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    if (textField == self.usernameTextField) {
-        self.usernameTextField.text = [self.usernameTextField.text lowercaseString];
-        
-        [self.phonenumberTextField becomeFirstResponder];
-    } else if (textField == self.phonenumberTextField) {
-        // This is where I should check if phonenumber is valid
-        // For example if the phone number is an US number.
-        
-        
-        [self.emailTextField becomeFirstResponder];
-    }
+
     if (textField == self.emailTextField) {
         [self.passwordTextField becomeFirstResponder];
     } else if (textField == self.passwordTextField) {
@@ -157,40 +116,19 @@
     
     return YES;
 }
-- (BOOL)nameExpecations {
-    // Having textfield delgates and checking on spot if fields are valid
-    if([self.usernameTextField.text containsString:@" "]){
-        return YES;
-    }
-    else {
-        return NO;
-    }
-    
-    
-    
-}
+
 - (IBAction)doneButton:(id)sender {
     
     [self.doneButton setEnabled:NO];
     [self setEmailTextFieldGreen];
 
-    if ([self.usernameTextField.text isEqualToString:@""] || [self.passwordTextField.text isEqualToString:@""] ||
-        [self.emailTextField.text isEqualToString:@""] || [self.phonenumberTextField.text isEqualToString:@""] || !phoneFlag ) {
+    if ( [self.passwordTextField.text isEqualToString:@""] ||
+        [self.emailTextField.text isEqualToString:@""] ) {
         
         [self.doneButton setEnabled:YES];
-        if ([self nameExpecations]) {
-            
-            // Display error
-            [SVProgressHUD showErrorWithStatus:@"Your name has to be one word. Please try again"];
-      
-            return;
-        } else {
-            
+        
             // Display error
             [SVProgressHUD showErrorWithStatus:@"Please enter all of the fields"];
-
-            return;
-        }
 
 //        if (!phoneFlag) {
 //            [SVProgressHUD showErrorWithStatus:@"Your phone number is invalid. Please try again"];
@@ -358,17 +296,6 @@
     }];
 }
 
-- (void) setUsernameTextFieldRed {
-    self.usernameTextField.layer.cornerRadius=1.0f;
-    self.usernameTextField.layer.masksToBounds=YES;
-    self.usernameTextField.layer.borderColor=[[UIColor redColor]CGColor];
-    self.usernameTextField.layer.borderWidth= 1.0f;
-    
-}
-
-- (void) setUsernameFieldGreen {
-    self.usernameTextField.layer.borderColor=[[UIColor greenColor]CGColor];
-}
 
 
 - (void) setEmailTextFieldRed {

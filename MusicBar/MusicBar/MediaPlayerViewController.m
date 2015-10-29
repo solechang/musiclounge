@@ -79,6 +79,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 @property (weak, nonatomic) IBOutlet UILabel *songTitle;
 
+@property (assign,nonatomic) NSInteger songCount;
+
 
 @end
 
@@ -105,7 +107,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
 //    self.currentPlaylistButton.a = YES;
-    
     
 //    [self.playButton buttonWithType:UIButtonTypeSystem];
     [self.playButton setTintColor:[UIColor whiteColor]];
@@ -163,11 +164,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             
         }
 
-        
-
-    
 }
-
 
 
 -(void) setUpNavigationBar{
@@ -317,7 +314,15 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //                NSLog(@"1.10.)");
 //                if (weakSelf.playButton.enabled) {
                     [SVProgressHUD dismiss];
+                
+                if (weakSelf.songCount == 1) {
+                    
+                    [weakSelf stoppingPlayerBecauseOfError];
+                    
+                } else {
                     [weakSelf nextButton:nil];
+                }
+                
 //                }
                 
                 break;
@@ -353,19 +358,22 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 errorCategory = @"Unknown error occurred: ";
                 break;
         }
+        
         NSString *errorStatus;
+//        NSLog(@"1.) %@", errorDescription);
         if ([errorDescription containsString:@"404"]) {
              errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
+//            weakSelf.songTitle.text = errorStatus;
             
         } else {
             
             errorStatus = [[NSString alloc] initWithFormat:@"There is a network error \xF0\x9F\x98\xA8 Please try playing '%@' again", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
+//            weakSelf.songTitle.text = errorStatus;
         
         }
 
-    
     };
     
 }
@@ -632,8 +640,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)nextButton:(id)sender {
     
-    
-    
     [self.playButton setEnabled:NO];
     self.playButton.alpha = 0.5;
     
@@ -671,6 +677,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
  
 
+}
+- (void) stoppingPlayerBecauseOfError {
+    [audioController stop];
+    
 }
 
 - (void) stopPlayer {
@@ -718,6 +728,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
     NSURL* url = [NSURL URLWithString:resourceURL];
     audioController.url = url;
+    
+    self.songCount = currentPlayList.count;
     
     [audioController play];
     [self.playButton setEnabled:YES];
