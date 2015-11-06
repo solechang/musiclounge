@@ -32,6 +32,8 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 
+#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
+
 static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 @interface MediaPlayerViewController ()
@@ -97,6 +99,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [self setUpData];
 //    [self gradientSetting];
+//    [self.currentSongArtwork setFrame:<#(CGRect)#>]
     [[self.currentSongArtwork layer] setBorderWidth:2.0f];
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
     
