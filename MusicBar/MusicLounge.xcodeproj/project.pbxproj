@@ -12,7 +12,7 @@
 		445D7D411B6865BB009C7784 /* FindFriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445D7D401B6865BB009C7784 /* FindFriendsTableViewController.m */; };
 		445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445D7D421B68671C009C7784 /* searchFriendsCell.xib */; };
 		445FCFFA1B87E02100C6D042 /* ProfileInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445FCFF91B87E02100C6D042 /* ProfileInfoViewController.m */; };
-		B911079B1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B911079A1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B911079B1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B911079A1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m */; };
 		B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */; };
 		B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */; };
 		B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */; };
@@ -46,7 +46,7 @@
 		B96773661B32331A00C01AAF /* MusicBarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B96773651B32331A00C01AAF /* MusicBarTests.m */; };
 		B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16031B32371400406AAF /* SignUpTableViewController.m */; };
 		B96D16071B32371400406AAF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16051B32371400406AAF /* LoginViewController.m */; };
-		B985C7DC1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B985C7DB1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m */; settings = {ASSET_TAGS = (); }; };
+		B985C7DC1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B985C7DB1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m */; };
 		B9978DC51B67398A004203F1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC41B67398A004203F1 /* MediaPlayer.framework */; };
 		B9978DC71B67398F004203F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC61B67398F004203F1 /* CFNetwork.framework */; };
 		B9978DC91B673996004203F1 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC81B673996004203F1 /* AudioToolbox.framework */; };
@@ -62,7 +62,7 @@
 		B9B76F3B1B37E94900F63AC4 /* SongManager.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F3A1B37E94900F63AC4 /* SongManager.m */; };
 		B9B76F411B37E98A00F63AC4 /* MediaPlayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F3E1B37E98A00F63AC4 /* MediaPlayerViewController.m */; };
 		B9B76F461B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9B76F451B37EEE700F63AC4 /* MySearchedSongsSearchControllerTableViewController.m */; };
-		B9E3E4591BC47FE00008400E /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E3E4581BC47FE00008400E /* TabBarController.m */; settings = {ASSET_TAGS = (); }; };
+		B9E3E4591BC47FE00008400E /* TabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E3E4581BC47FE00008400E /* TabBarController.m */; };
 		B9E42E171B8578AF0016E7F2 /* Accounts.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E42E161B8578AF0016E7F2 /* Accounts.framework */; };
 		B9E42E191B8578B70016E7F2 /* Social.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9E42E181B8578B70016E7F2 /* Social.framework */; };
 		B9E4BE1E1B85814400F12F92 /* SetUsernameTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9E4BE1D1B85814400F12F92 /* SetUsernameTableViewController.m */; };
@@ -584,6 +584,7 @@
 				B96773441B32331A00C01AAF /* Resources */,
 				1441B74A6678A2A72F8462B3 /* Copy Pods Resources */,
 				B9D0966D1B74368300506E4C /* ShellScript */,
+				7D3C04BDCD1FBEC2E85D337B /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -712,6 +713,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		7D3C04BDCD1FBEC2E85D337B /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-MusicLounge/Pods-MusicLounge-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		B9D0966D1B74368300506E4C /* ShellScript */ = {
