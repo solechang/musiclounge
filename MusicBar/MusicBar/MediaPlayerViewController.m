@@ -711,6 +711,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (void) playSong {
+    [SVProgressHUD dismiss];
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
     
