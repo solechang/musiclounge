@@ -364,7 +364,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         NSString *errorStatus;
 //        NSLog(@"1.) %@", errorDescription);
-        if ([errorDescription containsString:@"404"]) {
+        if ([errorDescription containsString:@"404"] || [errorDescription containsString:@"401"]) {
              errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
 //            weakSelf.songTitle.text = errorStatus;
