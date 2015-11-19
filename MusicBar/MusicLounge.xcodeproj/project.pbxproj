@@ -46,6 +46,8 @@
 		B96773661B32331A00C01AAF /* MusicBarTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B96773651B32331A00C01AAF /* MusicBarTests.m */; };
 		B96D16061B32371400406AAF /* SignUpTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16031B32371400406AAF /* SignUpTableViewController.m */; };
 		B96D16071B32371400406AAF /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B96D16051B32371400406AAF /* LoginViewController.m */; };
+		B983C8041BFE84CE0020A0EC /* SoundCloudSearchTest.m in Sources */ = {isa = PBXBuildFile; fileRef = B983C8031BFE84CE0020A0EC /* SoundCloudSearchTest.m */; };
+		B983C8081BFE89D50020A0EC /* ApiClient.m in Sources */ = {isa = PBXBuildFile; fileRef = B983C8071BFE89D50020A0EC /* ApiClient.m */; };
 		B985C7DC1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B985C7DB1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m */; };
 		B9978DC51B67398A004203F1 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC41B67398A004203F1 /* MediaPlayer.framework */; };
 		B9978DC71B67398F004203F1 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B9978DC61B67398F004203F1 /* CFNetwork.framework */; };
@@ -152,6 +154,9 @@
 		B96D16031B32371400406AAF /* SignUpTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignUpTableViewController.m; sourceTree = "<group>"; };
 		B96D16041B32371400406AAF /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		B96D16051B32371400406AAF /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
+		B983C8031BFE84CE0020A0EC /* SoundCloudSearchTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudSearchTest.m; sourceTree = "<group>"; };
+		B983C8061BFE89D50020A0EC /* ApiClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ApiClient.h; sourceTree = "<group>"; };
+		B983C8071BFE89D50020A0EC /* ApiClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiClient.m; sourceTree = "<group>"; };
 		B985C7DA1BC4732D008B845D /* SoundCloudUserInfoTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloudUserInfoTableViewController.h; sourceTree = "<group>"; };
 		B985C7DB1BC4732D008B845D /* SoundCloudUserInfoTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudUserInfoTableViewController.m; sourceTree = "<group>"; };
 		B9978DC41B67398A004203F1 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
@@ -410,6 +415,7 @@
 		B96773481B32331A00C01AAF /* MusicBar */ = {
 			isa = PBXGroup;
 			children = (
+				B983C8051BFE89B20020A0EC /* ApiClient */,
 				B9AF35011B3625F100A7686C /* Resources */,
 				B93D900C1B3249FA00A2947C /* Delegates */,
 				B93D8FCA1B32410700A2947C /* Core data */,
@@ -436,6 +442,7 @@
 			isa = PBXGroup;
 			children = (
 				B96773651B32331A00C01AAF /* MusicBarTests.m */,
+				B983C8031BFE84CE0020A0EC /* SoundCloudSearchTest.m */,
 				B96773631B32331A00C01AAF /* Supporting Files */,
 			);
 			path = MusicBarTests;
@@ -471,6 +478,15 @@
 				B9E4BE1D1B85814400F12F92 /* SetUsernameTableViewController.m */,
 			);
 			name = "Login and Sign up";
+			sourceTree = "<group>";
+		};
+		B983C8051BFE89B20020A0EC /* ApiClient */ = {
+			isa = PBXGroup;
+			children = (
+				B983C8061BFE89D50020A0EC /* ApiClient.h */,
+				B983C8071BFE89D50020A0EC /* ApiClient.m */,
+			);
+			name = ApiClient;
 			sourceTree = "<group>";
 		};
 		B9AF35011B3625F100A7686C /* Resources */ = {
@@ -773,6 +789,7 @@
 				B9200BE81B393ED2001372C0 /* FriendSearchControllerTableViewController.m in Sources */,
 				B9B76F351B37E93000F63AC4 /* SearchSongsTableViewController.m in Sources */,
 				B967734C1B32331A00C01AAF /* main.m in Sources */,
+				B983C8081BFE89D50020A0EC /* ApiClient.m in Sources */,
 				B93D900B1B3242FD00A2947C /* PlaylistFriend.m in Sources */,
 				B9B76F251B37E8D000F63AC4 /* AddiLListTableViewController.m in Sources */,
 				B93D8FF61B3242FC00A2947C /* Playlist.m in Sources */,
@@ -797,6 +814,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B96773661B32331A00C01AAF /* MusicBarTests.m in Sources */,
+				B983C8041BFE84CE0020A0EC /* SoundCloudSearchTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
