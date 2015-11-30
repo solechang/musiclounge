@@ -258,6 +258,9 @@
                 }
             }
             
+        } else {
+            [SVProgressHUD dismiss];
+            [self queryOthers];
         }
       
         
@@ -478,6 +481,7 @@
             
         } else {
             [self queryOthers];
+           [SVProgressHUD dismiss];
             // User's Friends doesn't exist in the database
             friendsList = [[NSMutableArray alloc] init];
  
