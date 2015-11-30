@@ -870,5 +870,27 @@
     return [[NSAttributedString alloc] initWithString:text attributes:attributes];
 }
 
+- (IBAction)backButtonPressed:(id)sender {
+    [self deleteSongFriendInLocal];
+    [self deleteNowPlayingCurrentPlaylistInLocal];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
+- (void) deleteNowPlayingCurrentPlaylistInLocal {
+    NSLog(@"0.) %@", self.playlistInfo.name);
+    [self.playlistInfo MR_deleteEntity];
+    NSArray *deletedPlaylist = [PlaylistFriend MR_findAllInContext:defaultContext];
+    for (PlaylistFriend *friend in deletedPlaylist) {
+        NSLog(@"1.) %@", friend.name);
+    }
+    
+    NSArray *songFriend = [SongFriend MR_findAllInContext:defaultContext];
+    for (SongFriend *friendsong in songFriend) {
+        NSLog(@"2.) %@", friendsong.title);
+         NSLog(@"2.) %@", friendsong.playlistId);
+    }
+    
+}
 
 @end

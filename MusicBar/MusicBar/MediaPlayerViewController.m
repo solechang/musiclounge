@@ -192,7 +192,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     currentPlayList = [[NSMutableArray alloc] init];
     
-    [self.currentPlaylistButton setEnabled:NO];
+    [self.currentPlaylistButton setEnabled:YES];
     UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
     [self.playButton setImage:buttonImage forState:UIControlStateNormal];
     
@@ -215,7 +215,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [super viewWillDisappear:animated];
 }
 - (void)viewWillAppear:(BOOL)animated {
-    
+    NSLog(@"4.)");
     __weak typeof(self) weakSelf = self;
     audioController.onStateChange = ^(FSAudioStreamState state) {
         switch (state) {
@@ -610,7 +610,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (IBAction)currentPlaylistButtonPressed:(id)sender {
     
-    [self performSegueWithIdentifier:@"currentPlaylistNowPlayingSegue" sender:self];
+    [self performSegueWithIdentifier:@"currentPlaylistSegue" sender:self];
     
 }
 
@@ -991,13 +991,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    if ([[segue identifier] isEqualToString:@"currentPlaylistNowPlayingSegue"]) {
+    if ([[segue identifier] isEqualToString:@"currentPlaylistSegue"]) {
         UINavigationController *navController = [segue destinationViewController];
         FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
         
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
         
-        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:defaultContext];
+        PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
         playlist.objectId = nowPlaying.playlistId;
         playlist.name = nowPlaying.playlistName;
         
