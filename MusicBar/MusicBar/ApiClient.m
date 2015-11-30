@@ -7,7 +7,20 @@
 //
 
 #import "ApiClient.h"
+static NSString *const ApiClientURLString = @"https://api.soundcloud.com/";
 
 @implementation ApiClient
 
++ (instancetype) sharedClient{
+    
+    static ApiClient *_sharedClient = nil;
+    static dispatch_once_t onceToken;
+    
+    dispatch_once(&onceToken, ^{
+        
+        _sharedClient = [[ApiClient alloc] initWithBaseURL:[NSURL URLWithString:ApiClientURLString]];
+        
+    });
+    return _sharedClient;
+}
 @end

@@ -6,8 +6,11 @@
 //  Copyright © 2015 Sole Chang. All rights reserved.
 //
 
+#import "AFHTTPSessionManager.h"
 #import <Foundation/Foundation.h>
 
-@interface ApiClient : NSObject
+@interface ApiClient : AFHTTPSessionManager
+
++ (instancetype)sharedClient;
 
 @end
