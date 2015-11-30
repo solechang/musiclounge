@@ -378,7 +378,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         }
 
     };
+
     
+    _progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                            target:self
+                                                          selector:@selector(updatePlaybackProgress)
+                                                          userInfo:nil
+                                                           repeats:YES];
+    
+    
+    
+    [self checkNowPlayingPlaylistId];
 }
 
 - (void)addUserPlaylistItems
@@ -449,15 +459,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)viewDidAppear:(BOOL)animated {
     
-    _progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                            target:self
-                                                          selector:@selector(updatePlaybackProgress)
-                                                          userInfo:nil
-                                                           repeats:YES];
 
-    
-      
-    [self checkNowPlayingPlaylistId];
     
 
 }
@@ -719,7 +721,18 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     currentSong = nowplayingSong;
     
-    self.currentPlaylistButton.title = nowPlaying.playlistName;
+    if (nowPlaying.playlistName.length > 8) {
+        
+        NSString *subStr = [nowPlaying.playlistName substringWithRange:NSMakeRange(0, 9)];
+        NSString *displayCurrentPlaylistTitle = [NSString stringWithFormat:@"%@..", subStr];
+        self.currentPlaylistButton.title = displayCurrentPlaylistTitle;
+        
+    } else {
+        
+        self.currentPlaylistButton.title = nowPlaying.playlistName;
+    }
+    
+
     
     self.songTitle.text = nowplayingSong.title;
     
