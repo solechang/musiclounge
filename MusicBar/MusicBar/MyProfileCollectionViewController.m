@@ -266,7 +266,6 @@
         
     } else {
         // Check if user is logged in
-       ;
         if (currentPFUser && currentPFUser[@"name"] && currentPFUser[@"updateCheck"]) {
      
             [self enableButtons];
@@ -348,7 +347,7 @@
 - (void) savePlaylistToLocal: (NSArray*) playlists {
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        
+
         for (PFObject *playlistObject in playlists) {
             
             Playlist *playlist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:playlistObject.objectId inContext:localContext];
@@ -365,7 +364,7 @@
             playlist.createdAt = playlistObject.createdAt;
             playlist.songCount = playlistObject[@"SongCount"];
             playlist.updatedAt = playlistObject.updatedAt;
-
+      
             
         }
         

@@ -210,13 +210,14 @@
     iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     [self.tableView reloadData];
     
+    [self fetchSongsFromServer];
     
-    if (songsInLocal.count == 0) {
-        [self fetchSongsFromServer];
-    } else {
-        
-        [self checkIfPlaylistUpdated];
-    }
+//    if (songsInLocal.count == 0) {
+//        [self fetchSongsFromServer];
+//    } else {
+//        
+//        [self checkIfPlaylistUpdated];
+//    }
    
     
 }
@@ -605,9 +606,6 @@
         
         PFObject *deleteSong = [PFObject objectWithoutDataWithClassName:@"Song" objectId:deleteSongInLocal.objectId];
         
-        [iLListTracks removeObjectAtIndex:indexPath.row];
-        
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         [deleteSong deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
@@ -712,9 +710,9 @@
     } completion:^(BOOL success, NSError *error) {
        
         if (!error) {
-//            [iLListTracks removeObjectAtIndex:indexPath.row];
-//            
-//            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [iLListTracks removeObjectAtIndex:indexPath.row];
+//
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
             [self.tableView reloadData];
 
