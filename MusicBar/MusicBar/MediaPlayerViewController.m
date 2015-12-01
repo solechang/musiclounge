@@ -380,17 +380,21 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     };
 
-    
+    [self checkNowPlayingPlaylistId];
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
     _progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
                                                             target:self
                                                           selector:@selector(updatePlaybackProgress)
                                                           userInfo:nil
                                                            repeats:YES];
     
+
     
-    
-    [self checkNowPlayingPlaylistId];
 }
+
 
 - (void)addUserPlaylistItems
 {
@@ -458,12 +462,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-
-    
-
-}
 
 
 - (void)didReceiveMemoryWarning {
