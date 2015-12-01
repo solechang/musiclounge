@@ -1001,6 +1001,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
         playlist.objectId = nowPlaying.playlistId;
         playlist.name = nowPlaying.playlistName;
+        playlist.userId = [PFUser currentUser].objectId;
         playlist.fromNowSpinning = @(YES);
         vc.playlistInfo = playlist;
 
