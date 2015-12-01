@@ -214,8 +214,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [SVProgressHUD dismiss];
     [super viewWillDisappear:animated];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
-    NSLog(@"4.)");
+
     __weak typeof(self) weakSelf = self;
     audioController.onStateChange = ^(FSAudioStreamState state) {
         switch (state) {
@@ -363,8 +364,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         }
         
         NSString *errorStatus;
-//        NSLog(@"1.) %@", errorDescription);
-        if ([errorDescription containsString:@"404"] || [errorDescription containsString:@"401"]) {
+    
+        if ([errorDescription containsString:@"404"] || [errorDescription containsString:@"401"] || [errorDescription containsString:@"403"]) {
              errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
 //            weakSelf.songTitle.text = errorStatus;
@@ -609,8 +610,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #pragma mark - Buttons
 
 - (IBAction)currentPlaylistButtonPressed:(id)sender {
+    [self deleteSongFriendInLocal];
     
-    [self performSegueWithIdentifier:@"currentPlaylistSegue" sender:self];
     
 }
 
@@ -1000,12 +1001,46 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
         playlist.objectId = nowPlaying.playlistId;
         playlist.name = nowPlaying.playlistName;
-        
+        playlist.fromNowSpinning = @(YES);
         vc.playlistInfo = playlist;
 
     }
 
 }
+- (void) deleteSongFriendInLocal {
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        NSArray *songsInLocal = [SongFriend MR_findAllInContext:localContext];
+        
+        for (SongFriend *songToDelete in songsInLocal) {
+            
+            [songToDelete MR_deleteEntityInContext:localContext];
+            
+        }
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        
+        if (!error) {
+            [self performSegueWithIdentifier:@"currentPlaylistSegue" sender:self];
+            //            NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+            
+            //            iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+            //
+            //            [self.tableView reloadData];
+            
+            
+        } else {
+            
+        }
+        
+        
+    }];
+    
+    
+}
+
 
 
 @end

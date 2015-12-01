@@ -24,25 +24,40 @@
 
 @implementation FriendSearchControllerTableViewController
 
-
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // Uncomment the following line to preserve selection between presentations.
-    // self.clearsSelectionOnViewWillAppear = NO;
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self setupTitle];
-    self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    [self setUpTableView];
+  
+ 
+}
+
+- (void) setUpTableView {
+    if (self.playlistInfo.fromNowSpinning) {
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(88, 0, 0, 0);
+        
+    } else {
+        
+        self.tableView.contentInset = UIEdgeInsetsMake(44, 0, 0, 0);
+    }
+    
+    
     [self.tableView setRowHeight:90];
     
 }
-- (void) viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
+
+- (void) viewWillAppear:(BOOL)animated {
     
-    [self.searchController setActive:NO];
+    [super viewWillAppear:animated];
+    
+}
+- (void) viewWillDisappear:(BOOL)animated {
+
+    
+//    [self.searchController setActive:NO];
+    [super viewWillDisappear:animated];
     
 }
 

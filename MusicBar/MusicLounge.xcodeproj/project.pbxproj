@@ -13,6 +13,8 @@
 		445D7D431B68671C009C7784 /* searchFriendsCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 445D7D421B68671C009C7784 /* searchFriendsCell.xib */; };
 		445FCFFA1B87E02100C6D042 /* ProfileInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 445FCFF91B87E02100C6D042 /* ProfileInfoViewController.m */; };
 		B911079B1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B911079A1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m */; };
+		B9179B151C0D178700C41644 /* PlaylistFriend+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = B9179B121C0D178700C41644 /* PlaylistFriend+CoreDataProperties.m */; };
+		B9179B161C0D178700C41644 /* PlaylistFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = B9179B141C0D178700C41644 /* PlaylistFriend.m */; };
 		B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */; };
 		B9200BE61B393ED2001372C0 /* FriendTabTheirCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE11B393ED2001372C0 /* FriendTabTheirCollectionViewController.m */; };
 		B9200BE71B393ED2001372C0 /* FriendSearchSongsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B9200BE31B393ED2001372C0 /* FriendSearchSongsTableViewController.m */; };
@@ -28,7 +30,6 @@
 		B93D90021B3242FD00A2947C /* NowPlayingSong.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90011B3242FD00A2947C /* NowPlayingSong.m */; };
 		B93D90051B3242FD00A2947C /* FriendPhonenumber.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90041B3242FD00A2947C /* FriendPhonenumber.m */; };
 		B93D90081B3242FD00A2947C /* Song.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D90071B3242FD00A2947C /* Song.m */; };
-		B93D900B1B3242FD00A2947C /* PlaylistFriend.m in Sources */ = {isa = PBXBuildFile; fileRef = B93D900A1B3242FD00A2947C /* PlaylistFriend.m */; };
 		B93D90121B324B4700A2947C /* Streetwear.otf in Resources */ = {isa = PBXBuildFile; fileRef = B93D900E1B324B4700A2947C /* Streetwear.otf */; };
 		B93D90131B324B4700A2947C /* Mission-Script.otf in Resources */ = {isa = PBXBuildFile; fileRef = B93D900F1B324B4700A2947C /* Mission-Script.otf */; };
 		B93D90141B324B4700A2947C /* Wisdom Script AJ.otf in Resources */ = {isa = PBXBuildFile; fileRef = B93D90101B324B4700A2947C /* Wisdom Script AJ.otf */; };
@@ -95,6 +96,10 @@
 		5742B19EFD321AA85C521995 /* libPods-MusicLounge.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-MusicLounge.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B91107991BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SoundCloudUserSongsTableViewController.h; sourceTree = "<group>"; };
 		B911079A1BC5C7C100053DEB /* SoundCloudUserSongsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SoundCloudUserSongsTableViewController.m; sourceTree = "<group>"; };
+		B9179B111C0D178700C41644 /* PlaylistFriend+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PlaylistFriend+CoreDataProperties.h"; sourceTree = "<group>"; };
+		B9179B121C0D178700C41644 /* PlaylistFriend+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PlaylistFriend+CoreDataProperties.m"; sourceTree = "<group>"; };
+		B9179B131C0D178700C41644 /* PlaylistFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistFriend.h; sourceTree = "<group>"; };
+		B9179B141C0D178700C41644 /* PlaylistFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistFriend.m; sourceTree = "<group>"; };
 		B9200BDD1B393EC4001372C0 /* FriendsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsTableViewController.h; sourceTree = "<group>"; };
 		B9200BDE1B393EC4001372C0 /* FriendsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendsTableViewController.m; sourceTree = "<group>"; };
 		B9200BE01B393ED2001372C0 /* FriendTabTheirCollectionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendTabTheirCollectionViewController.h; sourceTree = "<group>"; };
@@ -123,8 +128,6 @@
 		B93D90041B3242FD00A2947C /* FriendPhonenumber.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FriendPhonenumber.m; sourceTree = "<group>"; };
 		B93D90061B3242FD00A2947C /* Song.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Song.h; sourceTree = "<group>"; };
 		B93D90071B3242FD00A2947C /* Song.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Song.m; sourceTree = "<group>"; };
-		B93D90091B3242FD00A2947C /* PlaylistFriend.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaylistFriend.h; sourceTree = "<group>"; };
-		B93D900A1B3242FD00A2947C /* PlaylistFriend.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaylistFriend.m; sourceTree = "<group>"; };
 		B93D900E1B324B4700A2947C /* Streetwear.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Streetwear.otf; sourceTree = "<group>"; };
 		B93D900F1B324B4700A2947C /* Mission-Script.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Mission-Script.otf"; sourceTree = "<group>"; };
 		B93D90101B324B4700A2947C /* Wisdom Script AJ.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Wisdom Script AJ.otf"; sourceTree = "<group>"; };
@@ -335,6 +338,10 @@
 		B93D8FCF1B32414300A2947C /* Friend */ = {
 			isa = PBXGroup;
 			children = (
+				B9179B111C0D178700C41644 /* PlaylistFriend+CoreDataProperties.h */,
+				B9179B121C0D178700C41644 /* PlaylistFriend+CoreDataProperties.m */,
+				B9179B131C0D178700C41644 /* PlaylistFriend.h */,
+				B9179B141C0D178700C41644 /* PlaylistFriend.m */,
 				B922D7151B951D7600697006 /* Friend.h */,
 				B922D7161B951D7600697006 /* Friend.m */,
 				B93D8FEE1B3242FB00A2947C /* SongFriend.h */,
@@ -343,8 +350,6 @@
 				B93D8FF81B3242FC00A2947C /* UserFriendList.m */,
 				B93D90031B3242FD00A2947C /* FriendPhonenumber.h */,
 				B93D90041B3242FD00A2947C /* FriendPhonenumber.m */,
-				B93D90091B3242FD00A2947C /* PlaylistFriend.h */,
-				B93D900A1B3242FD00A2947C /* PlaylistFriend.m */,
 			);
 			name = Friend;
 			sourceTree = "<group>";
@@ -774,6 +779,7 @@
 				B93D90081B3242FD00A2947C /* Song.m in Sources */,
 				B96D16071B32371400406AAF /* LoginViewController.m in Sources */,
 				B9E4BE1E1B85814400F12F92 /* SetUsernameTableViewController.m in Sources */,
+				B9179B161C0D178700C41644 /* PlaylistFriend.m in Sources */,
 				B93D8FF91B3242FC00A2947C /* UserFriendList.m in Sources */,
 				B9200BDF1B393EC4001372C0 /* FriendsTableViewController.m in Sources */,
 				B967734F1B32331A00C01AAF /* AppDelegate.m in Sources */,
@@ -785,12 +791,12 @@
 				B9B76F411B37E98A00F63AC4 /* MediaPlayerViewController.m in Sources */,
 				B93D90221B3270FD00A2947C /* CSParallaxHeader.m in Sources */,
 				B93D90021B3242FD00A2947C /* NowPlayingSong.m in Sources */,
+				B9179B151C0D178700C41644 /* PlaylistFriend+CoreDataProperties.m in Sources */,
 				B93D8FF01B3242FB00A2947C /* SongFriend.m in Sources */,
 				B9200BE81B393ED2001372C0 /* FriendSearchControllerTableViewController.m in Sources */,
 				B9B76F351B37E93000F63AC4 /* SearchSongsTableViewController.m in Sources */,
 				B967734C1B32331A00C01AAF /* main.m in Sources */,
 				B983C8081BFE89D50020A0EC /* ApiClient.m in Sources */,
-				B93D900B1B3242FD00A2947C /* PlaylistFriend.m in Sources */,
 				B9B76F251B37E8D000F63AC4 /* AddiLListTableViewController.m in Sources */,
 				B93D8FF61B3242FC00A2947C /* Playlist.m in Sources */,
 				B93D90051B3242FD00A2947C /* FriendPhonenumber.m in Sources */,

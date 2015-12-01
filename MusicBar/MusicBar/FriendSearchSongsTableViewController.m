@@ -55,6 +55,10 @@
     [self setUpNotifications];
     [self setupTitle];
     [self setUpRefreshControl];
+
+    [self setUpData];
+    
+    
 }
 
 - (void) setUpRefreshControl{
@@ -86,8 +90,8 @@
 - (void) setUpData {
     navController = (UINavigationController *)self.searchController.searchResultsController;
     
-    
     vc = (FriendSearchControllerTableViewController *)navController.topViewController;
+    vc.playlistInfo = self.playlistInfo;
 }
 
 - (void) setUpSearchController {
@@ -185,8 +189,6 @@
     [vc.tableView reloadData];
     [self.tableView reloadData];
     
-
-    [self.tableView reloadData];
 }
 
 - (void) viewDidAppear:(BOOL)animated {
@@ -197,6 +199,8 @@
 
 - (void) viewWillDisappear:(BOOL)animated {
     [SVProgressHUD dismiss];
+    [self deleteSongFriendInLocal];
+    
     NSArray *viewControllers = self.navigationController.viewControllers;
     
     if (viewControllers.count > 1 && [viewControllers objectAtIndex:viewControllers.count-2] == self) {
@@ -208,7 +212,7 @@
         
         // View is disappearing because it was popped from the stackd
         
-        [self deleteSongFriendInLocal];
+        
 
     }
     
@@ -218,11 +222,11 @@
 - (void) deleteSongFriendInLocal {
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        
-        NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:localContext];
-        
+
+        NSArray *songsInLocal = [SongFriend MR_findAllInContext:localContext];
+     
         for (SongFriend *songToDelete in songsInLocal) {
-            
+    
             [songToDelete MR_deleteEntityInContext:localContext];
         
         }
@@ -231,10 +235,9 @@
         
         
         if (!error) {
+            
             NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
-            
             iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
-            
             [self.tableView reloadData];
 
             
@@ -250,13 +253,13 @@
 
 - (void) playlistLogic {
     
+   
     [self getSongsFromLocal];
     
 }
 
 - (void) getSongsFromLocal {
 
-    
     if (self.playlistInfo.objectId) {
          [self fetchSongsFromServer];
     } else {
@@ -275,7 +278,7 @@
     
     [updatedQuery orderByDescending:@"createdAt"];
     
-    [SVProgressHUD showWithStatus:@"Loading Playlist"];
+    [SVProgressHUD showWithStatus:@"Loading Lounge"];
     
     [updatedQuery findObjectsInBackgroundWithBlock:^(NSArray *songsInServer, NSError *error) {
 
@@ -300,7 +303,7 @@
         PlaylistFriend *playlistInLocal = [PlaylistFriend MR_findFirstByAttribute:@"objectId" withValue:self.playlistInfo.objectId inContext:localContext];
         
         //Delete songs in local and then create
-        NSArray *songsInThisPlaylist = [SongFriend MR_findByAttribute:@"playlistId" withValue:playlistInLocal.objectId inContext:localContext];
+        NSArray *songsInThisPlaylist = [SongFriend MR_findAllInContext:localContext];
         
         for (SongFriend *songToDelete in songsInThisPlaylist ) {
             
@@ -432,7 +435,7 @@
             [SVProgressHUD dismiss];
             if (self.searchController.searchResultsController) {
                 
-                
+
                 [self setUpData];
                 
                 if (searchController.searchBar.selectedScopeButtonIndex == 0) {
@@ -796,9 +799,8 @@
         
         if (!error) {
             
-            
             if(self.tabBarController.selectedIndex == 0) {
-                
+                [self backButtonPressed:self];
                 // Change to media player from me tab
                 [self.tabBarController setSelectedIndex:2];
                 
@@ -808,7 +810,8 @@
                 [self.tabBarController setSelectedIndex:2];
                 
             } else if(self.tabBarController.selectedIndex == 2) {
-                [self backButton:self];
+      
+                
             }
 
   
@@ -823,19 +826,7 @@
     
     
 }
-- (IBAction)backButton:(id)sender {
-//    NSLog(@"5.)");
-    
-    [self.playlistInfo MR_deleteEntityInContext:defaultContext];
-    // Only when user checks out playlist from the mediaplayer
-    [self.navigationController dismissViewControllerAnimated:YES
-                                                  completion:^{
-                                                    
-//                                                      NSArray *playlist = [PlaylistFriend MR_findAllInContext:defaultContext];
-//                                                      NSLog(@"6.) %lu", playlist.count);
-                                                  }];
-    
-}
+
 
 #pragma mark - DZN Table view when empty
 
@@ -871,25 +862,22 @@
 }
 
 - (IBAction)backButtonPressed:(id)sender {
-    [self deleteSongFriendInLocal];
-    [self deleteNowPlayingCurrentPlaylistInLocal];
+    
     [self.navigationController dismissViewControllerAnimated:YES completion:^{
-        
+        [self deleteSongFriendInLocal];
+        [self deleteNowPlayingCurrentPlaylistInLocal];
     }];
 }
+
 - (void) deleteNowPlayingCurrentPlaylistInLocal {
-    NSLog(@"0.) %@", self.playlistInfo.name);
-    [self.playlistInfo MR_deleteEntity];
+   
     NSArray *deletedPlaylist = [PlaylistFriend MR_findAllInContext:defaultContext];
     for (PlaylistFriend *friend in deletedPlaylist) {
-        NSLog(@"1.) %@", friend.name);
+
+        [friend MR_deleteEntity];
     }
     
-    NSArray *songFriend = [SongFriend MR_findAllInContext:defaultContext];
-    for (SongFriend *friendsong in songFriend) {
-        NSLog(@"2.) %@", friendsong.title);
-         NSLog(@"2.) %@", friendsong.playlistId);
-    }
+
     
 }
 
