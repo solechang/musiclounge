@@ -117,6 +117,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self.backButton setTintColor:[UIColor whiteColor]];
 
     [self setUpAudioPlayer];
+    
 
 
 }
@@ -524,7 +525,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
     
     
-    // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
+    // Checks if same song is playing,so the mediaplayer doesn't have to rebuffer
     if (![self checkCurrentSong: nowplayingSong]) {
     
         [self setCurrentPlaylist];

@@ -429,6 +429,8 @@
             resourceURL = [songMangerSearchedText getUserResourceURL];
             
         }
+        NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
+        resourceURL = [resourceURL stringByAddingPercentEncodingWithAllowedCharacters:set];
         
         SCRequestResponseHandler handler;
         handler = ^(NSURLResponse *response, NSData *data, NSError *error) {
@@ -503,6 +505,8 @@
             resourceURL = [songMangerSearchedText getUserResourceURL];
             
         }
+        NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
+        resourceURL = [resourceURL stringByAddingPercentEncodingWithAllowedCharacters:set];
         
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@",searchBar.text]];
         

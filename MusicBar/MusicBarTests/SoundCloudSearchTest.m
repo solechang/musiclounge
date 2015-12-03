@@ -50,6 +50,7 @@
     [[ApiClient sharedClient] GET:url parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
         
         NSDictionary *i1Response = responseObject;
+        NSLog(@"1.) %@", i1Response);
         
         
     } failure:^(NSURLSessionDataTask *task, NSError *error) {
