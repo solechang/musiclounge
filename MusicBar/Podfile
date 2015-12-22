@@ -20,6 +20,7 @@ target 'MusicLounge' do
     pod 'Crashlytics'
     pod 'ParseFacebookUtilsV4'
     pod 'FBSDKCoreKit'
+    pod 'SocketRocket'
 end
 
 target 'MusicLoungeTests' do

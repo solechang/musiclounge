@@ -29,11 +29,11 @@
     
     gradient.frame = screenRect;
     
-    UIColor *topColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0) blue:(65/255.0) alpha:0] ;
-    UIColor *bottomColor = [UIColor colorWithRed:(125/255.0) green:(44/255.0) blue:(67/255.0) alpha:1] ;
+//    UIColor *topColor = [UIColor colorWithRed:(49/255.0) green:(17/255.0) blue:(65/255.0) alpha:0] ;
+//    UIColor *bottomColor = [UIColor colorWithRed:(125/255.0) green:(44/255.0) blue:(67/255.0) alpha:1] ;
 //
-    gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[bottomColor CGColor], nil];
-    [self.mainView.layer insertSublayer:gradient atIndex:0];
+//    gradient.colors = [NSArray arrayWithObjects:(id)[topColor CGColor], (id)[bottomColor CGColor], nil];
+//    [self.mainView.layer insertSublayer:gradient atIndex:0];
     
 //    [self.editProfileButton setTitle:@"Edit Profile" forState:UIControlStateNormal];
 //    self.editProfileButton.layer.cornerRadius = 10.0;
