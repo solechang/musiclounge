@@ -1129,14 +1129,37 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.DJButton.enabled = NO;
         self.DJButton.title = @"DJ";
         
-        [_webSocket close];
-
-
+//        [self sendCloseHostData];
+        
         
 //      NSLog(@"4.)");
         
     }
 }
+
+- (void) sendCloseHostData {
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:currentSong.hostId forKey:@"userId"];
+    
+    
+    
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"unhostLounge", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
+    [_webSocket close];
+    
+}
+
+
 
 - (void) sendDJData {
     
@@ -1145,9 +1168,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [data setObject:currentSong.hostId forKey:@"userId"];
     [data setObject:currentSong.stream_url forKey:@"streamURL"];
     [data setObject:currentSong.title forKey:@"songName"];
-    [data setObject:@"" forKey:@"timestamp"];
+    [data setObject:@"" forKey:@"songTime"];
+    [data setObject:@"" forKey:@"hostTime"];
     [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
-    [data setObject:self.currentPlaylistButton.title forKey:@"currentLoungeName"];
+    [data setObject:currentSong.nowPlaying.playlistName forKey:@"currentLoungeName"];
+    [data setObject:currentSong.artwork forKey:@"songImage"];
     
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -1155,7 +1180,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                          data, @"data",
                          nil];
 
-    NSLog(@"1.) %@", tmp);
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
   

@@ -7,6 +7,7 @@
     <customFonts key="customFonts">
         <mutableArray key="Wisdom Script AJ.otf">
             <string>Wisdom-Script</string>
+            <string>Wisdom-Script</string>
         </mutableArray>
         <mutableArray key="governor.ttf">
             <string>Governor</string>
@@ -1425,6 +1426,16 @@
                     </collectionView>
                     <extendedEdge key="edgesForExtendedLayout" bottom="YES"/>
                     <navigationItem key="navigationItem" id="cz3-co-xvm">
+                        <nil key="title"/>
+                        <button key="titleView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="eUc-me-CFr">
+                            <rect key="frame" x="180" y="7" width="240" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <fontDescription key="fontDescription" name="Wisdom-Script" family="Wisdom Script" pointSize="22"/>
+                            <state key="normal" title="Join DJ"/>
+                            <connections>
+                                <action selector="joinDJButtonPressed:" destination="jMU-U9-WgW" eventType="touchUpInside" id="ZKf-RJ-zQq"/>
+                            </connections>
+                        </button>
                         <barButtonItem key="rightBarButtonItem" title="Add Friend" id="dDR-dG-NWO">
                             <connections>
                                 <action selector="addFriendButtonPushed:" destination="jMU-U9-WgW" id="RGD-Ko-WJn"/>

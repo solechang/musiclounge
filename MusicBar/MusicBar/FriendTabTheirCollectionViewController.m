@@ -78,13 +78,14 @@
     [self setNSManagedObjectContext];
     
     [self control];
-    
-    
+
     //IK - Offset the text on the back button
     [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60)
                                                          forBarMetrics:UIBarMetricsDefault];
     
 }
+
+
 
 - (void) setNSManagedObjectContext {
     
@@ -296,7 +297,8 @@
         hostName = [[NSString alloc] initWithString:friendName.userName];
         
 //        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:20.0],NSFontAttributeName, nil];
-        self.navigationController.navigationBar.topItem.title = hostName;
+        
+//        self.navigationController.navigationBar.topItem.title = hostName;
 //        self.navigationController.navigationBar.titleTextAttributes = size;
         
         myiLListArray = [[NSMutableArray alloc] initWithArray:playlistArray];
@@ -338,7 +340,7 @@
             hostName = [[NSString alloc] initWithString:userObject[@"name"]];
             
 //            NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:20.0],NSFontAttributeName, nil];
-            self.navigationController.navigationBar.topItem.title = hostName;
+//            self.navigationController.navigationBar.topItem.title = hostName;
 //            self.navigationController.navigationBar.titleTextAttributes = size;
             
             [self checkIfFriends];
@@ -940,6 +942,10 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 //    }];
 //}
 
+- (IBAction)joinDJButtonPressed:(id)sender {
+    
+    NSLog(@"1.)") ;
+}
 
 
 @end
