@@ -53,9 +53,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *currentSong;
     
     FSStreamPosition pos;
+    
+    SRWebSocket *_webSocket;
 }
 
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *DJButton;
 
 @property (nonatomic,strong) NSTimer *progressUpdateTimer;
 @property (nonatomic,strong) NSTimer *playbackSeekTimer;
@@ -1044,7 +1047,82 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     
 }
+#pragma mark - SRWebSocketDelegate
 
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    //    self.title = @"Connected!";
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@":( Websocket Failed With Error %@", error);
+    
+    //    self.title = @"Connection Failed! (see logs)";
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
+{
+    NSLog(@"Received \"%@\"", message);
+    //    [_messages addObject:[[TCMessage alloc] initWithMessage:message fromMe:NO]];
+    //    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:_messages.count - 1 inSection:0]] withRowAnimation:UITableViewRowAnimationNone];
+    //    [self.tableView scrollRectToVisible:self.tableView.tableFooterView.frame animated:YES];
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed");
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
+{
+    NSLog(@"Websocket received pong");
+}
+
+
+- (id)initWithMessage:(NSString *)message fromMe:(BOOL)fromMe;
+{
+    self = [super init];
+    if (self) {
+        NSLog(@"1.)");
+    }
+    
+    return self;
+}
+
+- (void)connectWebSocket;
+{
+    _webSocket.delegate = nil;
+    [_webSocket close];
+    
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://45.55.22.191:1337"]]];
+    _webSocket.delegate = self;
+    
+    NSLog(@"Opening connection");
+    //    self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+}
+
+
+
+#pragma mark - DJ Button
+- (IBAction)DJButtonPressed:(id)sender {
+    
+    self.DJButton.title = @"DJing";
+    
+    if ([self.DJButton.title isEqualToString:@"DJing"]) {
+        
+    } else {
+        
+    }
+//    [self connectWebSocket];
+    
+    
+}
 
 
 @end

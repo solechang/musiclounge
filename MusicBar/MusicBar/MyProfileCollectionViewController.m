@@ -40,6 +40,8 @@
 #import <SVProgressHUD/SVProgressHUD.h>
 
 
+
+
 @interface MyProfileCollectionViewController ()<UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate> {
     
     NSMutableArray* myiLListArray;
@@ -58,7 +60,7 @@
     
     NSManagedObjectContext *defaultContext;
     
-    
+
 }
 
 @property (nonatomic, strong) NSArray *sections;
@@ -93,7 +95,12 @@
     
     [self control];
     
+
+    
 }
+
+
+
 - (void)disableButtons {
     self.tabBarController.tabBar.userInteractionEnabled = NO;
     self.addPlaylistButton.enabled = NO;
@@ -292,7 +299,7 @@
 
 //added below
 - (void)viewDidAppear:(BOOL)animated {
-    
+  
     [self checkUpdateLoggedIn];
     
 }
@@ -783,7 +790,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
     if (self.control.selectedSegmentIndex == 0) {
         
         [self performSegueWithIdentifier:@"iLListSegue" sender:self];
-      
+       
 
         
     }
