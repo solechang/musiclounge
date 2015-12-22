@@ -14,6 +14,7 @@
 #import <Parse/Parse.h>
 #import "MediaPlayerViewController.h"
 #import "MySearchedSongsSearchControllerTableViewController.h"
+#import "ApiClient.h"
 
 #import <SVProgressHUD/SVProgressHUD.h>
 
@@ -210,13 +211,14 @@
     iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
     [self.tableView reloadData];
     
+    [self fetchSongsFromServer];
     
-    if (songsInLocal.count == 0) {
-        [self fetchSongsFromServer];
-    } else {
-        
-        [self checkIfPlaylistUpdated];
-    }
+//    if (songsInLocal.count == 0) {
+//        [self fetchSongsFromServer];
+//    } else {
+//        
+//        [self checkIfPlaylistUpdated];
+//    }
    
     
 }
@@ -438,6 +440,7 @@
             songMangerSearchedText = [[SongManager alloc] initWithTrackName:trackName];
             resourceURL = [songMangerSearchedText getSongResourceURL];
             
+            
         } else {
             
             // getting soundcloud user info (public songs liked on SoundCloud, playlists)
@@ -445,7 +448,48 @@
             resourceURL = [songMangerSearchedText getUserResourceURL];
             
         }
+//        .stringByAddingPercentEncodingWithAllowedCharacters(.URLHostAllowedCharacterSet())
+  
+        NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
+        resourceURL = [resourceURL stringByAddingPercentEncodingWithAllowedCharacters:set];
+       
+//        [[ApiClient sharedClient] GET:resourceURL parameters:nil success:^(NSURLSessionDataTask *task, id responseObject) {
+//            
+//            NSDictionary *i1Response = responseObject;
+//            NSLog(@"1.) %@", i1Response);
+//            [SVProgressHUD dismiss];
         
+//            if (self.searchController.searchResultsController) {
+//                
+//                [self setUpData];
+//                
+//                if (searchController.searchBar.selectedScopeButtonIndex == 0) {
+//                    
+//                    self.searchResultSongs = [songMangerSearchedText parseTrackData:responseObject];
+//                    vc.searchResults = self.searchResultSongs;
+//                    
+//                } else if (searchController.searchBar.selectedScopeButtonIndex == 1) {
+//                    
+//                    self.searchResultSCUser = [songMangerSearchedText getUserSoundCloudInfo:responseObject];
+//                    vc.searchResults = self.searchResultSCUser;
+//                }
+//                vc.iLListTracks = iLListTracks;
+//                vc.searchController = self.searchController;
+//                
+//                vc.playlistInfo = self.playlistInfo;
+//                
+//                [vc.tableView reloadData];
+//                
+//            }
+//            
+//            [self.tableView reloadData];
+//            
+//            
+//        } failure:^(NSURLSessionDataTask *task, NSError *error) {
+//            
+//            NSLog(@"Error: %@", error);
+//        }];
+
         
         
         SCRequestResponseHandler handler;
@@ -515,7 +559,8 @@
             resourceURL = [songMangerSearchedText getUserResourceURL];
 
         }
-        
+        NSCharacterSet *set = [NSCharacterSet URLQueryAllowedCharacterSet];
+        resourceURL = [resourceURL stringByAddingPercentEncodingWithAllowedCharacters:set];
         
         [SVProgressHUD showWithStatus:[NSString stringWithFormat:@"Searching %@", searchBar.text]];
         
@@ -605,9 +650,6 @@
         
         PFObject *deleteSong = [PFObject objectWithoutDataWithClassName:@"Song" objectId:deleteSongInLocal.objectId];
         
-        [iLListTracks removeObjectAtIndex:indexPath.row];
-        
-        [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
         
         [deleteSong deleteInBackgroundWithBlock:^(BOOL succeeded, NSError *error) {
             
@@ -712,9 +754,9 @@
     } completion:^(BOOL success, NSError *error) {
        
         if (!error) {
-//            [iLListTracks removeObjectAtIndex:indexPath.row];
-//            
-//            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [iLListTracks removeObjectAtIndex:indexPath.row];
+//
+            [self.tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
             
             [self.tableView reloadData];
 
@@ -839,9 +881,6 @@
             }
 
         }
-    
-        
-        
         
     }];
 }

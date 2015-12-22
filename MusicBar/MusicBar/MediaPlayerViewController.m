@@ -32,6 +32,8 @@
 
 #import <MediaPlayer/MediaPlayer.h>
 
+#define isiPhone5  ([[UIScreen mainScreen] bounds].size.height == 568)?TRUE:FALSE
+
 static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 @interface MediaPlayerViewController ()
@@ -79,6 +81,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 @property (weak, nonatomic) IBOutlet UILabel *songTitle;
 
+@property (assign,nonatomic) NSInteger songCount;
+
 
 @end
 
@@ -95,6 +99,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [self setUpData];
 //    [self gradientSetting];
+//    [self.currentSongArtwork setFrame:<#(CGRect)#>]
     [[self.currentSongArtwork layer] setBorderWidth:2.0f];
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
     
@@ -106,12 +111,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     self.songTitle.adjustsFontSizeToFitWidth = YES;
 //    self.currentPlaylistButton.a = YES;
     
-    
 //    [self.playButton buttonWithType:UIButtonTypeSystem];
     [self.playButton setTintColor:[UIColor whiteColor]];
     [self.nextButton setTintColor:[UIColor whiteColor]];
     [self.backButton setTintColor:[UIColor whiteColor]];
 
+    [self setUpAudioPlayer];
+    
 
 
 }
@@ -163,12 +169,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             
         }
 
-        
-
-    
 }
-
-
 
 -(void) setUpNavigationBar{
     
@@ -192,7 +193,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
     currentPlayList = [[NSMutableArray alloc] init];
     
-    [self.currentPlaylistButton setEnabled:NO];
+    [self.currentPlaylistButton setEnabled:YES];
     UIImage *buttonImage = [UIImage imageNamed:@"pausebutton.png"];
     [self.playButton setImage:buttonImage forState:UIControlStateNormal];
     
@@ -214,39 +215,53 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [SVProgressHUD dismiss];
     [super viewWillDisappear:animated];
 }
+
 - (void)viewWillAppear:(BOOL)animated {
+    _progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                            target:self
+                                                          selector:@selector(updatePlaybackProgress)
+                                                          userInfo:nil
+                                                           repeats:YES];
     
+    
+    
+    [self checkNowPlayingPlaylistId];
+
+  
+}
+
+- (void) setUpAudioPlayer {
     __weak typeof(self) weakSelf = self;
     audioController.onStateChange = ^(FSAudioStreamState state) {
         switch (state) {
                 
             case kFsAudioStreamRetrievingURL:
-//                NSLog(@"1.1.)");
+                //                NSLog(@"1.1.)");
                 
                 break;
                 
             case kFsAudioStreamStopped:
-//                 NSLog(@"1.2.)");
+                //                 NSLog(@"1.2.)");
                 
                 break;
                 
             case kFsAudioStreamBuffering: {
-//                NSLog(@"1.3.)");
-               
+                //                NSLog(@"1.3.)");
+                
                 break;
             }
                 
             case kFsAudioStreamSeeking:
                 
-//                NSLog(@"1.4.)");
+                //                NSLog(@"1.4.)");
                 
                 break;
                 
             case kFsAudioStreamPlaying:
                 
-//                NSLog(@"1.5.)");
+                //                NSLog(@"1.5.)");
                 weakSelf.enableLogging = YES;
-
+                
                 weakSelf.musicSlider.enabled = YES;
                 
                 if (!weakSelf.progressUpdateTimer) {
@@ -280,52 +295,60 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #endif
                 }
                 [weakSelf toggleNextPreviousButtons];
-
                 
-//                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: playing"];
-
+                
+                //                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: playing"];
+                
                 break;
                 
             case kFsAudioStreamFailed:
-//                NSLog(@"1.6.)");
-//                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
+                //                NSLog(@"1.6.)");
+                //                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
                 
                 break;
             case kFsAudioStreamPlaybackCompleted:
-//                NSLog(@"1.7.)");
-//                [weakSelf toggleNextPreviousButtons];
+                //                NSLog(@"1.7.)");
+                //                [weakSelf toggleNextPreviousButtons];
                 if (weakSelf.playButton.enabled) {
                     [weakSelf nextButton:nil];
                 }
-    
+                
                 break;
                 
             case kFsAudioStreamRetryingStarted:
-//                NSLog(@"1.8.)");
+                //                NSLog(@"1.8.)");
                 weakSelf.enableLogging = YES;
-
+                
                 
                 break;
                 
             case kFsAudioStreamRetryingSucceeded:
-//                NSLog(@"1.9.)");
+                //                NSLog(@"1.9.)");
                 weakSelf.enableLogging = YES;
-
+                
                 break;
                 
             case kFsAudioStreamRetryingFailed:
-//                NSLog(@"1.10.)");
-//                if (weakSelf.playButton.enabled) {
-                    [SVProgressHUD dismiss];
+                //                NSLog(@"1.10.)");
+                //                if (weakSelf.playButton.enabled) {
+                [SVProgressHUD dismiss];
+                
+                if (weakSelf.songCount == 1) {
+                    
+                    [weakSelf stoppingPlayerBecauseOfError];
+                    
+                } else {
                     [weakSelf nextButton:nil];
-//                }
+                }
+                
+                //                }
                 
                 break;
                 
             default:
-//                NSLog(@"1.11.)");
+                //                NSLog(@"1.11.)");
                 break;
-
+                
                 
         }
     };
@@ -353,22 +376,30 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 errorCategory = @"Unknown error occurred: ";
                 break;
         }
+        
         NSString *errorStatus;
-        if ([errorDescription containsString:@"404"]) {
-             errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
+        
+        if ([errorDescription containsString:@"404"] || [errorDescription containsString:@"401"] || [errorDescription containsString:@"403"]) {
+            errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
+            //            weakSelf.songTitle.text = errorStatus;
             
         } else {
             
             errorStatus = [[NSString alloc] initWithFormat:@"There is a network error \xF0\x9F\x98\xA8 Please try playing '%@' again", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
-        
+            //            weakSelf.songTitle.text = errorStatus;
+            
         }
-
-    
+        
     };
-    
+
 }
+
+- (void)viewDidAppear:(BOOL)animated {
+  
+}
+
 
 - (void)addUserPlaylistItems
 {
@@ -436,20 +467,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    
-    _progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
-                                                            target:self
-                                                          selector:@selector(updatePlaybackProgress)
-                                                          userInfo:nil
-                                                           repeats:YES];
-
-    
-      
-    [self checkNowPlayingPlaylistId];
-    
-
-}
 
 
 - (void)didReceiveMemoryWarning {
@@ -508,7 +525,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
     
     
-    // Checks if same song is playing,so the mediaplayer doesn't have to rebuffering
+    // Checks if same song is playing,so the mediaplayer doesn't have to rebuffer
     if (![self checkCurrentSong: nowplayingSong]) {
     
         [self setCurrentPlaylist];
@@ -596,8 +613,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #pragma mark - Buttons
 
 - (IBAction)currentPlaylistButtonPressed:(id)sender {
+    [self deleteSongFriendInLocal];
     
-    [self performSegueWithIdentifier:@"currentPlaylistNowPlayingSegue" sender:self];
     
 }
 
@@ -631,8 +648,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (IBAction)nextButton:(id)sender {
-    
-    
     
     [self.playButton setEnabled:NO];
     self.playButton.alpha = 0.5;
@@ -672,6 +687,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
  
 
 }
+- (void) stoppingPlayerBecauseOfError {
+    [audioController stop];
+    
+}
 
 - (void) stopPlayer {
     
@@ -698,6 +717,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (void) playSong {
+    [SVProgressHUD dismiss];
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
     
@@ -705,7 +725,18 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     currentSong = nowplayingSong;
     
-    self.currentPlaylistButton.title = nowPlaying.playlistName;
+    if (nowPlaying.playlistName.length > 8) {
+        
+        NSString *subStr = [nowPlaying.playlistName substringWithRange:NSMakeRange(0, 9)];
+        NSString *displayCurrentPlaylistTitle = [NSString stringWithFormat:@"%@..", subStr];
+        self.currentPlaylistButton.title = displayCurrentPlaylistTitle;
+        
+    } else {
+        
+        self.currentPlaylistButton.title = nowPlaying.playlistName;
+    }
+    
+
     
     self.songTitle.text = nowplayingSong.title;
     
@@ -718,6 +749,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSString *resourceURL = [NSString stringWithFormat:@"%@.json?client_id=%@", nowplayingSong.stream_url ,clientID];
     NSURL* url = [NSURL URLWithString:resourceURL];
     audioController.url = url;
+    
+    self.songCount = currentPlayList.count;
     
     [audioController play];
     [self.playButton setEnabled:YES];
@@ -962,21 +995,56 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 
-    if ([[segue identifier] isEqualToString:@"currentPlaylistNowPlayingSegue"]) {
+    if ([[segue identifier] isEqualToString:@"currentPlaylistSegue"]) {
         UINavigationController *navController = [segue destinationViewController];
         FriendSearchSongsTableViewController *vc = (FriendSearchSongsTableViewController*)navController.topViewController;
         
         NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
         
-        PlaylistFriend *playlist = [PlaylistFriend MR_createEntityInContext:defaultContext];
+        PlaylistFriend *playlist = [PlaylistFriend MR_createEntity];
         playlist.objectId = nowPlaying.playlistId;
         playlist.name = nowPlaying.playlistName;
-        
+        playlist.userId = [PFUser currentUser].objectId;
+        playlist.fromNowSpinning = @(YES);
         vc.playlistInfo = playlist;
 
     }
 
 }
+- (void) deleteSongFriendInLocal {
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        NSArray *songsInLocal = [SongFriend MR_findAllInContext:localContext];
+        
+        for (SongFriend *songToDelete in songsInLocal) {
+            
+            [songToDelete MR_deleteEntityInContext:localContext];
+            
+        }
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        
+        if (!error) {
+            [self performSegueWithIdentifier:@"currentPlaylistSegue" sender:self];
+            //            NSArray *songsInLocal = [SongFriend MR_findByAttribute:@"playlistId" withValue:self.playlistInfo.objectId andOrderBy:@"createdAt" ascending:NO inContext:defaultContext];
+            
+            //            iLListTracks = [[NSMutableArray alloc] initWithArray:songsInLocal];
+            //
+            //            [self.tableView reloadData];
+            
+            
+        } else {
+            
+        }
+        
+        
+    }];
+    
+    
+}
+
 
 
 @end

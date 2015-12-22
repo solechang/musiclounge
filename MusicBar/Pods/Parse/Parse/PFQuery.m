@@ -8,6 +8,7 @@
  */
 
 #import "PFQuery.h"
+#import "PFQueryPrivate.h"
 
 #import <Bolts/BFCancellationTokenSource.h>
 #import <Bolts/BFTask.h>
@@ -310,11 +311,11 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 }
 
 - (instancetype)whereKey:(NSString *)key nearGeoPoint:(PFGeoPoint *)geopoint withinMiles:(double)maxDistance {
-    return [self whereKey:key nearGeoPoint:geopoint withinRadians:(maxDistance/EARTH_RADIUS_MILES)];
+    return [self whereKey:key nearGeoPoint:geopoint withinRadians:(maxDistance / EARTH_RADIUS_MILES)];
 }
 
 - (instancetype)whereKey:(NSString *)key nearGeoPoint:(PFGeoPoint *)geopoint withinKilometers:(double)maxDistance {
-    return [self whereKey:key nearGeoPoint:geopoint withinRadians:(maxDistance/EARTH_RADIUS_KILOMETERS)];
+    return [self whereKey:key nearGeoPoint:geopoint withinRadians:(maxDistance / EARTH_RADIUS_KILOMETERS)];
 }
 
 - (instancetype)whereKey:(NSString *)key withinGeoBoxFromSouthwest:(PFGeoPoint *)southwest toNortheast:(PFGeoPoint *)northeast {
@@ -331,7 +332,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
     [self checkIfCommandIsRunning];
     NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithCapacity:2];
     dictionary[PFQueryKeyRegex] = regex;
-    if ([modifiers length]) {
+    if (modifiers.length) {
         dictionary[PFQueryOptionKeyRegexOptions] = modifiers;
     }
     [self.state setEqualityConditionWithObject:dictionary forKey:key];
@@ -550,6 +551,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
             [NSException raise:NSInternalInconsistencyException
                         format:@"LIKE is not supported by PFQuery."];
         }
+        case NSBetweenPredicateOperatorType:
         default: {
             [NSException raise:NSInternalInconsistencyException
                         format:@"This comparison predicate is not supported. (%zd)", predicate.predicateOperatorType];
@@ -614,6 +616,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
                 }
                 return [self orQueryWithSubqueries:subqueries];
             }
+            case NSNotPredicateType:
             default: {
                 // This should never happen.
                 [NSException raise:NSInternalInconsistencyException
@@ -632,7 +635,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 ///--------------------------------------
 
 - (void)checkIfCommandIsRunning {
-    @synchronized (self) {
+    @synchronized(self) {
         if (_cancellationTokenSource) {
             [NSException raise:NSInternalInconsistencyException
                         format:@"This query has an outstanding network connection. You have to wait until it's done."];
@@ -642,7 +645,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 
 - (void)markAsRunning:(BFCancellationTokenSource *)source {
     [self checkIfCommandIsRunning];
-    @synchronized (self) {
+    @synchronized(self) {
         _cancellationTokenSource = source;
     }
 }
@@ -711,7 +714,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 }
 
 - (BFTask *)getObjectInBackgroundWithId:(NSString *)objectId {
-    if ([objectId length] == 0) {
+    if (objectId.length == 0) {
         return [BFTask taskWithResult:nil];
     }
 
@@ -721,7 +724,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 }
 
 - (void)getObjectInBackgroundWithId:(NSString *)objectId block:(PFObjectResultBlock)block {
-    @synchronized (self) {
+    @synchronized(self) {
         if (!self.state.queriesLocalDatastore && self.state.cachePolicy == kPFCachePolicyCacheThenNetwork) {
             BFTask *cacheTask = [[self _getObjectWithIdAsync:objectId
                                                  cachePolicy:kPFCachePolicyCacheOnly
@@ -799,7 +802,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 }
 
 - (void)findObjectsInBackgroundWithBlock:(PFQueryArrayResultBlock)block {
-    @synchronized (self) {
+    @synchronized(self) {
         if (!self.state.queriesLocalDatastore && self.state.cachePolicy == kPFCachePolicyCacheThenNetwork) {
             PFQueryState *cacheQueryState = [self _queryStateCopyWithCachePolicy:kPFCachePolicyCacheOnly];
             BFTask *cacheTask = [[self _findObjectsAsyncForQueryState:cacheQueryState
@@ -873,7 +876,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 }
 
 - (void)getFirstObjectInBackgroundWithBlock:(PFObjectResultBlock)block {
-    @synchronized (self) {
+    @synchronized(self) {
         if (!self.state.queriesLocalDatastore && self.state.cachePolicy == kPFCachePolicyCacheThenNetwork) {
             BFTask *cacheTask = [[self _getFirstObjectAsyncWithCachePolicy:kPFCachePolicyCacheOnly
                                                                      after:nil] thenCallBackOnMainThreadAsync:block];
@@ -921,7 +924,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
         return -1;
     }
 
-    return [count integerValue];
+    return count.integerValue;
 }
 
 - (BFTask *)countObjectsInBackground {
@@ -944,7 +947,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
         };
     }
 
-    @synchronized (self) {
+    @synchronized(self) {
         if (!self.state.queriesLocalDatastore && self.state.cachePolicy == kPFCachePolicyCacheThenNetwork) {
             PFQueryState *cacheQueryState = [self _queryStateCopyWithCachePolicy:kPFCachePolicyCacheOnly];
             BFTask *cacheTask = [[self _countObjectsAsyncForQueryState:cacheQueryState
@@ -993,7 +996,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 ///--------------------------------------
 
 - (void)cancel {
-    @synchronized (self) {
+    @synchronized(self) {
         if (_cancellationTokenSource) {
             [_cancellationTokenSource cancel];
             _cancellationTokenSource = nil;
@@ -1014,7 +1017,7 @@ static void PFQueryAssertValidOrderingClauseClass(id object) {
 ///--------------------------------------
 
 - (NSUInteger)hash {
-    return [self.state hash];
+    return self.state.hash;
 }
 
 - (BOOL)isEqual:(id)object {

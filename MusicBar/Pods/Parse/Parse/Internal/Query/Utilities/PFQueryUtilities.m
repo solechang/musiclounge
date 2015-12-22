@@ -68,7 +68,7 @@
                  compoundBlock:^NSPredicate *(NSCompoundPredicate *compound) {
                      switch (compound.compoundPredicateType) {
                          case NSNotPredicateType: {
-                             return [compound.subpredicates objectAtIndex:0];
+                             return compound.subpredicates[0];
                          }
                          case NSAndPredicateType: {
                              NSMutableArray *newSubpredicates =
@@ -96,7 +96,7 @@
                  } comparisonBlock:^NSPredicate *(NSComparisonPredicate *comparison) {
                      NSPredicateOperatorType newType;
                      NSComparisonPredicateModifier newModifier = comparison.comparisonPredicateModifier;
-                     SEL customSelector;
+                     SEL customSelector = NULL;
 
                      switch (comparison.predicateOperatorType) {
                          case NSEqualToPredicateOperatorType: {
@@ -176,7 +176,7 @@
                      // If this is a NOT predicate, return the negation of the subpredicate.
                      // Otherwise, just pass it on.
                      if (compound.compoundPredicateType == NSNotPredicateType) {
-                         return [self _negatePredicate:[newSubpredicates objectAtIndex:0]];
+                         return [self _negatePredicate:newSubpredicates[0]];
                      } else {
                          return [[NSCompoundPredicate alloc] initWithType:compound.compoundPredicateType
                                                             subpredicates:newSubpredicates];

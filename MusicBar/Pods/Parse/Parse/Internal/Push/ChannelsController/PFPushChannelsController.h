@@ -13,11 +13,14 @@
 
 #import "PFCoreDataProvider.h"
 
+PF_TV_UNAVAILABLE_WARNING
+PF_WATCH_UNAVAILABLE_WARNING
+
 @class BFTask PF_GENERIC(__covariant BFGenericType);
 
 NS_ASSUME_NONNULL_BEGIN
 
-PF_WATCH_UNAVAILABLE @interface PFPushChannelsController : NSObject
+PF_TV_UNAVAILABLE PF_WATCH_UNAVAILABLE @interface PFPushChannelsController : NSObject
 
 @property (nonatomic, weak, readonly) id<PFCurrentInstallationControllerProvider> dataSource;
 
@@ -33,7 +36,7 @@ PF_WATCH_UNAVAILABLE @interface PFPushChannelsController : NSObject
 /// @name Get
 ///--------------------------------------
 
-- (BFTask *)getSubscribedChannelsAsync;
+- (BFTask PF_GENERIC(NSSet<NSString *> *)*)getSubscribedChannelsAsync;
 
 ///--------------------------------------
 /// @name Subscribe

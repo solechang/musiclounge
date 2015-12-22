@@ -253,23 +253,26 @@
 }
 
 - (void) checkUpdateLoggedIn {
-    PFUser *currentPFUser = [PFUser currentUser];
+    
+    PFUser *currentPFUser = [PFUser currentUser] ;
     
     myiLListArray = [[NSMutableArray alloc] init];
     iLListInfo = [[NSMutableDictionary alloc] init];
     
     if (!currentPFUser[@"updateCheck"]) {
-        
+
         [self deleteUserDataAndLogout];
 
         
     } else {
         // Check if user is logged in
         if (currentPFUser && currentPFUser[@"name"] && currentPFUser[@"updateCheck"]) {
+     
             [self enableButtons];
             [self userPlaylistLogic];
             
         } else {
+           
             [self showLoginScreen];
             
         }
@@ -344,7 +347,7 @@
 - (void) savePlaylistToLocal: (NSArray*) playlists {
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
-        
+
         for (PFObject *playlistObject in playlists) {
             
             Playlist *playlist = [Playlist MR_findFirstByAttribute:@"objectId" withValue:playlistObject.objectId inContext:localContext];
@@ -361,7 +364,7 @@
             playlist.createdAt = playlistObject.createdAt;
             playlist.songCount = playlistObject[@"SongCount"];
             playlist.updatedAt = playlistObject.updatedAt;
-
+      
             
         }
         

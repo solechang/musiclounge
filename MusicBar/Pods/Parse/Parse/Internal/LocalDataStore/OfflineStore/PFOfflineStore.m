@@ -31,19 +31,19 @@
 
 typedef BFTask *(^PFOfflineStoreDatabaseExecutionBlock)(PFSQLiteDatabase *database);
 
-NSString *const PFOfflineStoreDatabaseName = @"ParseOfflineStore";
+static NSString *const PFOfflineStoreDatabaseName = @"ParseOfflineStore";
 
-NSString *const PFOfflineStoreTableOfObjects = @"ParseObjects";
-NSString *const PFOfflineStoreKeyOfClassName = @"className";
-NSString *const PFOfflineStoreKeyOfIsDeletingEventually = @"isDeletingEventually";
-NSString *const PFOfflineStoreKeyOfJSON = @"json";
-NSString *const PFOfflineStoreKeyOfObjectId = @"objectId";
-NSString *const PFOfflineStoreKeyOfUUID = @"uuid";
+static NSString *const PFOfflineStoreTableOfObjects = @"ParseObjects";
+static NSString *const PFOfflineStoreKeyOfClassName = @"className";
+static NSString *const PFOfflineStoreKeyOfIsDeletingEventually = @"isDeletingEventually";
+static NSString *const PFOfflineStoreKeyOfJSON = @"json";
+static NSString *const PFOfflineStoreKeyOfObjectId = @"objectId";
+static NSString *const PFOfflineStoreKeyOfUUID = @"uuid";
 
-NSString *const PFOfflineStoreTableOfDependencies = @"Dependencies";
-NSString *const PFOfflineStoreKeyOfKey = @"key";
+static NSString *const PFOfflineStoreTableOfDependencies = @"Dependencies";
+static NSString *const PFOfflineStoreKeyOfKey = @"key";
 
-int const PFOfflineStoreMaximumSQLVariablesCount = 999;
+static int const PFOfflineStoreMaximumSQLVariablesCount = 999;
 
 @interface PFOfflineStore ()
 
@@ -181,7 +181,7 @@ int const PFOfflineStoreMaximumSQLVariablesCount = 999;
                 NSString *query = [NSString stringWithFormat:@"SELECT %@ FROM %@ WHERE %@ = ?;",
                                    PFOfflineStoreKeyOfJSON, PFOfflineStoreTableOfObjects, PFOfflineStoreKeyOfUUID];
                 return [database executeQueryAsync:query
-                              withArgumentsInArray:[NSArray arrayWithObjects:uuid, nil]];
+                              withArgumentsInArray:@[ uuid ]];
             }] continueWithSuccessBlock:^id(BFTask *task) {
                 PFSQLiteDatabaseResult *result = task.result;
                 if (![result next]) {
@@ -376,7 +376,7 @@ int const PFOfflineStoreMaximumSQLVariablesCount = 999;
 - (BFTask *)saveObjectLocallyAsync:(PFObject *)object
                                key:(NSString *)key
                           database:(PFSQLiteDatabase *)database {
-    if ([object objectId] != nil && ![object isDataAvailable] &&
+    if ([object objectId] != nil && !object.dataAvailable &&
         ![object _hasChanges] && ![object _hasOutstandingOperations]) {
         return [BFTask taskWithResult:nil];
     }
@@ -530,7 +530,7 @@ int const PFOfflineStoreMaximumSQLVariablesCount = 999;
                 object = task.result;
                 return [self fetchObjectLocallyAsync:object database:database];
             }] continueWithSuccessBlock:^id(BFTask *task) {
-                if (!object.isDataAvailable) {
+                if (!object.dataAvailable) {
                     return [BFTask taskWithResult:@NO];
                 }
                 return matcherBlock(object, database);
