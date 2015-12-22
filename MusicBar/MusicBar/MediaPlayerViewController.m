@@ -489,7 +489,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         [self setButtonsEnabled:NO];
 //        NSLog(@"No songs to be played");
         
-    } else {
+    } else if ([nowPlaying.currentlyPlayingSongId isEqualToString:@"joinLounge^&#@*!&@#"]) {
+        
+        // Gotta check if client who joined the host is currently hosting
+        // IF NOT* then prompt user that host is not currently hosting and choose a song from a lounge to play music
+        
+        [self sendJoinLoungeData :nowPlaying];
+        
+        
+        
+        
+    }else {
         [self setButtonsEnabled:YES];
 
         [self getSongsFromLocal: nowPlaying];
@@ -1129,7 +1139,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.DJButton.enabled = NO;
         self.DJButton.title = @"DJ";
         
-//        [self sendCloseHostData];
+        [self sendCloseHostData];
         
         
 //      NSLog(@"4.)");
@@ -1164,7 +1174,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 - (void) sendDJData {
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    [data setObject:currentSong.hostName forKey:@"hostName"];
+    [data setObject:[PFUser currentUser][@"name"] forKey:@"hostName"];
     [data setObject:currentSong.hostId forKey:@"userId"];
     [data setObject:currentSong.stream_url forKey:@"streamURL"];
     [data setObject:currentSong.title forKey:@"songName"];
@@ -1183,6 +1193,30 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NSError *error;
     NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
   
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
+    
+}
+
+- (void) sendJoinLoungeData:(NowPlaying*) nowPlaying {
+//    NSLog(@"1.)");
+    
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:nowPlaying.playlistName forKey:@"hostName"];
+    [data setObject:nowPlaying.playlistId forKey:@"userId"];
+
+    
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"joinLounge", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    
     NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
     
     [_webSocket send:jsonString];
