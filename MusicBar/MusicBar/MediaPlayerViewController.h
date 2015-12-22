@@ -7,13 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
-//#import <STKAudioPlayer.h>
 
-@interface MediaPlayerViewController : UIViewController //<STKAudioPlayerDelegate>
+// Websocket
+#import <SocketRocket/SRWebSocket.h>
+
+@interface MediaPlayerViewController : UIViewController <SRWebSocketDelegate>
 
 
 @property (nonatomic,strong) NSMutableArray *userPlaylistItems;
 
 @property (nonatomic,strong) NSMutableArray *playlistItems;
+
+- (id)initWithMessage:(NSString *)message fromMe:(BOOL)fromMe;
 
 @end

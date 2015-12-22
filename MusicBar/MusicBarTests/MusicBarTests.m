@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <XCTest/XCTest.h>
 
+
 @interface MusicBarTests : XCTestCase
 @property (nonatomic, strong) NSArray *tracks;
 @property (nonatomic, strong) NSDictionary *userTracks;
@@ -38,6 +39,10 @@
     [self measureBlock:^{
         // Put the code you want to measure the time of here.
     }];
+}
+
+- (void) testRocketSocket {
+    
 }
 - (void)testSearchTracksBySoleChang {
     // searching tracks by a specific user (solechang)

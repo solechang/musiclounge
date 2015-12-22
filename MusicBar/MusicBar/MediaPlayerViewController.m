@@ -53,9 +53,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *currentSong;
     
     FSStreamPosition pos;
+    
+    SRWebSocket *_webSocket;
 }
 
 
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *DJButton;
 
 @property (nonatomic,strong) NSTimer *progressUpdateTimer;
 @property (nonatomic,strong) NSTimer *playbackSeekTimer;
@@ -98,20 +101,15 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self setUpNotifications];
     
     [self setUpData];
-//    [self gradientSetting];
-//    [self.currentSongArtwork setFrame:<#(CGRect)#>]
+
     [[self.currentSongArtwork layer] setBorderWidth:2.0f];
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
     
-    
-//    [[self.view layer] setBorderWidth:2.0f];
-//    [[self.view layer] setBorderColor:[UIColor whiteColor].CGColor];
+
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
-//    self.currentPlaylistButton.a = YES;
-    
-//    [self.playButton buttonWithType:UIButtonTypeSystem];
+
     [self.playButton setTintColor:[UIColor whiteColor]];
     [self.nextButton setTintColor:[UIColor whiteColor]];
     [self.backButton setTintColor:[UIColor whiteColor]];
@@ -511,6 +509,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self.playButton setEnabled:yesOrNo];
     [self.nextButton setEnabled:yesOrNo];
     [self.backButton setEnabled:yesOrNo];
+    [self.currentPlaylistButton setEnabled:yesOrNo];
+    [self.DJButton setEnabled:yesOrNo];
 }
 
 #pragma mark - setCurrentPlayList
@@ -1044,7 +1044,151 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     
 }
+#pragma mark - SRWebSocketDelegate
 
+- (void)webSocketDidOpen:(SRWebSocket *)webSocket;
+{
+    NSLog(@"Websocket Connected");
+    self.DJButton.enabled = YES;
+    [self sendDJData];
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
+{
+    NSLog(@":( Websocket Failed With Error %@", error);
+    
+    _webSocket = nil;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
+{
+    NSLog(@"Received \"%@\"", message);
+    // Client to receive message
+ 
+    
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didCloseWithCode:(NSInteger)code reason:(NSString *)reason wasClean:(BOOL)wasClean;
+{
+    NSLog(@"WebSocket closed");
+    _webSocket = nil;
+    self.DJButton.enabled = YES;
+}
+
+- (void)webSocket:(SRWebSocket *)webSocket didReceivePong:(NSData *)pongPayload;
+{
+    NSLog(@"Websocket received pong");
+}
+
+
+- (id)initWithMessage:(NSString *)message fromMe:(BOOL)fromMe;
+{
+    self = [super init];
+    if (self) {
+       
+    }
+    
+    return self;
+}
+
+- (void)connectWebSocket;
+{
+
+    _webSocket = [[SRWebSocket alloc] initWithURLRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"ws://45.55.22.191:1337"]]];
+    _webSocket.delegate = self;
+    
+    NSLog(@"Opening connection");
+    //    self.title = @"Opening Connection...";
+    [_webSocket open];
+    
+}
+
+
+
+#pragma mark - DJ Button
+- (IBAction)DJButtonPressed:(id)sender {
+    
+//    SR_CONNECTING   = 0,
+//    SR_OPEN         = 1,
+//    SR_CLOSING      = 2,
+//    SR_CLOSED       = 3,
+
+//    NSLog(@"1.) %ld", (long)_webSocket.readyState);
+    
+    if (_webSocket.readyState == (long)0) {
+        // First time when the app is opened, _webSocket is not instantiated
+        self.DJButton.enabled = NO;
+        self.DJButton.title = @"DJing";
+        [self connectWebSocket];
+        
+        
+//        NSLog(@"2.)");
+        
+    } else  if ( _webSocket.readyState == (long)1) {
+        // Websocket is opened
+        self.DJButton.enabled = NO;
+        self.DJButton.title = @"DJ";
+        
+//        [self sendCloseHostData];
+        
+        
+//      NSLog(@"4.)");
+        
+    }
+}
+
+- (void) sendCloseHostData {
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:currentSong.hostId forKey:@"userId"];
+    
+    
+    
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"unhostLounge", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
+    [_webSocket close];
+    
+}
+
+
+
+- (void) sendDJData {
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:currentSong.hostName forKey:@"hostName"];
+    [data setObject:currentSong.hostId forKey:@"userId"];
+    [data setObject:currentSong.stream_url forKey:@"streamURL"];
+    [data setObject:currentSong.title forKey:@"songName"];
+    [data setObject:@"" forKey:@"songTime"];
+    [data setObject:@"" forKey:@"hostTime"];
+    [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
+    [data setObject:currentSong.nowPlaying.playlistName forKey:@"currentLoungeName"];
+    [data setObject:currentSong.artwork forKey:@"songImage"];
+    
+    
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"hostLounge", @"action",
+                         data, @"data",
+                         nil];
+
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+  
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
+    
+}
 
 
 @end
