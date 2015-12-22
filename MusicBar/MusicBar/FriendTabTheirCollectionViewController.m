@@ -945,6 +945,50 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 - (IBAction)joinDJButtonPressed:(id)sender {
     
     NSLog(@"1.)") ;
+    [self sendJoinData];
+    
+}
+
+- (void) sendJoinData {
+    
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        
+        NowPlaying *nowPlayingDelete = [NowPlaying MR_findFirstInContext:localContext];
+        [nowPlayingDelete MR_deleteEntityInContext:localContext];
+        
+        NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
+        nowPlaying.playlistName = self.friendInfo.name; // // (hostName) is stored in playlistName
+        nowPlaying.playlistId = self.friendInfo.userId; // userId is stored in playlistId
+        nowPlaying.currentlyPlayingSongId = @"joinLounge^&#@*!&@#";
+        
+//        nowPlaying.playlistId = self.playlistInfo.objectId;
+//        nowPlaying.songIndex = [NSNumber numberWithInteger:row];
+//        nowPlaying.playlistName = self.playlistInfo.name;
+        nowPlaying.updatedAt = [NSDate date];
+        
+        
+        
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        if (!error) {
+            
+           [self.tabBarController setSelectedIndex:2];
+            
+ 
+        } else {
+            //            NSLog(@"Error 653 %@", error);
+        }
+        
+        
+        
+        
+    }];
+    
+
+    
 }
 
 
