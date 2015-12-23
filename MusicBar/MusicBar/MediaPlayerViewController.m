@@ -493,13 +493,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         // Gotta check if client who joined the host is currently hosting
         // IF NOT* then prompt user that host is not currently hosting and choose a song from a lounge to play music
+        self.DJButton.title = @"Leave";
+        [self connectWebSocket];
+//        [self sendJoinLoungeData :nowPlaying];
         
-        [self sendJoinLoungeData :nowPlaying];
         
         
         
-        
-    }else {
+    } else {
         [self setButtonsEnabled:YES];
 
         [self getSongsFromLocal: nowPlaying];
@@ -686,6 +687,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         if (!error) {
             [self playSong];
+           
             
         } else {
 //            NSLog(@"Error 601.)");
@@ -730,7 +732,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [SVProgressHUD dismiss];
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-    
+
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
     
     currentSong = nowplayingSong;
@@ -948,6 +950,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [audioController.activeStream seekToPosition:pos];
 }
 
+- (void)doSeeking:(double) seekToPoint
+{
+    pos.position = seekToPoint;
+    [audioController.activeStream seekToPosition:pos];
+}
+
+
 - (void)rampVolume
 {
     if (_rampStep > _rampStepCount) {
@@ -1059,8 +1068,21 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 - (void)webSocketDidOpen:(SRWebSocket *)webSocket;
 {
     NSLog(@"Websocket Connected");
-    self.DJButton.enabled = YES;
-    [self sendDJData];
+    
+    
+    NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
+    if (  [nowPlaying.currentlyPlayingSongId isEqualToString:@"joinLounge^&#@*!&@#"] ){
+        
+        
+        [self sendJoinLoungeData:nowPlaying];
+    
+    } else {
+        
+        
+        self.DJButton.enabled = YES;
+        [self sendHostDJData];
+    }
+    
 }
 
 - (void)webSocket:(SRWebSocket *)webSocket didFailWithError:(NSError *)error;
@@ -1072,8 +1094,29 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)webSocket:(SRWebSocket *)webSocket didReceiveMessage:(id)message;
 {
-    NSLog(@"Received \"%@\"", message);
-    // Client to receive message
+    
+    NSError *jsonError;
+    NSData *objectData = [message dataUsingEncoding:NSUTF8StringEncoding];
+    NSDictionary *jsonDictionary = [NSJSONSerialization JSONObjectWithData:objectData
+                                                         options:NSJSONReadingMutableContainers
+                                                           error:&jsonError];
+    NSLog(@"Received \"%@\"", jsonDictionary);
+    
+    if ([jsonDictionary[@"action"] isEqualToString:@"requestHostInfo"]) {
+        
+        [self sendHostInfo:jsonDictionary[@"data"]];
+        
+    } else if ([jsonDictionary[@"action"] isEqualToString:@"sendHostInfo"]) {
+         // Joiner to receive message
+        [self playReceivedSongData:jsonDictionary[@"data"]];
+        
+        
+    } else if ( [jsonDictionary[@"action"] isEqualToString:@"error"]) {
+     
+        [self hostIsCurrentlyNotHosting];
+        
+    }
+   
  
     
 }
@@ -1108,11 +1151,74 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     _webSocket.delegate = self;
     
     NSLog(@"Opening connection");
-    //    self.title = @"Opening Connection...";
+   
     [_webSocket open];
     
 }
 
+
+#pragma mark - Client receiving song data to play
+
+- (void) playReceivedSongData:(NSDictionary*) songData{
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        NowPlaying *nowPlayingDelete = [NowPlaying MR_findFirstInContext:localContext];
+        [nowPlayingDelete MR_deleteEntityInContext:localContext];
+        
+        NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
+        nowPlaying.playlistId = songData[@"currentLoungeId"];
+        nowPlaying.songIndex = [NSNumber numberWithInteger:0];
+        nowPlaying.playlistName = songData[@"currentLoungeName"];
+        nowPlaying.updatedAt = [NSDate date];
+        
+        nowPlaying.currentlyPlayingSongId = songData[@""];
+        
+        NSArray *nowPlayingSongArrayToDelete = [NowPlayingSong MR_findAllInContext:localContext];
+        
+        for (NowPlayingSong *nowPlayingSongDelete in nowPlayingSongArrayToDelete) {
+            
+            [nowPlayingSongDelete MR_deleteEntityInContext:localContext];
+            
+        }
+        
+        NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_createEntityInContext:localContext];
+        
+        nowPlayingSong.artwork = songData[@"songImage"];
+        nowPlayingSong.hostId = songData[@"userId"];
+        nowPlayingSong.hostName = songData[@"hostName"];
+        nowPlayingSong.objectId = songData[@"songId"];
+        nowPlayingSong.playlistId = songData[@"currentLoungeId"];
+        nowPlayingSong.stream_url = songData[@"streamURL"];
+        
+        NSLog(@"2.) %@", nowPlayingSong.stream_url);
+        
+//        nowPlayingSong.time = songsInLocal.time;
+//        NSNumbe
+        pos.position = [songData[@"songTime"] floatValue];
+        nowPlayingSong.title = songData[@"songName"];
+//        nowPlayingSong.uploadingUser = songsInLocal.uploadingUser;
+//        nowPlayingSong.createdAt = songsInLocal.createdAt;
+        
+        nowPlayingSong.nowPlaying = nowPlaying;
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        if (!error) {
+            NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findAllInContext:defaultContext];
+            
+            currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
+            [self playSong];
+//            [self doSeeking:pos.position];
+            
+        } else {
+            //            NSLog(@"Error 653 %@", error);
+        }
+     }];
+    
+    
+    
+}
 
 
 #pragma mark - DJ Button
@@ -1124,6 +1230,16 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //    SR_CLOSED       = 3,
 
 //    NSLog(@"1.) %ld", (long)_webSocket.readyState);
+    
+    
+    // Leave lounge
+    if ([self.DJButton.title isEqualToString:@"Leave"]) {
+        self.DJButton.enabled = NO;
+        self.DJButton.title = @"DJ";
+        
+        
+        return;
+    }
     
     if (_webSocket.readyState == (long)0) {
         // First time when the app is opened, _webSocket is not instantiated
@@ -1150,9 +1266,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 - (void) sendCloseHostData {
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
-    [data setObject:currentSong.hostId forKey:@"userId"];
-    
-    
+    [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
                          @"unhostLounge", @"action",
@@ -1171,19 +1285,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 
 
-- (void) sendDJData {
+- (void) sendHostDJData {
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     [data setObject:[PFUser currentUser][@"name"] forKey:@"hostName"];
-    [data setObject:currentSong.hostId forKey:@"userId"];
-    [data setObject:currentSong.stream_url forKey:@"streamURL"];
-    [data setObject:currentSong.title forKey:@"songName"];
-    [data setObject:@"" forKey:@"songTime"];
-    [data setObject:@"" forKey:@"hostTime"];
-    [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
-    [data setObject:currentSong.nowPlaying.playlistName forKey:@"currentLoungeName"];
-    [data setObject:currentSong.artwork forKey:@"songImage"];
-    
+    [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
+
+
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
                          @"hostLounge", @"action",
@@ -1206,8 +1314,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     [data setObject:nowPlaying.playlistName forKey:@"hostName"];
-    [data setObject:nowPlaying.playlistId forKey:@"userId"];
-
+    [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
+    [data setObject:nowPlaying.playlistId forKey:@"hostId"];
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
                          @"joinLounge", @"action",
@@ -1221,6 +1329,46 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [_webSocket send:jsonString];
     
+    
+}
+
+- (void) sendHostInfo:(NSDictionary*) joinerId {
+   
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
+    NSString *stringDate = [dateFormatter stringFromDate:[NSDate date]];
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:[PFUser currentUser][@"name"] forKey:@"hostName"];
+    [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
+    [data setObject:currentSong.stream_url forKey:@"streamURL"];
+    [data setObject:currentSong.title forKey:@"songName"];
+    [data setObject:[NSNumber numberWithFloat:pos.position] forKey:@"songTime"];
+    [data setObject:stringDate forKey:@"hostTime"];
+    [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
+    [data setObject:currentSong.nowPlaying.playlistName forKey:@"currentLoungeName"];
+    [data setObject:currentSong.artwork forKey:@"songImage"];
+    [data setObject:joinerId[@"joinerId"] forKey:@"joinerId"];
+    [data setObject:currentSong.objectId forKey:@"songId"];
+    
+    
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"sendHostInfo", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+
+}
+
+- (void) hostIsCurrentlyNotHosting {
+    
+    [SVProgressHUD showErrorWithStatus:@"Host is not currently DJing"];
     
 }
 
