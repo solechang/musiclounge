@@ -493,7 +493,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         // Gotta check if client who joined the host is currently hosting
         // IF NOT* then prompt user that host is not currently hosting and choose a song from a lounge to play music
-        self.DJButton.title = @"Leave";
+       
         [self connectWebSocket];
 //        [self sendJoinLoungeData :nowPlaying];
         
@@ -1115,7 +1115,17 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
      
         [self hostIsCurrentlyNotHosting];
         
+    } else if ( [jsonDictionary[@"action"] isEqualToString:@"kickJoiner"]) {
+    
+        self.DJButton.title = @"DJ";
+        
+        [self leaveLounge];
+        
+        [SVProgressHUD showInfoWithStatus:@"Left lounge"];
+        self.DJButton.enabled = YES;
+        
     }
+
    
  
     
@@ -1161,6 +1171,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) playReceivedSongData:(NSDictionary*) songData{
     
+     self.DJButton.title = @"Leave";
+    
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         NowPlaying *nowPlayingDelete = [NowPlaying MR_findFirstInContext:localContext];
@@ -1191,10 +1203,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         nowPlayingSong.playlistId = songData[@"currentLoungeId"];
         nowPlayingSong.stream_url = songData[@"streamURL"];
         
-        NSLog(@"2.) %@", nowPlayingSong.stream_url);
-        
+
 //        nowPlayingSong.time = songsInLocal.time;
-//        NSNumbe
         pos.position = [songData[@"songTime"] floatValue];
         nowPlayingSong.title = songData[@"songName"];
 //        nowPlayingSong.uploadingUser = songsInLocal.uploadingUser;
@@ -1237,6 +1247,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.DJButton.enabled = NO;
         self.DJButton.title = @"DJ";
         
+        [self leaveLounge];
         
         return;
     }
@@ -1372,5 +1383,28 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 }
 
+- (void) leaveLounge {
+   
+     NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_findFirstInContext:defaultContext];
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:nowPlayingSong.hostId forKey:@"hostId"];
+    [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
+    
+
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"leaveLounge", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
+    
+}
 
 @end
