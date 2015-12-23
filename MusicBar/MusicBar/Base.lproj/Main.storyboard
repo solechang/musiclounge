@@ -1431,7 +1431,7 @@
                             <rect key="frame" x="180" y="7" width="240" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" name="Wisdom-Script" family="Wisdom Script" pointSize="22"/>
-                            <state key="normal" title="Join DJ"/>
+                            <state key="normal" title="Join Lounge"/>
                             <connections>
                                 <action selector="joinDJButtonPressed:" destination="jMU-U9-WgW" eventType="touchUpInside" id="ZKf-RJ-zQq"/>
                             </connections>

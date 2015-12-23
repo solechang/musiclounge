@@ -500,7 +500,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         
         
-    }else {
+    } else {
         [self setButtonsEnabled:YES];
 
         [self getSongsFromLocal: nowPlaying];
@@ -687,6 +687,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         if (!error) {
             [self playSong];
+           
             
         } else {
 //            NSLog(@"Error 601.)");
@@ -731,7 +732,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [SVProgressHUD dismiss];
     
     NowPlaying *nowPlaying = [NowPlaying MR_findFirstInContext:defaultContext];
-    
+
     NowPlayingSong *nowplayingSong = [currentPlayList objectAtIndex:[nowPlaying.songIndex integerValue]];
     
     currentSong = nowplayingSong;
@@ -949,6 +950,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [audioController.activeStream seekToPosition:pos];
 }
 
+- (void)doSeeking:(double) seekToPoint
+{
+    pos.position = seekToPoint;
+    [audioController.activeStream seekToPosition:pos];
+}
+
+
 - (void)rampVolume
 {
     if (_rampStep > _rampStepCount) {
@@ -1096,10 +1104,19 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     if ([jsonDictionary[@"action"] isEqualToString:@"requestHostInfo"]) {
         
-        [self sendCurrentSongDataToServer];
+        [self sendHostInfo:jsonDictionary[@"data"]];
+        
+    } else if ([jsonDictionary[@"action"] isEqualToString:@"sendHostInfo"]) {
+         // Joiner to receive message
+        [self playReceivedSongData:jsonDictionary[@"data"]];
+        
+        
+    } else if ( [jsonDictionary[@"action"] isEqualToString:@"error"]) {
+     
+        [self hostIsCurrentlyNotHosting];
         
     }
-    // Client to receive message
+   
  
     
 }
@@ -1139,6 +1156,69 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 }
 
+
+#pragma mark - Client receiving song data to play
+
+- (void) playReceivedSongData:(NSDictionary*) songData{
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
+        
+        NowPlaying *nowPlayingDelete = [NowPlaying MR_findFirstInContext:localContext];
+        [nowPlayingDelete MR_deleteEntityInContext:localContext];
+        
+        NowPlaying *nowPlaying = [NowPlaying MR_createEntityInContext:localContext];
+        nowPlaying.playlistId = songData[@"currentLoungeId"];
+        nowPlaying.songIndex = [NSNumber numberWithInteger:0];
+        nowPlaying.playlistName = songData[@"currentLoungeName"];
+        nowPlaying.updatedAt = [NSDate date];
+        
+        nowPlaying.currentlyPlayingSongId = songData[@""];
+        
+        NSArray *nowPlayingSongArrayToDelete = [NowPlayingSong MR_findAllInContext:localContext];
+        
+        for (NowPlayingSong *nowPlayingSongDelete in nowPlayingSongArrayToDelete) {
+            
+            [nowPlayingSongDelete MR_deleteEntityInContext:localContext];
+            
+        }
+        
+        NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_createEntityInContext:localContext];
+        
+        nowPlayingSong.artwork = songData[@"songImage"];
+        nowPlayingSong.hostId = songData[@"userId"];
+        nowPlayingSong.hostName = songData[@"hostName"];
+        nowPlayingSong.objectId = songData[@"songId"];
+        nowPlayingSong.playlistId = songData[@"currentLoungeId"];
+        nowPlayingSong.stream_url = songData[@"streamURL"];
+        
+        NSLog(@"2.) %@", nowPlayingSong.stream_url);
+        
+//        nowPlayingSong.time = songsInLocal.time;
+//        NSNumbe
+        pos.position = [songData[@"songTime"] floatValue];
+        nowPlayingSong.title = songData[@"songName"];
+//        nowPlayingSong.uploadingUser = songsInLocal.uploadingUser;
+//        nowPlayingSong.createdAt = songsInLocal.createdAt;
+        
+        nowPlayingSong.nowPlaying = nowPlaying;
+        
+    } completion:^(BOOL success, NSError *error) {
+        
+        if (!error) {
+            NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findAllInContext:defaultContext];
+            
+            currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
+            [self playSong];
+//            [self doSeeking:pos.position];
+            
+        } else {
+            //            NSLog(@"Error 653 %@", error);
+        }
+     }];
+    
+    
+    
+}
 
 
 #pragma mark - DJ Button
@@ -1207,20 +1287,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) sendHostDJData {
     
-//    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-//    [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
-//    NSString *stringDate = [dateFormatter stringFromDate:[NSDate date]];
-    
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     [data setObject:[PFUser currentUser][@"name"] forKey:@"hostName"];
     [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
-//    [data setObject:currentSong.stream_url forKey:@"streamURL"];
-//    [data setObject:currentSong.title forKey:@"songName"];
-//    [data setObject:[NSNumber numberWithFloat:pos.position] forKey:@"songTime"];
-//    [data setObject:stringDate forKey:@"hostTime"];
-//    [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
-//    [data setObject:currentSong.nowPlaying.playlistName forKey:@"currentLoungeName"];
-//    [data setObject:currentSong.artwork forKey:@"songImage"];
+
 
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -1244,8 +1314,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     [data setObject:nowPlaying.playlistName forKey:@"hostName"];
-    [data setObject:nowPlaying.playlistId forKey:@"userId"];
-    [data setObject:[PFUser currentUser].objectId forKey:@"hostId"];
+    [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
+    [data setObject:nowPlaying.playlistId forKey:@"hostId"];
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
                          @"joinLounge", @"action",
@@ -1262,7 +1332,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 }
 
-- (void) sendCurrentSongDataToServer {
+- (void) sendHostInfo:(NSDictionary*) joinerId {
+   
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
     [dateFormatter setDateFormat:@"yyyy-MM-dd'T'HH:mm:ss"];
     NSString *stringDate = [dateFormatter stringFromDate:[NSDate date]];
@@ -1277,6 +1348,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
     [data setObject:currentSong.nowPlaying.playlistName forKey:@"currentLoungeName"];
     [data setObject:currentSong.artwork forKey:@"songImage"];
+    [data setObject:joinerId[@"joinerId"] forKey:@"joinerId"];
+    [data setObject:currentSong.objectId forKey:@"songId"];
     
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -1291,6 +1364,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [_webSocket send:jsonString];
 
+}
+
+- (void) hostIsCurrentlyNotHosting {
+    
+    [SVProgressHUD showErrorWithStatus:@"Host is not currently DJing"];
+    
 }
 
 
