@@ -1,6 +1,6 @@
 /*
  * This file is part of the FreeStreamer project,
- * (C)Copyright 2011-2015 Matias Muhonen <mmu@iki.fi>
+ * (C)Copyright 2011-2016 Matias Muhonen <mmu@iki.fi> 穆马帝
  * See the file ''LICENSE'' for using the code.
  *
  * https://github.com/muhku/FreeStreamer
@@ -34,7 +34,8 @@ enum Audio_Stream_Error {
     AS_ERR_STREAM_PARSE = 2,  // Parse error
     AS_ERR_NETWORK = 3,        // Network error
     AS_ERR_UNSUPPORTED_FORMAT = 4,
-    AS_ERR_BOUNCING = 5
+    AS_ERR_BOUNCING = 5,
+    AS_ERR_TERMINATED = 6
 };
     
 class Audio_Stream_Delegate;
@@ -64,6 +65,7 @@ public:
     void open(Input_Stream_Position *position);
     void close(bool closeParser);
     void pause();
+    void rewind(unsigned seconds);
     
     void startCachedDataPlayback();
     
@@ -103,14 +105,12 @@ public:
     UInt64 defaultContentLength();
     UInt64 contentLength();
     int playbackDataCount();
-    int audioQueueNumberOfBuffersInUse();
-    int audioQueuePacketCount();
+    
+    AudioQueueLevelMeterState levels();
     
     /* Audio_Queue_Delegate */
     void audioQueueStateChanged(Audio_Queue::State state);
     void audioQueueBuffersEmpty();
-    void audioQueueOverflow();
-    void audioQueueUnderflow();
     void audioQueueInitializationFailed();
     void audioQueueFinishedPlayingPacket();
     
@@ -132,11 +132,11 @@ private:
     bool m_initialBufferingCompleted;
     bool m_discontinuity;
     bool m_preloading;
-    bool m_ignoreDecodeQueueSize;
     bool m_audioQueueConsumedPackets;
     
     UInt64 m_defaultContentLength;
     UInt64 m_contentLength;
+    UInt64 m_originalContentLength;
     UInt64 m_bytesReceived;
     
     State m_state;
@@ -144,7 +144,8 @@ private:
     Audio_Queue *m_audioQueue;
     
     CFRunLoopTimerRef m_watchdogTimer;
-    CFRunLoopTimerRef m_audioQueueTimer;
+    CFRunLoopTimerRef m_seekTimer;
+    CFRunLoopTimerRef m_inputStreamTimer;
     
     AudioFileStreamID m_audioFileStream;	// the audio file stream parser
     AudioConverterRef m_audioConverter;
@@ -175,6 +176,8 @@ private:
     
     std::list <queued_packet_t*> m_processedPackets;
     
+    unsigned m_numPacketsToRewind;
+    
     size_t m_cachedDataSize;
     
     UInt64 m_audioDataByteCount;
@@ -188,8 +191,17 @@ private:
     
     float m_outputVolume;
     
-    bool m_queueCanAcceptPackets;
     bool m_converterRunOutOfData;
+    bool m_decoderShouldRun;
+    bool m_decoderFailed;
+    bool m_decoderActive;
+    
+    pthread_mutex_t m_packetQueueMutex;
+    pthread_mutex_t m_streamStateMutex;
+    
+    pthread_t m_decodeThread;
+    
+    CFRunLoopRef m_decodeRunLoop;
     
     CFStringRef createHashForString(CFStringRef str);
     
@@ -204,11 +216,16 @@ private:
     void invalidateWatchdogTimer();
     
     int cachedDataCount();
-    void enqueueCachedData(int minPacketsRequired);
+    void determineBufferingLimits();
     void cleanupCachedData();
     
     static void watchdogTimerCallback(CFRunLoopTimerRef timer, void *info);
-    static void audioQueueTimerCallback(CFRunLoopTimerRef timer, void *info);
+    static void seekTimerCallback(CFRunLoopTimerRef timer, void *info);
+    static void inputStreamTimerCallback(CFRunLoopTimerRef timer, void *info);
+    
+    bool decoderShouldRun();
+    static void decodeSinglePacket(CFRunLoopTimerRef timer, void *info);
+    static void *decodeLoop(void *arg);
     
     static OSStatus encoderDataCallback(AudioConverterRef inAudioConverter, UInt32 *ioNumberDataPackets, AudioBufferList *ioData, AudioStreamPacketDescription **outDataPacketDescription, void *inUserData);
     static void propertyValueCallback(void *inClientData, AudioFileStreamID inAudioFileStream, AudioFileStreamPropertyID inPropertyID, UInt32 *ioFlags);

@@ -1,6 +1,6 @@
 /*
  * This file is part of the FreeStreamer project,
- * (C)Copyright 2011-2015 Matias Muhonen <mmu@iki.fi>
+ * (C)Copyright 2011-2016 Matias Muhonen <mmu@iki.fi> 穆马帝
  * See the file ''LICENSE'' for using the code.
  *
  * https://github.com/muhku/FreeStreamer
@@ -11,17 +11,17 @@
 /**
  * The major version of the current release.
  */
-#define FREESTREAMER_VERSION_MAJOR          2
+#define FREESTREAMER_VERSION_MAJOR          3
 
 /**
  * The minor version of the current release.
  */
-#define FREESTREAMER_VERSION_MINOR          14
+#define FREESTREAMER_VERSION_MINOR          0
 
 /**
  * The reversion of the current release
  */
-#define FREESTREAMER_VERSION_REVISION       3
+#define FREESTREAMER_VERSION_REVISION       20
 
 /**
  * Follow this notification for the audio stream state changes.
@@ -44,33 +44,94 @@ extern NSString* const FSAudioStreamNotificationKey_MetaData;
 /**
  * The audio stream state.
  */
-typedef enum {
+typedef NS_ENUM(NSInteger, FSAudioStreamState) {
+    /**
+     * Retrieving URL.
+     */
     kFsAudioStreamRetrievingURL,
+    /**
+     * Stopped.
+     */
     kFsAudioStreamStopped,
+    /**
+     * Buffering.
+     */
     kFsAudioStreamBuffering,
+    /**
+     * Playing.
+     */
     kFsAudioStreamPlaying,
+    /**
+     * Paused.
+     */
     kFsAudioStreamPaused,
+    /**
+     * Seeking.
+     */
     kFsAudioStreamSeeking,
+    /**
+     * The stream has received all the data for a file.
+     */
     kFSAudioStreamEndOfFile,
+    /**
+     * Failed.
+     */
     kFsAudioStreamFailed,
+    /**
+     * Started retrying.
+     */
     kFsAudioStreamRetryingStarted,
+    /**
+     * Retrying succeeded.
+     */
     kFsAudioStreamRetryingSucceeded,
+    /**
+     * Retrying failed.
+     */
     kFsAudioStreamRetryingFailed,
+    /**
+     * Playback completed.
+     */
     kFsAudioStreamPlaybackCompleted,
+    /**
+     * Unknown state.
+     */
     kFsAudioStreamUnknownState
-} FSAudioStreamState;
+};
 
 /**
  * The audio stream errors.
  */
-typedef enum {
+typedef NS_ENUM(NSInteger, FSAudioStreamError) {
+    /**
+     * No error.
+     */
     kFsAudioStreamErrorNone = 0,
+    /**
+     * Error opening the stream.
+     */
     kFsAudioStreamErrorOpen = 1,
+    /**
+     * Error parsing the stream.
+     */
     kFsAudioStreamErrorStreamParse = 2,
+    /**
+     * Network error.
+     */
     kFsAudioStreamErrorNetwork = 3,
+    /**
+     * Unsupported format.
+     */
     kFsAudioStreamErrorUnsupportedFormat = 4,
-    kFsAudioStreamErrorStreamBouncing = 5
-} FSAudioStreamError;
+    /**
+     * Stream buffered too often.
+     */
+    kFsAudioStreamErrorStreamBouncing = 5,
+    /**
+     * Stream playback was terminated by the operating system.
+     */
+    kFsAudioStreamErrorTerminated = 6
+};
 
 @protocol FSPCMAudioStreamDelegate;
 @class FSAudioStreamPrivate;
@@ -108,6 +169,14 @@ typedef struct {
 } FSSeekByteOffset;
 
 /**
+ * Audio levels.
+ */
+typedef struct {
+    Float32 averagePower;
+    Float32 peakPower;
+} FSLevelMeterState;
+
+/**
  * The low-level stream configuration.
  */
 @interface FSStreamConfiguration : NSObject {
@@ -125,10 +194,6 @@ typedef struct {
  * The number of packet descriptions.
  */
 @property (nonatomic,assign) unsigned maxPacketDescs;
-/**
- * The decode queue size.
- */
-@property (nonatomic,assign) unsigned decodeQueueSize;
 /**
  * The HTTP connection buffer size.
  */
@@ -200,6 +265,11 @@ typedef struct {
  * Leave it on if you don't want to handle the audio session by yourself.
  */
 @property (nonatomic,assign) BOOL automaticAudioSessionHandlingEnabled;
+/**
+ * The property enables time and pitch conversion for the audio queue. Put it on
+ * if you want to use the play rate setting.
+ */
+@property (nonatomic,assign) BOOL enableTimeAndPitchConversion;
 /**
  * The maximum size of the disk cache in bytes.
  */
@@ -314,6 +384,13 @@ NSString*             freeStreamerReleaseVersion();
  * Otherwise (the stream is paused), calling pause will continue the playback.
  */
 - (void)pause;
+
+/**
+ * Rewinds the stream. Only possible for continuous streams.
+ *
+ * @param seconds Seconds to rewind the stream.
+ */
+- (void)rewind:(unsigned)seconds;
 
 /**
  * Seeks the stream to a given position. Requires a non-continuous stream
@@ -438,6 +515,10 @@ NSString*             freeStreamerReleaseVersion();
  * in case of failure.
  */
 @property (nonatomic,readonly) NSUInteger retryCount;
+/**
+ * The property determines the current audio levels.
+ */
+@property (nonatomic,readonly) FSLevelMeterState levels;
 /**
  * This property holds the current statistics for the stream state.
  */

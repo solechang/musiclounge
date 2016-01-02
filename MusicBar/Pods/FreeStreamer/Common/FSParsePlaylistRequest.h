@@ -1,6 +1,6 @@
 /*
  * This file is part of the FreeStreamer project,
- * (C)Copyright 2011-2015 Matias Muhonen <mmu@iki.fi>
+ * (C)Copyright 2011-2016 Matias Muhonen <mmu@iki.fi> 穆马帝
  * See the file ''LICENSE'' for using the code.
  *
  * https://github.com/muhku/FreeStreamer
@@ -11,11 +11,20 @@
 /**
  * The playlist format.
  */
-typedef enum {
+typedef NS_ENUM(NSInteger, FSPlaylistFormat) {
+    /**
+     * Unknown playlist format.
+     */
     kFSPlaylistFormatNone,
+    /**
+     * M3U playlist.
+     */
     kFSPlaylistFormatM3U,
+    /**
+     * PLS playlist.
+     */
     kFSPlaylistFormatPLS
-} FSPlaylistFormat;
+};
 
 /**
  * FSParsePlaylistRequest is a class for parsing a playlist. It supports
