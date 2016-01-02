@@ -568,7 +568,7 @@ Fabric: Copyright 2015 Twitter, Inc. All Rights Reserved. Use of this software i
 
 ## FreeStreamer
 
-Copyright (c) 2011-2015 Matias Muhonen <mmu@iki.fi>
+Copyright (c) 2011-2016 Matias Muhonen <mmu@iki.fi> 穆马帝
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without

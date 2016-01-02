@@ -1,6 +1,6 @@
 /*
  * This file is part of the FreeStreamer project,
- * (C)Copyright 2011-2015 Matias Muhonen <mmu@iki.fi>
+ * (C)Copyright 2011-2016 Matias Muhonen <mmu@iki.fi> 穆马帝
  * See the file ''LICENSE'' for using the code.
  *
  * https://github.com/muhku/FreeStreamer
@@ -17,7 +17,6 @@ struct Stream_Configuration {
     unsigned bufferCount;
     unsigned bufferSize;
     unsigned maxPacketDescs;
-    unsigned decodeQueueSize;
     unsigned httpConnectionBufferSize;
     double outputSampleRate;
     long outputNumChannels;
@@ -35,6 +34,7 @@ struct Stream_Configuration {
     bool cacheEnabled;
     bool seekingFromCacheEnabled;
     bool automaticAudioSessionHandlingEnabled;
+    bool enableTimeAndPitchConversion;
     int maxDiskCacheSize;
     
     static Stream_Configuration *configuration();

@@ -1,6 +1,6 @@
 /*
  * This file is part of the FreeStreamer project,
- * (C)Copyright 2011-2015 Matias Muhonen <mmu@iki.fi>
+ * (C)Copyright 2011-2016 Matias Muhonen <mmu@iki.fi> 穆马帝
  * See the file ''LICENSE'' for using the code.
  *
  * https://github.com/muhku/FreeStreamer
@@ -13,12 +13,24 @@
 /**
  * XML HTTP request error status.
  */
-typedef enum {
+typedef NS_ENUM(NSInteger, FSXMLHttpRequestError) {
+    /**
+     * No error.
+     */
     FSXMLHttpRequestError_NoError = 0,
+    /**
+     * Connection failed.
+     */
     FSXMLHttpRequestError_Connection_Failed,
+    /**
+     * Invalid HTTP status.
+     */
     FSXMLHttpRequestError_Invalid_Http_Status,
+    /**
+     * XML parser failed.
+     */
     FSXMLHttpRequestError_XML_Parser_Failed
-} FSXMLHttpRequestError;
+};
 
 /**
  * FSXMLHttpRequest is a class for retrieving data in the XML

@@ -1,13 +1,9 @@
 /*
  * This file is part of the FreeStreamer project,
- * (C)Copyright 2011-2015 Matias Muhonen <mmu@iki.fi>
+ * (C)Copyright 2011-2016 Matias Muhonen <mmu@iki.fi> 穆马帝
  * See the file ''LICENSE'' for using the code.
  *
  * https://github.com/muhku/FreeStreamer
- *
- * Part of the code in this file has been rewritten from
- * the AudioFileStreamExample / afsclient.cpp
- * example, Copyright © 2007 Apple Inc.
  */
 
 #ifndef ASTREAMER_AUDIO_QUEUE_H
@@ -36,8 +32,9 @@ public:
     bool initialized();
     
     void init();
+    
+    // Notice: the queue blocks if it has no free buffers
     void handleAudioPackets(UInt32 inNumberBytes, UInt32 inNumberPackets, const void *inInputData, AudioStreamPacketDescription *inPacketDescriptions);
-    int handlePacket(const void *data, AudioStreamPacketDescription *desc);
     
     void start();
     void pause();
@@ -50,8 +47,7 @@ public:
     void setPlayRate(float playRate);
     
     AudioTimeStamp currentTime();
-    int numberOfBuffersInUse();
-    int packetCount();
+    AudioQueueLevelMeterState levels();
 	
 private:
     Audio_Queue(const Audio_Queue&);
@@ -71,10 +67,12 @@ private:
     
     bool m_audioQueueStarted;                                        // flag to indicate that the queue has been started
     bool *m_bufferInUse;                                  // flags to indicate that a buffer is still in use
-    bool m_waitingOnBuffer;
+    bool m_levelMeteringEnabled;
     
-    struct queued_packet *m_queuedHead;
-    struct queued_packet *m_queuedTail;
+    pthread_mutex_t m_mutex;
+    
+    pthread_mutex_t m_bufferInUseMutex;
+    pthread_cond_t m_bufferFreeCondition;
     
 public:
     OSStatus m_lastError;
@@ -85,9 +83,7 @@ private:
     void cleanup();
     void setCookiesForStream(AudioFileStreamID inAudioFileStream);
     void setState(State state);
-    int enqueueBuffer();
-    int findQueueBuffer(AudioQueueBufferRef inBuffer);
-    void enqueueCachedData();
+    void enqueueBuffer();
     
     static void audioQueueOutputCallback(void *inClientData, AudioQueueRef inAQ, AudioQueueBufferRef inBuffer);
     static void audioQueueIsRunningCallback(void *inClientData, AudioQueueRef inAQ, AudioQueuePropertyID inID);
@@ -97,8 +93,6 @@ class Audio_Queue_Delegate {
 public:
     virtual void audioQueueStateChanged(Audio_Queue::State state) = 0;
     virtual void audioQueueBuffersEmpty() = 0;
-    virtual void audioQueueOverflow() = 0;
-    virtual void audioQueueUnderflow() = 0;
     virtual void audioQueueInitializationFailed() = 0;
     virtual void audioQueueFinishedPlayingPacket() = 0;
 };

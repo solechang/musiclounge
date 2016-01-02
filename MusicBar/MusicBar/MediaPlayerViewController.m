@@ -249,20 +249,24 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamBuffering: {
-                //                NSLog(@"1.3.)");
-                
+                                NSLog(@"1.3.)");
+                if(weakSelf.joiningDJ) {
+                    [weakSelf sliderChanged:weakSelf.seekingTimeForJoiner];
+                    weakSelf.joiningDJ = NO;
+                    
+                }
                 break;
             }
                 
             case kFsAudioStreamSeeking:
                 
-                //                NSLog(@"1.4.)");
+                                NSLog(@"1.4.)");
                 
                 break;
                 
             case kFsAudioStreamPlaying:
                 
-//                NSLog(@"1.5.)");
+                NSLog(@"1.5.)");
                 
                 
                 weakSelf.enableLogging = YES;
@@ -310,11 +314,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 [weakSelf toggleNextPreviousButtons];
                 
                 
-                if(weakSelf.joiningDJ) {
-                    [weakSelf sliderChanged:weakSelf.seekingTimeForJoiner];
-                    weakSelf.joiningDJ = NO;
-                    
-                }
+                
                 
                 break;
                 
@@ -360,12 +360,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                     [weakSelf nextButton:nil];
                 }
                 
-                //                }
+         
                 
                 break;
                 
             default:
                 //                NSLog(@"1.11.)");
+                
                 break;
                 
                 
@@ -788,7 +789,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songCount = currentPlayList.count;
     
+    // audioController play song
     [audioController play];
+    
+//    [audioController playFr]
+    
+    
     [self.playButton setEnabled:YES];
     
     self.playButton.alpha = 1.0;
