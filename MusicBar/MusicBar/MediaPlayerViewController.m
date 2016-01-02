@@ -1390,7 +1390,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     } else if( [jsonDictionary[@"action"] isEqualToString:@"requestSongTime"] ) {
         
         
-        [self sendSongTimeToJoiner];
+        [self sendSongTimeToJoiner:jsonDictionary[@"data"]];
         
     } else if( [jsonDictionary[@"action"] isEqualToString:@"joinerStartSong"] ) {
         
@@ -1700,6 +1700,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_findFirstInContext:defaultContext];
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     [data setObject:nowPlayingSong.hostId forKey:@"hostId"];
+    [data setObject:[PFUser currentUser].objectId forKey:@"joinerId"];
     NSLog(@"87.) %@", nowPlayingSong.hostId);
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
@@ -1716,11 +1717,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     
 }
-- (void) sendSongTimeToJoiner {
+- (void) sendSongTimeToJoiner:(NSDictionary*) joinerData {
     
     NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
     [data setObject:[NSNumber numberWithFloat: audioController.activeStream.currentSeekByteOffset.position] forKey:@"songTime"];
-    NSLog(@"88.) %@", [PFUser currentUser].objectId);
+  
+    // joiner Id
+    [data setObject:joinerData[@"joinerId"] forKey:@"joinerId"];
     [data setObject:[PFUser currentUser].objectId forKey:@"hostId"];
     
     NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
