@@ -90,6 +90,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 // DJ properties for joiner
 @property (nonatomic, assign) BOOL joiningDJ;
 @property (nonatomic) float seekingTimeForJoiner;
+@property (nonatomic) int64_t startTimeForJoiner;
+@property (nonatomic) int64_t endTimeForJoiner;
+
 
 
 @end
@@ -249,7 +252,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamBuffering: {
-//                                NSLog(@"1.3.)");
+                                NSLog(@"1.3.)");
 //                if(weakSelf.joiningDJ) {
 //                    [weakSelf sliderChanged:weakSelf.seekingTimeForJoiner];
 //                    weakSelf.joiningDJ = NO;
@@ -266,20 +269,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamPlaying:
                 
-                NSLog(@"1.5.)");
-                
-                
+                          NSLog(@"1.5.)");
                 weakSelf.enableLogging = YES;
   
                 weakSelf.musicSlider.enabled = YES;
                 
-//                NowPlaying *nowPlaying = [NowPlaying MR_findFirst];
-//                
-//                if ([nowPlaying.currentlyPlayingSongId isEqualToString:@"joinLounge^&#@*!&@#"]) {
-//                    
-////                  [self sliderChanged:[songData[@"songTime"] floatValue]];
-//                }
-                
+
                 
                 if (!weakSelf.progressUpdateTimer) {
                     weakSelf.progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
@@ -792,8 +787,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     // audioController play song
     
     if (self.joiningDJ) {
+        
         FSSeekByteOffset playPosition;
         playPosition.position = self.seekingTimeForJoiner;
+        playPosition.start = self.startTimeForJoiner;
+        playPosition.end = self.endTimeForJoiner;
         
         [audioController.activeStream playFromOffset:playPosition];
         
@@ -1254,6 +1252,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 //        nowPlayingSong.time = songsInLocal.time;
         self.seekingTimeForJoiner = [songData[@"songTime"] floatValue];
+        self.startTimeForJoiner = [songData[@"startTime"] integerValue];
+        self.endTimeForJoiner = [songData[@"endTime"] integerValue];
+        
         nowPlayingSong.title = songData[@"songName"];
 //        nowPlayingSong.uploadingUser = songsInLocal.uploadingUser;
 //        nowPlayingSong.createdAt = songsInLocal.createdAt;
@@ -1411,7 +1412,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
     [data setObject:currentSong.stream_url forKey:@"streamURL"];
     [data setObject:currentSong.title forKey:@"songName"];
-    [data setObject:[NSNumber numberWithFloat:self.musicSlider.value] forKey:@"songTime"];
+    [data setObject:[NSNumber numberWithFloat: audioController.activeStream.currentSeekByteOffset.position] forKey:@"songTime"];
+    [data setObject:[NSNumber numberWithInteger:audioController.activeStream.currentSeekByteOffset.start] forKey:@"startTime"];
+    [data setObject:[NSNumber numberWithInteger:audioController.activeStream.currentSeekByteOffset.end] forKey:@"endTime"];
     
     [data setObject:stringDate forKey:@"hostTime"];
     [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
