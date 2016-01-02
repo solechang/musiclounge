@@ -944,7 +944,7 @@ shouldRequireFailureOfGestureRecognizer:(UIGestureRecognizer *)otherGestureRecog
 
 - (IBAction)joinDJButtonPressed:(id)sender {
     
-    NSLog(@"1.)") ;
+ 
     [self sendJoinData];
     
 }

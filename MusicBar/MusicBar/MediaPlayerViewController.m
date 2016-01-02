@@ -87,6 +87,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 @property (assign,nonatomic) NSInteger songCount;
 
 
+// DJ properties for joiner
+@property (nonatomic, assign) BOOL joiningDJ;
+@property (nonatomic) float seekingTimeForJoiner;
+
+
 @end
 
 @implementation MediaPlayerViewController
@@ -257,10 +262,20 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamPlaying:
                 
-                //                NSLog(@"1.5.)");
-                weakSelf.enableLogging = YES;
+//                NSLog(@"1.5.)");
                 
+                
+                weakSelf.enableLogging = YES;
+  
                 weakSelf.musicSlider.enabled = YES;
+                
+//                NowPlaying *nowPlaying = [NowPlaying MR_findFirst];
+//                
+//                if ([nowPlaying.currentlyPlayingSongId isEqualToString:@"joinLounge^&#@*!&@#"]) {
+//                    
+////                  [self sliderChanged:[songData[@"songTime"] floatValue]];
+//                }
+                
                 
                 if (!weakSelf.progressUpdateTimer) {
                     weakSelf.progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
@@ -291,15 +306,21 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                                                                               userInfo:nil
                                                                                repeats:YES];
 #endif
-                }
+                    }
                 [weakSelf toggleNextPreviousButtons];
                 
                 
-                //                [weakSelf.stateLogger logMessageWithTimestamp:@"State change: playing"];
+                if(weakSelf.joiningDJ) {
+                    [weakSelf sliderChanged:weakSelf.seekingTimeForJoiner];
+                    weakSelf.joiningDJ = NO;
+                    
+                }
                 
                 break;
                 
-            case kFsAudioStreamFailed:
+                
+                
+                case kFsAudioStreamFailed:
                 //                NSLog(@"1.6.)");
                 //                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
                 
@@ -351,6 +372,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         }
     };
     
+    
+#pragma mark - Media player failure
+    
     audioController.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
         NSString *errorCategory;
         
@@ -376,7 +400,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         }
         
         NSString *errorStatus;
-        
+       
         if ([errorDescription containsString:@"404"] || [errorDescription containsString:@"401"] || [errorDescription containsString:@"403"]) {
             errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
             [SVProgressHUD showErrorWithStatus:errorStatus];
@@ -493,7 +517,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         // Gotta check if client who joined the host is currently hosting
         // IF NOT* then prompt user that host is not currently hosting and choose a song from a lounge to play music
-        self.DJButton.title = @"Leave";
+       
         [self connectWebSocket];
 //        [self sendJoinLoungeData :nowPlaying];
         
@@ -898,7 +922,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 #pragma mark - Music slider
 - (IBAction)musicSlider:(id)sender {
 
-    [self sliderChanged];
+    [self sliderChanged:self.musicSlider.value];
 }
 
 - (void)finalizeSeeking
@@ -906,9 +930,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     _volumeBeforeRamping = 0;
 }
 
--(void) sliderChanged
+-(void) sliderChanged:(float)seekValue
 {
-    _seekToPoint = self.musicSlider.value;
+
+    _seekToPoint = seekValue;
    
     [_progressUpdateTimer invalidate], _progressUpdateTimer = nil;
     
@@ -922,7 +947,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)seekToNewTime {
     self.musicSlider.enabled = NO;
-    
+
     // Fade out the volume to avoid pops
     _volumeBeforeRamping = audioController.volume;
     
@@ -939,13 +964,16 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                                                            repeats:YES];
     } else {
         // Just directly seek, volume is already 0
+   
         [self doSeeking];
+        
     }
 
 }
 
 - (void)doSeeking
 {
+
     pos.position = _seekToPoint;
     [audioController.activeStream seekToPosition:pos];
 }
@@ -1030,6 +1058,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     }
 
 }
+
+#pragma marks - Delete friend songs in local
 - (void) deleteSongFriendInLocal {
     
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
@@ -1106,16 +1136,26 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         
         [self sendHostInfo:jsonDictionary[@"data"]];
         
-    } else if ([jsonDictionary[@"action"] isEqualToString:@"sendHostInfo"]) {
-         // Joiner to receive message
-        [self playReceivedSongData:jsonDictionary[@"data"]];
-        
-        
     } else if ( [jsonDictionary[@"action"] isEqualToString:@"error"]) {
      
-        [self hostIsCurrentlyNotHosting];
+        [self hostIsCurrentlyNotHosting:jsonDictionary[@"data"][@"hostName"]];
+        
+    } else if ( [jsonDictionary[@"action"] isEqualToString:@"kickJoiner"]) {
+    
+        self.DJButton.title = @"DJ";
+        
+        [self leaveLounge];
+        
+        [SVProgressHUD showInfoWithStatus:@"Left lounge"];
+        self.DJButton.enabled = YES;
+        
+    } else if( [jsonDictionary[@"action"] isEqualToString:@"processHostInfo"] ) {
+    
+        
+        [self playReceivedSongData:jsonDictionary[@"data"]];
         
     }
+
    
  
     
@@ -1161,6 +1201,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) playReceivedSongData:(NSDictionary*) songData{
     
+     self.DJButton.title = @"Leave";
+    
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext *localContext) {
         
         NowPlaying *nowPlayingDelete = [NowPlaying MR_findFirstInContext:localContext];
@@ -1191,11 +1233,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         nowPlayingSong.playlistId = songData[@"currentLoungeId"];
         nowPlayingSong.stream_url = songData[@"streamURL"];
         
-        NSLog(@"2.) %@", nowPlayingSong.stream_url);
-        
+
 //        nowPlayingSong.time = songsInLocal.time;
-//        NSNumbe
-        pos.position = [songData[@"songTime"] floatValue];
+        self.seekingTimeForJoiner = [songData[@"songTime"] floatValue];
         nowPlayingSong.title = songData[@"songName"];
 //        nowPlayingSong.uploadingUser = songsInLocal.uploadingUser;
 //        nowPlayingSong.createdAt = songsInLocal.createdAt;
@@ -1209,7 +1249,14 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             
             currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
             [self playSong];
-//            [self doSeeking:pos.position];
+            
+            self.joiningDJ = YES;
+
+//            pos.position = [songData[@"songTime"] floatValue];
+//            [audioController.activeStream seekToPosition:pos];
+            
+//            NSLog(@"6.) %f", self.musicSlider.value);
+            
             
         } else {
             //            NSLog(@"Error 653 %@", error);
@@ -1237,6 +1284,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.DJButton.enabled = NO;
         self.DJButton.title = @"DJ";
         
+        [self leaveLounge];
         
         return;
     }
@@ -1343,7 +1391,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
     [data setObject:currentSong.stream_url forKey:@"streamURL"];
     [data setObject:currentSong.title forKey:@"songName"];
-    [data setObject:[NSNumber numberWithFloat:pos.position] forKey:@"songTime"];
+    [data setObject:[NSNumber numberWithFloat:self.musicSlider.value] forKey:@"songTime"];
+    
     [data setObject:stringDate forKey:@"hostTime"];
     [data setObject:currentSong.playlistId forKey:@"currentLoungeId"];
     [data setObject:currentSong.nowPlaying.playlistName forKey:@"currentLoungeName"];
@@ -1366,9 +1415,36 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 }
 
-- (void) hostIsCurrentlyNotHosting {
+- (void) hostIsCurrentlyNotHosting:(NSString*)hostName {
     
-    [SVProgressHUD showErrorWithStatus:@"Host is not currently DJing"];
+    NSString *hostNotDJString = [NSString stringWithFormat:@"%@ is not currently DJing", hostName];
+    [SVProgressHUD showErrorWithStatus:hostNotDJString];
+    
+}
+
+- (void) leaveLounge {
+    
+    self.joiningDJ = NO;
+   
+    NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_findFirstInContext:defaultContext];
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:nowPlayingSong.hostId forKey:@"hostId"];
+    [data setObject:[PFUser currentUser].objectId forKey:@"userId"];
+    
+
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"leaveLounge", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
     
 }
 
