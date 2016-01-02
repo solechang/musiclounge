@@ -43,7 +43,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     FSAudioController *audioController;
     
-    FSAudioStream *audioStream;
+    FSAudioStream *audioStreamForJoiner;
     NSTimer* timer;
     
     NSMutableArray *currentPlayList;
@@ -55,6 +55,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     FSStreamPosition pos;
     
     SRWebSocket *_webSocket;
+    
+    
 }
 
 
@@ -87,13 +89,15 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 @property (assign,nonatomic) NSInteger songCount;
 
 
+
 // DJ properties for joiner
 @property (nonatomic, assign) BOOL joiningDJ;
 @property (nonatomic) float seekingTimeForJoiner;
 @property (nonatomic) int64_t startTimeForJoiner;
 @property (nonatomic) int64_t endTimeForJoiner;
+@property (nonatomic) float duplicatePreBufferSize;
 
-
+@property (nonatomic,assign) BOOL joinerReadyToPlaySong;
 
 @end
 
@@ -193,7 +197,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 - (void) setUpData {
-     audioController = [[FSAudioController alloc] init];
+    audioController = [[FSAudioController alloc] init];
+
     
     self.userPlaylistItems = [[NSMutableArray alloc] init];
 
@@ -238,6 +243,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) setUpAudioPlayer {
     __weak typeof(self) weakSelf = self;
+    
     audioController.onStateChange = ^(FSAudioStreamState state) {
         switch (state) {
                 
@@ -253,11 +259,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamBuffering: {
                                 NSLog(@"1.3.)");
-//                if(weakSelf.joiningDJ) {
-//                    [weakSelf sliderChanged:weakSelf.seekingTimeForJoiner];
-//                    weakSelf.joiningDJ = NO;
-//                    
-//                }
+
+                
                 break;
             }
                 
@@ -411,8 +414,183 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         }
         
     };
-
 }
+
+- (void) setUpAudioStreamForJoiner {
+    __weak typeof(self) weakSelf = self;
+    
+    audioStreamForJoiner.onStateChange = ^(FSAudioStreamState state) {
+        switch (state) {
+                
+            case kFsAudioStreamRetrievingURL:
+                //                NSLog(@"1.1.)");
+                
+                break;
+                
+            case kFsAudioStreamStopped:
+                //                 NSLog(@"1.2.)");
+                
+                break;
+                
+            case kFsAudioStreamBuffering: {
+                NSLog(@"1.3.)");
+//                [weakSelf playSongForJoiner];
+                break;
+            }
+                
+            case kFsAudioStreamSeeking:
+                
+                NSLog(@"1.4.)");
+                
+                break;
+                
+            case kFsAudioStreamPlaying:
+                
+                NSLog(@"1.5.)");
+                weakSelf.enableLogging = YES;
+                
+                weakSelf.musicSlider.enabled = YES;
+                
+                
+                
+                if (!weakSelf.progressUpdateTimer) {
+                    weakSelf.progressUpdateTimer = [NSTimer scheduledTimerWithTimeInterval:0.5
+                                                                                    target:weakSelf
+                                                                                  selector:@selector(updatePlaybackProgress)
+                                                                                  userInfo:nil
+                                                                                   repeats:YES];
+                }
+                
+                if (weakSelf.volumeBeforeRamping > 0) {
+                    // If we have volume before ramping set, it means we were seeked
+                    
+#if PAUSE_AFTER_SEEKING
+                    [weakSelf pause:weakSelf];
+                    weakSelf.audioController.volume = weakSelf.volumeBeforeRamping;
+                    weakSelf.volumeBeforeRamping = 0;
+                    
+                    break;
+#else
+                    weakSelf.rampStep = 1;
+                    weakSelf.rampStepCount = 5; // 50ms and 5 steps = 250ms ramp
+                    weakSelf.rampUp = true;
+                    weakSelf.postRampAction = @selector(finalizeSeeking);
+                    
+                    weakSelf.volumeRampTimer = [NSTimer scheduledTimerWithTimeInterval:0.05 // 50ms
+                                                                                target:weakSelf
+                                                                              selector:@selector(rampVolume)
+                                                                              userInfo:nil
+                                                                               repeats:YES];
+#endif
+                }
+                [weakSelf toggleNextPreviousButtons];
+                
+                
+                
+                
+                break;
+                
+                
+                
+            case kFsAudioStreamFailed:
+                //                NSLog(@"1.6.)");
+                //                 [weakSelf.songTitle setText:@"This song cannot be played right now. Please try again or delete the song from the playlist :("];
+                
+                break;
+            case kFsAudioStreamPlaybackCompleted:
+                //                NSLog(@"1.7.)");
+                //                [weakSelf toggleNextPreviousButtons];
+                if (weakSelf.playButton.enabled) {
+                    [weakSelf nextButton:nil];
+                }
+                
+                break;
+                
+            case kFsAudioStreamRetryingStarted:
+                //                NSLog(@"1.8.)");
+                weakSelf.enableLogging = YES;
+                
+                
+                break;
+                
+            case kFsAudioStreamRetryingSucceeded:
+                //                NSLog(@"1.9.)");
+                weakSelf.enableLogging = YES;
+                
+                break;
+                
+            case kFsAudioStreamRetryingFailed:
+                //                NSLog(@"1.10.)");
+                //                if (weakSelf.playButton.enabled) {
+                [SVProgressHUD dismiss];
+                
+                if (weakSelf.songCount == 1) {
+                    
+                    [weakSelf stoppingPlayerBecauseOfError];
+                    
+                } else {
+                    [weakSelf nextButton:nil];
+                }
+                
+                
+                
+                break;
+                
+            default:
+                //                NSLog(@"1.11.)");
+                
+                break;
+                
+                
+        }
+    };
+    
+    
+#pragma mark - Media player failure
+    
+    audioStreamForJoiner.onFailure = ^(FSAudioStreamError error, NSString *errorDescription) {
+        NSString *errorCategory;
+        
+        switch (error) {
+            case kFsAudioStreamErrorOpen:
+                errorCategory = @"Cannot open the audio stream: ";
+                break;
+            case kFsAudioStreamErrorStreamParse:
+                errorCategory = @"Cannot read the audio stream: ";
+                break;
+            case kFsAudioStreamErrorNetwork:
+                errorCategory = @"Network failed: cannot play the audio stream: ";
+                break;
+            case kFsAudioStreamErrorUnsupportedFormat:
+                errorCategory = @"Unsupported format: ";
+                break;
+            case kFsAudioStreamErrorStreamBouncing:
+                errorCategory = @"Network failed: cannot get enough data to play: ";
+                break;
+            default:
+                errorCategory = @"Unknown error occurred: ";
+                break;
+        }
+        
+        NSString *errorStatus;
+        
+        if ([errorDescription containsString:@"404"] || [errorDescription containsString:@"401"] || [errorDescription containsString:@"403"]) {
+            errorStatus = [[NSString alloc] initWithFormat:@"SoundCloud has disabled '%@' to be streamed \xF0\x9F\x98\x96", weakSelf.songTitle.text];
+            [SVProgressHUD showErrorWithStatus:errorStatus];
+            //            weakSelf.songTitle.text = errorStatus;
+            
+        } else {
+            
+            errorStatus = [[NSString alloc] initWithFormat:@"There is a network error \xF0\x9F\x98\xA8 Please try playing '%@' again", weakSelf.songTitle.text];
+            [SVProgressHUD showErrorWithStatus:errorStatus];
+            //            weakSelf.songTitle.text = errorStatus;
+            
+        }
+        
+    };
+    
+}
+
 
 - (void)viewDidAppear:(BOOL)animated {
   
@@ -440,12 +618,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 
+
 - (void)updatePlaybackProgress
 {
-//    NSLog(@"0.)");
-//
+
+    [self checkPreBufferForJoiner];
+
     if (audioController.activeStream.continuous) {
-//            NSLog(@"0.1)");
         self.musicSlider.enabled = NO;
         self.musicSlider.value = 0;
         self.startTime.text = @"Loading";
@@ -454,7 +633,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.playButton.alpha = 0.5;
         
     } else {
-//        NSLog(@"0.2)");
 //        self.musicSlider.enabled = YES;
         self.playButton.enabled = YES;
         self.playButton.alpha = 1.0;
@@ -485,7 +663,27 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
 }
 
+#pragma mark - Check prebuffer for joiner
 
+- (void) checkPreBufferForJoiner {
+    
+    NSLog(@"2.) %f", (float)audioStreamForJoiner.prebufferedByteCount);
+    
+#warning - Check when network doesn't work
+    // Check when network doesn't work
+    
+    if ( self.duplicatePreBufferSize == (float)audioStreamForJoiner.prebufferedByteCount && (float)audioStreamForJoiner.prebufferedByteCount != 0 && !self.joinerReadyToPlaySong) {
+        self.joinerReadyToPlaySong = YES;
+        
+        [self sendJoinerReady];
+        NSLog(@"3.) YO");
+        
+    } else {
+        
+         self.duplicatePreBufferSize = audioStreamForJoiner.prebufferedByteCount;
+    }
+
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -498,7 +696,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 }
 
 
-
+#pragma mark - Logic for playing songs
 
 - (void) checkNowPlayingPlaylistId {
     
@@ -784,26 +982,20 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     self.songCount = currentPlayList.count;
     
+    
+    
     // audioController play song
     
     if (self.joiningDJ) {
-        
-        FSSeekByteOffset playPosition;
-        playPosition.position = self.seekingTimeForJoiner;
-        playPosition.start = self.startTimeForJoiner;
-        playPosition.end = self.endTimeForJoiner;
-        
-        [audioController.activeStream playFromOffset:playPosition];
+        audioStreamForJoiner.url = url;
+        [self playSongForJoiner];
         
     } else {
         
         
-      [audioController play];
+        [audioController play];
     }
-  
-    
-//    [audioController playFromOffSet]
-    
+
     
     [self.playButton setEnabled:YES];
     
@@ -815,6 +1007,31 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     
     [self setLockScreenSongInfo :nowplayingSong];
 
+
+}
+
+#pragma marks - Joiner play song same time as DJ
+- (void) playSongForJoiner {
+    FSSeekByteOffset playPosition;
+    playPosition.position = self.seekingTimeForJoiner;
+    playPosition.start = self.startTimeForJoiner;
+    playPosition.end = self.endTimeForJoiner;
+    
+    
+//    FSStreamPosition position;
+//    position.position = self.seekingTimeForJoiner;
+    
+    [audioStreamForJoiner playFromOffset:playPosition];
+    [audioStreamForJoiner preload];
+    
+//    NSLog(@"1.) %f : %d ", self.seekingTimeForJoiner , audioStreamForJoiner.configuration.maxPrebufferedByteCount);
+
+
+    
+//    [audioStreamForJoiner play];
+    
+
+    
 
 }
 
@@ -1166,9 +1383,19 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.DJButton.enabled = YES;
         
     } else if( [jsonDictionary[@"action"] isEqualToString:@"processHostInfo"] ) {
-    
+        
         
         [self playReceivedSongData:jsonDictionary[@"data"]];
+        
+    } else if( [jsonDictionary[@"action"] isEqualToString:@"requestSongTime"] ) {
+        
+        
+        [self sendSongTimeToJoiner];
+        
+    } else if( [jsonDictionary[@"action"] isEqualToString:@"joinerStartSong"] ) {
+        
+        
+        [self joinerPlaySong:jsonDictionary[@"data"]];
         
     }
 
@@ -1269,14 +1496,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
             
             self.joiningDJ = YES;
+            self.joinerReadyToPlaySong = NO;
             
+            audioStreamForJoiner = [[FSAudioStream alloc] init];
+            [self setUpAudioStreamForJoiner];
+            self.duplicatePreBufferSize = 0;
+        
             [self playSong];
-            
-
-//            pos.position = [songData[@"songTime"] floatValue];
-//            [audioController.activeStream seekToPosition:pos];
-            
-//            NSLog(@"6.) %f", self.musicSlider.value);
             
             
         } else {
@@ -1315,9 +1541,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.DJButton.enabled = NO;
         self.DJButton.title = @"DJing";
         [self connectWebSocket];
-        
-        
-//        NSLog(@"2.)");
+
         
     } else  if ( _webSocket.readyState == (long)1) {
         // Websocket is opened
@@ -1327,7 +1551,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         [self sendCloseHostData];
         
         
-//      NSLog(@"4.)");
         
     }
 }
@@ -1469,6 +1692,57 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [_webSocket send:jsonString];
     
     
+}
+
+- (void) sendJoinerReady {
+    
+
+    NowPlayingSong *nowPlayingSong = [NowPlayingSong MR_findFirstInContext:defaultContext];
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:nowPlayingSong.hostId forKey:@"hostId"];
+    NSLog(@"87.) %@", nowPlayingSong.hostId);
+    
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"joinerReady", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
+    
+}
+- (void) sendSongTimeToJoiner {
+    
+    NSMutableDictionary *data = [[NSMutableDictionary alloc] init];
+    [data setObject:[NSNumber numberWithFloat: audioController.activeStream.currentSeekByteOffset.position] forKey:@"songTime"];
+    NSLog(@"88.) %@", [PFUser currentUser].objectId);
+    [data setObject:[PFUser currentUser].objectId forKey:@"hostId"];
+    
+    NSDictionary *tmp = [[NSDictionary alloc] initWithObjectsAndKeys:
+                         @"sendHostSongTime", @"action",
+                         data, @"data",
+                         nil];
+    
+    NSError *error;
+    NSData *postdata = [NSJSONSerialization dataWithJSONObject:tmp options:0 error:&error];
+    
+    NSString *jsonString = [[NSString alloc] initWithData:postdata encoding:NSUTF8StringEncoding];
+    
+    [_webSocket send:jsonString];
+    
+}
+
+- (void)joinerPlaySong:(NSDictionary*) songTime {
+     self.seekingTimeForJoiner = [songTime[@"songTime"] floatValue];
+    pos.position = self.seekingTimeForJoiner;
+    
+    [audioStreamForJoiner seekToPosition:pos];
+    [audioStreamForJoiner play];
 }
 
 
