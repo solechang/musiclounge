@@ -249,12 +249,12 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamBuffering: {
-                                NSLog(@"1.3.)");
-                if(weakSelf.joiningDJ) {
-                    [weakSelf sliderChanged:weakSelf.seekingTimeForJoiner];
-                    weakSelf.joiningDJ = NO;
-                    
-                }
+//                                NSLog(@"1.3.)");
+//                if(weakSelf.joiningDJ) {
+//                    [weakSelf sliderChanged:weakSelf.seekingTimeForJoiner];
+//                    weakSelf.joiningDJ = NO;
+//                    
+//                }
                 break;
             }
                 
@@ -790,9 +790,21 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     self.songCount = currentPlayList.count;
     
     // audioController play song
-    [audioController play];
     
-//    [audioController playFr]
+    if (self.joiningDJ) {
+        FSSeekByteOffset playPosition;
+        playPosition.position = self.seekingTimeForJoiner;
+        
+        [audioController.activeStream playFromOffset:playPosition];
+        
+    } else {
+        
+        
+      [audioController play];
+    }
+  
+    
+//    [audioController playFromOffSet]
     
     
     [self.playButton setEnabled:YES];
@@ -1254,9 +1266,11 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
             NSArray *nowPlayingSongsArray = [NowPlayingSong MR_findAllInContext:defaultContext];
             
             currentPlayList = [[NSMutableArray alloc] initWithArray:nowPlayingSongsArray];
-            [self playSong];
             
             self.joiningDJ = YES;
+            
+            [self playSong];
+            
 
 //            pos.position = [songData[@"songTime"] floatValue];
 //            [audioController.activeStream seekToPosition:pos];
