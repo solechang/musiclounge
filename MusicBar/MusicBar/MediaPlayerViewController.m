@@ -667,7 +667,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) checkPreBufferForJoiner {
     
-    NSLog(@"2.) %f", (float)audioStreamForJoiner.prebufferedByteCount);
+    NSLog(@"2.) %zu",audioStreamForJoiner.prebufferedByteCount);
+    
+    NSLog(@"2.) %@",[NSString stringWithFormat:@"%i:%02i",
+           audioStreamForJoiner.currentTimePlayed.minute, audioStreamForJoiner.currentTimePlayed.second]);
     
 #warning - Check when network doesn't work
     // Check when network doesn't work
@@ -676,7 +679,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.joinerReadyToPlaySong = YES;
         
         [self sendJoinerReady];
-        NSLog(@"3.) YO");
+        NSLog(@"3.) YO : %d", self.joinerReadyToPlaySong);
         
     } else {
         
@@ -1021,7 +1024,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //    FSStreamPosition position;
 //    position.position = self.seekingTimeForJoiner;
     
-    [audioStreamForJoiner playFromOffset:playPosition];
+//    [audioStreamForJoiner playFromOffset:playPosition];
     [audioStreamForJoiner preload];
     
 //    NSLog(@"1.) %f : %d ", self.seekingTimeForJoiner , audioStreamForJoiner.configuration.maxPrebufferedByteCount);
@@ -1742,10 +1745,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)joinerPlaySong:(NSDictionary*) songTime {
      self.seekingTimeForJoiner = [songTime[@"songTime"] floatValue];
-    pos.position = self.seekingTimeForJoiner;
-    
+    pos.position = self.seekingTimeForJoiner ;
+//    [self sliderChanged:pos.position];
     [audioStreamForJoiner seekToPosition:pos];
     [audioStreamForJoiner play];
+
+
+    
 }
 
 
