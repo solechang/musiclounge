@@ -705,6 +705,8 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         
         NSString *cellIdentifier = @"myProfileCollectionViewCell";
         PlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor clearColor];
+
         
         Playlist *playlist = [myiLListArray objectAtIndex:indexPath.row];
         
