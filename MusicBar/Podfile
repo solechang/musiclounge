@@ -21,6 +21,7 @@ target 'MusicLounge' do
     pod 'ParseFacebookUtilsV4'
     pod 'FBSDKCoreKit'
     pod 'SocketRocket'
+    pod 'FormatterKit'
 end
 
 target 'MusicLoungeTests' do

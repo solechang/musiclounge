@@ -8,6 +8,9 @@
 
 #import "PlaylistCollectionViewCell.h"
 
+// Time Interval
+#import "TTTTimeIntervalFormatter.h"
+
 
 @interface PlaylistCollectionViewCell () 
 
@@ -198,12 +201,11 @@ const float UI_CUES_MARGIN = 0.0f;
     self.playlistNameLabel.text = playlistName;
     self.songCountLabel.text = songCount;
     
-    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-    [formatter setDateFormat:@"M/dd/yyyy hh:mm a"];
-    NSDate *now = updatedAt;
-    NSString *formattedDate = [formatter stringFromDate:now];
+    TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
     
-    NSString *updateText = [NSString stringWithFormat:@"Updated: %@", formattedDate];
+    NSString *updateText = [NSString stringWithFormat:@"Updated %@", [timeIntervalFormatter stringForTimeIntervalFromDate:updatedAt toDate:[NSDate date]]];
+    
+    updateText = [updateText stringByReplacingOccurrencesOfString:@"from now" withString:@"ago"];
 
     self.updatedAtLabel.text = updateText;
 

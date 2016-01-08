@@ -258,7 +258,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamBuffering: {
-                                NSLog(@"1.3.)");
+//                                NSLog(@"1.3.)");
 
                 
                 break;
@@ -266,13 +266,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamSeeking:
                 
-                                NSLog(@"1.4.)");
+//                                NSLog(@"1.4.)");
                 
                 break;
                 
             case kFsAudioStreamPlaying:
                 
-                          NSLog(@"1.5.)");
+//                          NSLog(@"1.5.)");
                 weakSelf.enableLogging = YES;
   
                 weakSelf.musicSlider.enabled = YES;
@@ -621,8 +621,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)updatePlaybackProgress
 {
-
-    [self checkPreBufferForJoiner];
+#warning Work on DJing here for Joiner
+//    [self checkPreBufferForJoiner];
 
     if (audioController.activeStream.continuous) {
         self.musicSlider.enabled = NO;
@@ -682,7 +682,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         NSLog(@"3.) YO : %d", self.joinerReadyToPlaySong);
         
     } else {
-        
+
          self.duplicatePreBufferSize = audioStreamForJoiner.prebufferedByteCount;
     }
 
