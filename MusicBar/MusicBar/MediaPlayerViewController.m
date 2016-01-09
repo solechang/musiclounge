@@ -118,6 +118,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
     
 
+    [self.DJButton setEnabled:NO];
+    [self.DJButton setTintColor: [UIColor clearColor]];
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
@@ -127,8 +129,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self.backButton setTintColor:[UIColor whiteColor]];
 
     [self setUpAudioPlayer];
-    
-
 
 }
 
@@ -258,7 +258,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 break;
                 
             case kFsAudioStreamBuffering: {
-                                NSLog(@"1.3.)");
+//                                NSLog(@"1.3.)");
 
                 
                 break;
@@ -266,13 +266,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
                 
             case kFsAudioStreamSeeking:
                 
-                                NSLog(@"1.4.)");
+//                                NSLog(@"1.4.)");
                 
                 break;
                 
             case kFsAudioStreamPlaying:
                 
-                          NSLog(@"1.5.)");
+//                          NSLog(@"1.5.)");
                 weakSelf.enableLogging = YES;
   
                 weakSelf.musicSlider.enabled = YES;
@@ -621,8 +621,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)updatePlaybackProgress
 {
-
-    [self checkPreBufferForJoiner];
+#warning Work on DJing here for Joiner
+//    [self checkPreBufferForJoiner];
 
     if (audioController.activeStream.continuous) {
         self.musicSlider.enabled = NO;
@@ -667,7 +667,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void) checkPreBufferForJoiner {
     
-    NSLog(@"2.) %f", (float)audioStreamForJoiner.prebufferedByteCount);
+    NSLog(@"2.) %zu",audioStreamForJoiner.prebufferedByteCount);
+    
+    NSLog(@"2.) %@",[NSString stringWithFormat:@"%i:%02i",
+           audioStreamForJoiner.currentTimePlayed.minute, audioStreamForJoiner.currentTimePlayed.second]);
     
 #warning - Check when network doesn't work
     // Check when network doesn't work
@@ -676,10 +679,10 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
         self.joinerReadyToPlaySong = YES;
         
         [self sendJoinerReady];
-        NSLog(@"3.) YO");
+        NSLog(@"3.) YO : %d", self.joinerReadyToPlaySong);
         
     } else {
-        
+
          self.duplicatePreBufferSize = audioStreamForJoiner.prebufferedByteCount;
     }
 
@@ -1021,7 +1024,7 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 //    FSStreamPosition position;
 //    position.position = self.seekingTimeForJoiner;
     
-    [audioStreamForJoiner playFromOffset:playPosition];
+//    [audioStreamForJoiner playFromOffset:playPosition];
     [audioStreamForJoiner preload];
     
 //    NSLog(@"1.) %f : %d ", self.seekingTimeForJoiner , audioStreamForJoiner.configuration.maxPrebufferedByteCount);
@@ -1742,10 +1745,13 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 
 - (void)joinerPlaySong:(NSDictionary*) songTime {
      self.seekingTimeForJoiner = [songTime[@"songTime"] floatValue];
-    pos.position = self.seekingTimeForJoiner;
-    
+    pos.position = self.seekingTimeForJoiner ;
+//    [self sliderChanged:pos.position];
     [audioStreamForJoiner seekToPosition:pos];
     [audioStreamForJoiner play];
+
+
+    
 }
 
 

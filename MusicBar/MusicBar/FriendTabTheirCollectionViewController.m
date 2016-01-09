@@ -293,7 +293,7 @@
     PlaylistFriend *friendName = [PlaylistFriend MR_findFirstByAttribute:@"userId" withValue:self.friendInfo.userId inContext:defaultContext];
     
     
-    if (playlistArray.count != 0 ) {
+    if (playlistArray.count != 0  && friendName.userName) {
         hostName = [[NSString alloc] initWithString:friendName.userName];
         
 //        NSDictionary *size = [NSDictionary dictionaryWithObjectsAndKeys:[UIFont fontWithName:@"Wisdom Script" size:20.0],NSFontAttributeName, nil];
@@ -542,6 +542,7 @@ referenceSizeForHeaderInSection:(NSInteger)section{
         NSString *cellIdentifier = @"friendCollectionViewCell";
         
         PlaylistCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
+        cell.backgroundColor = [UIColor clearColor];
         
         PlaylistFriend *playlist = [myiLListArray objectAtIndex:indexPath.row];
 
