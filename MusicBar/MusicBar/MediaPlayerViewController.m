@@ -118,6 +118,8 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [[self.currentSongArtwork layer] setBorderColor:[UIColor whiteColor].CGColor];
     
 
+    [self.DJButton setEnabled:NO];
+    [self.DJButton setTintColor: [UIColor clearColor]];
     
     self.songTitle.numberOfLines = 1;
     self.songTitle.adjustsFontSizeToFitWidth = YES;
@@ -127,8 +129,6 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
     [self.backButton setTintColor:[UIColor whiteColor]];
 
     [self setUpAudioPlayer];
-    
-
 
 }
 

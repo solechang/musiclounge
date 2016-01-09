@@ -203,7 +203,7 @@ const float UI_CUES_MARGIN = 0.0f;
     
     TTTTimeIntervalFormatter *timeIntervalFormatter = [[TTTTimeIntervalFormatter alloc] init];
     
-    NSString *updateText = [NSString stringWithFormat:@"Updated %@", [timeIntervalFormatter stringForTimeIntervalFromDate:updatedAt toDate:[NSDate date]]];
+    NSString *updateText = [NSString stringWithFormat:@"Updated: %@", [timeIntervalFormatter stringForTimeIntervalFromDate:updatedAt toDate:[NSDate date]]];
     
     updateText = [updateText stringByReplacingOccurrencesOfString:@"from now" withString:@"ago"];
 
