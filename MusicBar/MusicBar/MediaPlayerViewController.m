@@ -102,6 +102,9 @@ static NSString *const clientID = @"fc8c97d1af51d72375bf565acc9cfe60";
 @end
 
 @implementation MediaPlayerViewController
+#warning What to work on when I open this
+//    1.) Push Notification
+//    2.) Work on Friends tab because it says 'loading'
 
 - (void)viewDidLoad {
     

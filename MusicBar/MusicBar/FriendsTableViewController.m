@@ -206,6 +206,8 @@
     
     NSArray *friendsCoreDataArray = [Friend MR_findAllSortedBy:@"name" ascending:YES inContext:defaultContext];
     
+    
+#warning FIX HERE FOR FRIENDS LOADING WHEN USER FIRST USE APP ON FRIENDS TAB
     if (friendsCoreDataArray.count == 0 ) {
         
         [SVProgressHUD showWithStatus:@"Loading Friends :)"];
